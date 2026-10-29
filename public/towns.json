@@ -215,7 +215,7 @@
       "schools": ["Western Washington University"],
       "lat": 48.7544,
       "lng": -122.4788,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -251,7 +251,7 @@
       "schools": ["Lehigh University"],
       "lat": 40.6179,
       "lng": -75.3787,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -419,7 +419,7 @@
       "schools": ["Bowdoin College"],
       "lat": 43.9167,
       "lng": -69.9659,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -650,7 +650,7 @@
       "schools": ["California State University, Chico"],
       "lat": 39.7285,
       "lng": -121.8375,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -698,7 +698,7 @@
       "schools": ["University of Maryland"],
       "lat": 38.9807,
       "lng": -76.9369,
-      "difficulty": "medium",
+      "difficulty": "easy",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -818,7 +818,7 @@
       "schools": ["University of Miami"],
       "lat": 25.7331,
       "lng": -80.2585,
-      "difficulty": "medium",
+      "difficulty": "easy",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -986,7 +986,7 @@
       "schools": ["University of Minnesota Duluth"],
       "lat": 46.7838,
       "lng": -92.1053,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1022,7 +1022,7 @@
       "schools": ["University of New Hampshire"],
       "lat": 43.1214,
       "lng": -70.9177,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1238,7 +1238,7 @@
       "schools": ["Texas Christian University"],
       "lat": 32.7532,
       "lng": -97.3327,
-      "difficulty": "medium",
+      "difficulty": "easy",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1334,7 +1334,7 @@
       "schools": ["Gettysburg College"],
       "lat": 39.8309,
       "lng": -77.231,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1346,7 +1346,7 @@
       "schools": ["Colorado School of Mines"],
       "lat": 39.7546,
       "lng": -105.2206,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1454,7 +1454,7 @@
       "schools": ["Colgate University"],
       "lat": 42.8269,
       "lng": -75.5444,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1670,7 +1670,7 @@
       "schools": ["East Tennessee State University"],
       "lat": 36.3168,
       "lng": -82.3529,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1742,7 +1742,7 @@
       "schools": ["University of Rhode Island"],
       "lat": 41.4801,
       "lng": -71.5227,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1886,7 +1886,7 @@
       "schools": ["Bucknell University"],
       "lat": 40.9645,
       "lng": -76.8848,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2033,7 +2033,7 @@
       "schools": ["Minnesota State University, Mankato"],
       "lat": 44.1659,
       "lng": -94.0028,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2093,7 +2093,7 @@
       "schools": ["Middlebury College"],
       "lat": 44.0143,
       "lng": -73.1672,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2225,7 +2225,7 @@
       "schools": ["University of Idaho"],
       "lat": 46.7324,
       "lng": -117.0002,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2285,7 +2285,7 @@
       "schools": ["Murray State University"],
       "lat": 36.6106,
       "lng": -88.3021,
-      "difficulty": "hard",
+      "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2321,7 +2321,7 @@
       "schools": ["Rutgers University"],
       "lat": 40.4936,
       "lng": -74.4436,
-      "difficulty": "medium",
+      "difficulty": "easy",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2381,7 +2381,7 @@
       "schools": ["Carleton College", "St. Olaf College"],
       "lat": 44.4582,
       "lng": -93.1612,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2405,7 +2405,7 @@
       "schools": ["Oberlin College"],
       "lat": 41.2939,
       "lng": -82.2174,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2417,7 +2417,7 @@
       "schools": ["Weber State University"],
       "lat": 41.223,
       "lng": -111.9738,
-      "difficulty": "hard",
+      "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2465,7 +2465,7 @@
       "schools": ["University of Maine"],
       "lat": 44.8836,
       "lng": -68.6728,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2753,7 +2753,7 @@
       "schools": ["Louisiana Tech University"],
       "lat": 32.5297,
       "lng": -92.6387,
-      "difficulty": "hard",
+      "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -3296,7 +3296,7 @@
       "schools": ["Valparaiso University"],
       "lat": 41.4673,
       "lng": -87.0604,
-      "difficulty": "hard",
+      "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -3428,7 +3428,7 @@
       "schools": ["Williams College"],
       "lat": 42.7135,
       "lng": -73.2095,
-      "difficulty": "medium",
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
