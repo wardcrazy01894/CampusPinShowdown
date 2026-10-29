@@ -50,6 +50,7 @@ never in a follow-up. The PR template has the checklist.
 | `src/components/MapGuess.tsx`, `src/lib/tiles.ts` | PLAN §Map                                             |
 | `src/lib/version.ts`, `src/lib/mode.ts`, App      | PLAN §Rollover + auto-reload                          |
 | `scripts/build-towns.mjs`, `data/towns-seed.json` | `docs/DATA.md` (schema, tiers, how to add a town)     |
+| `src/lib/schools.ts` (prompt rule), seed `prompt` | PLAN §Game loop + DATA §Which school gets asked       |
 | `public/towns.json`                               | Counts in README + DATA                               |
 | `.github/workflows/*`, `scripts/protect-main.sh`  | `docs/OPERATIONS.md` + this file's CI-checks list     |
 | `vite.config.ts` (`base`), `index.html` URLs      | `docs/OPERATIONS.md` §Live site / §Custom domain      |

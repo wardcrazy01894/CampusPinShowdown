@@ -95,6 +95,11 @@ export function validateSeed(seed) {
       problems.push(`${where}: difficulty must be easy|medium|hard`)
     if ((e?.lat == null) !== (e?.lng == null))
       problems.push(`${where}: lat and lng must be given together`)
+    if (
+      e?.prompt != null &&
+      !(Array.isArray(e?.schools) && e.schools.includes(e.prompt))
+    )
+      problems.push(`${where}: prompt must be one of the listed schools`)
     if (e?.name && e?.stateCode) {
       const id = slug(e.name, e.stateCode)
       if (ids.has(id)) problems.push(`${where}: duplicate id "${id}"`)
@@ -180,6 +185,7 @@ export function toTown(entry, coords) {
     state: STATE_NAMES[entry.stateCode],
     stateCode: entry.stateCode,
     schools: entry.schools.map((s) => s.trim()),
+    ...(entry.prompt ? { prompt: entry.prompt.trim() } : {}),
     lat: round4(coords.lat),
     lng: round4(coords.lng),
     difficulty: entry.difficulty,

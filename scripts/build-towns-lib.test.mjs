@@ -49,6 +49,15 @@ describe('validateSeed', () => {
     expect(problems.some((p) => p.includes('lat and lng'))).toBe(true)
   })
 
+  it('flags a prompt override that is not one of the schools', () => {
+    expect(
+      validateSeed([{ ...entry, prompt: 'Nowhere U' }]).some((p) =>
+        p.includes('prompt must be one of the listed schools'),
+      ),
+    ).toBe(true)
+    expect(validateSeed([{ ...entry, prompt: entry.schools[0] }])).toEqual([])
+  })
+
   it('flags duplicate (name, state) pairs but allows the same name in two states', () => {
     expect(
       validateSeed([entry, { ...entry }]).some((p) => p.includes('duplicate')),

@@ -12,8 +12,10 @@ University?`); the **town and state are the answer** and appear only after
 the guess (`Lubbock, Texas — Home of Texas Tech University`). Towns with
 several schools prompt with the first school whose name does not contain the
 town (Moorhead → Concordia College), else the first listed (Cambridge →
-Harvard); flagship names that embed the town ("University of Texas at
-Austin") have no alternative and are accepted as easy-tier. The player drops a
+Harvard), unless the seed pins a `prompt` (Memphis asks "University of
+Memphis", not Rhodes College — see `docs/DATA.md`); flagship names that embed
+the town ("University of Texas at Austin") are accepted — the location is the
+answer, not the name. The player drops a
 pin on the night-lights map of the USA and submits. The round header carries
 the town's **tier badge** (🟢 Easy / 🟡 Medium / 🔴 Hard, `src/lib/tiers.ts`)
 up front — it sets expectations and says nothing about the town, so it is not

@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+import { promptSchool } from './schools'
 import { readFileSync } from 'node:fs'
 import { REGION, inRegion } from './region'
 import { ROUNDS_PER_DAY, selectDailyTowns } from './daily'
@@ -47,6 +48,7 @@ describe('public/towns.json', () => {
       expect(t.state.trim().length).toBeGreaterThan(0)
       expect(t.stateCode).toMatch(/^[A-Z]{2}$/)
       expect(t.schools.length).toBeGreaterThan(0)
+      if (t.prompt !== undefined) expect(t.schools, t.id).toContain(t.prompt)
       expect(['easy', 'medium', 'hard']).toContain(t.difficulty)
       expect(['nominatim', 'manual']).toContain(t.source)
       expect(typeof t.lat).toBe('number')
@@ -119,6 +121,33 @@ describe('public/towns.json', () => {
     near('san-luis-obispo-ca', 35.28, -120.66)
     near('gunnison-co', 38.55, -106.93)
     near('santa-cruz-ca', 36.97, -122.03)
+    // Dataset pass 2 (HBCUs / academies / D-III): names that exist in many
+    // states or as neighbourhoods — the pins must be the Nominatim settlement.
+    near('orange-ca', 33.79, -117.85)
+    near('georgetown-tx', 30.64, -97.68)
+    near('hanover-in', 38.71, -85.47)
+    near('kings-point-ny', 40.82, -73.74)
+    near('prairie-view-tx', 30.09, -95.99)
+    near('clinton-sc', 34.47, -81.88)
+    near('bloomington-il', 40.48, -88.99) // Bloomington IN is also in
+    near('rome-ga', 34.26, -85.16)
+  })
+
+  // Tier honesty: an easy/medium row is judged by its most famous school, so
+  // the round must ask about the FIRST listed one (set `prompt` in the seed
+  // when the default rule would skip it for naming the town — Memphis,
+  // Charlotte, Jackson, San Antonio, Birmingham). Hard rows may ask about any
+  // of their schools (Moorhead → Concordia College is the documented example).
+  it('every easy/medium row asks about its first-listed school', () => {
+    const offenders = towns
+      .filter((t) => t.difficulty !== 'hard')
+      .filter((t) => promptSchool(t) !== t.schools[0])
+      .map((t) => `${t.id}: asks ${promptSchool(t)}`)
+    expect(offenders).toEqual([])
+    // And the overrides resolve to the flagship, not merely to schools[0].
+    const asks = (id: string) => promptSchool(towns.find((t) => t.id === id)!)
+    expect(asks('memphis-tn')).toBe('University of Memphis')
+    expect(asks('fayetteville-nc')).toBe('Fayetteville State University')
   })
 
   it('selects a full, state-diverse lineup for every day of the first year', () => {

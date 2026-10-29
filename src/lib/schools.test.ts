@@ -31,6 +31,18 @@ describe('promptSchool', () => {
     expect(promptSchool({ name: 'X', schools: [] })).toBe('')
   })
 
+  it('honours an explicit prompt override even when it names the town', () => {
+    // Without the override the rule would ask about Rhodes College on an
+    // easy-tier town.
+    expect(
+      promptSchool({
+        name: 'Memphis',
+        schools: ['University of Memphis', 'Rhodes College'],
+        prompt: 'University of Memphis',
+      }),
+    ).toBe('University of Memphis')
+  })
+
   it('prefers a school whose name does not give the town away', () => {
     expect(
       promptSchool({
