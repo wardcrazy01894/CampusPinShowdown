@@ -7,6 +7,8 @@ import {
   metersToMiles,
   totalScore,
   scoreEmoji,
+  HINT_PENALTY,
+  applyHintPenalty,
   perfectEmoji,
   PERFECT_EMOJIS,
   MAX_ROUND_SCORE,
@@ -112,6 +114,40 @@ describe('scoreGuess', () => {
     // Eugene, OR
     const r = scoreGuess(annArbor, { lat: 44.0521, lng: -123.0868 })
     expect(r.score).toBe(0)
+  })
+
+  it('deducts HINT_PENALTY when the state was revealed, floored at 0', () => {
+    const perfect = scoreGuess(
+      annArbor,
+      { lat: 42.29, lng: -83.75 },
+      {
+        hinted: true,
+      },
+    )
+    expect(perfect.score).toBe(MAX_ROUND_SCORE - HINT_PENALTY) // 75: never green
+    expect(perfect.score).toBeLessThan(80)
+    const miss = scoreGuess(
+      annArbor,
+      { lat: 44.0521, lng: -123.0868 },
+      {
+        hinted: true,
+      },
+    )
+    expect(miss.score).toBe(0)
+    // Explicit false and omitted both mean no penalty.
+    expect(
+      scoreGuess(annArbor, { lat: 42.29, lng: -83.75 }, { hinted: false })
+        .score,
+    ).toBe(MAX_ROUND_SCORE)
+  })
+})
+
+describe('applyHintPenalty', () => {
+  it('is HINT_PENALTY (25) off, floored at zero, and a no-op without a hint', () => {
+    expect(HINT_PENALTY).toBe(25)
+    expect(applyHintPenalty(100, true)).toBe(75)
+    expect(applyHintPenalty(10, true)).toBe(0)
+    expect(applyHintPenalty(55, false)).toBe(55)
   })
 })
 

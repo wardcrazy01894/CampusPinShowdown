@@ -38,6 +38,8 @@ result Wordle-style and keep your streak alive.
   400+. (Cheer clip: CC0/public-domain, BigSoundBank.)
 - 🔎 **"Is my town in the game?"** — after today's puzzle, search by town,
   state or school; request a missing one with one click.
+- 💡 **Hint mode** — buy the region (3–6 neighbouring states) for −25 points
+  on that round; hints show on the share card.
 - 🔥 **Streaks**, lifetime averages per tier, and a Wordle-style share card
   with the puzzle number.
 
@@ -53,6 +55,8 @@ result Wordle-style and keep your streak alive.
    and state are withheld; that's the game.
 2. **Click the map** where you think it is (zoom in for precision — up to
    county scale).
+   Stuck? **💡 Reveal the region** (a few neighbouring states) for −25 points
+   on that round; the share card notes how many hints you took.
 3. **Submit** → the town is revealed (_Lubbock, Texas_) with your distance
    (miles) and score.
    100 points within ~15 miles, then an exponential falloff: right metro = 🟩,

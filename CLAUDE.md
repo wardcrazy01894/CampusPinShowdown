@@ -47,6 +47,7 @@ never in a follow-up. The PR template has the checklist.
 | ------------------------------------------------- | ----------------------------------------------------------------------- |
 | `src/lib/daily.ts`                                | PLAN §Daily selection                                                   |
 | `src/lib/scoring.ts`                              | PLAN §Scoring (constants, curve)                                        |
+| `src/lib/hintRegions.ts`, hint UI in Game.tsx     | PLAN §Game loop (hint mode)                                             |
 | `src/components/MapGuess.tsx`, `src/lib/tiles.ts` | PLAN §Map                                                               |
 | `src/components/RecapMap.tsx`, Results rows       | PLAN §Game loop (day recap)                                             |
 | `src/lib/stats.ts`, `DayRecord` shape             | PLAN §Modes, storage (lifetime stats)                                   |

@@ -14,8 +14,6 @@ shipped them (git history is the changelog).
 
 ## Later
 
-- **Hint mode:** reveal the state for a point penalty (the state is withheld by
-  design today).
 - **Alaska / Hawaii (idea, not planned yet — owner 2026-10-29):** the map is
   locked to the lower 48; a second region/board or a wider box with an inset.
 - **Leaderboard: invisible Turnstile** on submit if score inflation ever

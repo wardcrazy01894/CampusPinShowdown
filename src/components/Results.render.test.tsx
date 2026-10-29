@@ -31,7 +31,7 @@ const r = (
 })
 const results = [
   r('Ann Arbor', 'MI', 100, 5_000),
-  r('Athens', 'GA', 81, 100_000),
+  { ...r('Athens', 'GA', 81, 100_000), hinted: true },
   r('Boulder', 'CO', 46, 300_000),
   r('Oxford', 'OH', 26, 500_000),
   r('Gambier', 'OH', 0, 3_000_000),
@@ -124,6 +124,7 @@ describe('Results', () => {
     // Rows carry the schools line and act as focus toggles.
     const row = screen.getByRole('button', { name: /Athens, GA/ })
     expect(row.textContent).toContain('Home of U')
+    expect(row.textContent).toContain('💡 hint') // a hinted round is marked
     expect(row.getAttribute('aria-pressed')).toBe('false')
     fireEvent.click(row)
     expect(row.getAttribute('aria-pressed')).toBe('true')

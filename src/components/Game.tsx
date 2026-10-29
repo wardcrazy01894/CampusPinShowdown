@@ -17,7 +17,12 @@ import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import type { GameState, Guess, Town, RoundResult } from '../types'
 import { MapGuess } from './MapGuess'
 import { Results } from './Results'
-import { scoreGuess, formatDistance, totalScore } from '../lib/scoring'
+import {
+  scoreGuess,
+  formatDistance,
+  totalScore,
+  HINT_PENALTY,
+} from '../lib/scoring'
 import { playScoreSound } from '../lib/sound'
 import { log } from '../lib/log'
 import { loadState, saveState, STORAGE_VERSION } from '../lib/storage'
@@ -25,6 +30,7 @@ import { resolveInitialGame } from '../lib/resume'
 import { lineupHash, recordCompletion } from '../lib/progress'
 import { schoolsLine, promptSchool } from '../lib/schools'
 import { revealTag } from '../lib/easterEgg'
+import { hintRegion, hintText } from '../lib/hintRegions'
 import { tierLabel } from '../lib/tiers'
 
 export interface GameProps {
@@ -116,14 +122,32 @@ export function Game({
     })
   }
 
+  /** Reveal the REGION (3–6 neighbouring states, never the one state) for
+   *  this round; costs HINT_PENALTY on submit. Persisted immediately so a
+   *  reload keeps both the hint and the penalty. */
+  function revealHint() {
+    if (game.phase !== 'guessing' || game.hintUsed) return
+    // Log the REGION, never the town: the round is still open and info logs
+    // print to the console.
+    log.info('Game', 'hint used', {
+      round: game.roundIndex + 1,
+      region: hintRegion(currentTown.stateCode).name,
+    })
+    const next: GameState = { ...game, hintUsed: true }
+    setGame(next)
+    persist(next)
+  }
+
   function submitGuess() {
     if (game.phase !== 'guessing' || !guess) return
-    const { distanceMeters, score } = scoreGuess(currentTown, guess)
+    const hinted = !!game.hintUsed
+    const { distanceMeters, score } = scoreGuess(currentTown, guess, { hinted })
     log.info('Game', 'guess submitted', {
       round: game.roundIndex + 1,
       town: currentTown.id,
       distanceMeters: Math.round(distanceMeters),
       score,
+      hinted,
     })
     playScoreSound(score)
     const result: RoundResult = {
@@ -131,6 +155,7 @@ export function Game({
       guess,
       distanceMeters,
       score,
+      ...(hinted ? { hinted: true } : {}),
     }
     const next: GameState = {
       ...game,
@@ -153,6 +178,7 @@ export function Game({
         ...game,
         roundIndex: game.roundIndex + 1,
         phase: 'guessing',
+        hintUsed: false,
       }
       setGuess(null)
       setGame(next)
@@ -231,6 +257,18 @@ export function Game({
           </h2>
           <p style={{ marginTop: 0, opacity: 0.8 }}>
             Pin the town it calls home.
+            {/* Hint: the state is withheld by design (PLAN §Game loop); the
+                player can buy the REGION for HINT_PENALTY points this round. */}{' '}
+            {game.hintUsed ? (
+              <span style={{ color: '#ffcb05' }}>
+                💡 It’s in {hintText(currentTown.stateCode)} · −{HINT_PENALTY}{' '}
+                pts
+              </span>
+            ) : (
+              <button type="button" onClick={revealHint} style={hintButton}>
+                💡 Reveal the region (−{HINT_PENALTY} pts)
+              </button>
+            )}
           </p>
         </>
       )}
@@ -254,6 +292,12 @@ export function Game({
           <p style={{ margin: '0 0 8px' }}>
             <strong>{formatDistance(lastResult.distanceMeters)}</strong> away ·{' '}
             <strong>{lastResult.score.toLocaleString('en-US')}</strong> pts
+            {lastResult.hinted && (
+              <span style={{ opacity: 0.7 }}>
+                {' '}
+                · 💡 hint used (−{HINT_PENALTY})
+              </span>
+            )}
           </p>
           <button onClick={advance} style={primaryButton}>
             {isLastRound ? 'See results' : 'Next round'}
@@ -272,6 +316,17 @@ export function Game({
       )}
     </section>
   )
+}
+
+const hintButton: CSSProperties = {
+  background: 'transparent',
+  border: '1px solid rgba(255,203,5,0.5)',
+  borderRadius: 999,
+  color: '#ffcb05',
+  cursor: 'pointer',
+  font: 'inherit',
+  fontSize: 13,
+  padding: '2px 10px',
 }
 
 const tierBadge: CSSProperties = {

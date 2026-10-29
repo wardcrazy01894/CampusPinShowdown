@@ -25,8 +25,16 @@ total /500, streak, a **day recap map** (`RecapMap`: all five real towns as
 numbered green markers, each guess as an amber pin with a dashed line; tap a
 results row to zoom to that round) and a Wordle-style share card
 (`📍 CampusPin Showdown #N`).
-The "is my town in the game?" search is offered only after the day is
-finished — mid-round it would answer the round.
+**Hint mode:** the state is withheld by design, but a round offers
+"💡 Reveal the region (−25 pts)"; taking it shows the town's **region** — one
+of eleven groups of 3–6 neighbouring states (`src/lib/hintRegions.ts`: "the
+Great Lakes (OH, MI, IN, IL, WI)"), never the one state, which the owner
+judged too strong. It deducts `HINT_PENALTY` (25) from that round on submit
+(a hinted perfect pin is 75 — good, never green), persists in
+`GameState.hintUsed` so a reload keeps both the hint and the penalty, marks
+the round (`RoundResult.hinted`) on the reveal and the results row, and the
+share card gains a "💡 N hints" line. The "is my town in the game?" search is offered
+only after the day is finished — mid-round it would answer the round.
 
 ## Daily selection (`src/lib/daily.ts`)
 

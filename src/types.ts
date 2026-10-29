@@ -65,8 +65,11 @@ export interface RoundResult {
   /** Great-circle (haversine) distance from the guess to the town, in meters.
    *  The UI shows it in miles via formatDistance. */
   distanceMeters: number
-  /** Score for this round, integer 0..MAX_ROUND_SCORE. */
+  /** Score for this round, integer 0..MAX_ROUND_SCORE (after any hint penalty). */
   score: number
+  /** True when the player revealed the REGION before guessing (scoring.ts:
+   *  HINT_PENALTY was deducted). Absent on rounds played before hints existed. */
+  hinted?: boolean
 }
 
 /** Status of the in-progress daily game. */
@@ -83,6 +86,9 @@ export interface GameState {
   /** Completed round results so far. */
   results: RoundResult[]
   phase: GamePhase
+  /** True while the CURRENT round's region hint is revealed (persisted so a
+   *  reload mid-round keeps both the hint and its penalty). Reset on advance. */
+  hintUsed?: boolean
 }
 
 /** Per-day record kept in history for streak calculation. */
