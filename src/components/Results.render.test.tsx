@@ -57,7 +57,7 @@ describe('Results', () => {
     const pre = document.querySelector('pre')!
     expect(pre.textContent).toContain('📍 CampusPin Showdown #2')
     expect(pre.textContent).toContain('2026-10-30 · 253/500')
-    expect(pre.textContent).toContain('🟩🟩🟧🟧⬛')
+    expect(pre.textContent).toContain('🏆🟩🟧🟧⬛') // #2: the 100 is a 🏆
     expect(pre.textContent).toContain(window.location.origin)
     expect(screen.getByRole('button', { name: 'Copy result' })).toBeTruthy()
   })

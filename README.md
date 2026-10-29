@@ -53,7 +53,8 @@ result Wordle-style and keep your streak alive.
 3. **Submit** → the town is revealed (_Lubbock, Texas_) with your distance
    (miles) and score.
    100 points within ~15 miles, then an exponential falloff: right metro = 🟩,
-   right state = 🟨/🟧, wrong region = ⬛.
+   right state = 🟨/🟧, wrong region = ⬛. A perfect 100 gets the day's special
+   emoji (💯, 🏆, 〽️, 🎯, ⭐ or 🥇 — it rotates daily).
 4. Five rounds, then a results screen with your total /500, streak, and a
    copyable share.
 

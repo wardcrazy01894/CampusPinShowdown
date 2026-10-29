@@ -31,13 +31,14 @@ describe('buildShareString', () => {
     const lines = buildShareString('2026-10-30', results, 285).split('\n')
     expect(lines[0]).toBe('📍 CampusPin Showdown #2')
     expect(lines[1]).toBe('2026-10-30 · 285/500')
-    expect(lines[2]).toBe('🟩🟩🟨🟧⬛')
+    expect(lines[2]).toBe('🏆🟩🟨🟧⬛') // puzzle #2 → a 100 shows as 🏆
     expect(lines).toHaveLength(3)
   })
 
   it('has one emoji per round', () => {
     const bar = buildShareString('2026-10-30', results, 285).split('\n')[2]
-    expect([...bar].length).toBe(results.length)
+    // Strip variation selectors (〽️ = U+303D U+FE0F) before counting glyphs.
+    expect([...bar.replace(/\uFE0F/g, '')]).toHaveLength(results.length)
   })
 
   it('appends the site URL as the last line when given one', () => {
