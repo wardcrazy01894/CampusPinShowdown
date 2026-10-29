@@ -93,6 +93,37 @@ now; Esri Light Gray Canvas was the interim basemap.)
 - `localStorage` keys are `cps:v1:<storageId>`; bump `STORAGE_VERSION` on any
   shape change — `loadState` treats mismatches and malformed values as empty.
 
+## Anonymous daily leaderboard (`worker/`, `src/lib/leaderboard.ts`)
+
+The game's only backend, and it is optional: a Cloudflare Worker
+(`worker/leaderboard.mjs`, config `worker/wrangler.toml`) in front of a D1
+table, deployed by hand (`docs/OPERATIONS.md`). Finishing the **official**
+daily POSTs `{ board: 'usa', date, score, clientId, lineup }` and the results
+screen shows "🏆 You placed 3rd of 47 today" (+ "top X%" once the field is ≥ 20) and a **🏆 View leaderboard** button (top 100 scores, ties share a rank,
+your row highlighted). Everything is behind `VITE_LEADERBOARD_ENDPOINT`; unset,
+offline or a non-official game → the line and button are simply absent.
+
+- **Anonymous:** identity is a random UUID in `localStorage` (`cps:clientId`);
+  the schema reserves a NULL `user_id` for a future login (a lossy migration —
+  cleared storage has no id to link).
+- **One board** (`usa`), in the primary key so a second region later is
+  independent by construction. **Date** is the player's local puzzle day
+  (everyone who played "2026-10-29" played the same five towns); the worker
+  accepts `[UTC today − 2, UTC today + 1]` and rejects anything else.
+- **Lineup-aware:** rows are keyed by `(board, date, client_id, lineup)` so a
+  changed-set replay keeps its own row; rank/total/board count each device's
+  BEST score once. Keep-max UPSERT makes a reload idempotent; the client caches
+  the standing per (date, lineup) so it never re-POSTs, then refreshes rank and
+  total from a fresh read (`refreshStanding`) so the line doesn't freeze at
+  finish time.
+- **Server streak** (`streaks` table, survives the 90-day prune): returned with
+  the standing and shown in preference to the local streak when present.
+- **Integrity, not anti-cheat:** `official` gates the client; the worker
+  validates board, date window, score ∈ [0, 500], id and lineup shapes, origin
+  allowlist, body size, and per-IP rate limit (fails closed without one).
+  Scores are client-computed, so a determined actor can still POST a fake
+  total — accepted for a friends game; Turnstile is the documented next step.
+
 ## Data (`docs/DATA.md`)
 
 `data/towns-seed.json` (hand-curated: town, state, schools, difficulty) →

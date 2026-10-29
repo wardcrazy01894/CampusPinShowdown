@@ -1,0 +1,45 @@
+# Leaderboard Worker for CampusPin Showdown. Deploy with (from the repo root):
+#   npm run worker:deploy        # = wrangler deploy -c worker/wrangler.toml
+# The worker does NOT auto-deploy with the site — see docs/OPERATIONS.md.
+
+name = "cps-leaderboard"
+main = "leaderboard.mjs"
+compatibility_date = "2025-11-01"
+
+[vars]
+# Comma-separated allowed browser origins (the worker rejects others).
+# localhost entries are for `npm run dev` against `npm run worker:dev`.
+ALLOWED_ORIGIN = "https://wardcrazy01894.github.io,http://localhost:5173,http://localhost:4173"
+
+# --- D1 database (scores + streaks) ------------------------------------------
+# Created once with `wrangler d1 create cps-leaderboard`; the printed
+# database_id is pasted below. Migrations:
+#   npm run worker:migrate:local     # local dev (.wrangler/, gitignored)
+#   npm run worker:migrate           # production (--remote)
+[[d1_databases]]
+binding = "DB"
+database_name = "cps-leaderboard"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations"
+
+# Per-IP rate limit — GA binding, needs NO account resource (just this config).
+# 30 requests / 60s per IP: generous for real play (one submit per day plus a
+# few board views) while capping a single source's ability to stuff the
+# "of Y" denominator. Satisfies the worker's fail-closed check.
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "3001"
+
+  [ratelimits.simple]
+  limit = 30
+  period = 60
+
+# Daily retention prune (Cron Trigger): deletes scores older than
+# RETENTION_DAYS (90). 09:00 UTC is quiet for every US timezone. Free.
+[triggers]
+crons = ["0 9 * * *"]
+
+# --- Optional secret (set with `wrangler secret put NAME -c worker/wrangler.toml`)
+# TURNSTILE_SECRET  when set, a valid Turnstile token is REQUIRED on every
+#                   submission. The client has no widget yet, so leave this
+#                   UNSET unless you also wire an invisible Turnstile execute.

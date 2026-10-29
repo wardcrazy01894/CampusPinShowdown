@@ -177,6 +177,7 @@ export function Game({
       <Results
         dateKey={game.dateKey}
         bounds={bounds}
+        lineup={lineupHash(game.towns)}
         results={game.results}
         totalScore={total}
         streak={streak}

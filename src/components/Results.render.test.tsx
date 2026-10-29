@@ -46,6 +46,7 @@ describe('Results', () => {
         bounds={REGION.bounds}
         results={results}
         totalScore={253}
+        lineup="abc123"
         streak={{ current: 2, best: 9 }}
         official={false}
       />,
@@ -69,6 +70,7 @@ describe('Results', () => {
         bounds={REGION.bounds}
         results={results}
         totalScore={253}
+        lineup="abc123"
         streak={{ current: 2, best: 9 }}
         official={false}
       />,
@@ -99,6 +101,7 @@ describe('Results', () => {
         bounds={REGION.bounds}
         results={results}
         totalScore={253}
+        lineup="abc123"
         streak={{ current: 0, best: 0 }}
         official
       />,
@@ -112,6 +115,7 @@ describe('Results', () => {
         bounds={REGION.bounds}
         results={results}
         totalScore={253}
+        lineup="abc123"
         streak={{ current: 0, best: 0 }}
         official={false}
       />,

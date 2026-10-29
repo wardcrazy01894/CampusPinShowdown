@@ -66,7 +66,10 @@ are absolute — update them with the custom domain (checklist below).
    hardcoded share URL in `src/lib/share.test.ts` (it still passes, but keep
    it honest). `REPO_URL` in `src/lib/report.ts` is the GitHub repo and does
    NOT change.
-4. Known consequence: `localStorage` (streaks/history) does **not** carry across
+4. Add the new origin to `ALLOWED_ORIGIN` in `worker/wrangler.toml` and
+   `npm run worker:deploy`, or every leaderboard submit from the new domain
+   is a 403.
+5. Known consequence: `localStorage` (streaks/history) does **not** carry across
    origins — players start fresh on the new domain. One-time cost.
 
 ## Client configuration — repo **Variables**
@@ -75,12 +78,45 @@ The site is a static bundle, so all its config is **public** (ships in the JS)
 and is injected at build time from repo **Variables** (Settings → Secrets and
 variables → Actions → **Variables**), never Secrets:
 
-| Variable               | Current value | Purpose                                                 |
-| ---------------------- | ------------- | ------------------------------------------------------- |
-| `VITE_CF_BEACON_TOKEN` | _(unset)_     | Cloudflare Web Analytics beacon — cookieless page views |
+| Variable                    | Current value                    | Purpose                                                                               |
+| --------------------------- | -------------------------------- | ------------------------------------------------------------------------------------- |
+| `VITE_CF_BEACON_TOKEN`      | _(unset)_                        | Cloudflare Web Analytics beacon — cookieless page views                               |
+| `VITE_LEADERBOARD_ENDPOINT` | the `cps-leaderboard` worker URL | anonymous daily leaderboard + server streak; **unset → the leaderboard UI is hidden** |
 
-Nothing else. Map tiles (Esri Light Gray Canvas base) and geocoding (Nominatim,
-build-time only) need no key.
+Nothing else. Map tiles (NASA GIBS) and geocoding (Nominatim, build-time only)
+need no key.
+
+## Leaderboard worker (`cps-leaderboard`)
+
+The game's only backend, and it is optional. A Cloudflare Worker
+(`worker/leaderboard.mjs`, config `worker/wrangler.toml`) with its own D1
+database (`cps-leaderboard`) stores anonymous keep-max daily scores and
+per-player streaks; the full design is in `docs/PLAN.md` §Leaderboard and the
+request shapes in `worker/README.md`. Its own worker, database and rate-limit
+namespace — nothing is shared with KnowYourCity's `kyc-leaderboard`.
+
+> ⚠️ **Unlike the web app, the worker does NOT auto-deploy.** `deploy.yml`
+> only ships the static site. Worker code **and D1 migrations** are applied by
+> hand with Wrangler (logged in to the Cloudflare account) — a change merged to
+> `main` is **not** live until you run the commands below. There is no CI
+> signal if you forget.
+
+```bash
+npm run worker:migrate   # apply worker/migrations/*.sql to the REMOTE D1 (idempotent)
+npm run worker:deploy    # wrangler deploy -c worker/wrangler.toml
+```
+
+First-time setup (`wrangler d1 create cps-leaderboard` → paste the
+`database_id` into the toml → migrate → deploy → set the Variable above → re-run
+the deploy workflow) is in `worker/README.md`. `TURNSTILE_SECRET` is optional and
+should stay unset until the client has an invisible Turnstile execute.
+
+**Runbook:** a 503 from the worker on every submit = D1 outage or a missing
+migration — `wrangler tail -c worker/wrangler.toml` shows the logged
+`leaderboard submit failed` / `streak update failed` lines. A 403 on the live
+site = `ALLOWED_ORIGIN` in the toml doesn't include the site origin (update it
+when the custom domain lands, then `npm run worker:deploy`). Inspect rows with
+`wrangler d1 execute cps-leaderboard --remote -c worker/wrangler.toml --command "SELECT date, COUNT(*) FROM scores GROUP BY date"`.
 
 ## Repo protection
 
@@ -102,8 +138,9 @@ TypeScript majors are ignored until typescript-eslint supports TS 7.
 
 ## Monitoring & bug reports
 
-- No backend, so there is nothing to page on. The Actions tab shows deploy
-  health; the Pages URL is the only runtime surface.
+- The site has no backend; the optional leaderboard worker is best-effort
+  (every failure path hides the line, never breaks the game). The Actions tab
+  shows deploy health; `wrangler tail` shows the worker's logs.
 - Players report bugs via the in-app **🐛 report a bug** link → a prefilled
   GitHub issue (title, puzzle date, URL, browser). Ask them for
   `cpsDumpLogs()` output (browser console) when the report is thin.
