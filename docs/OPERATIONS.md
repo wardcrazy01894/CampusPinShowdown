@@ -26,6 +26,14 @@ How the **live** site is hosted, deployed, and operated. (Architecture is in
   Pages stays enabled after that; the `enablement: true` is harmless on later
   runs (it finds the existing site).
 
+## Share image (Open Graph)
+
+`public/og-image.png` (1200×630) is what Slack/iMessage/X unfurl. Its source is
+`scripts/og-image/index.html`; after a branding change run `npm run og-image`
+(headless Chrome screenshot, `scripts/og-image.mjs`; `CHROME=` overrides the
+binary) and commit the PNG. The `og:image`/`twitter:image` URLs in `index.html`
+are absolute — update them with the custom domain (checklist below).
+
 ## Deploy
 
 - **Automatic:** every push to `main` runs `.github/workflows/deploy.yml`
@@ -52,7 +60,8 @@ How the **live** site is hosted, deployed, and operated. (Architecture is in
    certificate is issued. Add `public/CNAME` with the domain so the file ships
    in every artifact.
 3. Flip `base` in `vite.config.ts` to `'/'`, then replace **every** `github.io`
-   URL: `index.html` (canonical, `og:url`, and the JSON-LD `"url"`), the
+   URL: `index.html` (canonical, `og:url`, `og:image`, `twitter:image` and the JSON-LD
+   `"url"`), the
    README play-now + status links, the dev URL in `CLAUDE.md`, and the
    hardcoded share URL in `src/lib/share.test.ts` (it still passes, but keep
    it honest). `REPO_URL` in `src/lib/report.ts` is the GitHub repo and does

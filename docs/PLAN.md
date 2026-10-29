@@ -14,7 +14,10 @@ several schools prompt with the first school whose name does not contain the
 town (Moorhead → Concordia College), else the first listed (Cambridge →
 Harvard); flagship names that embed the town ("University of Texas at
 Austin") have no alternative and are accepted as easy-tier. The player drops a
-pin on the night-lights map of the USA and submits; the reveal shows the real
+pin on the night-lights map of the USA and submits. The round header carries
+the town's **tier badge** (🟢 Easy / 🟡 Medium / 🔴 Hard, `src/lib/tiers.ts`)
+up front — it sets expectations and says nothing about the town, so it is not
+a hint; the same badge sits on each results row. On submit the reveal shows the real
 pin, a dashed line, the distance in miles, and the round score. After round 5:
 total /500, streak, a Wordle-style share card (`📍 CampusPin Showdown #N`).
 The "is my town in the game?" search is offered only after the day is

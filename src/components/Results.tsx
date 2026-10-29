@@ -18,6 +18,7 @@ import { shouldCelebrate, countGreens } from '../lib/celebrate'
 import { isCelebrateTest } from '../lib/devmode'
 import { fireConfetti } from '../lib/confetti'
 import { playCheer } from '../lib/sound'
+import { tierLabel } from '../lib/tiers'
 
 export interface ResultsProps {
   dateKey: string
@@ -136,7 +137,10 @@ export function Results({
               {r.town.name}, {r.town.stateCode}
             </strong>{' '}
             — {formatDistance(r.distanceMeters)} ·{' '}
-            {r.score.toLocaleString('en-US')} pts
+            {r.score.toLocaleString('en-US')} pts{' '}
+            <span style={{ fontSize: 13, opacity: 0.6 }}>
+              {tierLabel(r.town.difficulty)}
+            </span>
           </li>
         ))}
       </ol>
