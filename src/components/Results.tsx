@@ -265,7 +265,7 @@ export function Results({
                 <span style={rowBadge}>{i + 1}</span>
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ display: 'block' }}>
-                    {scoreEmoji(r.score)}{' '}
+                    {scoreEmoji(r.score, dateKey)}{' '}
                     <strong>
                       {r.town.name}, {r.town.stateCode}
                     </strong>{' '}
