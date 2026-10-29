@@ -99,6 +99,48 @@ describe('BugReport', () => {
     )
   })
 
+  it('without an endpoint, opens the prefilled issue page and says the report is NOT yet sent', async () => {
+    submitBugReport.mockResolvedValue({
+      ok: false,
+      fallbackUrl: 'https://github.com/o/r/issues/new?title=x',
+    })
+    const open = vi.fn()
+    vi.stubGlobal('open', open)
+    render(<BugReport onClose={() => {}} context={{}} />)
+    fillAndSend()
+    expect(
+      await screen.findByText(/finish filing it on the GitHub page/i),
+    ).toBeTruthy()
+    expect(screen.queryByText(/your report was sent/i)).toBeNull()
+    expect(open).toHaveBeenCalledWith(
+      'https://github.com/o/r/issues/new?title=x',
+      '_blank',
+      'noopener',
+    )
+    // A visible link survives a blocked popup.
+    expect(
+      screen
+        .getByRole('link', { name: /open the prefilled issue/i })
+        .getAttribute('href'),
+    ).toBe('https://github.com/o/r/issues/new?title=x')
+    vi.unstubAllGlobals()
+  })
+
+  it('disables the button and shows "Sending…" while a send is in flight', async () => {
+    let resolve!: (v: { ok: boolean }) => void
+    submitBugReport.mockImplementation(
+      () => new Promise<{ ok: boolean }>((r) => (resolve = r)),
+    )
+    render(<BugReport onClose={() => {}} context={{}} />)
+    fillAndSend()
+    const btn = (await screen.findByRole('button', {
+      name: /sending…/i,
+    })) as HTMLButtonElement
+    expect(btn.disabled).toBe(true)
+    resolve({ ok: true })
+    expect(await screen.findByText(/your report was sent/i)).toBeTruthy()
+  })
+
   it('prefills a town request and closes on Escape', () => {
     const onClose = vi.fn()
     render(
@@ -113,5 +155,24 @@ describe('BugReport', () => {
     )
     fireEvent.keyDown(window, { key: 'Escape' })
     expect(onClose).toHaveBeenCalled()
+  })
+})
+
+describe('BugReport — Turnstile enabled', () => {
+  it('refuses to send without a token (the check must be completed first)', async () => {
+    vi.resetModules()
+    vi.stubEnv('VITE_TURNSTILE_SITEKEY', 'test-sitekey')
+    ;(window as unknown as { turnstile: unknown }).turnstile = {
+      render: () => 'widget-1',
+      remove: vi.fn(),
+      reset: vi.fn(),
+      getResponse: () => undefined, // not completed
+    }
+    const { BugReport: Fresh } = await import('./BugReport')
+    render(<Fresh onClose={() => {}} context={{}} />)
+    fillAndSend()
+    expect(await screen.findByText(/complete the check/i)).toBeTruthy()
+    expect(submitBugReport).not.toHaveBeenCalled()
+    delete (window as unknown as { turnstile?: unknown }).turnstile
   })
 })

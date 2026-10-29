@@ -13,7 +13,10 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { submitBugReport, type ReportContext } from '../lib/report'
 import { log } from '../lib/log'
 
-type Status = 'idle' | 'sending' | 'done' | 'error'
+type Status = 'idle' | 'sending' | 'done' | 'fallback' | 'error'
+
+/** Longest message the worker keeps (it truncates beyond this). */
+export const MAX_MESSAGE = 2000
 
 const TURNSTILE_KEY = import.meta.env.VITE_TURNSTILE_SITEKEY
 
@@ -53,6 +56,9 @@ export function BugReport({
   const [includeLogs, setIncludeLogs] = useState(true)
   const [status, setStatus] = useState<Status>('idle')
   const [resultUrl, setResultUrl] = useState<string | null>(null)
+  // No endpoint configured: the prefilled GitHub page we opened (or tried
+  // to — a popup blocker returns nothing we can detect with noopener).
+  const [fallbackUrl, setFallbackUrl] = useState<string | null>(null)
   const widgetRef = useRef<HTMLDivElement | null>(null)
   const widgetIdRef = useRef<string | undefined>(undefined)
 
@@ -140,9 +146,12 @@ export function BugReport({
         setStatus('done')
         log.info('BugReport', 'report sent', { url: safe })
       } else if (res.fallbackUrl) {
+        // Nothing has been filed yet — the player finishes on GitHub. Say so,
+        // and keep a visible link in case the popup was blocked.
         log.info('BugReport', 'no endpoint; opening prefilled issue')
         window.open(res.fallbackUrl, '_blank', 'noopener')
-        setStatus('done')
+        setFallbackUrl(res.fallbackUrl)
+        setStatus('fallback')
       } else {
         if (TURNSTILE_KEY) resetTurnstile(widgetIdRef.current)
         setStatus('error')
@@ -162,7 +171,24 @@ export function BugReport({
 
       <h2 style={{ margin: '8px 0 4px' }}>🐛 Report a bug</h2>
 
-      {status === 'done' ? (
+      {status === 'fallback' ? (
+        <div>
+          <p style={{ fontWeight: 700 }}>
+            Almost there — finish filing it on the GitHub page we opened.
+          </p>
+          {fallbackUrl && (
+            <p>
+              <a href={fallbackUrl} target="_blank" rel="noreferrer noopener">
+                Open the prefilled issue ↗
+              </a>{' '}
+              <span style={{ opacity: 0.6 }}>(if it didn’t open)</span>
+            </p>
+          )}
+          <button onClick={onClose} style={btn}>
+            Done
+          </button>
+        </div>
+      ) : status === 'done' ? (
         <div>
           <p style={{ color: '#2ecc71', fontWeight: 700 }}>
             Thanks! Your report was sent.
@@ -189,6 +215,7 @@ export function BugReport({
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             rows={6}
+            maxLength={MAX_MESSAGE}
             placeholder="e.g. The map didn't load on round 3, just a black box."
             style={textarea}
           />

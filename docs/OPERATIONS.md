@@ -83,6 +83,7 @@ variables → Actions → **Variables**), never Secrets:
 | `VITE_CF_BEACON_TOKEN`      | _(unset)_                        | Cloudflare Web Analytics beacon — cookieless page views                                       |
 | `VITE_LEADERBOARD_ENDPOINT` | the `cps-leaderboard` worker URL | anonymous daily leaderboard + server streak; **unset → the leaderboard UI is hidden**         |
 | `VITE_BUG_ENDPOINT`         | the `cps-bug` worker URL         | in-app bug reports → GitHub issues; **unset → the form opens a prefilled issue page instead** |
+| `VITE_TURNSTILE_SITEKEY`    | _(unset)_                        | optional Turnstile bot check on the bug form; pair with the worker secret `TURNSTILE_SECRET`  |
 
 Nothing else. Map tiles (NASA GIBS) and geocoding (Nominatim, build-time only)
 need no key.

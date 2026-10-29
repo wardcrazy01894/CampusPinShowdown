@@ -5,6 +5,13 @@ import { defang, urlFromAllowedOrigin, issueTitle } from './bug-report-lib.mjs'
  *  bug-report.handler.test.mjs. */
 
 describe('defang', () => {
+  it('inserts a real U+200B (positive check — not.toMatch alone would pass on junk)', () => {
+    expect(defang('@a')).toBe('@\u200Ba')
+    expect(defang('```')).toBe('`\u200B`\u200B`')
+    expect(defang('[t](u)')).toBe('[t]\u200B(u)')
+    expect(defang('#1')).toBe('#\u200B1')
+  })
+
   it('breaks code fences and @mentions, strips CRs', () => {
     expect(defang('```js\nalert(1)\n```')).not.toContain('```')
     expect(defang('cc @maintainer')).not.toMatch(/(^|[^\u200B])@[a-z]/i)
