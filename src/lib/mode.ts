@@ -16,6 +16,10 @@ import { shouldDeferReload } from './version'
 import { REGION } from './region'
 import type { GameState } from '../types'
 
+/** Namespace suffix for the ?shuffle scratch save — shared with storage.ts so
+ *  the two can't drift. */
+export const SHUFFLE_SUFFIX = '__shuffle'
+
 export interface Mode {
   dateKey: string
   /** Seed for selectDailyTowns — region + date (or a per-load random for shuffle). */
@@ -45,7 +49,7 @@ export function resolveMode(
       selectionSeed: `${REGION.id}:shuffle-${shuffleSeed}`,
       label: 'shuffle — random 5 (refresh for a new set)',
       official: false,
-      storageId: `${REGION.id}__shuffle`,
+      storageId: `${REGION.id}${SHUFFLE_SUFFIX}`,
     }
   }
   const param = new URLSearchParams(search).get('date')

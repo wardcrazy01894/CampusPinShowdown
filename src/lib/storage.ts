@@ -9,6 +9,7 @@
 
 import type { DayRecord, GameState } from '../types'
 import type { Streak } from './progress'
+import { SHUFFLE_SUFFIX } from './mode'
 import { log } from './log'
 import { shouldStartFresh } from './devmode'
 
@@ -114,8 +115,9 @@ export function clearCurrent(storageId: string): void {
 
 /**
  * Clears the in-progress/finished game on load when the URL asks for it
- * (`?reset`/`?fresh`/`?shuffle`) — see src/lib/devmode.ts. History and streak
- * are preserved. Default loads persist. Returns true if it cleared. Call once
+ * (`?reset`/`?fresh`/`?shuffle`) — see src/lib/devmode.ts. For the official
+ * daily, history and streak are preserved; the `?shuffle` scratch namespace is
+ * wiped whole (see below). Default loads persist. Returns true if it cleared. Call once
  * at startup, before any component reads state.
  *
  * `storageId` is the ACTIVE mode's namespace (from resolveMode): `?reset`/
@@ -132,8 +134,15 @@ export function applyStartupReset(storageId: string | null): boolean {
   // would append its own DayRecord forever — wipe that scratch namespace
   // entirely. Everything else (the official daily under ?reset) keeps its
   // history + streak and drops only the current game.
-  if (storageId.endsWith('__shuffle')) clearState(storageId)
+  const wipe = storageId.endsWith(SHUFFLE_SUFFIX)
+  if (wipe) clearState(storageId)
   else clearCurrent(storageId)
-  log.info('storage', 'startup reset: cleared current game', { storageId })
+  log.info(
+    'storage',
+    wipe
+      ? 'startup reset: wiped shuffle scratch'
+      : 'startup reset: cleared current game (history + streak kept)',
+    { storageId },
+  )
   return true
 }
