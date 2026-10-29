@@ -1,0 +1,2335 @@
+[
+  {
+    "name": "Ann Arbor",
+    "stateCode": "MI",
+    "schools": [
+      "University of Michigan"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "East Lansing",
+    "stateCode": "MI",
+    "schools": [
+      "Michigan State University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Columbus",
+    "stateCode": "OH",
+    "schools": [
+      "Ohio State University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "State College",
+    "stateCode": "PA",
+    "schools": [
+      "Penn State University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Madison",
+    "stateCode": "WI",
+    "schools": [
+      "University of Wisconsin–Madison"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Austin",
+    "stateCode": "TX",
+    "schools": [
+      "University of Texas at Austin"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Athens",
+    "stateCode": "GA",
+    "schools": [
+      "University of Georgia"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Tuscaloosa",
+    "stateCode": "AL",
+    "schools": [
+      "University of Alabama"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Auburn",
+    "stateCode": "AL",
+    "schools": [
+      "Auburn University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Baton Rouge",
+    "stateCode": "LA",
+    "schools": [
+      "Louisiana State University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Gainesville",
+    "stateCode": "FL",
+    "schools": [
+      "University of Florida"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Tallahassee",
+    "stateCode": "FL",
+    "schools": [
+      "Florida State University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Knoxville",
+    "stateCode": "TN",
+    "schools": [
+      "University of Tennessee"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Lexington",
+    "stateCode": "KY",
+    "schools": [
+      "University of Kentucky"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Chapel Hill",
+    "stateCode": "NC",
+    "schools": [
+      "University of North Carolina at Chapel Hill"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Durham",
+    "stateCode": "NC",
+    "schools": [
+      "Duke University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Charlottesville",
+    "stateCode": "VA",
+    "schools": [
+      "University of Virginia"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Blacksburg",
+    "stateCode": "VA",
+    "schools": [
+      "Virginia Tech"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Clemson",
+    "stateCode": "SC",
+    "schools": [
+      "Clemson University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Columbia",
+    "stateCode": "SC",
+    "schools": [
+      "University of South Carolina"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Oxford",
+    "stateCode": "MS",
+    "schools": [
+      "University of Mississippi (Ole Miss)"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Starkville",
+    "stateCode": "MS",
+    "schools": [
+      "Mississippi State University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Fayetteville",
+    "stateCode": "AR",
+    "schools": [
+      "University of Arkansas"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Norman",
+    "stateCode": "OK",
+    "schools": [
+      "University of Oklahoma"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Stillwater",
+    "stateCode": "OK",
+    "schools": [
+      "Oklahoma State University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "College Station",
+    "stateCode": "TX",
+    "schools": [
+      "Texas A&M University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Lubbock",
+    "stateCode": "TX",
+    "schools": [
+      "Texas Tech University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Waco",
+    "stateCode": "TX",
+    "schools": [
+      "Baylor University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Boulder",
+    "stateCode": "CO",
+    "schools": [
+      "University of Colorado Boulder"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Eugene",
+    "stateCode": "OR",
+    "schools": [
+      "University of Oregon"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Corvallis",
+    "stateCode": "OR",
+    "schools": [
+      "Oregon State University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Pullman",
+    "stateCode": "WA",
+    "schools": [
+      "Washington State University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Berkeley",
+    "stateCode": "CA",
+    "schools": [
+      "University of California, Berkeley"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Stanford",
+    "stateCode": "CA",
+    "schools": [
+      "Stanford University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Tempe",
+    "stateCode": "AZ",
+    "schools": [
+      "Arizona State University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Tucson",
+    "stateCode": "AZ",
+    "schools": [
+      "University of Arizona"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Provo",
+    "stateCode": "UT",
+    "schools": [
+      "Brigham Young University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Lincoln",
+    "stateCode": "NE",
+    "schools": [
+      "University of Nebraska–Lincoln"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Iowa City",
+    "stateCode": "IA",
+    "schools": [
+      "University of Iowa"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Ames",
+    "stateCode": "IA",
+    "schools": [
+      "Iowa State University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Lawrence",
+    "stateCode": "KS",
+    "schools": [
+      "University of Kansas"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Manhattan",
+    "stateCode": "KS",
+    "schools": [
+      "Kansas State University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Columbia",
+    "stateCode": "MO",
+    "schools": [
+      "University of Missouri"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Bloomington",
+    "stateCode": "IN",
+    "schools": [
+      "Indiana University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "West Lafayette",
+    "stateCode": "IN",
+    "schools": [
+      "Purdue University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "South Bend",
+    "stateCode": "IN",
+    "schools": [
+      "University of Notre Dame"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Champaign",
+    "stateCode": "IL",
+    "schools": [
+      "University of Illinois Urbana-Champaign"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Evanston",
+    "stateCode": "IL",
+    "schools": [
+      "Northwestern University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Morgantown",
+    "stateCode": "WV",
+    "schools": [
+      "West Virginia University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Ithaca",
+    "stateCode": "NY",
+    "schools": [
+      "Cornell University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Syracuse",
+    "stateCode": "NY",
+    "schools": [
+      "Syracuse University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Princeton",
+    "stateCode": "NJ",
+    "schools": [
+      "Princeton University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "New Haven",
+    "stateCode": "CT",
+    "schools": [
+      "Yale University"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Cambridge",
+    "stateCode": "MA",
+    "schools": [
+      "Harvard University",
+      "Massachusetts Institute of Technology"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Minneapolis",
+    "stateCode": "MN",
+    "schools": [
+      "University of Minnesota"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Seattle",
+    "stateCode": "WA",
+    "schools": [
+      "University of Washington"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Salt Lake City",
+    "stateCode": "UT",
+    "schools": [
+      "University of Utah"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "Annapolis",
+    "stateCode": "MD",
+    "schools": [
+      "United States Naval Academy"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "name": "West Point",
+    "stateCode": "NY",
+    "schools": [
+      "United States Military Academy"
+    ],
+    "difficulty": "easy",
+    "lat": 41.3915,
+    "lng": -73.956
+  },
+  {
+    "name": "Hanover",
+    "stateCode": "NH",
+    "schools": [
+      "Dartmouth College"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Providence",
+    "stateCode": "RI",
+    "schools": [
+      "Brown University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Storrs",
+    "stateCode": "CT",
+    "schools": [
+      "University of Connecticut"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Burlington",
+    "stateCode": "VT",
+    "schools": [
+      "University of Vermont"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Amherst",
+    "stateCode": "MA",
+    "schools": [
+      "University of Massachusetts Amherst",
+      "Amherst College"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Fort Collins",
+    "stateCode": "CO",
+    "schools": [
+      "Colorado State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Laramie",
+    "stateCode": "WY",
+    "schools": [
+      "University of Wyoming"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Missoula",
+    "stateCode": "MT",
+    "schools": [
+      "University of Montana"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Bozeman",
+    "stateCode": "MT",
+    "schools": [
+      "Montana State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Boise",
+    "stateCode": "ID",
+    "schools": [
+      "Boise State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Reno",
+    "stateCode": "NV",
+    "schools": [
+      "University of Nevada, Reno"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Albuquerque",
+    "stateCode": "NM",
+    "schools": [
+      "University of New Mexico"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Fargo",
+    "stateCode": "ND",
+    "schools": [
+      "North Dakota State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Grand Forks",
+    "stateCode": "ND",
+    "schools": [
+      "University of North Dakota"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Lafayette",
+    "stateCode": "LA",
+    "schools": [
+      "University of Louisiana at Lafayette"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Oxford",
+    "stateCode": "OH",
+    "schools": [
+      "Miami University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Athens",
+    "stateCode": "OH",
+    "schools": [
+      "Ohio University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Bowling Green",
+    "stateCode": "OH",
+    "schools": [
+      "Bowling Green State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Kent",
+    "stateCode": "OH",
+    "schools": [
+      "Kent State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Muncie",
+    "stateCode": "IN",
+    "schools": [
+      "Ball State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Carbondale",
+    "stateCode": "IL",
+    "schools": [
+      "Southern Illinois University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "DeKalb",
+    "stateCode": "IL",
+    "schools": [
+      "Northern Illinois University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Normal",
+    "stateCode": "IL",
+    "schools": [
+      "Illinois State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Kalamazoo",
+    "stateCode": "MI",
+    "schools": [
+      "Western Michigan University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Mount Pleasant",
+    "stateCode": "MI",
+    "schools": [
+      "Central Michigan University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Ypsilanti",
+    "stateCode": "MI",
+    "schools": [
+      "Eastern Michigan University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Bowling Green",
+    "stateCode": "KY",
+    "schools": [
+      "Western Kentucky University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "College Park",
+    "stateCode": "MD",
+    "schools": [
+      "University of Maryland"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Colorado Springs",
+    "stateCode": "CO",
+    "schools": [
+      "United States Air Force Academy"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "New Brunswick",
+    "stateCode": "NJ",
+    "schools": [
+      "Rutgers University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Williamsburg",
+    "stateCode": "VA",
+    "schools": [
+      "College of William & Mary"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Harrisonburg",
+    "stateCode": "VA",
+    "schools": [
+      "James Madison University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Lynchburg",
+    "stateCode": "VA",
+    "schools": [
+      "Liberty University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Boone",
+    "stateCode": "NC",
+    "schools": [
+      "Appalachian State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Greenville",
+    "stateCode": "NC",
+    "schools": [
+      "East Carolina University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Winston-Salem",
+    "stateCode": "NC",
+    "schools": [
+      "Wake Forest University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Wilmington",
+    "stateCode": "NC",
+    "schools": [
+      "University of North Carolina Wilmington"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Murfreesboro",
+    "stateCode": "TN",
+    "schools": [
+      "Middle Tennessee State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "San Marcos",
+    "stateCode": "TX",
+    "schools": [
+      "Texas State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Denton",
+    "stateCode": "TX",
+    "schools": [
+      "University of North Texas"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Fort Worth",
+    "stateCode": "TX",
+    "schools": [
+      "Texas Christian University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Springfield",
+    "stateCode": "MO",
+    "schools": [
+      "Missouri State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Cedar Falls",
+    "stateCode": "IA",
+    "schools": [
+      "University of Northern Iowa"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Duluth",
+    "stateCode": "MN",
+    "schools": [
+      "University of Minnesota Duluth"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Huntington",
+    "stateCode": "WV",
+    "schools": [
+      "Marshall University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Boca Raton",
+    "stateCode": "FL",
+    "schools": [
+      "Florida Atlantic University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Coral Gables",
+    "stateCode": "FL",
+    "schools": [
+      "University of Miami"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Logan",
+    "stateCode": "UT",
+    "schools": [
+      "Utah State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Flagstaff",
+    "stateCode": "AZ",
+    "schools": [
+      "Northern Arizona University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Bellingham",
+    "stateCode": "WA",
+    "schools": [
+      "Western Washington University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Spokane",
+    "stateCode": "WA",
+    "schools": [
+      "Gonzaga University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Davis",
+    "stateCode": "CA",
+    "schools": [
+      "University of California, Davis"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Santa Cruz",
+    "stateCode": "CA",
+    "schools": [
+      "University of California, Santa Cruz"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Santa Barbara",
+    "stateCode": "CA",
+    "schools": [
+      "University of California, Santa Barbara"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "San Luis Obispo",
+    "stateCode": "CA",
+    "schools": [
+      "Cal Poly San Luis Obispo"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Chico",
+    "stateCode": "CA",
+    "schools": [
+      "California State University, Chico"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Irvine",
+    "stateCode": "CA",
+    "schools": [
+      "University of California, Irvine"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Newark",
+    "stateCode": "DE",
+    "schools": [
+      "University of Delaware"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Villanova",
+    "stateCode": "PA",
+    "schools": [
+      "Villanova University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Peoria",
+    "stateCode": "IL",
+    "schools": [
+      "Bradley University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Binghamton",
+    "stateCode": "NY",
+    "schools": [
+      "Binghamton University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Buffalo",
+    "stateCode": "NY",
+    "schools": [
+      "University at Buffalo"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Troy",
+    "stateCode": "NY",
+    "schools": [
+      "Rensselaer Polytechnic Institute"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Durham",
+    "stateCode": "NH",
+    "schools": [
+      "University of New Hampshire"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Gettysburg",
+    "stateCode": "PA",
+    "schools": [
+      "Gettysburg College"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Las Cruces",
+    "stateCode": "NM",
+    "schools": [
+      "New Mexico State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Tulsa",
+    "stateCode": "OK",
+    "schools": [
+      "University of Tulsa"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Omaha",
+    "stateCode": "NE",
+    "schools": [
+      "Creighton University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Dayton",
+    "stateCode": "OH",
+    "schools": [
+      "University of Dayton"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Toledo",
+    "stateCode": "OH",
+    "schools": [
+      "University of Toledo"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Akron",
+    "stateCode": "OH",
+    "schools": [
+      "University of Akron"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Orono",
+    "stateCode": "ME",
+    "schools": [
+      "University of Maine"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Kingston",
+    "stateCode": "RI",
+    "schools": [
+      "University of Rhode Island"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Bethlehem",
+    "stateCode": "PA",
+    "schools": [
+      "Lehigh University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Lewisburg",
+    "stateCode": "PA",
+    "schools": [
+      "Bucknell University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Hamilton",
+    "stateCode": "NY",
+    "schools": [
+      "Colgate University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Williamstown",
+    "stateCode": "MA",
+    "schools": [
+      "Williams College"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Middlebury",
+    "stateCode": "VT",
+    "schools": [
+      "Middlebury College"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Brunswick",
+    "stateCode": "ME",
+    "schools": [
+      "Bowdoin College"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Oberlin",
+    "stateCode": "OH",
+    "schools": [
+      "Oberlin College"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Davidson",
+    "stateCode": "NC",
+    "schools": [
+      "Davidson College"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Terre Haute",
+    "stateCode": "IN",
+    "schools": [
+      "Indiana State University",
+      "Rose-Hulman Institute of Technology"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Hattiesburg",
+    "stateCode": "MS",
+    "schools": [
+      "University of Southern Mississippi"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Jonesboro",
+    "stateCode": "AR",
+    "schools": [
+      "Arkansas State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Statesboro",
+    "stateCode": "GA",
+    "schools": [
+      "Georgia Southern University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Conway",
+    "stateCode": "SC",
+    "schools": [
+      "Coastal Carolina University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Johnson City",
+    "stateCode": "TN",
+    "schools": [
+      "East Tennessee State University"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Moscow",
+    "stateCode": "ID",
+    "schools": [
+      "University of Idaho"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Golden",
+    "stateCode": "CO",
+    "schools": [
+      "Colorado School of Mines"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Northfield",
+    "stateCode": "MN",
+    "schools": [
+      "Carleton College",
+      "St. Olaf College"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Mankato",
+    "stateCode": "MN",
+    "schools": [
+      "Minnesota State University, Mankato"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "name": "Waterville",
+    "stateCode": "ME",
+    "schools": [
+      "Colby College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Lewiston",
+    "stateCode": "ME",
+    "schools": [
+      "Bates College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Middletown",
+    "stateCode": "CT",
+    "schools": [
+      "Wesleyan University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Keene",
+    "stateCode": "NH",
+    "schools": [
+      "Keene State College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Plymouth",
+    "stateCode": "NH",
+    "schools": [
+      "Plymouth State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Northfield",
+    "stateCode": "VT",
+    "schools": [
+      "Norwich University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Castleton",
+    "stateCode": "VT",
+    "schools": [
+      "Vermont State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Poughkeepsie",
+    "stateCode": "NY",
+    "schools": [
+      "Vassar College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Geneseo",
+    "stateCode": "NY",
+    "schools": [
+      "SUNY Geneseo"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Oneonta",
+    "stateCode": "NY",
+    "schools": [
+      "SUNY Oneonta",
+      "Hartwick College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Potsdam",
+    "stateCode": "NY",
+    "schools": [
+      "Clarkson University",
+      "SUNY Potsdam"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Plattsburgh",
+    "stateCode": "NY",
+    "schools": [
+      "SUNY Plattsburgh"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Clinton",
+    "stateCode": "NY",
+    "schools": [
+      "Hamilton College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Saratoga Springs",
+    "stateCode": "NY",
+    "schools": [
+      "Skidmore College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Schenectady",
+    "stateCode": "NY",
+    "schools": [
+      "Union College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Geneva",
+    "stateCode": "NY",
+    "schools": [
+      "Hobart and William Smith Colleges"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Easton",
+    "stateCode": "PA",
+    "schools": [
+      "Lafayette College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Carlisle",
+    "stateCode": "PA",
+    "schools": [
+      "Dickinson College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Swarthmore",
+    "stateCode": "PA",
+    "schools": [
+      "Swarthmore College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Haverford",
+    "stateCode": "PA",
+    "schools": [
+      "Haverford College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Indiana",
+    "stateCode": "PA",
+    "schools": [
+      "Indiana University of Pennsylvania"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Slippery Rock",
+    "stateCode": "PA",
+    "schools": [
+      "Slippery Rock University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Shippensburg",
+    "stateCode": "PA",
+    "schools": [
+      "Shippensburg University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Bloomsburg",
+    "stateCode": "PA",
+    "schools": [
+      "Commonwealth University of Pennsylvania (Bloomsburg)"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Kutztown",
+    "stateCode": "PA",
+    "schools": [
+      "Kutztown University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Millersville",
+    "stateCode": "PA",
+    "schools": [
+      "Millersville University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Selinsgrove",
+    "stateCode": "PA",
+    "schools": [
+      "Susquehanna University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Grove City",
+    "stateCode": "PA",
+    "schools": [
+      "Grove City College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Meadville",
+    "stateCode": "PA",
+    "schools": [
+      "Allegheny College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Huntingdon",
+    "stateCode": "PA",
+    "schools": [
+      "Juniata College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Latrobe",
+    "stateCode": "PA",
+    "schools": [
+      "Saint Vincent College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Dover",
+    "stateCode": "DE",
+    "schools": [
+      "Delaware State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Frostburg",
+    "stateCode": "MD",
+    "schools": [
+      "Frostburg State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Salisbury",
+    "stateCode": "MD",
+    "schools": [
+      "Salisbury University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Chestertown",
+    "stateCode": "MD",
+    "schools": [
+      "Washington College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Emmitsburg",
+    "stateCode": "MD",
+    "schools": [
+      "Mount St. Mary's University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Lexington",
+    "stateCode": "VA",
+    "schools": [
+      "Washington and Lee University",
+      "Virginia Military Institute"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Radford",
+    "stateCode": "VA",
+    "schools": [
+      "Radford University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Farmville",
+    "stateCode": "VA",
+    "schools": [
+      "Longwood University",
+      "Hampden-Sydney College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Fredericksburg",
+    "stateCode": "VA",
+    "schools": [
+      "University of Mary Washington"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Buckhannon",
+    "stateCode": "WV",
+    "schools": [
+      "West Virginia Wesleyan College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Shepherdstown",
+    "stateCode": "WV",
+    "schools": [
+      "Shepherd University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Fairmont",
+    "stateCode": "WV",
+    "schools": [
+      "Fairmont State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Cullowhee",
+    "stateCode": "NC",
+    "schools": [
+      "Western Carolina University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Elon",
+    "stateCode": "NC",
+    "schools": [
+      "Elon University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Spartanburg",
+    "stateCode": "SC",
+    "schools": [
+      "Wofford College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Rock Hill",
+    "stateCode": "SC",
+    "schools": [
+      "Winthrop University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Orangeburg",
+    "stateCode": "SC",
+    "schools": [
+      "South Carolina State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Macon",
+    "stateCode": "GA",
+    "schools": [
+      "Mercer University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Milledgeville",
+    "stateCode": "GA",
+    "schools": [
+      "Georgia College & State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Carrollton",
+    "stateCode": "GA",
+    "schools": [
+      "University of West Georgia"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Valdosta",
+    "stateCode": "GA",
+    "schools": [
+      "Valdosta State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "DeLand",
+    "stateCode": "FL",
+    "schools": [
+      "Stetson University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Lakeland",
+    "stateCode": "FL",
+    "schools": [
+      "Florida Southern College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Sewanee",
+    "stateCode": "TN",
+    "schools": [
+      "The University of the South"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Cookeville",
+    "stateCode": "TN",
+    "schools": [
+      "Tennessee Tech University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Martin",
+    "stateCode": "TN",
+    "schools": [
+      "University of Tennessee at Martin"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Troy",
+    "stateCode": "AL",
+    "schools": [
+      "Troy University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Tuskegee",
+    "stateCode": "AL",
+    "schools": [
+      "Tuskegee University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Jacksonville",
+    "stateCode": "AL",
+    "schools": [
+      "Jacksonville State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Mobile",
+    "stateCode": "AL",
+    "schools": [
+      "University of South Alabama"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Ruston",
+    "stateCode": "LA",
+    "schools": [
+      "Louisiana Tech University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Natchitoches",
+    "stateCode": "LA",
+    "schools": [
+      "Northwestern State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Hammond",
+    "stateCode": "LA",
+    "schools": [
+      "Southeastern Louisiana University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Conway",
+    "stateCode": "AR",
+    "schools": [
+      "University of Central Arkansas",
+      "Hendrix College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Russellville",
+    "stateCode": "AR",
+    "schools": [
+      "Arkansas Tech University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Nacogdoches",
+    "stateCode": "TX",
+    "schools": [
+      "Stephen F. Austin State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Huntsville",
+    "stateCode": "TX",
+    "schools": [
+      "Sam Houston State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Canyon",
+    "stateCode": "TX",
+    "schools": [
+      "West Texas A&M University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Commerce",
+    "stateCode": "TX",
+    "schools": [
+      "East Texas A&M University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Stephenville",
+    "stateCode": "TX",
+    "schools": [
+      "Tarleton State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Kingsville",
+    "stateCode": "TX",
+    "schools": [
+      "Texas A&M University–Kingsville"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Edmond",
+    "stateCode": "OK",
+    "schools": [
+      "University of Central Oklahoma"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Tahlequah",
+    "stateCode": "OK",
+    "schools": [
+      "Northeastern State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Ada",
+    "stateCode": "OK",
+    "schools": [
+      "East Central University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Emporia",
+    "stateCode": "KS",
+    "schools": [
+      "Emporia State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Hays",
+    "stateCode": "KS",
+    "schools": [
+      "Fort Hays State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Pittsburg",
+    "stateCode": "KS",
+    "schools": [
+      "Pittsburg State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Kirksville",
+    "stateCode": "MO",
+    "schools": [
+      "Truman State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Rolla",
+    "stateCode": "MO",
+    "schools": [
+      "Missouri University of Science and Technology"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Cape Girardeau",
+    "stateCode": "MO",
+    "schools": [
+      "Southeast Missouri State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Warrensburg",
+    "stateCode": "MO",
+    "schools": [
+      "University of Central Missouri"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Maryville",
+    "stateCode": "MO",
+    "schools": [
+      "Northwest Missouri State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Grinnell",
+    "stateCode": "IA",
+    "schools": [
+      "Grinnell College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Decorah",
+    "stateCode": "IA",
+    "schools": [
+      "Luther College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Mount Vernon",
+    "stateCode": "IA",
+    "schools": [
+      "Cornell College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Vermillion",
+    "stateCode": "SD",
+    "schools": [
+      "University of South Dakota"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Brookings",
+    "stateCode": "SD",
+    "schools": [
+      "South Dakota State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Spearfish",
+    "stateCode": "SD",
+    "schools": [
+      "Black Hills State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "St. Peter",
+    "stateCode": "MN",
+    "schools": [
+      "Gustavus Adolphus College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Moorhead",
+    "stateCode": "MN",
+    "schools": [
+      "Minnesota State University Moorhead",
+      "Concordia College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "St. Cloud",
+    "stateCode": "MN",
+    "schools": [
+      "St. Cloud State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Eau Claire",
+    "stateCode": "WI",
+    "schools": [
+      "University of Wisconsin–Eau Claire"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "La Crosse",
+    "stateCode": "WI",
+    "schools": [
+      "University of Wisconsin–La Crosse"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Stevens Point",
+    "stateCode": "WI",
+    "schools": [
+      "University of Wisconsin–Stevens Point"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Oshkosh",
+    "stateCode": "WI",
+    "schools": [
+      "University of Wisconsin–Oshkosh"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Whitewater",
+    "stateCode": "WI",
+    "schools": [
+      "University of Wisconsin–Whitewater"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Platteville",
+    "stateCode": "WI",
+    "schools": [
+      "University of Wisconsin–Platteville"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Appleton",
+    "stateCode": "WI",
+    "schools": [
+      "Lawrence University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Ripon",
+    "stateCode": "WI",
+    "schools": [
+      "Ripon College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Marquette",
+    "stateCode": "MI",
+    "schools": [
+      "Northern Michigan University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Houghton",
+    "stateCode": "MI",
+    "schools": [
+      "Michigan Technological University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Big Rapids",
+    "stateCode": "MI",
+    "schools": [
+      "Ferris State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Allendale",
+    "stateCode": "MI",
+    "schools": [
+      "Grand Valley State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Holland",
+    "stateCode": "MI",
+    "schools": [
+      "Hope College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Hillsdale",
+    "stateCode": "MI",
+    "schools": [
+      "Hillsdale College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Gambier",
+    "stateCode": "OH",
+    "schools": [
+      "Kenyon College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Granville",
+    "stateCode": "OH",
+    "schools": [
+      "Denison University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Delaware",
+    "stateCode": "OH",
+    "schools": [
+      "Ohio Wesleyan University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Wooster",
+    "stateCode": "OH",
+    "schools": [
+      "The College of Wooster"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Yellow Springs",
+    "stateCode": "OH",
+    "schools": [
+      "Antioch College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Ada",
+    "stateCode": "OH",
+    "schools": [
+      "Ohio Northern University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Greencastle",
+    "stateCode": "IN",
+    "schools": [
+      "DePauw University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Crawfordsville",
+    "stateCode": "IN",
+    "schools": [
+      "Wabash College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Valparaiso",
+    "stateCode": "IN",
+    "schools": [
+      "Valparaiso University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Richmond",
+    "stateCode": "IN",
+    "schools": [
+      "Earlham College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Macomb",
+    "stateCode": "IL",
+    "schools": [
+      "Western Illinois University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Charleston",
+    "stateCode": "IL",
+    "schools": [
+      "Eastern Illinois University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Galesburg",
+    "stateCode": "IL",
+    "schools": [
+      "Knox College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Berea",
+    "stateCode": "KY",
+    "schools": [
+      "Berea College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Richmond",
+    "stateCode": "KY",
+    "schools": [
+      "Eastern Kentucky University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Morehead",
+    "stateCode": "KY",
+    "schools": [
+      "Morehead State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Murray",
+    "stateCode": "KY",
+    "schools": [
+      "Murray State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Danville",
+    "stateCode": "KY",
+    "schools": [
+      "Centre College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Kearney",
+    "stateCode": "NE",
+    "schools": [
+      "University of Nebraska at Kearney"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Greeley",
+    "stateCode": "CO",
+    "schools": [
+      "University of Northern Colorado"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Gunnison",
+    "stateCode": "CO",
+    "schools": [
+      "Western Colorado University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Durango",
+    "stateCode": "CO",
+    "schools": [
+      "Fort Lewis College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Cedar City",
+    "stateCode": "UT",
+    "schools": [
+      "Southern Utah University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Ogden",
+    "stateCode": "UT",
+    "schools": [
+      "Weber State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Socorro",
+    "stateCode": "NM",
+    "schools": [
+      "New Mexico Institute of Mining and Technology"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Pocatello",
+    "stateCode": "ID",
+    "schools": [
+      "Idaho State University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Ellensburg",
+    "stateCode": "WA",
+    "schools": [
+      "Central Washington University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Cheney",
+    "stateCode": "WA",
+    "schools": [
+      "Eastern Washington University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Walla Walla",
+    "stateCode": "WA",
+    "schools": [
+      "Whitman College"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Ashland",
+    "stateCode": "OR",
+    "schools": [
+      "Southern Oregon University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Forest Grove",
+    "stateCode": "OR",
+    "schools": [
+      "Pacific University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Monmouth",
+    "stateCode": "OR",
+    "schools": [
+      "Western Oregon University"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Arcata",
+    "stateCode": "CA",
+    "schools": [
+      "Cal Poly Humboldt"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "name": "Claremont",
+    "stateCode": "CA",
+    "schools": [
+      "Pomona College",
+      "The Claremont Colleges"
+    ],
+    "difficulty": "hard"
+  }
+]

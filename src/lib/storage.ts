@@ -108,7 +108,6 @@ export function clearState(storageId: string): void {
 export function clearCurrent(storageId: string): void {
   const state = loadState(storageId)
   if (!state.current) return
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- drop `current`
   const { current: _dropped, ...rest } = state
   saveState(storageId, rest)
 }
