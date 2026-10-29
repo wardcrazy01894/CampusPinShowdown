@@ -8,7 +8,9 @@
       "name": "Ada",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["Ohio Northern University"],
+      "schools": [
+        "Ohio Northern University"
+      ],
       "lat": 40.7695,
       "lng": -83.8227,
       "difficulty": "hard",
@@ -20,7 +22,9 @@
       "name": "Ada",
       "state": "Oklahoma",
       "stateCode": "OK",
-      "schools": ["East Central University"],
+      "schools": [
+        "East Central University"
+      ],
       "lat": 34.7743,
       "lng": -96.6784,
       "difficulty": "hard",
@@ -32,10 +36,26 @@
       "name": "Akron",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["University of Akron"],
+      "schools": [
+        "University of Akron"
+      ],
       "lat": 41.0831,
       "lng": -81.5185,
       "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "albion-mi",
+      "name": "Albion",
+      "state": "Michigan",
+      "stateCode": "MI",
+      "schools": [
+        "Albion College"
+      ],
+      "lat": 42.1951,
+      "lng": -84.7705,
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -44,7 +64,9 @@
       "name": "Albuquerque",
       "state": "New Mexico",
       "stateCode": "NM",
-      "schools": ["University of New Mexico"],
+      "schools": [
+        "University of New Mexico"
+      ],
       "lat": 35.0841,
       "lng": -106.651,
       "difficulty": "medium",
@@ -56,7 +78,9 @@
       "name": "Allendale",
       "state": "Michigan",
       "stateCode": "MI",
-      "schools": ["Grand Valley State University"],
+      "schools": [
+        "Grand Valley State University"
+      ],
       "lat": 42.972,
       "lng": -85.953,
       "difficulty": "hard",
@@ -64,11 +88,27 @@
       "attribution": "hand-pinned"
     },
     {
+      "id": "alma-mi",
+      "name": "Alma",
+      "state": "Michigan",
+      "stateCode": "MI",
+      "schools": [
+        "Alma College"
+      ],
+      "lat": 43.3789,
+      "lng": -84.6597,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
       "id": "ames-ia",
       "name": "Ames",
       "state": "Iowa",
       "stateCode": "IA",
-      "schools": ["Iowa State University"],
+      "schools": [
+        "Iowa State University"
+      ],
       "lat": 42.0268,
       "lng": -93.617,
       "difficulty": "easy",
@@ -80,7 +120,10 @@
       "name": "Amherst",
       "state": "Massachusetts",
       "stateCode": "MA",
-      "schools": ["University of Massachusetts Amherst", "Amherst College"],
+      "schools": [
+        "University of Massachusetts Amherst",
+        "Amherst College"
+      ],
       "lat": 42.3732,
       "lng": -72.5199,
       "difficulty": "medium",
@@ -92,7 +135,9 @@
       "name": "Ann Arbor",
       "state": "Michigan",
       "stateCode": "MI",
-      "schools": ["University of Michigan"],
+      "schools": [
+        "University of Michigan"
+      ],
       "lat": 42.2814,
       "lng": -83.7485,
       "difficulty": "easy",
@@ -104,7 +149,9 @@
       "name": "Annapolis",
       "state": "Maryland",
       "stateCode": "MD",
-      "schools": ["United States Naval Academy"],
+      "schools": [
+        "United States Naval Academy"
+      ],
       "lat": 38.9786,
       "lng": -76.4928,
       "difficulty": "easy",
@@ -116,7 +163,9 @@
       "name": "Appleton",
       "state": "Wisconsin",
       "stateCode": "WI",
-      "schools": ["Lawrence University"],
+      "schools": [
+        "Lawrence University"
+      ],
       "lat": 44.2614,
       "lng": -88.407,
       "difficulty": "hard",
@@ -128,7 +177,9 @@
       "name": "Arcata",
       "state": "California",
       "stateCode": "CA",
-      "schools": ["Cal Poly Humboldt"],
+      "schools": [
+        "Cal Poly Humboldt"
+      ],
       "lat": 40.8665,
       "lng": -124.0828,
       "difficulty": "hard",
@@ -140,7 +191,9 @@
       "name": "Ashland",
       "state": "Oregon",
       "stateCode": "OR",
-      "schools": ["Southern Oregon University"],
+      "schools": [
+        "Southern Oregon University"
+      ],
       "lat": 42.1972,
       "lng": -122.7154,
       "difficulty": "hard",
@@ -152,7 +205,9 @@
       "name": "Athens",
       "state": "Georgia",
       "stateCode": "GA",
-      "schools": ["University of Georgia"],
+      "schools": [
+        "University of Georgia"
+      ],
       "lat": 33.9598,
       "lng": -83.3764,
       "difficulty": "easy",
@@ -164,10 +219,31 @@
       "name": "Athens",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["Ohio University"],
+      "schools": [
+        "Ohio University"
+      ],
       "lat": 39.3289,
       "lng": -82.1012,
       "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "atlanta-ga",
+      "name": "Atlanta",
+      "state": "Georgia",
+      "stateCode": "GA",
+      "schools": [
+        "Georgia Institute of Technology",
+        "Morehouse College",
+        "Spelman College",
+        "Clark Atlanta University",
+        "Emory University",
+        "Georgia State University"
+      ],
+      "lat": 33.7545,
+      "lng": -84.3898,
+      "difficulty": "easy",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -176,7 +252,9 @@
       "name": "Auburn",
       "state": "Alabama",
       "stateCode": "AL",
-      "schools": ["Auburn University"],
+      "schools": [
+        "Auburn University"
+      ],
       "lat": 32.6099,
       "lng": -85.4808,
       "difficulty": "easy",
@@ -188,7 +266,9 @@
       "name": "Austin",
       "state": "Texas",
       "stateCode": "TX",
-      "schools": ["University of Texas at Austin"],
+      "schools": [
+        "University of Texas at Austin"
+      ],
       "lat": 30.2649,
       "lng": -97.7474,
       "difficulty": "easy",
@@ -200,7 +280,10 @@
       "name": "Baton Rouge",
       "state": "Louisiana",
       "stateCode": "LA",
-      "schools": ["Louisiana State University"],
+      "schools": [
+        "Louisiana State University",
+        "Southern University"
+      ],
       "lat": 30.4494,
       "lng": -91.187,
       "difficulty": "easy",
@@ -212,9 +295,25 @@
       "name": "Bellingham",
       "state": "Washington",
       "stateCode": "WA",
-      "schools": ["Western Washington University"],
+      "schools": [
+        "Western Washington University"
+      ],
       "lat": 48.7544,
       "lng": -122.4788,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "beloit-wi",
+      "name": "Beloit",
+      "state": "Wisconsin",
+      "stateCode": "WI",
+      "schools": [
+        "Beloit College"
+      ],
+      "lat": 42.5083,
+      "lng": -89.0318,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -224,7 +323,9 @@
       "name": "Berea",
       "state": "Kentucky",
       "stateCode": "KY",
-      "schools": ["Berea College"],
+      "schools": [
+        "Berea College"
+      ],
       "lat": 37.5687,
       "lng": -84.2963,
       "difficulty": "hard",
@@ -236,7 +337,9 @@
       "name": "Berkeley",
       "state": "California",
       "stateCode": "CA",
-      "schools": ["University of California, Berkeley"],
+      "schools": [
+        "University of California, Berkeley"
+      ],
       "lat": 37.8708,
       "lng": -122.2729,
       "difficulty": "easy",
@@ -248,7 +351,9 @@
       "name": "Bethlehem",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Lehigh University"],
+      "schools": [
+        "Lehigh University"
+      ],
       "lat": 40.6179,
       "lng": -75.3787,
       "difficulty": "hard",
@@ -260,7 +365,9 @@
       "name": "Big Rapids",
       "state": "Michigan",
       "stateCode": "MI",
-      "schools": ["Ferris State University"],
+      "schools": [
+        "Ferris State University"
+      ],
       "lat": 43.6981,
       "lng": -85.4837,
       "difficulty": "hard",
@@ -272,9 +379,27 @@
       "name": "Binghamton",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["Binghamton University"],
+      "schools": [
+        "Binghamton University"
+      ],
       "lat": 42.0987,
       "lng": -75.9125,
+      "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "birmingham-al",
+      "name": "Birmingham",
+      "state": "Alabama",
+      "stateCode": "AL",
+      "schools": [
+        "University of Alabama at Birmingham",
+        "Samford University",
+        "Miles College"
+      ],
+      "lat": 33.5207,
+      "lng": -86.8024,
       "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -284,10 +409,26 @@
       "name": "Blacksburg",
       "state": "Virginia",
       "stateCode": "VA",
-      "schools": ["Virginia Tech"],
+      "schools": [
+        "Virginia Tech"
+      ],
       "lat": 37.2297,
       "lng": -80.4137,
       "difficulty": "easy",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "bloomington-il",
+      "name": "Bloomington",
+      "state": "Illinois",
+      "stateCode": "IL",
+      "schools": [
+        "Illinois Wesleyan University"
+      ],
+      "lat": 40.4798,
+      "lng": -88.9939,
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -296,7 +437,9 @@
       "name": "Bloomington",
       "state": "Indiana",
       "stateCode": "IN",
-      "schools": ["Indiana University"],
+      "schools": [
+        "Indiana University"
+      ],
       "lat": 39.167,
       "lng": -86.5343,
       "difficulty": "easy",
@@ -308,7 +451,9 @@
       "name": "Bloomsburg",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Commonwealth University of Pennsylvania (Bloomsburg)"],
+      "schools": [
+        "Commonwealth University of Pennsylvania (Bloomsburg)"
+      ],
       "lat": 41.0045,
       "lng": -76.4537,
       "difficulty": "hard",
@@ -320,7 +465,9 @@
       "name": "Boca Raton",
       "state": "Florida",
       "stateCode": "FL",
-      "schools": ["Florida Atlantic University"],
+      "schools": [
+        "Florida Atlantic University"
+      ],
       "lat": 26.3587,
       "lng": -80.0831,
       "difficulty": "medium",
@@ -332,7 +479,9 @@
       "name": "Boise",
       "state": "Idaho",
       "stateCode": "ID",
-      "schools": ["Boise State University"],
+      "schools": [
+        "Boise State University"
+      ],
       "lat": 43.6166,
       "lng": -116.2009,
       "difficulty": "medium",
@@ -344,7 +493,9 @@
       "name": "Boone",
       "state": "North Carolina",
       "stateCode": "NC",
-      "schools": ["Appalachian State University"],
+      "schools": [
+        "Appalachian State University"
+      ],
       "lat": 36.2188,
       "lng": -81.684,
       "difficulty": "medium",
@@ -356,10 +507,26 @@
       "name": "Boulder",
       "state": "Colorado",
       "stateCode": "CO",
-      "schools": ["University of Colorado Boulder"],
+      "schools": [
+        "University of Colorado Boulder"
+      ],
       "lat": 40.015,
       "lng": -105.2705,
       "difficulty": "easy",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "bowie-md",
+      "name": "Bowie",
+      "state": "Maryland",
+      "stateCode": "MD",
+      "schools": [
+        "Bowie State University"
+      ],
+      "lat": 39.0081,
+      "lng": -76.7798,
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -368,7 +535,9 @@
       "name": "Bowling Green",
       "state": "Kentucky",
       "stateCode": "KY",
-      "schools": ["Western Kentucky University"],
+      "schools": [
+        "Western Kentucky University"
+      ],
       "lat": 36.9929,
       "lng": -86.4429,
       "difficulty": "medium",
@@ -380,7 +549,9 @@
       "name": "Bowling Green",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["Bowling Green State University"],
+      "schools": [
+        "Bowling Green State University"
+      ],
       "lat": 41.3748,
       "lng": -83.6513,
       "difficulty": "medium",
@@ -392,7 +563,9 @@
       "name": "Bozeman",
       "state": "Montana",
       "stateCode": "MT",
-      "schools": ["Montana State University"],
+      "schools": [
+        "Montana State University"
+      ],
       "lat": 45.6794,
       "lng": -111.044,
       "difficulty": "medium",
@@ -404,7 +577,9 @@
       "name": "Brookings",
       "state": "South Dakota",
       "stateCode": "SD",
-      "schools": ["South Dakota State University"],
+      "schools": [
+        "South Dakota State University"
+      ],
       "lat": 44.3115,
       "lng": -96.7984,
       "difficulty": "hard",
@@ -416,7 +591,9 @@
       "name": "Brunswick",
       "state": "Maine",
       "stateCode": "ME",
-      "schools": ["Bowdoin College"],
+      "schools": [
+        "Bowdoin College"
+      ],
       "lat": 43.9167,
       "lng": -69.9659,
       "difficulty": "hard",
@@ -428,7 +605,9 @@
       "name": "Buckhannon",
       "state": "West Virginia",
       "stateCode": "WV",
-      "schools": ["West Virginia Wesleyan College"],
+      "schools": [
+        "West Virginia Wesleyan College"
+      ],
       "lat": 38.9939,
       "lng": -80.2323,
       "difficulty": "hard",
@@ -440,7 +619,9 @@
       "name": "Buffalo",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["University at Buffalo"],
+      "schools": [
+        "University at Buffalo"
+      ],
       "lat": 42.8864,
       "lng": -78.8781,
       "difficulty": "medium",
@@ -452,7 +633,9 @@
       "name": "Burlington",
       "state": "Vermont",
       "stateCode": "VT",
-      "schools": ["University of Vermont"],
+      "schools": [
+        "University of Vermont"
+      ],
       "lat": 44.4762,
       "lng": -73.2129,
       "difficulty": "medium",
@@ -479,7 +662,9 @@
       "name": "Canyon",
       "state": "Texas",
       "stateCode": "TX",
-      "schools": ["West Texas A&M University"],
+      "schools": [
+        "West Texas A&M University"
+      ],
       "lat": 34.979,
       "lng": -101.9282,
       "difficulty": "hard",
@@ -491,7 +676,9 @@
       "name": "Cape Girardeau",
       "state": "Missouri",
       "stateCode": "MO",
-      "schools": ["Southeast Missouri State University"],
+      "schools": [
+        "Southeast Missouri State University"
+      ],
       "lat": 37.3047,
       "lng": -89.5176,
       "difficulty": "hard",
@@ -503,7 +690,9 @@
       "name": "Carbondale",
       "state": "Illinois",
       "stateCode": "IL",
-      "schools": ["Southern Illinois University"],
+      "schools": [
+        "Southern Illinois University"
+      ],
       "lat": 37.7275,
       "lng": -89.2167,
       "difficulty": "medium",
@@ -515,7 +704,9 @@
       "name": "Carlisle",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Dickinson College"],
+      "schools": [
+        "Dickinson College"
+      ],
       "lat": 40.2015,
       "lng": -77.1891,
       "difficulty": "hard",
@@ -527,7 +718,9 @@
       "name": "Carrollton",
       "state": "Georgia",
       "stateCode": "GA",
-      "schools": ["University of West Georgia"],
+      "schools": [
+        "University of West Georgia"
+      ],
       "lat": 33.5801,
       "lng": -85.0766,
       "difficulty": "hard",
@@ -539,7 +732,9 @@
       "name": "Castleton",
       "state": "Vermont",
       "stateCode": "VT",
-      "schools": ["Vermont State University"],
+      "schools": [
+        "Vermont State University"
+      ],
       "lat": 43.6111,
       "lng": -73.1807,
       "difficulty": "hard",
@@ -551,7 +746,9 @@
       "name": "Cedar City",
       "state": "Utah",
       "stateCode": "UT",
-      "schools": ["Southern Utah University"],
+      "schools": [
+        "Southern Utah University"
+      ],
       "lat": 37.6774,
       "lng": -113.0618,
       "difficulty": "hard",
@@ -563,10 +760,26 @@
       "name": "Cedar Falls",
       "state": "Iowa",
       "stateCode": "IA",
-      "schools": ["University of Northern Iowa"],
+      "schools": [
+        "University of Northern Iowa"
+      ],
       "lat": 42.5362,
       "lng": -92.4478,
       "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "cedar-rapids-ia",
+      "name": "Cedar Rapids",
+      "state": "Iowa",
+      "stateCode": "IA",
+      "schools": [
+        "Coe College"
+      ],
+      "lat": 41.9759,
+      "lng": -91.6704,
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -575,7 +788,9 @@
       "name": "Champaign",
       "state": "Illinois",
       "stateCode": "IL",
-      "schools": ["University of Illinois Urbana-Champaign"],
+      "schools": [
+        "University of Illinois Urbana-Champaign"
+      ],
       "lat": 40.1165,
       "lng": -88.2431,
       "difficulty": "easy",
@@ -587,7 +802,9 @@
       "name": "Chapel Hill",
       "state": "North Carolina",
       "stateCode": "NC",
-      "schools": ["University of North Carolina at Chapel Hill"],
+      "schools": [
+        "University of North Carolina at Chapel Hill"
+      ],
       "lat": 35.9132,
       "lng": -79.0558,
       "difficulty": "easy",
@@ -599,10 +816,43 @@
       "name": "Charleston",
       "state": "Illinois",
       "stateCode": "IL",
-      "schools": ["Eastern Illinois University"],
+      "schools": [
+        "Eastern Illinois University"
+      ],
       "lat": 39.4961,
       "lng": -88.1762,
       "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "charleston-sc",
+      "name": "Charleston",
+      "state": "South Carolina",
+      "stateCode": "SC",
+      "schools": [
+        "The Citadel",
+        "College of Charleston"
+      ],
+      "lat": 32.7884,
+      "lng": -79.9399,
+      "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "charlotte-nc",
+      "name": "Charlotte",
+      "state": "North Carolina",
+      "stateCode": "NC",
+      "schools": [
+        "University of North Carolina at Charlotte",
+        "Johnson C. Smith University",
+        "Queens University of Charlotte"
+      ],
+      "lat": 35.2272,
+      "lng": -80.8431,
+      "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -611,7 +861,9 @@
       "name": "Charlottesville",
       "state": "Virginia",
       "stateCode": "VA",
-      "schools": ["University of Virginia"],
+      "schools": [
+        "University of Virginia"
+      ],
       "lat": 38.0293,
       "lng": -78.4767,
       "difficulty": "easy",
@@ -623,7 +875,9 @@
       "name": "Cheney",
       "state": "Washington",
       "stateCode": "WA",
-      "schools": ["Eastern Washington University"],
+      "schools": [
+        "Eastern Washington University"
+      ],
       "lat": 47.4892,
       "lng": -117.5793,
       "difficulty": "hard",
@@ -635,7 +889,9 @@
       "name": "Chestertown",
       "state": "Maryland",
       "stateCode": "MD",
-      "schools": ["Washington College"],
+      "schools": [
+        "Washington College"
+      ],
       "lat": 39.209,
       "lng": -76.0666,
       "difficulty": "hard",
@@ -647,7 +903,9 @@
       "name": "Chico",
       "state": "California",
       "stateCode": "CA",
-      "schools": ["California State University, Chico"],
+      "schools": [
+        "California State University, Chico"
+      ],
       "lat": 39.7285,
       "lng": -121.8375,
       "difficulty": "hard",
@@ -659,7 +917,10 @@
       "name": "Claremont",
       "state": "California",
       "stateCode": "CA",
-      "schools": ["Pomona College", "The Claremont Colleges"],
+      "schools": [
+        "Pomona College",
+        "The Claremont Colleges"
+      ],
       "lat": 34.0967,
       "lng": -117.7198,
       "difficulty": "hard",
@@ -671,7 +932,9 @@
       "name": "Clemson",
       "state": "South Carolina",
       "stateCode": "SC",
-      "schools": ["Clemson University"],
+      "schools": [
+        "Clemson University"
+      ],
       "lat": 34.6851,
       "lng": -82.8364,
       "difficulty": "easy",
@@ -683,9 +946,25 @@
       "name": "Clinton",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["Hamilton College"],
+      "schools": [
+        "Hamilton College"
+      ],
       "lat": 43.0484,
       "lng": -75.3785,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "clinton-sc",
+      "name": "Clinton",
+      "state": "South Carolina",
+      "stateCode": "SC",
+      "schools": [
+        "Presbyterian College"
+      ],
+      "lat": 34.4726,
+      "lng": -81.8807,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -695,7 +974,9 @@
       "name": "College Park",
       "state": "Maryland",
       "stateCode": "MD",
-      "schools": ["University of Maryland"],
+      "schools": [
+        "University of Maryland"
+      ],
       "lat": 38.9807,
       "lng": -76.9369,
       "difficulty": "easy",
@@ -707,7 +988,9 @@
       "name": "College Station",
       "state": "Texas",
       "stateCode": "TX",
-      "schools": ["Texas A&M University"],
+      "schools": [
+        "Texas A&M University"
+      ],
       "lat": 30.6184,
       "lng": -96.3456,
       "difficulty": "easy",
@@ -719,7 +1002,10 @@
       "name": "Colorado Springs",
       "state": "Colorado",
       "stateCode": "CO",
-      "schools": ["United States Air Force Academy"],
+      "schools": [
+        "United States Air Force Academy",
+        "Colorado College"
+      ],
       "lat": 38.9983,
       "lng": -104.8614,
       "difficulty": "medium",
@@ -731,7 +1017,9 @@
       "name": "Columbia",
       "state": "Missouri",
       "stateCode": "MO",
-      "schools": ["University of Missouri"],
+      "schools": [
+        "University of Missouri"
+      ],
       "lat": 38.9519,
       "lng": -92.3337,
       "difficulty": "easy",
@@ -743,7 +1031,9 @@
       "name": "Columbia",
       "state": "South Carolina",
       "stateCode": "SC",
-      "schools": ["University of South Carolina"],
+      "schools": [
+        "University of South Carolina"
+      ],
       "lat": 34.0008,
       "lng": -81.0352,
       "difficulty": "easy",
@@ -755,7 +1045,9 @@
       "name": "Columbus",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["Ohio State University"],
+      "schools": [
+        "Ohio State University"
+      ],
       "lat": 39.9623,
       "lng": -83.0007,
       "difficulty": "easy",
@@ -767,7 +1059,9 @@
       "name": "Commerce",
       "state": "Texas",
       "stateCode": "TX",
-      "schools": ["East Texas A&M University"],
+      "schools": [
+        "East Texas A&M University"
+      ],
       "lat": 33.2436,
       "lng": -95.9027,
       "difficulty": "hard",
@@ -779,7 +1073,10 @@
       "name": "Conway",
       "state": "Arkansas",
       "stateCode": "AR",
-      "schools": ["University of Central Arkansas", "Hendrix College"],
+      "schools": [
+        "University of Central Arkansas",
+        "Hendrix College"
+      ],
       "lat": 35.0892,
       "lng": -92.4398,
       "difficulty": "hard",
@@ -791,7 +1088,9 @@
       "name": "Conway",
       "state": "South Carolina",
       "stateCode": "SC",
-      "schools": ["Coastal Carolina University"],
+      "schools": [
+        "Coastal Carolina University"
+      ],
       "lat": 33.836,
       "lng": -79.0478,
       "difficulty": "medium",
@@ -803,7 +1102,9 @@
       "name": "Cookeville",
       "state": "Tennessee",
       "stateCode": "TN",
-      "schools": ["Tennessee Tech University"],
+      "schools": [
+        "Tennessee Tech University"
+      ],
       "lat": 36.1624,
       "lng": -85.4997,
       "difficulty": "hard",
@@ -815,7 +1116,9 @@
       "name": "Coral Gables",
       "state": "Florida",
       "stateCode": "FL",
-      "schools": ["University of Miami"],
+      "schools": [
+        "University of Miami"
+      ],
       "lat": 25.7331,
       "lng": -80.2585,
       "difficulty": "easy",
@@ -827,7 +1130,9 @@
       "name": "Corvallis",
       "state": "Oregon",
       "stateCode": "OR",
-      "schools": ["Oregon State University"],
+      "schools": [
+        "Oregon State University"
+      ],
       "lat": 44.5646,
       "lng": -123.262,
       "difficulty": "easy",
@@ -839,7 +1144,9 @@
       "name": "Crawfordsville",
       "state": "Indiana",
       "stateCode": "IN",
-      "schools": ["Wabash College"],
+      "schools": [
+        "Wabash College"
+      ],
       "lat": 40.0409,
       "lng": -86.8997,
       "difficulty": "hard",
@@ -851,7 +1158,9 @@
       "name": "Cullowhee",
       "state": "North Carolina",
       "stateCode": "NC",
-      "schools": ["Western Carolina University"],
+      "schools": [
+        "Western Carolina University"
+      ],
       "lat": 35.3138,
       "lng": -83.1766,
       "difficulty": "hard",
@@ -863,7 +1172,9 @@
       "name": "Danville",
       "state": "Kentucky",
       "stateCode": "KY",
-      "schools": ["Centre College"],
+      "schools": [
+        "Centre College"
+      ],
       "lat": 37.6456,
       "lng": -84.7722,
       "difficulty": "hard",
@@ -875,7 +1186,9 @@
       "name": "Davidson",
       "state": "North Carolina",
       "stateCode": "NC",
-      "schools": ["Davidson College"],
+      "schools": [
+        "Davidson College"
+      ],
       "lat": 35.4993,
       "lng": -80.8485,
       "difficulty": "medium",
@@ -887,7 +1200,9 @@
       "name": "Davis",
       "state": "California",
       "stateCode": "CA",
-      "schools": ["University of California, Davis"],
+      "schools": [
+        "University of California, Davis"
+      ],
       "lat": 38.5436,
       "lng": -121.739,
       "difficulty": "medium",
@@ -899,9 +1214,26 @@
       "name": "Dayton",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["University of Dayton"],
+      "schools": [
+        "University of Dayton"
+      ],
       "lat": 39.7589,
       "lng": -84.1916,
+      "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "daytona-beach-fl",
+      "name": "Daytona Beach",
+      "state": "Florida",
+      "stateCode": "FL",
+      "schools": [
+        "Bethune-Cookman University",
+        "Embry-Riddle Aeronautical University"
+      ],
+      "lat": 29.2108,
+      "lng": -81.0228,
       "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -911,7 +1243,9 @@
       "name": "Decorah",
       "state": "Iowa",
       "stateCode": "IA",
-      "schools": ["Luther College"],
+      "schools": [
+        "Luther College"
+      ],
       "lat": 43.3042,
       "lng": -91.7859,
       "difficulty": "hard",
@@ -923,7 +1257,9 @@
       "name": "DeKalb",
       "state": "Illinois",
       "stateCode": "IL",
-      "schools": ["Northern Illinois University"],
+      "schools": [
+        "Northern Illinois University"
+      ],
       "lat": 41.9299,
       "lng": -88.7502,
       "difficulty": "medium",
@@ -935,7 +1271,9 @@
       "name": "DeLand",
       "state": "Florida",
       "stateCode": "FL",
-      "schools": ["Stetson University"],
+      "schools": [
+        "Stetson University"
+      ],
       "lat": 29.0281,
       "lng": -81.3034,
       "difficulty": "hard",
@@ -947,7 +1285,9 @@
       "name": "Delaware",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["Ohio Wesleyan University"],
+      "schools": [
+        "Ohio Wesleyan University"
+      ],
       "lat": 40.2987,
       "lng": -83.068,
       "difficulty": "hard",
@@ -959,7 +1299,9 @@
       "name": "Denton",
       "state": "Texas",
       "stateCode": "TX",
-      "schools": ["University of North Texas"],
+      "schools": [
+        "University of North Texas"
+      ],
       "lat": 33.215,
       "lng": -97.133,
       "difficulty": "medium",
@@ -971,7 +1313,9 @@
       "name": "Dover",
       "state": "Delaware",
       "stateCode": "DE",
-      "schools": ["Delaware State University"],
+      "schools": [
+        "Delaware State University"
+      ],
       "lat": 39.1582,
       "lng": -75.5244,
       "difficulty": "hard",
@@ -983,7 +1327,9 @@
       "name": "Duluth",
       "state": "Minnesota",
       "stateCode": "MN",
-      "schools": ["University of Minnesota Duluth"],
+      "schools": [
+        "University of Minnesota Duluth"
+      ],
       "lat": 46.7838,
       "lng": -92.1053,
       "difficulty": "hard",
@@ -995,7 +1341,9 @@
       "name": "Durango",
       "state": "Colorado",
       "stateCode": "CO",
-      "schools": ["Fort Lewis College"],
+      "schools": [
+        "Fort Lewis College"
+      ],
       "lat": 37.2769,
       "lng": -107.8766,
       "difficulty": "hard",
@@ -1007,7 +1355,10 @@
       "name": "Durham",
       "state": "North Carolina",
       "stateCode": "NC",
-      "schools": ["Duke University"],
+      "schools": [
+        "Duke University",
+        "North Carolina Central University"
+      ],
       "lat": 35.9967,
       "lng": -78.9018,
       "difficulty": "easy",
@@ -1019,7 +1370,9 @@
       "name": "Durham",
       "state": "New Hampshire",
       "stateCode": "NH",
-      "schools": ["University of New Hampshire"],
+      "schools": [
+        "University of New Hampshire"
+      ],
       "lat": 43.1214,
       "lng": -70.9177,
       "difficulty": "hard",
@@ -1031,7 +1384,9 @@
       "name": "East Lansing",
       "state": "Michigan",
       "stateCode": "MI",
-      "schools": ["Michigan State University"],
+      "schools": [
+        "Michigan State University"
+      ],
       "lat": 42.732,
       "lng": -84.4722,
       "difficulty": "easy",
@@ -1043,7 +1398,9 @@
       "name": "Easton",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Lafayette College"],
+      "schools": [
+        "Lafayette College"
+      ],
       "lat": 40.6916,
       "lng": -75.21,
       "difficulty": "hard",
@@ -1055,7 +1412,9 @@
       "name": "Eau Claire",
       "state": "Wisconsin",
       "stateCode": "WI",
-      "schools": ["University of Wisconsin–Eau Claire"],
+      "schools": [
+        "University of Wisconsin–Eau Claire"
+      ],
       "lat": 44.8113,
       "lng": -91.4985,
       "difficulty": "hard",
@@ -1067,9 +1426,25 @@
       "name": "Edmond",
       "state": "Oklahoma",
       "stateCode": "OK",
-      "schools": ["University of Central Oklahoma"],
+      "schools": [
+        "University of Central Oklahoma"
+      ],
       "lat": 35.6571,
       "lng": -97.4649,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "elizabeth-city-nc",
+      "name": "Elizabeth City",
+      "state": "North Carolina",
+      "stateCode": "NC",
+      "schools": [
+        "Elizabeth City State University"
+      ],
+      "lat": 36.301,
+      "lng": -76.2204,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -1079,7 +1454,9 @@
       "name": "Ellensburg",
       "state": "Washington",
       "stateCode": "WA",
-      "schools": ["Central Washington University"],
+      "schools": [
+        "Central Washington University"
+      ],
       "lat": 46.9971,
       "lng": -120.5451,
       "difficulty": "hard",
@@ -1091,7 +1468,9 @@
       "name": "Elon",
       "state": "North Carolina",
       "stateCode": "NC",
-      "schools": ["Elon University"],
+      "schools": [
+        "Elon University"
+      ],
       "lat": 36.1029,
       "lng": -79.5067,
       "difficulty": "hard",
@@ -1103,7 +1482,9 @@
       "name": "Emmitsburg",
       "state": "Maryland",
       "stateCode": "MD",
-      "schools": ["Mount St. Mary's University"],
+      "schools": [
+        "Mount St. Mary's University"
+      ],
       "lat": 39.7045,
       "lng": -77.3269,
       "difficulty": "hard",
@@ -1115,7 +1496,9 @@
       "name": "Emporia",
       "state": "Kansas",
       "stateCode": "KS",
-      "schools": ["Emporia State University"],
+      "schools": [
+        "Emporia State University"
+      ],
       "lat": 38.404,
       "lng": -96.1816,
       "difficulty": "hard",
@@ -1127,7 +1510,9 @@
       "name": "Eugene",
       "state": "Oregon",
       "stateCode": "OR",
-      "schools": ["University of Oregon"],
+      "schools": [
+        "University of Oregon"
+      ],
       "lat": 44.0505,
       "lng": -123.0951,
       "difficulty": "easy",
@@ -1139,7 +1524,9 @@
       "name": "Evanston",
       "state": "Illinois",
       "stateCode": "IL",
-      "schools": ["Northwestern University"],
+      "schools": [
+        "Northwestern University"
+      ],
       "lat": 42.047,
       "lng": -87.6846,
       "difficulty": "easy",
@@ -1151,7 +1538,9 @@
       "name": "Fairmont",
       "state": "West Virginia",
       "stateCode": "WV",
-      "schools": ["Fairmont State University"],
+      "schools": [
+        "Fairmont State University"
+      ],
       "lat": 39.4849,
       "lng": -80.1427,
       "difficulty": "hard",
@@ -1163,7 +1552,9 @@
       "name": "Fargo",
       "state": "North Dakota",
       "stateCode": "ND",
-      "schools": ["North Dakota State University"],
+      "schools": [
+        "North Dakota State University"
+      ],
       "lat": 46.8772,
       "lng": -96.7898,
       "difficulty": "medium",
@@ -1175,7 +1566,10 @@
       "name": "Farmville",
       "state": "Virginia",
       "stateCode": "VA",
-      "schools": ["Longwood University", "Hampden-Sydney College"],
+      "schools": [
+        "Longwood University",
+        "Hampden-Sydney College"
+      ],
       "lat": 37.3025,
       "lng": -78.3924,
       "difficulty": "hard",
@@ -1187,10 +1581,27 @@
       "name": "Fayetteville",
       "state": "Arkansas",
       "stateCode": "AR",
-      "schools": ["University of Arkansas"],
+      "schools": [
+        "University of Arkansas"
+      ],
       "lat": 36.0626,
       "lng": -94.1574,
       "difficulty": "easy",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "fayetteville-nc",
+      "name": "Fayetteville",
+      "state": "North Carolina",
+      "stateCode": "NC",
+      "schools": [
+        "Fayetteville State University",
+        "Methodist University"
+      ],
+      "lat": 35.0526,
+      "lng": -78.8783,
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1199,7 +1610,9 @@
       "name": "Flagstaff",
       "state": "Arizona",
       "stateCode": "AZ",
-      "schools": ["Northern Arizona University"],
+      "schools": [
+        "Northern Arizona University"
+      ],
       "lat": 35.1988,
       "lng": -111.6518,
       "difficulty": "medium",
@@ -1211,7 +1624,9 @@
       "name": "Forest Grove",
       "state": "Oregon",
       "stateCode": "OR",
-      "schools": ["Pacific University"],
+      "schools": [
+        "Pacific University"
+      ],
       "lat": 45.519,
       "lng": -123.1111,
       "difficulty": "hard",
@@ -1223,10 +1638,26 @@
       "name": "Fort Collins",
       "state": "Colorado",
       "stateCode": "CO",
-      "schools": ["Colorado State University"],
+      "schools": [
+        "Colorado State University"
+      ],
       "lat": 40.5872,
       "lng": -105.077,
       "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "fort-valley-ga",
+      "name": "Fort Valley",
+      "state": "Georgia",
+      "stateCode": "GA",
+      "schools": [
+        "Fort Valley State University"
+      ],
+      "lat": 32.5538,
+      "lng": -83.8874,
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1235,10 +1666,26 @@
       "name": "Fort Worth",
       "state": "Texas",
       "stateCode": "TX",
-      "schools": ["Texas Christian University"],
+      "schools": [
+        "Texas Christian University"
+      ],
       "lat": 32.7532,
       "lng": -97.3327,
       "difficulty": "easy",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "frankfort-ky",
+      "name": "Frankfort",
+      "state": "Kentucky",
+      "stateCode": "KY",
+      "schools": [
+        "Kentucky State University"
+      ],
+      "lat": 38.2009,
+      "lng": -84.8733,
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1247,7 +1694,9 @@
       "name": "Fredericksburg",
       "state": "Virginia",
       "stateCode": "VA",
-      "schools": ["University of Mary Washington"],
+      "schools": [
+        "University of Mary Washington"
+      ],
       "lat": 38.3001,
       "lng": -77.4571,
       "difficulty": "hard",
@@ -1259,7 +1708,9 @@
       "name": "Frostburg",
       "state": "Maryland",
       "stateCode": "MD",
-      "schools": ["Frostburg State University"],
+      "schools": [
+        "Frostburg State University"
+      ],
       "lat": 39.6583,
       "lng": -78.9284,
       "difficulty": "hard",
@@ -1271,7 +1722,9 @@
       "name": "Gainesville",
       "state": "Florida",
       "stateCode": "FL",
-      "schools": ["University of Florida"],
+      "schools": [
+        "University of Florida"
+      ],
       "lat": 29.652,
       "lng": -82.325,
       "difficulty": "easy",
@@ -1283,7 +1736,9 @@
       "name": "Galesburg",
       "state": "Illinois",
       "stateCode": "IL",
-      "schools": ["Knox College"],
+      "schools": [
+        "Knox College"
+      ],
       "lat": 40.9476,
       "lng": -90.3712,
       "difficulty": "hard",
@@ -1295,7 +1750,9 @@
       "name": "Gambier",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["Kenyon College"],
+      "schools": [
+        "Kenyon College"
+      ],
       "lat": 40.3756,
       "lng": -82.3971,
       "difficulty": "hard",
@@ -1307,7 +1764,9 @@
       "name": "Geneseo",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["SUNY Geneseo"],
+      "schools": [
+        "SUNY Geneseo"
+      ],
       "lat": 42.7959,
       "lng": -77.8169,
       "difficulty": "hard",
@@ -1319,9 +1778,25 @@
       "name": "Geneva",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["Hobart and William Smith Colleges"],
+      "schools": [
+        "Hobart and William Smith Colleges"
+      ],
       "lat": 42.869,
       "lng": -76.9786,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "georgetown-tx",
+      "name": "Georgetown",
+      "state": "Texas",
+      "stateCode": "TX",
+      "schools": [
+        "Southwestern University"
+      ],
+      "lat": 30.637,
+      "lng": -97.6776,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -1331,7 +1806,9 @@
       "name": "Gettysburg",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Gettysburg College"],
+      "schools": [
+        "Gettysburg College"
+      ],
       "lat": 39.8309,
       "lng": -77.231,
       "difficulty": "hard",
@@ -1343,9 +1820,25 @@
       "name": "Golden",
       "state": "Colorado",
       "stateCode": "CO",
-      "schools": ["Colorado School of Mines"],
+      "schools": [
+        "Colorado School of Mines"
+      ],
       "lat": 39.7546,
       "lng": -105.2206,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "grambling-la",
+      "name": "Grambling",
+      "state": "Louisiana",
+      "stateCode": "LA",
+      "schools": [
+        "Grambling State University"
+      ],
+      "lat": 32.5277,
+      "lng": -92.714,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -1355,7 +1848,9 @@
       "name": "Grand Forks",
       "state": "North Dakota",
       "stateCode": "ND",
-      "schools": ["University of North Dakota"],
+      "schools": [
+        "University of North Dakota"
+      ],
       "lat": 47.9252,
       "lng": -97.0306,
       "difficulty": "medium",
@@ -1367,7 +1862,9 @@
       "name": "Granville",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["Denison University"],
+      "schools": [
+        "Denison University"
+      ],
       "lat": 40.0681,
       "lng": -82.5196,
       "difficulty": "hard",
@@ -1379,7 +1876,9 @@
       "name": "Greeley",
       "state": "Colorado",
       "stateCode": "CO",
-      "schools": ["University of Northern Colorado"],
+      "schools": [
+        "University of Northern Colorado"
+      ],
       "lat": 40.4233,
       "lng": -104.7091,
       "difficulty": "hard",
@@ -1391,10 +1890,27 @@
       "name": "Greencastle",
       "state": "Indiana",
       "stateCode": "IN",
-      "schools": ["DePauw University"],
+      "schools": [
+        "DePauw University"
+      ],
       "lat": 39.6445,
       "lng": -86.8647,
       "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "greensboro-nc",
+      "name": "Greensboro",
+      "state": "North Carolina",
+      "stateCode": "NC",
+      "schools": [
+        "North Carolina A&T State University",
+        "University of North Carolina at Greensboro"
+      ],
+      "lat": 36.0726,
+      "lng": -79.792,
+      "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1403,9 +1919,25 @@
       "name": "Greenville",
       "state": "North Carolina",
       "stateCode": "NC",
-      "schools": ["East Carolina University"],
+      "schools": [
+        "East Carolina University"
+      ],
       "lat": 35.6132,
       "lng": -77.3725,
+      "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "greenville-sc",
+      "name": "Greenville",
+      "state": "South Carolina",
+      "stateCode": "SC",
+      "schools": [
+        "Furman University"
+      ],
+      "lat": 34.8514,
+      "lng": -82.3985,
       "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -1415,7 +1947,9 @@
       "name": "Grinnell",
       "state": "Iowa",
       "stateCode": "IA",
-      "schools": ["Grinnell College"],
+      "schools": [
+        "Grinnell College"
+      ],
       "lat": 41.743,
       "lng": -92.724,
       "difficulty": "hard",
@@ -1427,7 +1961,9 @@
       "name": "Grove City",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Grove City College"],
+      "schools": [
+        "Grove City College"
+      ],
       "lat": 41.1579,
       "lng": -80.0887,
       "difficulty": "hard",
@@ -1439,7 +1975,9 @@
       "name": "Gunnison",
       "state": "Colorado",
       "stateCode": "CO",
-      "schools": ["Western Colorado University"],
+      "schools": [
+        "Western Colorado University"
+      ],
       "lat": 38.5444,
       "lng": -106.9269,
       "difficulty": "hard",
@@ -1451,7 +1989,9 @@
       "name": "Hamilton",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["Colgate University"],
+      "schools": [
+        "Colgate University"
+      ],
       "lat": 42.8269,
       "lng": -75.5444,
       "difficulty": "hard",
@@ -1463,9 +2003,39 @@
       "name": "Hammond",
       "state": "Louisiana",
       "stateCode": "LA",
-      "schools": ["Southeastern Louisiana University"],
+      "schools": [
+        "Southeastern Louisiana University"
+      ],
       "lat": 30.5044,
       "lng": -90.4612,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "hampton-va",
+      "name": "Hampton",
+      "state": "Virginia",
+      "stateCode": "VA",
+      "schools": [
+        "Hampton University"
+      ],
+      "lat": 37.0264,
+      "lng": -76.3443,
+      "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "hanover-in",
+      "name": "Hanover",
+      "state": "Indiana",
+      "stateCode": "IN",
+      "schools": [
+        "Hanover College"
+      ],
+      "lat": 38.7142,
+      "lng": -85.4736,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -1475,7 +2045,9 @@
       "name": "Hanover",
       "state": "New Hampshire",
       "stateCode": "NH",
-      "schools": ["Dartmouth College"],
+      "schools": [
+        "Dartmouth College"
+      ],
       "lat": 43.7024,
       "lng": -72.2892,
       "difficulty": "medium",
@@ -1487,7 +2059,9 @@
       "name": "Harrisonburg",
       "state": "Virginia",
       "stateCode": "VA",
-      "schools": ["James Madison University"],
+      "schools": [
+        "James Madison University"
+      ],
       "lat": 38.4493,
       "lng": -78.8689,
       "difficulty": "medium",
@@ -1499,7 +2073,9 @@
       "name": "Hattiesburg",
       "state": "Mississippi",
       "stateCode": "MS",
-      "schools": ["University of Southern Mississippi"],
+      "schools": [
+        "University of Southern Mississippi"
+      ],
       "lat": 31.3271,
       "lng": -89.2903,
       "difficulty": "medium",
@@ -1511,7 +2087,9 @@
       "name": "Haverford",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Haverford College"],
+      "schools": [
+        "Haverford College"
+      ],
       "lat": 40.0129,
       "lng": -75.2967,
       "difficulty": "hard",
@@ -1523,7 +2101,9 @@
       "name": "Hays",
       "state": "Kansas",
       "stateCode": "KS",
-      "schools": ["Fort Hays State University"],
+      "schools": [
+        "Fort Hays State University"
+      ],
       "lat": 38.871,
       "lng": -99.3312,
       "difficulty": "hard",
@@ -1535,7 +2115,9 @@
       "name": "Hillsdale",
       "state": "Michigan",
       "stateCode": "MI",
-      "schools": ["Hillsdale College"],
+      "schools": [
+        "Hillsdale College"
+      ],
       "lat": 41.92,
       "lng": -84.6305,
       "difficulty": "hard",
@@ -1547,9 +2129,25 @@
       "name": "Holland",
       "state": "Michigan",
       "stateCode": "MI",
-      "schools": ["Hope College"],
+      "schools": [
+        "Hope College"
+      ],
       "lat": 42.7876,
       "lng": -86.1091,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "holly-springs-ms",
+      "name": "Holly Springs",
+      "state": "Mississippi",
+      "stateCode": "MS",
+      "schools": [
+        "Rust College"
+      ],
+      "lat": 34.768,
+      "lng": -89.4479,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -1559,7 +2157,9 @@
       "name": "Houghton",
       "state": "Michigan",
       "stateCode": "MI",
-      "schools": ["Michigan Technological University"],
+      "schools": [
+        "Michigan Technological University"
+      ],
       "lat": 47.1219,
       "lng": -88.569,
       "difficulty": "hard",
@@ -1571,7 +2171,9 @@
       "name": "Huntingdon",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Juniata College"],
+      "schools": [
+        "Juniata College"
+      ],
       "lat": 40.4848,
       "lng": -78.0103,
       "difficulty": "hard",
@@ -1583,9 +2185,26 @@
       "name": "Huntington",
       "state": "West Virginia",
       "stateCode": "WV",
-      "schools": ["Marshall University"],
+      "schools": [
+        "Marshall University"
+      ],
       "lat": 38.4192,
       "lng": -82.4452,
+      "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "huntsville-al",
+      "name": "Huntsville",
+      "state": "Alabama",
+      "stateCode": "AL",
+      "schools": [
+        "Alabama A&M University",
+        "University of Alabama in Huntsville"
+      ],
+      "lat": 34.7298,
+      "lng": -86.5859,
       "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -1595,7 +2214,9 @@
       "name": "Huntsville",
       "state": "Texas",
       "stateCode": "TX",
-      "schools": ["Sam Houston State University"],
+      "schools": [
+        "Sam Houston State University"
+      ],
       "lat": 30.7235,
       "lng": -95.5508,
       "difficulty": "hard",
@@ -1607,7 +2228,9 @@
       "name": "Indiana",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Indiana University of Pennsylvania"],
+      "schools": [
+        "Indiana University of Pennsylvania"
+      ],
       "lat": 40.623,
       "lng": -79.1547,
       "difficulty": "hard",
@@ -1619,7 +2242,9 @@
       "name": "Iowa City",
       "state": "Iowa",
       "stateCode": "IA",
-      "schools": ["University of Iowa"],
+      "schools": [
+        "University of Iowa"
+      ],
       "lat": 41.6613,
       "lng": -91.5299,
       "difficulty": "easy",
@@ -1631,7 +2256,9 @@
       "name": "Irvine",
       "state": "California",
       "stateCode": "CA",
-      "schools": ["University of California, Irvine"],
+      "schools": [
+        "University of California, Irvine"
+      ],
       "lat": 33.6857,
       "lng": -117.826,
       "difficulty": "medium",
@@ -1643,10 +2270,42 @@
       "name": "Ithaca",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["Cornell University"],
+      "schools": [
+        "Cornell University"
+      ],
       "lat": 42.4374,
       "lng": -76.5484,
       "difficulty": "easy",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "itta-bena-ms",
+      "name": "Itta Bena",
+      "state": "Mississippi",
+      "stateCode": "MS",
+      "schools": [
+        "Mississippi Valley State University"
+      ],
+      "lat": 33.4951,
+      "lng": -90.3229,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "jackson-ms",
+      "name": "Jackson",
+      "state": "Mississippi",
+      "stateCode": "MS",
+      "schools": [
+        "Jackson State University",
+        "Millsaps College",
+        "Belhaven University"
+      ],
+      "lat": 32.2999,
+      "lng": -90.183,
+      "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1655,9 +2314,25 @@
       "name": "Jacksonville",
       "state": "Alabama",
       "stateCode": "AL",
-      "schools": ["Jacksonville State University"],
+      "schools": [
+        "Jacksonville State University"
+      ],
       "lat": 33.8138,
       "lng": -85.7613,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "jefferson-city-mo",
+      "name": "Jefferson City",
+      "state": "Missouri",
+      "stateCode": "MO",
+      "schools": [
+        "Lincoln University"
+      ],
+      "lat": 38.5774,
+      "lng": -92.1724,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -1667,7 +2342,9 @@
       "name": "Johnson City",
       "state": "Tennessee",
       "stateCode": "TN",
-      "schools": ["East Tennessee State University"],
+      "schools": [
+        "East Tennessee State University"
+      ],
       "lat": 36.3168,
       "lng": -82.3529,
       "difficulty": "hard",
@@ -1679,7 +2356,9 @@
       "name": "Jonesboro",
       "state": "Arkansas",
       "stateCode": "AR",
-      "schools": ["Arkansas State University"],
+      "schools": [
+        "Arkansas State University"
+      ],
       "lat": 35.8348,
       "lng": -90.7045,
       "difficulty": "medium",
@@ -1691,7 +2370,10 @@
       "name": "Kalamazoo",
       "state": "Michigan",
       "stateCode": "MI",
-      "schools": ["Western Michigan University"],
+      "schools": [
+        "Western Michigan University",
+        "Kalamazoo College"
+      ],
       "lat": 42.2917,
       "lng": -85.5872,
       "difficulty": "medium",
@@ -1703,7 +2385,9 @@
       "name": "Kearney",
       "state": "Nebraska",
       "stateCode": "NE",
-      "schools": ["University of Nebraska at Kearney"],
+      "schools": [
+        "University of Nebraska at Kearney"
+      ],
       "lat": 40.6995,
       "lng": -99.0819,
       "difficulty": "hard",
@@ -1715,9 +2399,26 @@
       "name": "Keene",
       "state": "New Hampshire",
       "stateCode": "NH",
-      "schools": ["Keene State College"],
+      "schools": [
+        "Keene State College"
+      ],
       "lat": 42.9336,
       "lng": -72.2784,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "kenosha-wi",
+      "name": "Kenosha",
+      "state": "Wisconsin",
+      "stateCode": "WI",
+      "schools": [
+        "Carthage College",
+        "University of Wisconsin–Parkside"
+      ],
+      "lat": 42.5847,
+      "lng": -87.8212,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -1727,10 +2428,26 @@
       "name": "Kent",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["Kent State University"],
+      "schools": [
+        "Kent State University"
+      ],
       "lat": 41.1513,
       "lng": -81.3578,
       "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "kings-point-ny",
+      "name": "Kings Point",
+      "state": "New York",
+      "stateCode": "NY",
+      "schools": [
+        "United States Merchant Marine Academy"
+      ],
+      "lat": 40.8198,
+      "lng": -73.7351,
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -1739,7 +2456,9 @@
       "name": "Kingston",
       "state": "Rhode Island",
       "stateCode": "RI",
-      "schools": ["University of Rhode Island"],
+      "schools": [
+        "University of Rhode Island"
+      ],
       "lat": 41.4801,
       "lng": -71.5227,
       "difficulty": "hard",
@@ -1751,7 +2470,9 @@
       "name": "Kingsville",
       "state": "Texas",
       "stateCode": "TX",
-      "schools": ["Texas A&M University–Kingsville"],
+      "schools": [
+        "Texas A&M University–Kingsville"
+      ],
       "lat": 27.5159,
       "lng": -97.8561,
       "difficulty": "hard",
@@ -1763,7 +2484,9 @@
       "name": "Kirksville",
       "state": "Missouri",
       "stateCode": "MO",
-      "schools": ["Truman State University"],
+      "schools": [
+        "Truman State University"
+      ],
       "lat": 40.1949,
       "lng": -92.5834,
       "difficulty": "hard",
@@ -1775,7 +2498,9 @@
       "name": "Knoxville",
       "state": "Tennessee",
       "stateCode": "TN",
-      "schools": ["University of Tennessee"],
+      "schools": [
+        "University of Tennessee"
+      ],
       "lat": 35.9604,
       "lng": -83.921,
       "difficulty": "easy",
@@ -1787,7 +2512,9 @@
       "name": "Kutztown",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Kutztown University"],
+      "schools": [
+        "Kutztown University"
+      ],
       "lat": 40.5173,
       "lng": -75.7774,
       "difficulty": "hard",
@@ -1799,7 +2526,9 @@
       "name": "La Crosse",
       "state": "Wisconsin",
       "stateCode": "WI",
-      "schools": ["University of Wisconsin–La Crosse"],
+      "schools": [
+        "University of Wisconsin–La Crosse"
+      ],
       "lat": 43.8123,
       "lng": -91.2514,
       "difficulty": "hard",
@@ -1811,7 +2540,9 @@
       "name": "Lafayette",
       "state": "Louisiana",
       "stateCode": "LA",
-      "schools": ["University of Louisiana at Lafayette"],
+      "schools": [
+        "University of Louisiana at Lafayette"
+      ],
       "lat": 30.2262,
       "lng": -92.0178,
       "difficulty": "medium",
@@ -1823,9 +2554,25 @@
       "name": "Lakeland",
       "state": "Florida",
       "stateCode": "FL",
-      "schools": ["Florida Southern College"],
+      "schools": [
+        "Florida Southern College"
+      ],
       "lat": 28.0395,
       "lng": -81.9498,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "langston-ok",
+      "name": "Langston",
+      "state": "Oklahoma",
+      "stateCode": "OK",
+      "schools": [
+        "Langston University"
+      ],
+      "lat": 35.9451,
+      "lng": -97.2553,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -1835,7 +2582,9 @@
       "name": "Laramie",
       "state": "Wyoming",
       "stateCode": "WY",
-      "schools": ["University of Wyoming"],
+      "schools": [
+        "University of Wyoming"
+      ],
       "lat": 41.3116,
       "lng": -105.5918,
       "difficulty": "medium",
@@ -1847,7 +2596,9 @@
       "name": "Las Cruces",
       "state": "New Mexico",
       "stateCode": "NM",
-      "schools": ["New Mexico State University"],
+      "schools": [
+        "New Mexico State University"
+      ],
       "lat": 32.314,
       "lng": -106.7798,
       "difficulty": "medium",
@@ -1859,7 +2610,9 @@
       "name": "Latrobe",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Saint Vincent College"],
+      "schools": [
+        "Saint Vincent College"
+      ],
       "lat": 40.3173,
       "lng": -79.384,
       "difficulty": "hard",
@@ -1871,7 +2624,9 @@
       "name": "Lawrence",
       "state": "Kansas",
       "stateCode": "KS",
-      "schools": ["University of Kansas"],
+      "schools": [
+        "University of Kansas"
+      ],
       "lat": 38.9719,
       "lng": -95.2359,
       "difficulty": "easy",
@@ -1883,7 +2638,9 @@
       "name": "Lewisburg",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Bucknell University"],
+      "schools": [
+        "Bucknell University"
+      ],
       "lat": 40.9645,
       "lng": -76.8848,
       "difficulty": "hard",
@@ -1895,7 +2652,9 @@
       "name": "Lewiston",
       "state": "Maine",
       "stateCode": "ME",
-      "schools": ["Bates College"],
+      "schools": [
+        "Bates College"
+      ],
       "lat": 44.0991,
       "lng": -70.2177,
       "difficulty": "hard",
@@ -1907,7 +2666,10 @@
       "name": "Lexington",
       "state": "Kentucky",
       "stateCode": "KY",
-      "schools": ["University of Kentucky"],
+      "schools": [
+        "University of Kentucky",
+        "Transylvania University"
+      ],
       "lat": 38.0464,
       "lng": -84.497,
       "difficulty": "easy",
@@ -1934,7 +2696,9 @@
       "name": "Lincoln",
       "state": "Nebraska",
       "stateCode": "NE",
-      "schools": ["University of Nebraska–Lincoln"],
+      "schools": [
+        "University of Nebraska–Lincoln"
+      ],
       "lat": 40.8089,
       "lng": -96.7078,
       "difficulty": "easy",
@@ -1946,7 +2710,9 @@
       "name": "Logan",
       "state": "Utah",
       "stateCode": "UT",
-      "schools": ["Utah State University"],
+      "schools": [
+        "Utah State University"
+      ],
       "lat": 41.7313,
       "lng": -111.8349,
       "difficulty": "medium",
@@ -1958,7 +2724,9 @@
       "name": "Lubbock",
       "state": "Texas",
       "stateCode": "TX",
-      "schools": ["Texas Tech University"],
+      "schools": [
+        "Texas Tech University"
+      ],
       "lat": 33.5856,
       "lng": -101.847,
       "difficulty": "easy",
@@ -1970,7 +2738,9 @@
       "name": "Lynchburg",
       "state": "Virginia",
       "stateCode": "VA",
-      "schools": ["Liberty University"],
+      "schools": [
+        "Liberty University"
+      ],
       "lat": 37.4138,
       "lng": -79.1422,
       "difficulty": "medium",
@@ -1982,7 +2752,9 @@
       "name": "Macomb",
       "state": "Illinois",
       "stateCode": "IL",
-      "schools": ["Western Illinois University"],
+      "schools": [
+        "Western Illinois University"
+      ],
       "lat": 40.4589,
       "lng": -90.6714,
       "difficulty": "hard",
@@ -1994,7 +2766,9 @@
       "name": "Macon",
       "state": "Georgia",
       "stateCode": "GA",
-      "schools": ["Mercer University"],
+      "schools": [
+        "Mercer University"
+      ],
       "lat": 32.8407,
       "lng": -83.6324,
       "difficulty": "hard",
@@ -2006,7 +2780,9 @@
       "name": "Madison",
       "state": "Wisconsin",
       "stateCode": "WI",
-      "schools": ["University of Wisconsin–Madison"],
+      "schools": [
+        "University of Wisconsin–Madison"
+      ],
       "lat": 43.0747,
       "lng": -89.3842,
       "difficulty": "easy",
@@ -2018,7 +2794,9 @@
       "name": "Manhattan",
       "state": "Kansas",
       "stateCode": "KS",
-      "schools": ["Kansas State University"],
+      "schools": [
+        "Kansas State University"
+      ],
       "lat": 39.1836,
       "lng": -96.5717,
       "difficulty": "easy",
@@ -2030,7 +2808,9 @@
       "name": "Mankato",
       "state": "Minnesota",
       "stateCode": "MN",
-      "schools": ["Minnesota State University, Mankato"],
+      "schools": [
+        "Minnesota State University, Mankato"
+      ],
       "lat": 44.1659,
       "lng": -94.0028,
       "difficulty": "hard",
@@ -2042,9 +2822,26 @@
       "name": "Marquette",
       "state": "Michigan",
       "stateCode": "MI",
-      "schools": ["Northern Michigan University"],
+      "schools": [
+        "Northern Michigan University"
+      ],
       "lat": 46.5435,
       "lng": -87.3964,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "marshall-tx",
+      "name": "Marshall",
+      "state": "Texas",
+      "stateCode": "TX",
+      "schools": [
+        "Wiley University",
+        "East Texas Baptist University"
+      ],
+      "lat": 32.5448,
+      "lng": -94.3661,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -2054,7 +2851,9 @@
       "name": "Martin",
       "state": "Tennessee",
       "stateCode": "TN",
-      "schools": ["University of Tennessee at Martin"],
+      "schools": [
+        "University of Tennessee at Martin"
+      ],
       "lat": 36.3433,
       "lng": -88.8504,
       "difficulty": "hard",
@@ -2066,9 +2865,25 @@
       "name": "Maryville",
       "state": "Missouri",
       "stateCode": "MO",
-      "schools": ["Northwest Missouri State University"],
+      "schools": [
+        "Northwest Missouri State University"
+      ],
       "lat": 40.346,
       "lng": -94.8724,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "mcminnville-or",
+      "name": "McMinnville",
+      "state": "Oregon",
+      "stateCode": "OR",
+      "schools": [
+        "Linfield University"
+      ],
+      "lat": 45.21,
+      "lng": -123.1945,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -2078,10 +2893,28 @@
       "name": "Meadville",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Allegheny College"],
+      "schools": [
+        "Allegheny College"
+      ],
       "lat": 41.6414,
       "lng": -80.1514,
       "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "memphis-tn",
+      "name": "Memphis",
+      "state": "Tennessee",
+      "stateCode": "TN",
+      "schools": [
+        "University of Memphis",
+        "Rhodes College",
+        "LeMoyne-Owen College"
+      ],
+      "lat": 35.146,
+      "lng": -90.0518,
+      "difficulty": "easy",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2090,7 +2923,9 @@
       "name": "Middlebury",
       "state": "Vermont",
       "stateCode": "VT",
-      "schools": ["Middlebury College"],
+      "schools": [
+        "Middlebury College"
+      ],
       "lat": 44.0143,
       "lng": -73.1672,
       "difficulty": "hard",
@@ -2102,7 +2937,9 @@
       "name": "Middletown",
       "state": "Connecticut",
       "stateCode": "CT",
-      "schools": ["Wesleyan University"],
+      "schools": [
+        "Wesleyan University"
+      ],
       "lat": 41.5623,
       "lng": -72.6509,
       "difficulty": "hard",
@@ -2114,7 +2951,9 @@
       "name": "Milledgeville",
       "state": "Georgia",
       "stateCode": "GA",
-      "schools": ["Georgia College & State University"],
+      "schools": [
+        "Georgia College & State University"
+      ],
       "lat": 33.0801,
       "lng": -83.2321,
       "difficulty": "hard",
@@ -2126,7 +2965,9 @@
       "name": "Millersville",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Millersville University"],
+      "schools": [
+        "Millersville University"
+      ],
       "lat": 39.998,
       "lng": -76.3545,
       "difficulty": "hard",
@@ -2138,7 +2979,9 @@
       "name": "Minneapolis",
       "state": "Minnesota",
       "stateCode": "MN",
-      "schools": ["University of Minnesota"],
+      "schools": [
+        "University of Minnesota"
+      ],
       "lat": 44.9773,
       "lng": -93.2655,
       "difficulty": "easy",
@@ -2150,7 +2993,9 @@
       "name": "Missoula",
       "state": "Montana",
       "stateCode": "MT",
-      "schools": ["University of Montana"],
+      "schools": [
+        "University of Montana"
+      ],
       "lat": 46.8701,
       "lng": -113.9953,
       "difficulty": "medium",
@@ -2162,7 +3007,9 @@
       "name": "Mobile",
       "state": "Alabama",
       "stateCode": "AL",
-      "schools": ["University of South Alabama"],
+      "schools": [
+        "University of South Alabama"
+      ],
       "lat": 30.6913,
       "lng": -88.0438,
       "difficulty": "hard",
@@ -2174,10 +3021,27 @@
       "name": "Monmouth",
       "state": "Oregon",
       "stateCode": "OR",
-      "schools": ["Western Oregon University"],
+      "schools": [
+        "Western Oregon University"
+      ],
       "lat": 44.8486,
       "lng": -123.2291,
       "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "montgomery-al",
+      "name": "Montgomery",
+      "state": "Alabama",
+      "stateCode": "AL",
+      "schools": [
+        "Alabama State University",
+        "Auburn University at Montgomery"
+      ],
+      "lat": 32.3777,
+      "lng": -86.3091,
+      "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2186,7 +3050,10 @@
       "name": "Moorhead",
       "state": "Minnesota",
       "stateCode": "MN",
-      "schools": ["Minnesota State University Moorhead", "Concordia College"],
+      "schools": [
+        "Minnesota State University Moorhead",
+        "Concordia College"
+      ],
       "lat": 46.8739,
       "lng": -96.7539,
       "difficulty": "hard",
@@ -2198,7 +3065,9 @@
       "name": "Morehead",
       "state": "Kentucky",
       "stateCode": "KY",
-      "schools": ["Morehead State University"],
+      "schools": [
+        "Morehead State University"
+      ],
       "lat": 38.184,
       "lng": -83.4327,
       "difficulty": "hard",
@@ -2210,7 +3079,9 @@
       "name": "Morgantown",
       "state": "West Virginia",
       "stateCode": "WV",
-      "schools": ["West Virginia University"],
+      "schools": [
+        "West Virginia University"
+      ],
       "lat": 39.6297,
       "lng": -79.9559,
       "difficulty": "easy",
@@ -2222,7 +3093,9 @@
       "name": "Moscow",
       "state": "Idaho",
       "stateCode": "ID",
-      "schools": ["University of Idaho"],
+      "schools": [
+        "University of Idaho"
+      ],
       "lat": 46.7324,
       "lng": -117.0002,
       "difficulty": "hard",
@@ -2234,7 +3107,9 @@
       "name": "Mount Pleasant",
       "state": "Michigan",
       "stateCode": "MI",
-      "schools": ["Central Michigan University"],
+      "schools": [
+        "Central Michigan University"
+      ],
       "lat": 43.5976,
       "lng": -84.7668,
       "difficulty": "medium",
@@ -2246,7 +3121,9 @@
       "name": "Mount Vernon",
       "state": "Iowa",
       "stateCode": "IA",
-      "schools": ["Cornell College"],
+      "schools": [
+        "Cornell College"
+      ],
       "lat": 41.9222,
       "lng": -91.4171,
       "difficulty": "hard",
@@ -2258,7 +3135,9 @@
       "name": "Muncie",
       "state": "Indiana",
       "stateCode": "IN",
-      "schools": ["Ball State University"],
+      "schools": [
+        "Ball State University"
+      ],
       "lat": 40.1937,
       "lng": -85.3865,
       "difficulty": "medium",
@@ -2270,7 +3149,9 @@
       "name": "Murfreesboro",
       "state": "Tennessee",
       "stateCode": "TN",
-      "schools": ["Middle Tennessee State University"],
+      "schools": [
+        "Middle Tennessee State University"
+      ],
       "lat": 35.846,
       "lng": -86.3921,
       "difficulty": "medium",
@@ -2282,7 +3163,9 @@
       "name": "Murray",
       "state": "Kentucky",
       "stateCode": "KY",
-      "schools": ["Murray State University"],
+      "schools": [
+        "Murray State University"
+      ],
       "lat": 36.6106,
       "lng": -88.3021,
       "difficulty": "medium",
@@ -2294,10 +3177,29 @@
       "name": "Nacogdoches",
       "state": "Texas",
       "stateCode": "TX",
-      "schools": ["Stephen F. Austin State University"],
+      "schools": [
+        "Stephen F. Austin State University"
+      ],
       "lat": 31.6037,
       "lng": -94.656,
       "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "nashville-tn",
+      "name": "Nashville",
+      "state": "Tennessee",
+      "stateCode": "TN",
+      "schools": [
+        "Vanderbilt University",
+        "Fisk University",
+        "Tennessee State University",
+        "Belmont University"
+      ],
+      "lat": 36.1623,
+      "lng": -86.7743,
+      "difficulty": "easy",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2306,7 +3208,9 @@
       "name": "Natchitoches",
       "state": "Louisiana",
       "stateCode": "LA",
-      "schools": ["Northwestern State University"],
+      "schools": [
+        "Northwestern State University"
+      ],
       "lat": 31.7607,
       "lng": -93.086,
       "difficulty": "hard",
@@ -2318,7 +3222,9 @@
       "name": "New Brunswick",
       "state": "New Jersey",
       "stateCode": "NJ",
-      "schools": ["Rutgers University"],
+      "schools": [
+        "Rutgers University"
+      ],
       "lat": 40.4936,
       "lng": -74.4436,
       "difficulty": "easy",
@@ -2330,9 +3236,43 @@
       "name": "New Haven",
       "state": "Connecticut",
       "stateCode": "CT",
-      "schools": ["Yale University"],
+      "schools": [
+        "Yale University"
+      ],
       "lat": 41.3082,
       "lng": -72.9251,
+      "difficulty": "easy",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "new-london-ct",
+      "name": "New London",
+      "state": "Connecticut",
+      "stateCode": "CT",
+      "schools": [
+        "United States Coast Guard Academy",
+        "Connecticut College"
+      ],
+      "lat": 41.3556,
+      "lng": -72.0998,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "new-orleans-la",
+      "name": "New Orleans",
+      "state": "Louisiana",
+      "stateCode": "LA",
+      "schools": [
+        "Tulane University",
+        "Xavier University of Louisiana",
+        "Dillard University",
+        "Loyola University New Orleans"
+      ],
+      "lat": 29.9575,
+      "lng": -90.0629,
       "difficulty": "easy",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -2342,9 +3282,26 @@
       "name": "Newark",
       "state": "Delaware",
       "stateCode": "DE",
-      "schools": ["University of Delaware"],
+      "schools": [
+        "University of Delaware"
+      ],
       "lat": 39.6828,
       "lng": -75.7516,
+      "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "norfolk-va",
+      "name": "Norfolk",
+      "state": "Virginia",
+      "stateCode": "VA",
+      "schools": [
+        "Norfolk State University",
+        "Old Dominion University"
+      ],
+      "lat": 36.8494,
+      "lng": -76.29,
       "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -2354,7 +3311,9 @@
       "name": "Normal",
       "state": "Illinois",
       "stateCode": "IL",
-      "schools": ["Illinois State University"],
+      "schools": [
+        "Illinois State University"
+      ],
       "lat": 40.5093,
       "lng": -88.9844,
       "difficulty": "medium",
@@ -2366,7 +3325,9 @@
       "name": "Norman",
       "state": "Oklahoma",
       "stateCode": "OK",
-      "schools": ["University of Oklahoma"],
+      "schools": [
+        "University of Oklahoma"
+      ],
       "lat": 35.2226,
       "lng": -97.4395,
       "difficulty": "easy",
@@ -2378,7 +3339,10 @@
       "name": "Northfield",
       "state": "Minnesota",
       "stateCode": "MN",
-      "schools": ["Carleton College", "St. Olaf College"],
+      "schools": [
+        "Carleton College",
+        "St. Olaf College"
+      ],
       "lat": 44.4582,
       "lng": -93.1612,
       "difficulty": "hard",
@@ -2390,7 +3354,9 @@
       "name": "Northfield",
       "state": "Vermont",
       "stateCode": "VT",
-      "schools": ["Norwich University"],
+      "schools": [
+        "Norwich University"
+      ],
       "lat": 44.1486,
       "lng": -72.657,
       "difficulty": "hard",
@@ -2402,7 +3368,9 @@
       "name": "Oberlin",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["Oberlin College"],
+      "schools": [
+        "Oberlin College"
+      ],
       "lat": 41.2939,
       "lng": -82.2174,
       "difficulty": "hard",
@@ -2414,7 +3382,9 @@
       "name": "Ogden",
       "state": "Utah",
       "stateCode": "UT",
-      "schools": ["Weber State University"],
+      "schools": [
+        "Weber State University"
+      ],
       "lat": 41.223,
       "lng": -111.9738,
       "difficulty": "medium",
@@ -2426,7 +3396,9 @@
       "name": "Omaha",
       "state": "Nebraska",
       "stateCode": "NE",
-      "schools": ["Creighton University"],
+      "schools": [
+        "Creighton University"
+      ],
       "lat": 41.2587,
       "lng": -95.9384,
       "difficulty": "medium",
@@ -2438,9 +3410,26 @@
       "name": "Oneonta",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["SUNY Oneonta", "Hartwick College"],
+      "schools": [
+        "SUNY Oneonta",
+        "Hartwick College"
+      ],
       "lat": 42.4535,
       "lng": -75.063,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "orange-ca",
+      "name": "Orange",
+      "state": "California",
+      "stateCode": "CA",
+      "schools": [
+        "Chapman University"
+      ],
+      "lat": 33.7873,
+      "lng": -117.8503,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -2450,7 +3439,10 @@
       "name": "Orangeburg",
       "state": "South Carolina",
       "stateCode": "SC",
-      "schools": ["South Carolina State University"],
+      "schools": [
+        "South Carolina State University",
+        "Claflin University"
+      ],
       "lat": 33.4918,
       "lng": -80.8556,
       "difficulty": "hard",
@@ -2462,7 +3454,9 @@
       "name": "Orono",
       "state": "Maine",
       "stateCode": "ME",
-      "schools": ["University of Maine"],
+      "schools": [
+        "University of Maine"
+      ],
       "lat": 44.8836,
       "lng": -68.6728,
       "difficulty": "hard",
@@ -2474,7 +3468,9 @@
       "name": "Oshkosh",
       "state": "Wisconsin",
       "stateCode": "WI",
-      "schools": ["University of Wisconsin–Oshkosh"],
+      "schools": [
+        "University of Wisconsin–Oshkosh"
+      ],
       "lat": 44.0207,
       "lng": -88.5409,
       "difficulty": "hard",
@@ -2486,7 +3482,9 @@
       "name": "Oxford",
       "state": "Mississippi",
       "stateCode": "MS",
-      "schools": ["University of Mississippi (Ole Miss)"],
+      "schools": [
+        "University of Mississippi (Ole Miss)"
+      ],
       "lat": 34.3664,
       "lng": -89.5188,
       "difficulty": "easy",
@@ -2498,7 +3496,9 @@
       "name": "Oxford",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["Miami University"],
+      "schools": [
+        "Miami University"
+      ],
       "lat": 39.5103,
       "lng": -84.7421,
       "difficulty": "medium",
@@ -2510,10 +3510,40 @@
       "name": "Peoria",
       "state": "Illinois",
       "stateCode": "IL",
-      "schools": ["Bradley University"],
+      "schools": [
+        "Bradley University"
+      ],
       "lat": 40.6939,
       "lng": -89.5891,
       "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "petersburg-va",
+      "name": "Petersburg",
+      "state": "Virginia",
+      "stateCode": "VA",
+      "schools": [
+        "Virginia State University"
+      ],
+      "lat": 37.2279,
+      "lng": -77.4019,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "pine-bluff-ar",
+      "name": "Pine Bluff",
+      "state": "Arkansas",
+      "stateCode": "AR",
+      "schools": [
+        "University of Arkansas at Pine Bluff"
+      ],
+      "lat": 34.2229,
+      "lng": -92.0043,
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2522,7 +3552,9 @@
       "name": "Pittsburg",
       "state": "Kansas",
       "stateCode": "KS",
-      "schools": ["Pittsburg State University"],
+      "schools": [
+        "Pittsburg State University"
+      ],
       "lat": 37.4109,
       "lng": -94.705,
       "difficulty": "hard",
@@ -2534,7 +3566,9 @@
       "name": "Platteville",
       "state": "Wisconsin",
       "stateCode": "WI",
-      "schools": ["University of Wisconsin–Platteville"],
+      "schools": [
+        "University of Wisconsin–Platteville"
+      ],
       "lat": 42.7255,
       "lng": -90.5197,
       "difficulty": "hard",
@@ -2546,7 +3580,9 @@
       "name": "Plattsburgh",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["SUNY Plattsburgh"],
+      "schools": [
+        "SUNY Plattsburgh"
+      ],
       "lat": 44.6961,
       "lng": -73.4543,
       "difficulty": "hard",
@@ -2558,7 +3594,9 @@
       "name": "Plymouth",
       "state": "New Hampshire",
       "stateCode": "NH",
-      "schools": ["Plymouth State University"],
+      "schools": [
+        "Plymouth State University"
+      ],
       "lat": 43.7441,
       "lng": -71.7238,
       "difficulty": "hard",
@@ -2570,7 +3608,9 @@
       "name": "Pocatello",
       "state": "Idaho",
       "stateCode": "ID",
-      "schools": ["Idaho State University"],
+      "schools": [
+        "Idaho State University"
+      ],
       "lat": 42.862,
       "lng": -112.4506,
       "difficulty": "hard",
@@ -2582,7 +3622,10 @@
       "name": "Potsdam",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["Clarkson University", "SUNY Potsdam"],
+      "schools": [
+        "Clarkson University",
+        "SUNY Potsdam"
+      ],
       "lat": 44.6698,
       "lng": -74.9813,
       "difficulty": "hard",
@@ -2594,9 +3637,39 @@
       "name": "Poughkeepsie",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["Vassar College"],
+      "schools": [
+        "Vassar College"
+      ],
       "lat": 41.7066,
       "lng": -73.9284,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "prairie-view-tx",
+      "name": "Prairie View",
+      "state": "Texas",
+      "stateCode": "TX",
+      "schools": [
+        "Prairie View A&M University"
+      ],
+      "lat": 30.0858,
+      "lng": -95.9907,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "princess-anne-md",
+      "name": "Princess Anne",
+      "state": "Maryland",
+      "stateCode": "MD",
+      "schools": [
+        "University of Maryland Eastern Shore"
+      ],
+      "lat": 38.2028,
+      "lng": -75.692,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -2606,7 +3679,9 @@
       "name": "Princeton",
       "state": "New Jersey",
       "stateCode": "NJ",
-      "schools": ["Princeton University"],
+      "schools": [
+        "Princeton University"
+      ],
       "lat": 40.3497,
       "lng": -74.6597,
       "difficulty": "easy",
@@ -2618,7 +3693,9 @@
       "name": "Providence",
       "state": "Rhode Island",
       "stateCode": "RI",
-      "schools": ["Brown University"],
+      "schools": [
+        "Brown University"
+      ],
       "lat": 41.824,
       "lng": -71.4128,
       "difficulty": "medium",
@@ -2630,7 +3707,9 @@
       "name": "Provo",
       "state": "Utah",
       "stateCode": "UT",
-      "schools": ["Brigham Young University"],
+      "schools": [
+        "Brigham Young University"
+      ],
       "lat": 40.2337,
       "lng": -111.6587,
       "difficulty": "easy",
@@ -2642,7 +3721,9 @@
       "name": "Pullman",
       "state": "Washington",
       "stateCode": "WA",
-      "schools": ["Washington State University"],
+      "schools": [
+        "Washington State University"
+      ],
       "lat": 46.7296,
       "lng": -117.1799,
       "difficulty": "easy",
@@ -2654,9 +3735,41 @@
       "name": "Radford",
       "state": "Virginia",
       "stateCode": "VA",
-      "schools": ["Radford University"],
+      "schools": [
+        "Radford University"
+      ],
       "lat": 37.1343,
       "lng": -80.5749,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "raleigh-nc",
+      "name": "Raleigh",
+      "state": "North Carolina",
+      "stateCode": "NC",
+      "schools": [
+        "North Carolina State University",
+        "Shaw University",
+        "Saint Augustine's University"
+      ],
+      "lat": 35.7804,
+      "lng": -78.6391,
+      "difficulty": "easy",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "redlands-ca",
+      "name": "Redlands",
+      "state": "California",
+      "stateCode": "CA",
+      "schools": [
+        "University of Redlands"
+      ],
+      "lat": 34.055,
+      "lng": -117.1827,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -2666,7 +3779,9 @@
       "name": "Reno",
       "state": "Nevada",
       "stateCode": "NV",
-      "schools": ["University of Nevada, Reno"],
+      "schools": [
+        "University of Nevada, Reno"
+      ],
       "lat": 39.5262,
       "lng": -119.8127,
       "difficulty": "medium",
@@ -2678,7 +3793,9 @@
       "name": "Richmond",
       "state": "Indiana",
       "stateCode": "IN",
-      "schools": ["Earlham College"],
+      "schools": [
+        "Earlham College"
+      ],
       "lat": 39.8287,
       "lng": -84.8899,
       "difficulty": "hard",
@@ -2690,10 +3807,28 @@
       "name": "Richmond",
       "state": "Kentucky",
       "stateCode": "KY",
-      "schools": ["Eastern Kentucky University"],
+      "schools": [
+        "Eastern Kentucky University"
+      ],
       "lat": 37.7479,
       "lng": -84.2947,
       "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "richmond-va",
+      "name": "Richmond",
+      "state": "Virginia",
+      "stateCode": "VA",
+      "schools": [
+        "Virginia Commonwealth University",
+        "University of Richmond",
+        "Virginia Union University"
+      ],
+      "lat": 37.5385,
+      "lng": -77.4343,
+      "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2702,7 +3837,9 @@
       "name": "Ripon",
       "state": "Wisconsin",
       "stateCode": "WI",
-      "schools": ["Ripon College"],
+      "schools": [
+        "Ripon College"
+      ],
       "lat": 43.8514,
       "lng": -88.7933,
       "difficulty": "hard",
@@ -2714,9 +3851,25 @@
       "name": "Rock Hill",
       "state": "South Carolina",
       "stateCode": "SC",
-      "schools": ["Winthrop University"],
+      "schools": [
+        "Winthrop University"
+      ],
       "lat": 34.9249,
       "lng": -81.0251,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "rock-island-il",
+      "name": "Rock Island",
+      "state": "Illinois",
+      "stateCode": "IL",
+      "schools": [
+        "Augustana College"
+      ],
+      "lat": 41.5111,
+      "lng": -90.5746,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -2726,9 +3879,25 @@
       "name": "Rolla",
       "state": "Missouri",
       "stateCode": "MO",
-      "schools": ["Missouri University of Science and Technology"],
+      "schools": [
+        "Missouri University of Science and Technology"
+      ],
       "lat": 37.9509,
       "lng": -91.7708,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "rome-ga",
+      "name": "Rome",
+      "state": "Georgia",
+      "stateCode": "GA",
+      "schools": [
+        "Berry College"
+      ],
+      "lat": 34.257,
+      "lng": -85.1647,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -2738,7 +3907,9 @@
       "name": "Russellville",
       "state": "Arkansas",
       "stateCode": "AR",
-      "schools": ["Arkansas Tech University"],
+      "schools": [
+        "Arkansas Tech University"
+      ],
       "lat": 35.2784,
       "lng": -93.1338,
       "difficulty": "hard",
@@ -2750,10 +3921,26 @@
       "name": "Ruston",
       "state": "Louisiana",
       "stateCode": "LA",
-      "schools": ["Louisiana Tech University"],
+      "schools": [
+        "Louisiana Tech University"
+      ],
       "lat": 32.5297,
       "lng": -92.6387,
       "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "salem-or",
+      "name": "Salem",
+      "state": "Oregon",
+      "stateCode": "OR",
+      "schools": [
+        "Willamette University"
+      ],
+      "lat": 44.9392,
+      "lng": -123.0331,
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2762,7 +3949,9 @@
       "name": "Salisbury",
       "state": "Maryland",
       "stateCode": "MD",
-      "schools": ["Salisbury University"],
+      "schools": [
+        "Salisbury University"
+      ],
       "lat": 38.366,
       "lng": -75.601,
       "difficulty": "hard",
@@ -2774,10 +3963,27 @@
       "name": "Salt Lake City",
       "state": "Utah",
       "stateCode": "UT",
-      "schools": ["University of Utah"],
+      "schools": [
+        "University of Utah"
+      ],
       "lat": 40.7596,
       "lng": -111.8868,
       "difficulty": "easy",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "san-antonio-tx",
+      "name": "San Antonio",
+      "state": "Texas",
+      "stateCode": "TX",
+      "schools": [
+        "University of Texas at San Antonio",
+        "Trinity University"
+      ],
+      "lat": 29.4246,
+      "lng": -98.4951,
+      "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2786,7 +3992,9 @@
       "name": "San Luis Obispo",
       "state": "California",
       "stateCode": "CA",
-      "schools": ["Cal Poly San Luis Obispo"],
+      "schools": [
+        "Cal Poly San Luis Obispo"
+      ],
       "lat": 35.2828,
       "lng": -120.6596,
       "difficulty": "medium",
@@ -2798,7 +4006,9 @@
       "name": "San Marcos",
       "state": "Texas",
       "stateCode": "TX",
-      "schools": ["Texas State University"],
+      "schools": [
+        "Texas State University"
+      ],
       "lat": 29.8826,
       "lng": -97.9406,
       "difficulty": "medium",
@@ -2810,7 +4020,9 @@
       "name": "Santa Barbara",
       "state": "California",
       "stateCode": "CA",
-      "schools": ["University of California, Santa Barbara"],
+      "schools": [
+        "University of California, Santa Barbara"
+      ],
       "lat": 34.4221,
       "lng": -119.7027,
       "difficulty": "medium",
@@ -2822,7 +4034,9 @@
       "name": "Santa Cruz",
       "state": "California",
       "stateCode": "CA",
-      "schools": ["University of California, Santa Cruz"],
+      "schools": [
+        "University of California, Santa Cruz"
+      ],
       "lat": 36.9744,
       "lng": -122.0295,
       "difficulty": "medium",
@@ -2834,10 +4048,27 @@
       "name": "Saratoga Springs",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["Skidmore College"],
+      "schools": [
+        "Skidmore College"
+      ],
       "lat": 43.0822,
       "lng": -73.7854,
       "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "savannah-ga",
+      "name": "Savannah",
+      "state": "Georgia",
+      "stateCode": "GA",
+      "schools": [
+        "Savannah State University",
+        "Savannah College of Art and Design"
+      ],
+      "lat": 32.079,
+      "lng": -81.0921,
+      "difficulty": "medium",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -2846,7 +4077,9 @@
       "name": "Schenectady",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["Union College"],
+      "schools": [
+        "Union College"
+      ],
       "lat": 42.8142,
       "lng": -73.9396,
       "difficulty": "hard",
@@ -2858,7 +4091,9 @@
       "name": "Seattle",
       "state": "Washington",
       "stateCode": "WA",
-      "schools": ["University of Washington"],
+      "schools": [
+        "University of Washington"
+      ],
       "lat": 47.6038,
       "lng": -122.3301,
       "difficulty": "easy",
@@ -2870,7 +4105,9 @@
       "name": "Selinsgrove",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Susquehanna University"],
+      "schools": [
+        "Susquehanna University"
+      ],
       "lat": 40.7994,
       "lng": -76.8619,
       "difficulty": "hard",
@@ -2882,7 +4119,9 @@
       "name": "Sewanee",
       "state": "Tennessee",
       "stateCode": "TN",
-      "schools": ["The University of the South"],
+      "schools": [
+        "The University of the South"
+      ],
       "lat": 35.2031,
       "lng": -85.9211,
       "difficulty": "hard",
@@ -2894,9 +4133,25 @@
       "name": "Shepherdstown",
       "state": "West Virginia",
       "stateCode": "WV",
-      "schools": ["Shepherd University"],
+      "schools": [
+        "Shepherd University"
+      ],
       "lat": 39.4301,
       "lng": -77.8042,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "sherman-tx",
+      "name": "Sherman",
+      "state": "Texas",
+      "stateCode": "TX",
+      "schools": [
+        "Austin College"
+      ],
+      "lat": 33.6399,
+      "lng": -96.6089,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -2906,7 +4161,9 @@
       "name": "Shippensburg",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Shippensburg University"],
+      "schools": [
+        "Shippensburg University"
+      ],
       "lat": 40.0507,
       "lng": -77.5205,
       "difficulty": "hard",
@@ -2918,7 +4175,9 @@
       "name": "Slippery Rock",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Slippery Rock University"],
+      "schools": [
+        "Slippery Rock University"
+      ],
       "lat": 41.0663,
       "lng": -80.0569,
       "difficulty": "hard",
@@ -2930,7 +4189,9 @@
       "name": "Socorro",
       "state": "New Mexico",
       "stateCode": "NM",
-      "schools": ["New Mexico Institute of Mining and Technology"],
+      "schools": [
+        "New Mexico Institute of Mining and Technology"
+      ],
       "lat": 34.0573,
       "lng": -106.8931,
       "difficulty": "hard",
@@ -2942,7 +4203,9 @@
       "name": "South Bend",
       "state": "Indiana",
       "stateCode": "IN",
-      "schools": ["University of Notre Dame"],
+      "schools": [
+        "University of Notre Dame"
+      ],
       "lat": 41.6834,
       "lng": -86.25,
       "difficulty": "easy",
@@ -2954,7 +4217,9 @@
       "name": "Spartanburg",
       "state": "South Carolina",
       "stateCode": "SC",
-      "schools": ["Wofford College"],
+      "schools": [
+        "Wofford College"
+      ],
       "lat": 34.9498,
       "lng": -81.932,
       "difficulty": "hard",
@@ -2966,7 +4231,9 @@
       "name": "Spearfish",
       "state": "South Dakota",
       "stateCode": "SD",
-      "schools": ["Black Hills State University"],
+      "schools": [
+        "Black Hills State University"
+      ],
       "lat": 44.4894,
       "lng": -103.861,
       "difficulty": "hard",
@@ -2978,7 +4245,10 @@
       "name": "Spokane",
       "state": "Washington",
       "stateCode": "WA",
-      "schools": ["Gonzaga University"],
+      "schools": [
+        "Gonzaga University",
+        "Whitworth University"
+      ],
       "lat": 47.6572,
       "lng": -117.4235,
       "difficulty": "medium",
@@ -2990,7 +4260,9 @@
       "name": "Springfield",
       "state": "Missouri",
       "stateCode": "MO",
-      "schools": ["Missouri State University"],
+      "schools": [
+        "Missouri State University"
+      ],
       "lat": 37.2082,
       "lng": -93.2923,
       "difficulty": "medium",
@@ -3002,7 +4274,9 @@
       "name": "St. Cloud",
       "state": "Minnesota",
       "stateCode": "MN",
-      "schools": ["St. Cloud State University"],
+      "schools": [
+        "St. Cloud State University"
+      ],
       "lat": 45.5616,
       "lng": -94.1642,
       "difficulty": "hard",
@@ -3014,9 +4288,25 @@
       "name": "St. Peter",
       "state": "Minnesota",
       "stateCode": "MN",
-      "schools": ["Gustavus Adolphus College"],
+      "schools": [
+        "Gustavus Adolphus College"
+      ],
       "lat": 44.3238,
       "lng": -93.9585,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "st-petersburg-fl",
+      "name": "St. Petersburg",
+      "state": "Florida",
+      "stateCode": "FL",
+      "schools": [
+        "Eckerd College"
+      ],
+      "lat": 27.7712,
+      "lng": -82.634,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -3026,7 +4316,9 @@
       "name": "Stanford",
       "state": "California",
       "stateCode": "CA",
-      "schools": ["Stanford University"],
+      "schools": [
+        "Stanford University"
+      ],
       "lat": 37.4275,
       "lng": -122.1702,
       "difficulty": "easy",
@@ -3038,7 +4330,9 @@
       "name": "Starkville",
       "state": "Mississippi",
       "stateCode": "MS",
-      "schools": ["Mississippi State University"],
+      "schools": [
+        "Mississippi State University"
+      ],
       "lat": 33.4639,
       "lng": -88.8152,
       "difficulty": "easy",
@@ -3050,7 +4344,9 @@
       "name": "State College",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Penn State University"],
+      "schools": [
+        "Penn State University"
+      ],
       "lat": 40.7945,
       "lng": -77.8616,
       "difficulty": "easy",
@@ -3062,7 +4358,9 @@
       "name": "Statesboro",
       "state": "Georgia",
       "stateCode": "GA",
-      "schools": ["Georgia Southern University"],
+      "schools": [
+        "Georgia Southern University"
+      ],
       "lat": 32.449,
       "lng": -81.7833,
       "difficulty": "medium",
@@ -3074,7 +4372,9 @@
       "name": "Stephenville",
       "state": "Texas",
       "stateCode": "TX",
-      "schools": ["Tarleton State University"],
+      "schools": [
+        "Tarleton State University"
+      ],
       "lat": 32.2201,
       "lng": -98.2045,
       "difficulty": "hard",
@@ -3086,7 +4386,9 @@
       "name": "Stevens Point",
       "state": "Wisconsin",
       "stateCode": "WI",
-      "schools": ["University of Wisconsin–Stevens Point"],
+      "schools": [
+        "University of Wisconsin–Stevens Point"
+      ],
       "lat": 44.5234,
       "lng": -89.5844,
       "difficulty": "hard",
@@ -3098,7 +4400,9 @@
       "name": "Stillwater",
       "state": "Oklahoma",
       "stateCode": "OK",
-      "schools": ["Oklahoma State University"],
+      "schools": [
+        "Oklahoma State University"
+      ],
       "lat": 36.1156,
       "lng": -97.0586,
       "difficulty": "easy",
@@ -3110,7 +4414,9 @@
       "name": "Storrs",
       "state": "Connecticut",
       "stateCode": "CT",
-      "schools": ["University of Connecticut"],
+      "schools": [
+        "University of Connecticut"
+      ],
       "lat": 41.8084,
       "lng": -72.2495,
       "difficulty": "medium",
@@ -3122,7 +4428,9 @@
       "name": "Swarthmore",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Swarthmore College"],
+      "schools": [
+        "Swarthmore College"
+      ],
       "lat": 39.9021,
       "lng": -75.3499,
       "difficulty": "hard",
@@ -3134,7 +4442,9 @@
       "name": "Syracuse",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["Syracuse University"],
+      "schools": [
+        "Syracuse University"
+      ],
       "lat": 43.0481,
       "lng": -76.1474,
       "difficulty": "easy",
@@ -3146,9 +4456,25 @@
       "name": "Tahlequah",
       "state": "Oklahoma",
       "stateCode": "OK",
-      "schools": ["Northeastern State University"],
+      "schools": [
+        "Northeastern State University"
+      ],
       "lat": 35.9154,
       "lng": -94.97,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "talladega-al",
+      "name": "Talladega",
+      "state": "Alabama",
+      "stateCode": "AL",
+      "schools": [
+        "Talladega College"
+      ],
+      "lat": 33.4333,
+      "lng": -86.0986,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -3158,9 +4484,27 @@
       "name": "Tallahassee",
       "state": "Florida",
       "stateCode": "FL",
-      "schools": ["Florida State University"],
+      "schools": [
+        "Florida State University",
+        "Florida A&M University"
+      ],
       "lat": 30.4381,
       "lng": -84.2809,
+      "difficulty": "easy",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "tampa-fl",
+      "name": "Tampa",
+      "state": "Florida",
+      "stateCode": "FL",
+      "schools": [
+        "University of South Florida",
+        "University of Tampa"
+      ],
+      "lat": 27.945,
+      "lng": -82.4583,
       "difficulty": "easy",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -3170,7 +4514,9 @@
       "name": "Tempe",
       "state": "Arizona",
       "stateCode": "AZ",
-      "schools": ["Arizona State University"],
+      "schools": [
+        "Arizona State University"
+      ],
       "lat": 33.4255,
       "lng": -111.94,
       "difficulty": "easy",
@@ -3197,7 +4543,9 @@
       "name": "Toledo",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["University of Toledo"],
+      "schools": [
+        "University of Toledo"
+      ],
       "lat": 41.6529,
       "lng": -83.5378,
       "difficulty": "medium",
@@ -3209,7 +4557,9 @@
       "name": "Troy",
       "state": "Alabama",
       "stateCode": "AL",
-      "schools": ["Troy University"],
+      "schools": [
+        "Troy University"
+      ],
       "lat": 31.8088,
       "lng": -85.97,
       "difficulty": "hard",
@@ -3221,7 +4571,9 @@
       "name": "Troy",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["Rensselaer Polytechnic Institute"],
+      "schools": [
+        "Rensselaer Polytechnic Institute"
+      ],
       "lat": 42.7284,
       "lng": -73.6918,
       "difficulty": "medium",
@@ -3233,7 +4585,9 @@
       "name": "Tucson",
       "state": "Arizona",
       "stateCode": "AZ",
-      "schools": ["University of Arizona"],
+      "schools": [
+        "University of Arizona"
+      ],
       "lat": 32.2229,
       "lng": -110.9748,
       "difficulty": "easy",
@@ -3245,7 +4599,9 @@
       "name": "Tulsa",
       "state": "Oklahoma",
       "stateCode": "OK",
-      "schools": ["University of Tulsa"],
+      "schools": [
+        "University of Tulsa"
+      ],
       "lat": 36.1563,
       "lng": -95.9928,
       "difficulty": "medium",
@@ -3257,7 +4613,9 @@
       "name": "Tuscaloosa",
       "state": "Alabama",
       "stateCode": "AL",
-      "schools": ["University of Alabama"],
+      "schools": [
+        "University of Alabama"
+      ],
       "lat": 33.2096,
       "lng": -87.5675,
       "difficulty": "easy",
@@ -3269,7 +4627,9 @@
       "name": "Tuskegee",
       "state": "Alabama",
       "stateCode": "AL",
-      "schools": ["Tuskegee University"],
+      "schools": [
+        "Tuskegee University"
+      ],
       "lat": 32.4241,
       "lng": -85.6909,
       "difficulty": "hard",
@@ -3281,7 +4641,9 @@
       "name": "Valdosta",
       "state": "Georgia",
       "stateCode": "GA",
-      "schools": ["Valdosta State University"],
+      "schools": [
+        "Valdosta State University"
+      ],
       "lat": 30.8327,
       "lng": -83.2785,
       "difficulty": "hard",
@@ -3293,7 +4655,9 @@
       "name": "Valparaiso",
       "state": "Indiana",
       "stateCode": "IN",
-      "schools": ["Valparaiso University"],
+      "schools": [
+        "Valparaiso University"
+      ],
       "lat": 41.4673,
       "lng": -87.0604,
       "difficulty": "medium",
@@ -3305,7 +4669,9 @@
       "name": "Vermillion",
       "state": "South Dakota",
       "stateCode": "SD",
-      "schools": ["University of South Dakota"],
+      "schools": [
+        "University of South Dakota"
+      ],
       "lat": 42.7787,
       "lng": -96.9296,
       "difficulty": "hard",
@@ -3317,7 +4683,9 @@
       "name": "Villanova",
       "state": "Pennsylvania",
       "stateCode": "PA",
-      "schools": ["Villanova University"],
+      "schools": [
+        "Villanova University"
+      ],
       "lat": 40.0412,
       "lng": -75.3311,
       "difficulty": "medium",
@@ -3329,7 +4697,9 @@
       "name": "Waco",
       "state": "Texas",
       "stateCode": "TX",
-      "schools": ["Baylor University"],
+      "schools": [
+        "Baylor University"
+      ],
       "lat": 31.5545,
       "lng": -97.1326,
       "difficulty": "easy",
@@ -3341,7 +4711,9 @@
       "name": "Walla Walla",
       "state": "Washington",
       "stateCode": "WA",
-      "schools": ["Whitman College"],
+      "schools": [
+        "Whitman College"
+      ],
       "lat": 46.0667,
       "lng": -118.3393,
       "difficulty": "hard",
@@ -3353,7 +4725,9 @@
       "name": "Warrensburg",
       "state": "Missouri",
       "stateCode": "MO",
-      "schools": ["University of Central Missouri"],
+      "schools": [
+        "University of Central Missouri"
+      ],
       "lat": 38.7624,
       "lng": -93.741,
       "difficulty": "hard",
@@ -3365,9 +4739,25 @@
       "name": "Waterville",
       "state": "Maine",
       "stateCode": "ME",
-      "schools": ["Colby College"],
+      "schools": [
+        "Colby College"
+      ],
       "lat": 44.5506,
       "lng": -69.6303,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "waverly-ia",
+      "name": "Waverly",
+      "state": "Iowa",
+      "stateCode": "IA",
+      "schools": [
+        "Wartburg College"
+      ],
+      "lat": 42.7258,
+      "lng": -92.4746,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -3377,7 +4767,9 @@
       "name": "West Lafayette",
       "state": "Indiana",
       "stateCode": "IN",
-      "schools": ["Purdue University"],
+      "schools": [
+        "Purdue University"
+      ],
       "lat": 40.4259,
       "lng": -86.9081,
       "difficulty": "easy",
@@ -3389,7 +4781,9 @@
       "name": "West Point",
       "state": "New York",
       "stateCode": "NY",
-      "schools": ["United States Military Academy"],
+      "schools": [
+        "United States Military Academy"
+      ],
       "lat": 41.3915,
       "lng": -73.956,
       "difficulty": "easy",
@@ -3401,9 +4795,26 @@
       "name": "Whitewater",
       "state": "Wisconsin",
       "stateCode": "WI",
-      "schools": ["University of Wisconsin–Whitewater"],
+      "schools": [
+        "University of Wisconsin–Whitewater"
+      ],
       "lat": 42.8052,
       "lng": -88.7191,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "wilberforce-oh",
+      "name": "Wilberforce",
+      "state": "Ohio",
+      "stateCode": "OH",
+      "schools": [
+        "Central State University",
+        "Wilberforce University"
+      ],
+      "lat": 39.7135,
+      "lng": -83.8847,
       "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
@@ -3413,7 +4824,9 @@
       "name": "Williamsburg",
       "state": "Virginia",
       "stateCode": "VA",
-      "schools": ["College of William & Mary"],
+      "schools": [
+        "College of William & Mary"
+      ],
       "lat": 37.2712,
       "lng": -76.7,
       "difficulty": "medium",
@@ -3425,7 +4838,9 @@
       "name": "Williamstown",
       "state": "Massachusetts",
       "stateCode": "MA",
-      "schools": ["Williams College"],
+      "schools": [
+        "Williams College"
+      ],
       "lat": 42.7135,
       "lng": -73.2095,
       "difficulty": "hard",
@@ -3437,7 +4852,9 @@
       "name": "Wilmington",
       "state": "North Carolina",
       "stateCode": "NC",
-      "schools": ["University of North Carolina Wilmington"],
+      "schools": [
+        "University of North Carolina Wilmington"
+      ],
       "lat": 34.2353,
       "lng": -77.9487,
       "difficulty": "medium",
@@ -3449,10 +4866,27 @@
       "name": "Winston-Salem",
       "state": "North Carolina",
       "stateCode": "NC",
-      "schools": ["Wake Forest University"],
+      "schools": [
+        "Wake Forest University",
+        "Winston-Salem State University"
+      ],
       "lat": 36.0998,
       "lng": -80.2441,
       "difficulty": "medium",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
+      "id": "winter-park-fl",
+      "name": "Winter Park",
+      "state": "Florida",
+      "stateCode": "FL",
+      "schools": [
+        "Rollins College"
+      ],
+      "lat": 28.5978,
+      "lng": -81.351,
+      "difficulty": "hard",
       "source": "nominatim",
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
@@ -3461,7 +4895,9 @@
       "name": "Wooster",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["The College of Wooster"],
+      "schools": [
+        "The College of Wooster"
+      ],
       "lat": 40.7981,
       "lng": -81.9398,
       "difficulty": "hard",
@@ -3473,7 +4909,9 @@
       "name": "Yellow Springs",
       "state": "Ohio",
       "stateCode": "OH",
-      "schools": ["Antioch College"],
+      "schools": [
+        "Antioch College"
+      ],
       "lat": 39.8045,
       "lng": -83.8925,
       "difficulty": "hard",
@@ -3485,7 +4923,9 @@
       "name": "Ypsilanti",
       "state": "Michigan",
       "stateCode": "MI",
-      "schools": ["Eastern Michigan University"],
+      "schools": [
+        "Eastern Michigan University"
+      ],
       "lat": 42.2411,
       "lng": -83.6118,
       "difficulty": "medium",
