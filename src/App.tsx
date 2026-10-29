@@ -50,14 +50,15 @@ export function App() {
   const [phase, setPhase] = useState<GamePhase | null>(() => {
     // Seed from the saved game so a resumed finished day is 'finished' on the
     // very first render; Game reports every later transition.
-    const saved = loadState(
-      resolveMode(
-        typeof window !== 'undefined' ? window.location.search : '',
-        new Date(),
-        SHUFFLE_SEED,
-      ).storageId,
-    ).current
-    return saved?.phase ?? null
+    const m = resolveMode(
+      typeof window !== 'undefined' ? window.location.search : '',
+      new Date(),
+      SHUFFLE_SEED,
+    )
+    const saved = loadState(m.storageId).current
+    // Only a save for THIS day counts — yesterday's finished game is discarded
+    // by Game (resolveInitialGame) and must not flash the search for a frame.
+    return saved && saved.dateKey === m.dateKey ? saved.phase : null
   })
   const finished = phase === 'finished'
 

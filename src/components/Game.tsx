@@ -66,10 +66,7 @@ export function Game({
 
   useEffect(() => {
     onPhaseChange?.(game.phase)
-    // Report the phase whenever it changes; the callback identity is App's
-    // concern (it's a state setter).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [game.phase])
+  }, [game.phase, onPhaseChange])
 
   useEffect(() => {
     const resumed = game.phase !== 'guessing' || game.results.length > 0

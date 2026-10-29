@@ -170,3 +170,52 @@ describe('Game — resume mid-reveal restores the pin', () => {
     ).toHaveLength(3)
   })
 })
+
+describe('Game — reports its phase to the parent', () => {
+  it('calls onPhaseChange with the saved phase on mount', () => {
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history: [],
+      streak: { current: 0, best: 0, lastPlayedDateKey: null },
+      current: {
+        dateKey: '2026-10-29',
+        towns,
+        roundIndex: 1,
+        results: towns.map((t) => ({
+          town: t,
+          guess: { lat: t.lat, lng: t.lng },
+          distanceMeters: 900_000,
+          score: 8,
+        })),
+        phase: 'finished',
+      },
+    })
+    const seen: string[] = []
+    render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+        onPhaseChange={(p) => seen.push(p)}
+      />,
+    )
+    expect(seen).toEqual(['finished'])
+  })
+
+  it('reports guessing for a fresh day', () => {
+    const seen: string[] = []
+    render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+        onPhaseChange={(p) => seen.push(p)}
+      />,
+    )
+    expect(seen).toEqual(['guessing'])
+  })
+})
