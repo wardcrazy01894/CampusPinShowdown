@@ -36,9 +36,9 @@ daily `easy, easy, medium, medium, hard` plan (`docs/PLAN.md`).
 
 | tier   | what goes here                                                                 | today |
 | ------ | ------------------------------------------------------------------------------ | ----- |
-| easy   | big schools most sports fans can place (Ann Arbor, Austin, Tuscaloosa…)        | 59    |
-| medium | known names that are tough to place (Toledo, Davidson, Boise State, Dartmouth) | 75    |
-| hard   | small / regional schools (Lehigh, Stetson, Colgate, Gambier, Vermillion…)      | 156   |
+| easy   | big schools most sports fans can place (Ann Arbor, Austin, Tuscaloosa…)        | 63    |
+| medium | known names that are tough to place (Toledo, Davidson, Boise State, Dartmouth) | 72    |
+| hard   | small / regional schools (Lehigh, Stetson, Colgate, Gambier, Vermillion…)      | 155   |
 
 **290 towns** total, lower 48 only (the map is locked to `REGION.bounds`;
 Alaska/Hawaii are a BACKLOG item). Big cities with a flagship (Austin,

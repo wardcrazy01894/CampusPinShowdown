@@ -697,7 +697,7 @@
     "schools": [
       "University of Maryland"
     ],
-    "difficulty": "medium"
+    "difficulty": "easy"
   },
   {
     "name": "Colorado Springs",
@@ -715,7 +715,7 @@
     "schools": [
       "Rutgers University"
     ],
-    "difficulty": "medium"
+    "difficulty": "easy"
   },
   {
     "name": "Williamsburg",
@@ -803,7 +803,7 @@
     "schools": [
       "Texas Christian University"
     ],
-    "difficulty": "medium"
+    "difficulty": "easy"
   },
   {
     "name": "Springfield",
@@ -827,7 +827,7 @@
     "schools": [
       "University of Minnesota Duluth"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Huntington",
@@ -851,7 +851,7 @@
     "schools": [
       "University of Miami"
     ],
-    "difficulty": "medium"
+    "difficulty": "easy"
   },
   {
     "name": "Logan",
@@ -987,7 +987,7 @@
     "schools": [
       "University of New Hampshire"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Gettysburg",
@@ -1051,7 +1051,7 @@
     "schools": [
       "University of Maine"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Kingston",
@@ -1059,7 +1059,7 @@
     "schools": [
       "University of Rhode Island"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Bethlehem",
@@ -1132,7 +1132,7 @@
       "Indiana State University",
       "Rose-Hulman Institute of Technology"
     ],
-    "difficulty": "hard"
+    "difficulty": "medium"
   },
   {
     "name": "Hattiesburg",
@@ -1148,7 +1148,7 @@
     "schools": [
       "Arkansas State University"
     ],
-    "difficulty": "hard"
+    "difficulty": "medium"
   },
   {
     "name": "Statesboro",
@@ -1156,7 +1156,7 @@
     "schools": [
       "Georgia Southern University"
     ],
-    "difficulty": "hard"
+    "difficulty": "medium"
   },
   {
     "name": "Conway",
@@ -1705,7 +1705,7 @@
     "schools": [
       "Louisiana Tech University"
     ],
-    "difficulty": "hard"
+    "difficulty": "medium"
   },
   {
     "name": "Natchitoches",
@@ -2253,7 +2253,7 @@
     "schools": [
       "Weber State University"
     ],
-    "difficulty": "hard"
+    "difficulty": "medium"
   },
   {
     "name": "Socorro",
