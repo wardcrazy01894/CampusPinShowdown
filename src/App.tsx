@@ -47,7 +47,18 @@ export function App() {
   // Today's game phase, reported by <Game>. The town search is offered only
   // once the day is FINISHED: mid-round, typing the prompt's school into it
   // would list "Lubbock, TX" — the whole answer. (Review finding on PR #5.)
-  const [phase, setPhase] = useState<GamePhase | null>(null)
+  const [phase, setPhase] = useState<GamePhase | null>(() => {
+    // Seed from the saved game so a resumed finished day is 'finished' on the
+    // very first render; Game reports every later transition.
+    const saved = loadState(
+      resolveMode(
+        typeof window !== 'undefined' ? window.location.search : '',
+        new Date(),
+        SHUFFLE_SEED,
+      ).storageId,
+    ).current
+    return saved?.phase ?? null
+  })
   const finished = phase === 'finished'
 
   // Freeze the mounted session's mode across local midnight: re-renders

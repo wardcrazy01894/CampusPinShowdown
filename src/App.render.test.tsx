@@ -146,7 +146,7 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     render(<App />)
     await screen.findByText(/Done for today!/)
     fireEvent.click(
-      screen.getByRole('button', { name: /is my town in the game/ }),
+      await screen.findByRole('button', { name: /is my town in the game/ }),
     )
     expect(screen.getByLabelText('Search towns')).toBeTruthy()
     // The results are still in the DOM underneath the overlay.
