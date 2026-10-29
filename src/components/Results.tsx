@@ -244,7 +244,9 @@ export function Results({
             onClick={() => setShowBoard(true)}
             style={standingLink}
           >
-            🏆 {formatStanding(standing)} ›
+            <span aria-hidden="true">🏆 </span>
+            {formatStanding(standing)}
+            <span aria-hidden="true"> ›</span>
           </button>
         </p>
       )}

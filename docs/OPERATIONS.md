@@ -102,9 +102,15 @@ namespace — nothing is shared with KnowYourCity's `kyc-leaderboard`.
 > signal if you forget.
 
 ```bash
-npm run worker:migrate   # apply worker/migrations/*.sql to the REMOTE D1 (idempotent)
-npm run worker:deploy    # wrangler deploy -c worker/wrangler.toml
+npm run worker:migrate   # FIRST: apply worker/migrations/*.sql to the REMOTE D1 (idempotent)
+npm run worker:deploy    # THEN: wrangler deploy -c worker/wrangler.toml
 ```
+
+Always migrate **before** deploying code that uses a new table: until a
+migration is applied, the new code's queries against it fail (they are
+best-effort and logged — e.g. `leaderboard lazy prune failed: no such table:
+meta` — but nothing gets pruned). `wrangler d1 migrations apply` records what
+it has applied in `d1_migrations`, so only new files run.
 
 First-time setup (`wrangler d1 create cps-leaderboard` → paste the
 `database_id` into the toml → migrate → deploy → set the Variable above → re-run
