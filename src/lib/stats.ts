@@ -5,7 +5,11 @@
  *
  * Records written before `difficulty` was stored per round (PR #14) have no
  * tier on their results and are simply not counted here — the day count only
- * includes days that contribute to at least one tier.
+ * includes days that contribute to at least one tier. A changed-lineup REPLAY
+ * adds a second record for the same date: its rounds were really played, so
+ * they count toward the averages, but `days` counts distinct calendar dates.
+ * Defensive against a hand-edited/corrupt save: unknown tiers and non-finite
+ * scores are skipped rather than thrown.
  */
 
 import type { DayRecord, Difficulty } from '../types'
@@ -31,16 +35,15 @@ export function tierStats(history: DayRecord[]): TierStats {
     medium: { total: 0, n: 0 },
     hard: { total: 0, n: 0 },
   }
-  let days = 0
+  const days = new Set<string>()
   for (const day of history) {
-    let counted = false
     for (const r of day.results) {
-      if (!r.difficulty) continue
+      if (!r.difficulty || !(r.difficulty in sums)) continue
+      if (!Number.isFinite(r.score)) continue
       sums[r.difficulty].total += r.score
       sums[r.difficulty].n += 1
-      counted = true
+      days.add(day.dateKey)
     }
-    if (counted) days += 1
   }
   const stat = (d: Difficulty): TierStat | null =>
     sums[d].n === 0
@@ -50,7 +53,7 @@ export function tierStats(history: DayRecord[]): TierStats {
     easy: stat('easy'),
     medium: stat('medium'),
     hard: stat('hard'),
-    days,
+    days: days.size,
   }
 }
 

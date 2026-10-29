@@ -54,6 +54,44 @@ describe('tierStats', () => {
     })
   })
 
+  it('rounds averages to the nearest integer', () => {
+    const s = tierStats([
+      day('2026-10-29', [
+        [100, 'easy'],
+        [81, 'easy'],
+      ]),
+    ])
+    expect(s.easy).toEqual({ avg: 91, rounds: 2 }) // 90.5 → 91
+  })
+
+  it('counts a changed-lineup replay’s rounds but the calendar day only once', () => {
+    const s = tierStats([
+      { ...day('2026-10-29', [[100, 'hard']]), lineup: 'aaaa' },
+      { ...day('2026-10-29', [[50, 'hard']]), lineup: 'bbbb' },
+    ])
+    expect(s.hard).toEqual({ avg: 75, rounds: 2 })
+    expect(s.days).toBe(1)
+  })
+
+  it('skips corrupt rows (unknown tier, non-finite score) instead of throwing', () => {
+    const corrupt = {
+      dateKey: '2026-10-29',
+      totalScore: 0,
+      results: [
+        { distanceMeters: 0, score: 100, difficulty: 'legendary' },
+        { distanceMeters: 0, score: Number.NaN, difficulty: 'easy' },
+        { distanceMeters: 0, score: 40, difficulty: 'easy' },
+      ],
+    } as unknown as DayRecord
+    expect(() => tierStats([corrupt])).not.toThrow()
+    expect(tierStats([corrupt])).toEqual({
+      easy: { avg: 40, rounds: 1 },
+      medium: null,
+      hard: null,
+      days: 1,
+    })
+  })
+
   it('is all-null with zero days for an empty history', () => {
     expect(tierStats([])).toEqual({
       easy: null,

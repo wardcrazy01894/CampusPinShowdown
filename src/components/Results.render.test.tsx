@@ -37,7 +37,10 @@ const results = [
   r('Gambier', 'OH', 0, 3_000_000),
 ]
 
-afterEach(cleanup)
+afterEach(() => {
+  cleanup()
+  localStorage.clear()
+})
 
 describe('Results', () => {
   it('shows the total, streak, per-town breakdown and the share card', () => {
@@ -97,7 +100,6 @@ describe('Results', () => {
     expect(
       screen.getByText(/Lifetime by tier: 🟢 90 · 🟡 50 · 🔴 20 avg · 1 day/),
     ).toBeTruthy()
-    localStorage.clear()
   })
 
   it('shows the day recap: every round on one map, rows toggle focus', () => {

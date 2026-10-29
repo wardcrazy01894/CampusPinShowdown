@@ -95,7 +95,7 @@ now; Esri Light Gray Canvas was the interim basemap.)
 - `localStorage` keys are `cps:v1:<storageId>`; bump `STORAGE_VERSION` on any
   shape change — `loadState` treats mismatches and malformed values as empty.
   Additive optional fields don't need a bump: `DayRecord.results[]` gained
-  `difficulty` (+ `hinted`) so the results screen can show **lifetime per-tier
+  `difficulty` so the results screen can show **lifetime per-tier
   averages** ("Lifetime by tier: 🟢 82 · 🟡 61 · 🔴 34 avg · 12 days",
   `src/lib/stats.ts`); records from before that are skipped, not migrated.
 
