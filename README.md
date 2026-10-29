@@ -38,7 +38,8 @@ result Wordle-style and keep your streak alive.
   400+. (Cheer clip: CC0/public-domain, BigSoundBank.)
 - 🔎 **"Is my town in the game?"** — after today's puzzle, search by town,
   state or school; request a missing one with one click.
-- 🔥 **Streaks** and a Wordle-style share card with the puzzle number.
+- 🔥 **Streaks**, lifetime averages per tier, and a Wordle-style share card
+  with the puzzle number.
 
 > **Status:** **live** at <https://wardcrazy01894.github.io/CampusPinShowdown/> —
 > auto-deploys on every merge to `main` (runbook:

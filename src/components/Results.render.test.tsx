@@ -3,6 +3,7 @@ import { describe, it, expect, afterEach } from 'vitest'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import { Results } from './Results'
 import { REGION } from '../lib/region'
+import { saveState, STORAGE_VERSION } from '../lib/storage'
 import type { RoundResult, Town } from '../types'
 
 const town = (name: string, st: string): Town => ({
@@ -54,6 +55,7 @@ describe('Results', () => {
     expect(screen.getByText('253')).toBeTruthy()
     expect(screen.getByText(/Streak 2 \(best 9\)/)).toBeTruthy()
     expect(screen.getByText('Ann Arbor, MI')).toBeTruthy()
+    expect(screen.queryByText(/Lifetime by tier/)).toBeNull() // non-official
     expect(screen.getByText(/62 mi/)).toBeTruthy()
     const pre = document.querySelector('pre')!
     expect(pre.textContent).toContain('📍 CampusPin Showdown #2')
@@ -61,6 +63,41 @@ describe('Results', () => {
     expect(pre.textContent).toContain('🏆🟩🟧🟧⬛') // #2: the 100 is a 🏆
     expect(pre.textContent).toContain(window.location.origin)
     expect(screen.getByRole('button', { name: 'Copy result' })).toBeTruthy()
+  })
+
+  it('shows lifetime per-tier averages from the official history', () => {
+    saveState(REGION.id, {
+      version: STORAGE_VERSION,
+      history: [
+        {
+          dateKey: '2026-10-29',
+          totalScore: 300,
+          results: [
+            { distanceMeters: 0, score: 100, difficulty: 'easy' },
+            { distanceMeters: 0, score: 80, difficulty: 'easy' },
+            { distanceMeters: 0, score: 60, difficulty: 'medium' },
+            { distanceMeters: 0, score: 40, difficulty: 'medium' },
+            { distanceMeters: 0, score: 20, difficulty: 'hard' },
+          ],
+        },
+      ],
+      streak: { current: 1, best: 1, lastPlayedDateKey: '2026-10-29' },
+    })
+    render(
+      <Results
+        dateKey="2026-10-30"
+        bounds={REGION.bounds}
+        results={results}
+        totalScore={253}
+        lineup="abc123"
+        streak={{ current: 2, best: 9 }}
+        official
+      />,
+    )
+    expect(
+      screen.getByText(/Lifetime by tier: 🟢 90 · 🟡 50 · 🔴 20 avg · 1 day/),
+    ).toBeTruthy()
+    localStorage.clear()
   })
 
   it('shows the day recap: every round on one map, rows toggle focus', () => {

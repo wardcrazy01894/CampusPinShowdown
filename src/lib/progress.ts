@@ -13,7 +13,7 @@
  * Pure (no storage/DOM) so it's unit-testable; Game.tsx supplies/persists state.
  */
 
-import type { DayRecord, Town, RoundResult } from '../types'
+import type { DayRecord, Town } from '../types'
 import { hashStringToSeed } from './daily'
 
 export interface Streak {
@@ -64,7 +64,7 @@ export interface CompletedDay {
   /** lineupHash of the set actually played. */
   lineup: string
   totalScore: number
-  results: Array<Pick<RoundResult, 'distanceMeters' | 'score'>>
+  results: DayRecord['results']
 }
 
 /**

@@ -49,6 +49,7 @@ never in a follow-up. The PR template has the checklist.
 | `src/lib/scoring.ts`                              | PLAN §Scoring (constants, curve)                                        |
 | `src/components/MapGuess.tsx`, `src/lib/tiles.ts` | PLAN §Map                                                               |
 | `src/components/RecapMap.tsx`, Results rows       | PLAN §Game loop (day recap)                                             |
+| `src/lib/stats.ts`, `DayRecord` shape             | PLAN §Modes, storage (lifetime stats)                                   |
 | `src/lib/version.ts`, `src/lib/mode.ts`, App      | PLAN §Rollover + auto-reload                                            |
 | `worker/*`, `src/lib/leaderboard.ts`, Leaderboard | PLAN §Leaderboard + `worker/README.md` + OPERATIONS §Leaderboard worker |
 | `scripts/build-towns.mjs`, `data/towns-seed.json` | `docs/DATA.md` (schema, tiers, how to add a town)                       |

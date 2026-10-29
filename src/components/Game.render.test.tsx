@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
 import { describe, it, expect, afterEach, beforeEach } from 'vitest'
-import { render, cleanup, screen } from '@testing-library/react'
+import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import { Game } from './Game'
 import { REGION } from '../lib/region'
-import { saveState, STORAGE_VERSION } from '../lib/storage'
+import { saveState, loadState, STORAGE_VERSION } from '../lib/storage'
 import type { Town } from '../types'
 
 const towns: Town[] = [
@@ -135,6 +135,51 @@ describe('Game', () => {
     // Each results row carries its tier so a miss on a 🔴 reads fairly.
     expect(screen.getByText('🟢 Easy')).toBeTruthy()
     expect(screen.getByText('🔴 Hard')).toBeTruthy()
+  })
+})
+
+describe('Game — day records carry per-round tier', () => {
+  it('writes each round’s difficulty into the history record on finish', () => {
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history: [],
+      streak: { current: 0, best: 0, lastPlayedDateKey: null },
+      current: {
+        dateKey: '2026-10-29',
+        towns,
+        roundIndex: 1,
+        results: [
+          {
+            town: towns[0],
+            guess: { lat: 42.28, lng: -83.74 },
+            distanceMeters: 0,
+            score: 100,
+          },
+          {
+            town: towns[1],
+            guess: { lat: 44.45, lng: -93.16 },
+            distanceMeters: 0,
+            score: 75,
+          },
+        ],
+        phase: 'revealed',
+      },
+    })
+    render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+      />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'See results' }))
+    const rec = loadState('usa').history[0]
+    expect(rec.results).toEqual([
+      { distanceMeters: 0, score: 100, difficulty: 'easy' },
+      { distanceMeters: 0, score: 75, difficulty: 'hard' },
+    ])
   })
 })
 
