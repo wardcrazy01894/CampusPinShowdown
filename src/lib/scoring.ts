@@ -83,7 +83,6 @@ export function formatDistance(meters: number): string {
   return `${Math.round(mi).toLocaleString('en-US')} mi`
 }
 
-/** Emoji tier for a single round score: 🟩≥80 🟨≥50 🟧≥20 ⬛<20. */
 /**
  * The emoji for a PERFECT round (100), which rotates daily so a share card
  * with a 100 in it stands out from an ordinary green — and everyone's card
@@ -94,10 +93,9 @@ export const PERFECT_EMOJIS = ['💯', '🏆', '〽️', '🎯', '⭐', '🥇'] 
 
 export function perfectEmoji(dateKey: string): string {
   const n = puzzleNumber(dateKey)
-  return PERFECT_EMOJIS[
-    (((n - 1) % PERFECT_EMOJIS.length) + PERFECT_EMOJIS.length) %
-      PERFECT_EMOJIS.length
-  ]
+  const len = PERFECT_EMOJIS.length
+  // An invalid date key would make n NaN → index NaN; fall back to plain green.
+  return PERFECT_EMOJIS[(((n - 1) % len) + len) % len] ?? '🟩'
 }
 
 /**

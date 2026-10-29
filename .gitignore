@@ -20,3 +20,6 @@ dist/
 # Geocoder cache for scripts/build-towns.mjs (Nominatim responses). The
 # committed artifact is public/towns.json, not this.
 data/.nominatim-cache.json
+
+# Local Wrangler state — local D1 SQLite + caches for `npm run worker:dev`.
+.wrangler/
