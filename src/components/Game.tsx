@@ -25,6 +25,7 @@ import { resolveInitialGame } from '../lib/resume'
 import { lineupHash, recordCompletion } from '../lib/progress'
 import { schoolsLine, promptSchool } from '../lib/schools'
 import { revealTag } from '../lib/easterEgg'
+import { tierLabel } from '../lib/tiers'
 
 export interface GameProps {
   /** Storage namespace — the official daily or an isolated dev mode (mode.ts). */
@@ -193,7 +194,9 @@ export function Game({
         }}
       >
         <span style={{ opacity: 0.7 }}>
-          Round {game.roundIndex + 1} of {game.towns.length}
+          Round {game.roundIndex + 1} of {game.towns.length}{' '}
+          {/* Tier up front sets expectations; it says nothing about the town. */}
+          <span style={tierBadge}>{tierLabel(currentTown.difficulty)}</span>
         </span>
         <span style={{ opacity: 0.7 }}>
           Score {total.toLocaleString('en-US')}
@@ -266,6 +269,14 @@ export function Game({
       )}
     </section>
   )
+}
+
+const tierBadge: CSSProperties = {
+  marginLeft: 6,
+  padding: '2px 8px',
+  borderRadius: 999,
+  fontSize: 13,
+  background: 'rgba(255,255,255,0.08)',
 }
 
 const primaryButton: CSSProperties = {

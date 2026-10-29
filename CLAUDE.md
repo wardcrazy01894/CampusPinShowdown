@@ -53,6 +53,7 @@ never in a follow-up. The PR template has the checklist.
 | `public/towns.json`                               | Counts in README + DATA                               |
 | `.github/workflows/*`, `scripts/protect-main.sh`  | `docs/OPERATIONS.md` + this file's CI-checks list     |
 | `vite.config.ts` (`base`), `index.html` URLs      | `docs/OPERATIONS.md` §Live site / §Custom domain      |
+| `scripts/og-image/*`, `public/og-image.png`       | `docs/OPERATIONS.md` §Share image                     |
 | `.github/dependabot.yml`                          | `docs/OPERATIONS.md` §Dependency updates              |
 | `eslint.config.js`                                | A comment in the config saying why a rule was changed |
 | `package.json` scripts / engines                  | README + this file's command list                     |
@@ -74,6 +75,7 @@ npm test             # vitest run (write the test first!)
 npm run format       # prettier --write (format:check in CI)
 npm run build        # typecheck + vite build (what CI runs)
 npm run build-towns  # geocode data/towns-seed.json → public/towns.json
+npm run og-image     # re-render public/og-image.png from scripts/og-image/index.html
 ```
 
 Run `npm run typecheck && npm run lint && npm run format:check && npm test &&
