@@ -2,8 +2,9 @@
  * Dev/testing modes, driven by URL query params (client-side only).
  *
  *   (none)     → normal: today's 5, progress persists across refreshes.
- *   ?reset     → same 5 for the day, but wipe progress on every refresh
- *                (replay the same set repeatedly — handy for debugging one set).
+ *   ?reset     → same 5 for the day, but drop the current game on every refresh
+ *                (replay the same set from round 1 — handy for debugging one
+ *                set). History and streak are kept.
  *   ?fresh     → alias of ?reset.
  *   ?shuffle   → a brand-new RANDOM 5 on every refresh (try different things).
  *   ?random    → alias of ?shuffle.

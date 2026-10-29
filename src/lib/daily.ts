@@ -129,13 +129,18 @@ export function hashStringToSeed(str: string): number {
  *    yet in today's lineup; then any of its difficulty; then any town at all —
  *    so a full set is always returned.
  *
- * @throws if the dataset has fewer than `count` towns.
+ * @throws if the dataset has fewer than `count` towns, or `count` exceeds the plan.
  */
 export function selectDailyTowns(
   all: Town[],
   seed: string,
   count: number = ROUNDS_PER_DAY,
 ): Town[] {
+  if (count > DIFFICULTY_PLAN.length) {
+    throw new Error(
+      `A day has at most ${DIFFICULTY_PLAN.length} rounds (asked for ${count}).`,
+    )
+  }
   if (all.length < count) {
     throw new Error(
       `Need at least ${count} towns, got ${all.length}. Add more to public/towns.json.`,

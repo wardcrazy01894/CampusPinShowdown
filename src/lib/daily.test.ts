@@ -38,7 +38,6 @@ function town(id: string, stateCode: string, difficulty: Difficulty): Town {
   }
 }
 
-/** n towns per difficulty, spread across `states` round-robin. */
 /** Twelve states so the fresh-state preference rarely has to compromise. */
 const STATES = [
   'MI',
@@ -55,6 +54,7 @@ const STATES = [
   'VA',
 ]
 
+/** n towns per difficulty, spread across `states` round-robin. */
 function makeTowns(perTier: number, states = STATES): Town[] {
   const out: Town[] = []
   for (const d of ['easy', 'medium', 'hard'] as const) {
@@ -84,6 +84,26 @@ describe('getDateKey', () => {
     expect(
       getDateKey(new Date('2026-06-07T06:59:00Z'), 'America/Los_Angeles'),
     ).toBe('2026-06-06')
+  })
+
+  it('does not depend on a locale short-date pattern (formatToParts, not format)', () => {
+    // ICU once made en-CA's short date M/D/YYYY (Chrome 110). Make `format`
+    // return that and the key must still come out ISO (it must be assembled
+    // from formatToParts). `format` is a getter on the prototype, so swap the
+    // descriptor rather than spying on a plain method.
+    const proto = Intl.DateTimeFormat.prototype
+    const original = Object.getOwnPropertyDescriptor(proto, 'format')!
+    Object.defineProperty(proto, 'format', {
+      configurable: true,
+      get: () => () => '6/7/2026',
+    })
+    try {
+      expect(getDateKey(new Date('2026-06-07T12:00:00Z'), 'UTC')).toBe(
+        '2026-06-07',
+      )
+    } finally {
+      Object.defineProperty(proto, 'format', original)
+    }
   })
 
   it('formats as YYYY-MM-DD in the local zone when no timezone is given', () => {
@@ -159,9 +179,10 @@ describe('selectDailyTowns', () => {
     // The must-fix from PR #1 review: a whole-pool shuffle re-rolled TODAY's
     // puzzle under players on every dataset deploy. With per-town ranks, a new
     // town changes a day only when it out-ranks a current pick for a slot.
-    // Same state as an existing town: a new town in a brand-new state would
-    // win the fresh-state preference every day it isn't already used, which is
-    // the (accepted, documented) cost of that rule — not what this test guards.
+    // Same state as an existing town. (A town in a brand-new state can also
+    // win a slot via the fresh-state preference when it out-ranks the current
+    // pick — measured ~1 day in 7 on this fixture — the accepted, documented
+    // cost of that rule; see the next test.)
     const grown = [...towns, town('hard-999', 'MI', 'hard')]
     let same = 0
     const DAYS = 60
@@ -173,6 +194,19 @@ describe('selectDailyTowns', () => {
     }
     // One new hard town among 11 can win the single hard slot ~1 day in 11.
     expect(same).toBeGreaterThanOrEqual(DAYS * 0.8)
+  })
+
+  it('STABILITY: a town in a brand-new state still leaves most days untouched', () => {
+    const grown = [...towns, town('hard-998', 'AK', 'hard')]
+    let same = 0
+    const DAYS = 60
+    for (let i = 0; i < DAYS; i++) {
+      const d = new Date(Date.UTC(2026, 10, 1 + i)).toISOString().slice(0, 10)
+      const a = selectDailyTowns(towns, `usa:${d}`).map((t) => t.id)
+      const b = selectDailyTowns(grown, `usa:${d}`).map((t) => t.id)
+      if (a.join() === b.join()) same++
+    }
+    expect(same).toBeGreaterThanOrEqual(DAYS * 0.7)
   })
 
   it('STABILITY: removing a town that was not picked changes nothing for that day', () => {
@@ -223,6 +257,12 @@ describe('selectDailyTowns', () => {
     const picks = selectDailyTowns(noHard, 'usa:2026-10-29')
     expect(picks).toHaveLength(5)
     expect(picks[4].difficulty).not.toBe('hard')
+  })
+
+  it('throws when asked for more rounds than the plan has (never silently caps)', () => {
+    expect(() => selectDailyTowns(towns, 'usa:2026-10-29', 6)).toThrow(
+      /at most 5/,
+    )
   })
 
   it('throws when the dataset is too small', () => {

@@ -49,7 +49,12 @@ export function loadState(storageId: string): PersistedState {
     // Shape check: a hand-edited or partially-written value with the right
     // version but no `history`/`streak` would otherwise throw deep inside
     // recordCompletion on game completion. Treat it as corrupt.
-    if (!Array.isArray(parsed.history) || typeof parsed.streak !== 'object') {
+    if (
+      !Array.isArray(parsed.history) ||
+      typeof parsed.streak !== 'object' ||
+      parsed.streak === null ||
+      (parsed.current != null && !Array.isArray(parsed.current.towns))
+    ) {
       log.warn('storage', 'malformed saved state — resetting', {})
       return defaultState()
     }
@@ -124,7 +129,12 @@ export function applyStartupReset(storageId: string | null): boolean {
   if (typeof window === 'undefined') return false
   if (!shouldStartFresh(window.location.search)) return false
   if (!storageId) return false
-  clearCurrent(storageId)
+  // ?shuffle gets a brand-new lineup every load, so each finished shuffle game
+  // would append its own DayRecord forever — wipe that scratch namespace
+  // entirely. Everything else (the official daily under ?reset) keeps its
+  // history + streak and drops only the current game.
+  if (storageId.endsWith('__shuffle')) clearState(storageId)
+  else clearCurrent(storageId)
   log.info('storage', 'startup reset: cleared current game', { storageId })
   return true
 }

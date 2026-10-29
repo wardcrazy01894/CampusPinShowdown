@@ -130,6 +130,22 @@ describe('loadState shape check', () => {
     )
     expect(loadState('usa')).toEqual(defaultState())
   })
+
+  it('rejects streak: null (typeof null is "object") — bumpStreak would throw on completion', () => {
+    stub.map.set(
+      `cps:v${STORAGE_VERSION}:usa`,
+      JSON.stringify({ version: STORAGE_VERSION, history: [], streak: null }),
+    )
+    expect(loadState('usa')).toEqual(defaultState())
+  })
+
+  it('rejects a current game without a towns array — sameLineup would throw on load', () => {
+    stub.map.set(
+      `cps:v${STORAGE_VERSION}:usa`,
+      JSON.stringify({ ...sample(), current: { dateKey: '2026-10-29' } }),
+    )
+    expect(loadState('usa')).toEqual(defaultState())
+  })
 })
 
 describe('saveState', () => {
@@ -215,7 +231,9 @@ describe('applyStartupReset', () => {
     saveState('usa__shuffle', sample({ current: game })) // a previous shuffle game
     expect(applyStartupReset('usa__shuffle')).toBe(true)
     expect(loadState('usa').current).toEqual(game) // daily preserved
-    expect(loadState('usa__shuffle').current).toBeUndefined() // shuffle cleared
+    // The shuffle scratch is wiped entirely (each load is a new lineup, so its
+    // history would otherwise grow forever).
+    expect(loadState('usa__shuffle')).toEqual(defaultState())
   })
 
   it('returns false (clears nothing) when no active namespace is known', () => {
