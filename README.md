@@ -4,6 +4,8 @@
 
 **A daily "where is that college town?" map-guessing game for the USA.**
 
+### ▶ [Play now → wardcrazy01894.github.io/CampusPinShowdown](https://wardcrazy01894.github.io/CampusPinShowdown/)
+
 [![CI](https://github.com/wardcrazy01894/CampusPinShowdown/actions/workflows/ci.yml/badge.svg)](https://github.com/wardcrazy01894/CampusPinShowdown/actions/workflows/ci.yml)
 &nbsp;·&nbsp; React + TypeScript + Vite + Leaflet
 &nbsp;·&nbsp; $0 to run
@@ -106,4 +108,4 @@ agreement (PR-only `main`, TDD, docs-in-the-same-PR).
 
 ---
 
-<div align="center"><sub>Idea courtesy of good friend Garret B.</sub></div>
+<div align="center"><sub>Idea courtesy of good friend Garret B.</sub><br /><sub>Built in Ann Arbor spirit — 〽️ Go Blue.</sub></div>
