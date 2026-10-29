@@ -48,6 +48,7 @@ never in a follow-up. The PR template has the checklist.
 | `src/lib/daily.ts`                                | PLAN §Daily selection                                 |
 | `src/lib/scoring.ts`                              | PLAN §Scoring (constants, curve)                      |
 | `src/components/MapGuess.tsx`, `src/lib/tiles.ts` | PLAN §Map                                             |
+| `src/components/RecapMap.tsx`, Results rows       | PLAN §Game loop (day recap)                           |
 | `src/lib/version.ts`, `src/lib/mode.ts`, App      | PLAN §Rollover + auto-reload                          |
 | `scripts/build-towns.mjs`, `data/towns-seed.json` | `docs/DATA.md` (schema, tiers, how to add a town)     |
 | `src/lib/schools.ts` (prompt rule), seed `prompt` | PLAN §Game loop + DATA §Which school gets asked       |

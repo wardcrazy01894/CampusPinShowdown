@@ -36,3 +36,30 @@ body,
   isolation: isolate;
   background: #000; /* night imagery: gaps and loading tiles stay dark */
 }
+
+/* End-of-day recap map: shorter than the play map so the rows stay in reach. */
+.map-container.recap-map {
+  height: 42vh;
+  min-height: 260px;
+  border-radius: 10px;
+}
+
+/* Numbered "real town" markers on the recap map (RecapMap.numberedIcon). */
+.recap-marker-wrap {
+  background: transparent;
+  border: none;
+}
+.recap-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #2ecc71;
+  color: #0f1720;
+  font-weight: 700;
+  font-size: 14px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}

@@ -22,7 +22,8 @@ shipped them (git history is the changelog).
   (the `lineupHash` charset is already leaderboard-safe).
 - **One-click bug reports** — port KnowYourCity's bug worker (Turnstile +
   rate-limit) instead of the prefilled-issue link.
-- **Day recap** after results: all five pins on one map with a blurb per town.
+- **Town blurbs** on the day recap (a sentence per town, like KnowYourCity's
+  blurb sidecar).
 - **Per-tier stats line** on results (lifetime average per 🟢/🟡/🔴).
 - **Downgraded lint rules:** `react-hooks/refs` and `react-hooks/set-state-in-effect`
   are `warn` (inherited patterns in App/MapGuess); fixing them is behaviour
