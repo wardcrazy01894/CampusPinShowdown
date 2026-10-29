@@ -78,9 +78,16 @@ export function MapGuess({
     map.createPane(STATES_PANE).style.zIndex = '350'
     // Async: the GeoJSON is its own chunk. Only attach if THIS map is still
     // the live one (StrictMode double-mount / unmount race).
-    void makeStateOutlines().then((layer) => {
-      if (mapRef.current === map) layer.addTo(map)
-    })
+    void makeStateOutlines()
+      .then((layer) => {
+        if (mapRef.current === map) layer.addTo(map)
+      })
+      // A failed chunk load just means no borders — the map still works.
+      .catch((e: unknown) =>
+        log.warn('MapGuess', 'state outlines failed to load', {
+          error: String(e),
+        }),
+      )
     map.fitBounds(bounds)
     // The initial fit-to-bounds is the WIDEST allowed view — lock minZoom to it
     // so players can't zoom out past the country. (Recompute on resize so the

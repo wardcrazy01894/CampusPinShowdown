@@ -60,9 +60,16 @@ export function RecapMap({ bounds, results, focus }: RecapMapProps) {
     tiles.on('tileerror', () => log.debug('RecapMap', 'tile failed to load'))
     tiles.addTo(map)
     map.createPane(STATES_PANE).style.zIndex = '350'
-    void makeStateOutlines().then((layer) => {
-      if (mapRef.current === map) layer.addTo(map)
-    })
+    void makeStateOutlines()
+      .then((layer) => {
+        if (mapRef.current === map) layer.addTo(map)
+      })
+      // A failed chunk load just means no borders — the map still works.
+      .catch((e: unknown) =>
+        log.warn('RecapMap', 'state outlines failed to load', {
+          error: String(e),
+        }),
+      )
     map.fitBounds(bounds)
     const lockMinZoom = () => map.setMinZoom(map.getBoundsZoom(bounds))
     lockMinZoom()
