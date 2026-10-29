@@ -23,9 +23,15 @@ body,
   color: var(--fg);
 }
 
-/* The Leaflet map must have an explicit height or it renders 0px tall. */
+/* The Leaflet map must have an explicit height or it renders 0px tall.
+   `isolation: isolate` gives it its own stacking context: Leaflet's zoom
+   control and attribution sit at z-index 1000 and would otherwise draw (and
+   take clicks) through any overlay at the same level — the town-search
+   overlay in App.tsx. */
 .map-container {
   width: 100%;
   height: 60vh;
   min-height: 320px;
+  position: relative;
+  isolation: isolate;
 }

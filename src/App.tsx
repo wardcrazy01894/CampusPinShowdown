@@ -253,10 +253,15 @@ export function App() {
   )
 }
 
+/** Above Leaflet's controls (z-index 1000) — belt-and-braces with the
+ *  `.map-container { isolation: isolate }` rule in index.css. Exported for the
+ *  render test that pins this invariant. */
+export const OVERLAY_Z_INDEX = 1100
+
 const overlay: CSSProperties = {
   position: 'fixed',
   inset: 0,
-  zIndex: 1000,
+  zIndex: OVERLAY_Z_INDEX,
   overflowY: 'auto',
   background: 'var(--bg)',
 }

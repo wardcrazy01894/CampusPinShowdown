@@ -114,6 +114,11 @@ async function main() {
       misses.push(`${id} ("${entry.name}", ${entry.stateCode})`)
       continue
     }
+    // Non-exact matches (consolidated city-counties, "X Town city", campus
+    // CDPs) are printed so a human eyeballs every one of them.
+    if (baseName(row.NAME) !== norm(entry.name)) {
+      console.log(`  non-exact match: ${id} → "${row.NAME}"`)
+    }
     pins[id] = {
       lat: Number(row.INTPTLAT),
       lng: Number(row.INTPTLONG),

@@ -4,7 +4,7 @@
  * offers a prefilled GitHub issue to request it.
  */
 
-import { useState, type CSSProperties } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 import type { Town } from '../types'
 import { searchTowns, isIncluded } from '../lib/search'
 import { addTownRequestMessage, bugReportUrl } from '../lib/report'
@@ -17,6 +17,14 @@ export function TownSearch({
   onClose: () => void
 }) {
   const [query, setQuery] = useState('')
+  // Escape closes the overlay (it has no backdrop to click).
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
   const matches = searchTowns(towns, query)
   const active = query.trim().length >= 2
   const included = active && isIncluded(towns, query)

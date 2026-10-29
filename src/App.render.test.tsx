@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
-import { App } from './App'
+import { App, OVERLAY_Z_INDEX } from './App'
 import type { Town, TownsFile } from './types'
 
 const town = (
@@ -124,6 +124,20 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     expect(screen.getByLabelText('Search towns')).toBeTruthy()
     // The round is still in the DOM underneath the overlay.
     expect(screen.getByText(/Round 1 of 5/)).toBeTruthy()
+    // Leaflet's zoom control / attribution sit at z-index 1000; the overlay
+    // must be above them or the hidden map's "+" takes the tap.
+    expect(OVERLAY_Z_INDEX).toBeGreaterThan(1000)
+    const overlayEl = screen
+      .getByLabelText('Search towns')
+      .closest('div[style]')!
+    expect(Number((overlayEl as HTMLElement).style.zIndex)).toBe(
+      OVERLAY_Z_INDEX,
+    )
+    fireEvent.keyDown(window, { key: 'Escape' })
+    expect(screen.queryByLabelText('Search towns')).toBeNull()
+    fireEvent.click(
+      screen.getByRole('button', { name: /is my town in the game/ }),
+    )
     fireEvent.click(screen.getByRole('button', { name: '← back' }))
     expect(screen.queryByLabelText('Search towns')).toBeNull()
   })
