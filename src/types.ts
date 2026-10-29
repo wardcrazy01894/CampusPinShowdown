@@ -19,6 +19,13 @@ export interface Town {
   stateCode: string
   /** The school(s) that make it a college town, e.g. ["University of Michigan"]. Shown as the clue. */
   schools: string[]
+  /**
+   * Which school the round asks about, when the default rule in
+   * src/lib/schools.ts would pick the wrong one (Memphis: the rule skips
+   * "University of Memphis" for containing the town and would ask about
+   * Rhodes College — far below the town's easy tier). Must be one of `schools`.
+   */
+  prompt?: string
   lat: number
   lng: number
   /**

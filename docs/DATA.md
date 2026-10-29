@@ -18,7 +18,8 @@ data/towns-seed.json  ──  npm run build-towns  ──▶  public/towns.json
 {
   "name": "Ann Arbor", // town name as shown to the player
   "stateCode": "MI", // USPS code; the full state name is derived
-  "schools": ["University of Michigan"], // the clue; 1+ entries
+  "schools": ["University of Michigan"], // the clue; 1+ entries, most famous first
+  "prompt": "University of Michigan", // OPTIONAL: which school the round asks about
   "difficulty": "easy", // easy | medium | hard
   "lat": 41.3915, // OPTIONAL manual pin (both or neither) —
   "lng": -73.956, //   overrides geocoding, marks source: "manual"
@@ -28,6 +29,28 @@ data/towns-seed.json  ──  npm run build-towns  ──▶  public/towns.json
 `(name, stateCode)` must be unique; the id is `slug(name)-<st>` (e.g.
 `st-peter-mn`). The same town name in two states is fine (`athens-ga`,
 `athens-oh`).
+
+### Which school gets asked, and what a pairing means
+
+- The round asks about **one** school (`promptSchool`, `src/lib/schools.ts`):
+  the first listed whose name does not contain the town (Moorhead → Concordia
+  College), else the first listed. `prompt` overrides that when the rule would
+  pick a school far below the town's tier — Memphis would otherwise ask about
+  Rhodes College, Jackson about Millsaps, San Antonio about Trinity. Set it on
+  any big-city row whose flagship carries the city's name. `prompt` must be
+  one of `schools`.
+- **A school name that contains the town is accepted** (UT Austin, Hampton
+  University, Grambling State). The town's _name_ is never the answer — its
+  _location_ is, and the state stays hidden. Such rows are no easier to pin
+  than their tier suggests, only to name.
+- **A school pairs with the town it identifies with** — its mailing/athletics
+  city — even when the campus sits in an adjoining suburb inside the 25 km
+  perfect radius (Samford → Birmingham though it is in Homewood; Virginia State
+  → Petersburg though it is in Ettrick; Alabama A&M → Huntsville though it is
+  in Normal). The reveal reads "Home of …" in that spirit. A school whose
+  identity is its own small town gets its own row (Prairie View, not Houston).
+- School names are the current official ones, disambiguated where a bare name
+  has two famous owners (`Lincoln University of Missouri`).
 
 ## Difficulty tiers
 

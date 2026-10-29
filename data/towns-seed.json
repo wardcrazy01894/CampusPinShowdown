@@ -2398,6 +2398,7 @@
       "Rhodes College",
       "LeMoyne-Owen College"
     ],
+    "prompt": "University of Memphis",
     "difficulty": "easy"
   },
   {
@@ -2497,6 +2498,7 @@
       "University of Texas at San Antonio",
       "Trinity University"
     ],
+    "prompt": "University of Texas at San Antonio",
     "difficulty": "medium"
   },
   {
@@ -2507,6 +2509,7 @@
       "Millsaps College",
       "Belhaven University"
     ],
+    "prompt": "Jackson State University",
     "difficulty": "medium"
   },
   {
@@ -2517,6 +2520,7 @@
       "Samford University",
       "Miles College"
     ],
+    "prompt": "University of Alabama at Birmingham",
     "difficulty": "medium"
   },
   {
@@ -2535,6 +2539,7 @@
       "Johnson C. Smith University",
       "Queens University of Charlotte"
     ],
+    "prompt": "University of North Carolina at Charlotte",
     "difficulty": "medium"
   },
   {
@@ -2625,6 +2630,7 @@
       "Fayetteville State University",
       "Methodist University"
     ],
+    "prompt": "Fayetteville State University",
     "difficulty": "hard"
   },
   {
@@ -2672,7 +2678,7 @@
     "name": "Jefferson City",
     "stateCode": "MO",
     "schools": [
-      "Lincoln University"
+      "Lincoln University of Missouri"
     ],
     "difficulty": "hard"
   },

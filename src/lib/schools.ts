@@ -12,16 +12,21 @@ const fold = (s: string) =>
     .trim()
 
 /**
- * The school the round asks about. Prefers a school whose name does NOT
- * contain the town's name (Moorhead → Concordia College, not "Minnesota State
- * University Moorhead"); otherwise the first listed (Cambridge → Harvard).
- * Flagship names that embed the town ("University of Texas at Austin") have
- * no alternative and are accepted — they are easy-tier by design.
+ * The school the round asks about. An explicit `prompt` override wins (set in
+ * the seed when the rule below would pick a school far below the town's tier:
+ * Memphis asks "University of Memphis", not Rhodes College). Otherwise prefers
+ * a school whose name does NOT contain the town's name (Moorhead → Concordia
+ * College, not "Minnesota State University Moorhead"); otherwise the first
+ * listed (Cambridge → Harvard). Flagship names that embed the town
+ * ("University of Texas at Austin") have no alternative and are accepted —
+ * the town's name is not the answer, its location is.
  */
 export function promptSchool(town: {
   name: string
   schools: string[]
+  prompt?: string
 }): string {
+  if (town.prompt) return town.prompt
   const t = fold(town.name)
   return town.schools.find((s) => !fold(s).includes(t)) ?? town.schools[0] ?? ''
 }

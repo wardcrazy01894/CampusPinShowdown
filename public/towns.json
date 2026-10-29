@@ -344,6 +344,7 @@
         "Samford University",
         "Miles College"
       ],
+      "prompt": "University of Alabama at Birmingham",
       "lat": 33.5207,
       "lng": -86.8024,
       "difficulty": "medium",
@@ -735,6 +736,7 @@
         "Johnson C. Smith University",
         "Queens University of Charlotte"
       ],
+      "prompt": "University of North Carolina at Charlotte",
       "lat": 35.2272,
       "lng": -80.8431,
       "difficulty": "medium",
@@ -1374,6 +1376,7 @@
       "state": "North Carolina",
       "stateCode": "NC",
       "schools": ["Fayetteville State University", "Methodist University"],
+      "prompt": "Fayetteville State University",
       "lat": 35.0526,
       "lng": -78.8783,
       "difficulty": "hard",
@@ -1984,6 +1987,7 @@
         "Millsaps College",
         "Belhaven University"
       ],
+      "prompt": "Jackson State University",
       "lat": 32.2999,
       "lng": -90.183,
       "difficulty": "medium",
@@ -2007,7 +2011,7 @@
       "name": "Jefferson City",
       "state": "Missouri",
       "stateCode": "MO",
-      "schools": ["Lincoln University"],
+      "schools": ["Lincoln University of Missouri"],
       "lat": 38.5774,
       "lng": -92.1724,
       "difficulty": "hard",
@@ -2507,6 +2511,7 @@
         "Rhodes College",
         "LeMoyne-Owen College"
       ],
+      "prompt": "University of Memphis",
       "lat": 35.146,
       "lng": -90.0518,
       "difficulty": "easy",
@@ -3428,6 +3433,7 @@
       "state": "Texas",
       "stateCode": "TX",
       "schools": ["University of Texas at San Antonio", "Trinity University"],
+      "prompt": "University of Texas at San Antonio",
       "lat": 29.4246,
       "lng": -98.4951,
       "difficulty": "medium",

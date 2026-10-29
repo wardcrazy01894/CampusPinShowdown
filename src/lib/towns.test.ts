@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+import { promptSchool } from './schools'
 import { readFileSync } from 'node:fs'
 import { REGION, inRegion } from './region'
 import { ROUNDS_PER_DAY, selectDailyTowns } from './daily'
@@ -47,6 +48,7 @@ describe('public/towns.json', () => {
       expect(t.state.trim().length).toBeGreaterThan(0)
       expect(t.stateCode).toMatch(/^[A-Z]{2}$/)
       expect(t.schools.length).toBeGreaterThan(0)
+      if (t.prompt !== undefined) expect(t.schools, t.id).toContain(t.prompt)
       expect(['easy', 'medium', 'hard']).toContain(t.difficulty)
       expect(['nominatim', 'manual']).toContain(t.source)
       expect(typeof t.lat).toBe('number')
@@ -127,6 +129,22 @@ describe('public/towns.json', () => {
     near('kings-point-ny', 40.82, -73.74)
     near('prairie-view-tx', 30.09, -95.99)
     near('clinton-sc', 34.47, -81.88)
+    near('bloomington-il', 40.48, -88.99) // Bloomington IN is also in
+    near('rome-ga', 34.26, -85.16)
+  })
+
+  // Tier honesty: where the default rule (skip schools that name the town)
+  // would ask about a small private on a big-city row, the seed pins the prompt.
+  it('big-city rows ask about their flagship, not a D-III neighbour', () => {
+    const asks = (id: string) => promptSchool(towns.find((t) => t.id === id)!)
+    expect(asks('memphis-tn')).toBe('University of Memphis')
+    expect(asks('charlotte-nc')).toBe(
+      'University of North Carolina at Charlotte',
+    )
+    expect(asks('jackson-ms')).toBe('Jackson State University')
+    expect(asks('san-antonio-tx')).toBe('University of Texas at San Antonio')
+    expect(asks('birmingham-al')).toBe('University of Alabama at Birmingham')
+    expect(asks('fayetteville-nc')).toBe('Fayetteville State University')
   })
 
   it('selects a full, state-diverse lineup for every day of the first year', () => {
