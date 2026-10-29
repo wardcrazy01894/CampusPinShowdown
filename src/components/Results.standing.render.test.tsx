@@ -99,8 +99,10 @@ it('never lets a thin server streak hide a real local one (launch day / missed s
       official={true}
     />,
   )
-  await screen.findByText(/1st of 2/)
-  // Server said { current: 9, best: 9 }; local 30/31 wins field by field.
+  // No history here, so bestScore is this run's 350 → the fresh read ranks
+  // it 2nd of 2 (behind the 400). The streak is what this test is about:
+  // server said { current: 9, best: 9 }; local 30/31 wins field by field.
+  await screen.findByText(/2nd of 2/)
   expect(screen.getByText(/Streak 30 \(best 31\)/)).toBeTruthy()
 })
 
