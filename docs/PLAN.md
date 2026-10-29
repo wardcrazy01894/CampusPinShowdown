@@ -7,12 +7,18 @@ code is held to; CLAUDE.md's docs map says which section to update when.
 
 ## Game loop
 
-Five rounds a day. Each round shows a **town name + the school(s) that make it a
-college town** (`Where is Ann Arbor?` / `Home of the University of Michigan`);
-the **state is withheld** until the reveal. The player drops a pin on a
-label-free map of the USA and submits; the reveal shows the real pin, a dashed
-line, the distance in miles, and the round score. After round 5: total /500,
-streak, a Wordle-style share card (`📍 CampusPin Showdown #N`).
+Five rounds a day. Each round asks for a **school** (`Where is Texas Tech
+University?`); the **town and state are the answer** and appear only after
+the guess (`Lubbock, Texas — Home of Texas Tech University`). Towns with
+several schools prompt with the first school whose name does not contain the
+town (Moorhead → Concordia College), else the first listed (Cambridge →
+Harvard); flagship names that embed the town ("University of Texas at
+Austin") have no alternative and are accepted as easy-tier. The player drops a
+pin on the night-lights map of the USA and submits; the reveal shows the real
+pin, a dashed line, the distance in miles, and the round score. After round 5:
+total /500, streak, a Wordle-style share card (`📍 CampusPin Showdown #N`).
+The "is my town in the game?" search is offered only after the day is
+finished — mid-round it would answer the round.
 
 ## Daily selection (`src/lib/daily.ts`)
 
