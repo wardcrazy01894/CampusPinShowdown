@@ -34,4 +34,5 @@ body,
   min-height: 320px;
   position: relative;
   isolation: isolate;
+  background: #000; /* night imagery: gaps and loading tiles stay dark */
 }

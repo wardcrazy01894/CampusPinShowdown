@@ -14,7 +14,7 @@ import {
   shouldDeferReload,
 } from './lib/version'
 import { loadState } from './lib/storage'
-import type { TownsFile, Town } from './types'
+import type { TownsFile, Town, GamePhase } from './types'
 import { getDateKey, selectDailyTowns } from './lib/daily'
 import { resolveMode, resolveSessionMode, type Mode } from './lib/mode'
 import { REGION, townsUrl } from './lib/region'
@@ -44,6 +44,23 @@ export function App() {
   const [loadError, setLoadError] = useState<string | null>(null)
   const [muted, setMutedState] = useState(isMuted())
   const [searching, setSearching] = useState(false)
+  // Today's game phase, reported by <Game>. The town search is offered only
+  // once the day is FINISHED: mid-round, typing the prompt's school into it
+  // would list "Lubbock, TX" — the whole answer. (Review finding on PR #5.)
+  const [phase, setPhase] = useState<GamePhase | null>(() => {
+    // Seed from the saved game so a resumed finished day is 'finished' on the
+    // very first render; Game reports every later transition.
+    const m = resolveMode(
+      typeof window !== 'undefined' ? window.location.search : '',
+      new Date(),
+      SHUFFLE_SEED,
+    )
+    const saved = loadState(m.storageId).current
+    // Only a save for THIS day counts — yesterday's finished game is discarded
+    // by Game (resolveInitialGame) and must not flash the search for a frame.
+    return saved && saved.dateKey === m.dateKey ? saved.phase : null
+  })
+  const finished = phase === 'finished'
 
   // Freeze the mounted session's mode across local midnight: re-renders
   // recompute resolveMode with a fresh clock, but a rolled official seed only
@@ -162,7 +179,7 @@ export function App() {
   return (
     <main>
       {/* Overlay, not a route: the game (and any unsubmitted pin) stays mounted. */}
-      {searching && (
+      {searching && finished && (
         <div style={overlay}>
           <TownSearch towns={file.towns} onClose={() => setSearching(false)} />
         </div>
@@ -188,9 +205,11 @@ export function App() {
             )}
           </small>
           <div style={{ marginTop: 4, fontSize: 12, display: 'flex', gap: 12 }}>
-            <button onClick={() => setSearching(true)} style={linkButton}>
-              🔎 is my town in the game?
-            </button>
+            {finished && (
+              <button onClick={() => setSearching(true)} style={linkButton}>
+                🔎 is my town in the game?
+              </button>
+            )}
             <a
               href={bugReportUrl({ date: mode.dateKey })}
               target="_blank"
@@ -225,6 +244,7 @@ export function App() {
         bounds={REGION.bounds}
         towns={today}
         official={mode.official}
+        onPhaseChange={setPhase}
       />
       <footer
         style={{
@@ -236,16 +256,16 @@ export function App() {
         }}
       >
         <div>
-          {file.attribution} Map tiles ©{' '}
+          {file.attribution} Night imagery:{' '}
           <a
-            href="https://www.esri.com/"
+            href="https://earthdata.nasa.gov/gibs"
             target="_blank"
             rel="noreferrer"
             style={{ color: 'inherit' }}
           >
-            Esri
+            NASA GIBS
           </a>{' '}
-          (Esri, HERE, Garmin, © OpenStreetMap contributors).
+          (VIIRS Black Marble; public domain). State outlines: US Census Bureau.
         </div>
         <div>Idea courtesy of good friend Garret B.</div>
       </footer>

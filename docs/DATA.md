@@ -113,3 +113,12 @@ a full, five-different-states lineup.
 4. Update the counts in this file and the README; `npm test` must stay green.
 5. Because selection is per-town-ranked (`docs/PLAN.md`), adding a town leaves
    existing days' lineups alone except where the new town out-ranks a pick.
+
+## State outlines (`src/data/us-states.json`)
+
+Not a town dataset, but data all the same: the Census Bureau's 1:20m
+cartographic state boundaries (2010, public domain), simplified to ~1 km with
+Douglas–Peucker, coordinates rounded to 3 dp, Alaska/Hawaii/Puerto Rico
+dropped — 49 features, ~120 KB, bundled with the app. Drawn over the night
+imagery by `src/lib/states.ts`. A guard test (`src/lib/states.test.ts`) pins
+the feature set, that every vertex lies inside the play region, and the size.

@@ -7,12 +7,18 @@ code is held to; CLAUDE.md's docs map says which section to update when.
 
 ## Game loop
 
-Five rounds a day. Each round shows a **town name + the school(s) that make it a
-college town** (`Where is Ann Arbor?` / `Home of the University of Michigan`);
-the **state is withheld** until the reveal. The player drops a pin on a
-label-free map of the USA and submits; the reveal shows the real pin, a dashed
-line, the distance in miles, and the round score. After round 5: total /500,
-streak, a Wordle-style share card (`📍 CampusPin Showdown #N`).
+Five rounds a day. Each round asks for a **school** (`Where is Texas Tech
+University?`); the **town and state are the answer** and appear only after
+the guess (`Lubbock, Texas — Home of Texas Tech University`). Towns with
+several schools prompt with the first school whose name does not contain the
+town (Moorhead → Concordia College), else the first listed (Cambridge →
+Harvard); flagship names that embed the town ("University of Texas at
+Austin") have no alternative and are accepted as easy-tier. The player drops a
+pin on the night-lights map of the USA and submits; the reveal shows the real
+pin, a dashed line, the distance in miles, and the round score. After round 5:
+total /500, streak, a Wordle-style share card (`📍 CampusPin Showdown #N`).
+The "is my town in the game?" search is offered only after the day is
+finished — mid-round it would answer the round.
 
 ## Daily selection (`src/lib/daily.ts`)
 
@@ -48,17 +54,18 @@ falloff with a 350 km length scale:
 Right metro = 🟩 (≥80), right state = 🟨/🟧, wrong region = ⬛ (<20). Distances
 are shown in **miles**. Haversine on a 6,371 km sphere.
 
-## Map (`src/components/MapGuess.tsx`, `src/lib/tiles.ts`)
+## Map (`src/components/MapGuess.tsx`, `src/lib/tiles.ts`, `src/lib/states.ts`)
 
-Esri **World Light Gray Canvas _Base_** tiles (free, keyless ArcGIS Online
-service; attribution rendered): state borders, coastlines and water, **no
-place labels** (those live in Esri's separate `_Reference` layer, which we
-never add). CARTO's `light_nolabels` was the first choice but now needs an
-API key. The map is locked to
-`REGION.bounds` (lower 48 + slack) via `maxBounds` padded by `MAX_BOUNDS_PAD`
-(0.05 — continent scale) with min zoom = the fit-to-bounds zoom and **max zoom
-10** (county scale; street names would give towns away). Alaska/Hawaii are out
-of play for now (BACKLOG).
+**NASA Black Marble** night imagery (VIIRS, 2016 composite) from NASA GIBS —
+free, keyless, public domain, served to zoom 8 and upscaled to the zoom-10 cap.
+City lights are the map: metros glow, the dark stays dark, nothing is labelled
+(the maptap.gg look). **State outlines** are a bundled vector layer
+(`src/data/us-states.json`: Census 1:20m boundaries, public domain, simplified
+to ~1 km, lower 48 + DC, ~120 KB) drawn in their own pane under the markers.
+The map is locked to `REGION.bounds` (lower 48 + slack) via `maxBounds` padded
+by `MAX_BOUNDS_PAD` (0.05) with min zoom = fit-to-bounds and **max zoom 10**.
+Alaska/Hawaii are out of play for now (BACKLOG). (History: CARTO needs a key
+now; Esri Light Gray Canvas was the interim basemap.)
 
 ## Modes, storage, rollover (`mode.ts`, `storage.ts`, `version.ts`)
 
