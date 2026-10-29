@@ -33,8 +33,9 @@ result Wordle-style and keep your streak alive.
   missing one with one click.
 - 🔥 **Streaks** and a Wordle-style share card with the puzzle number.
 
-> **Status:** playable locally; deploys to GitHub Pages on every merge to
-> `main`. Sibling project:
+> **Status:** **live** at <https://wardcrazy01894.github.io/CampusPinShowdown/> —
+> auto-deploys on every merge to `main` (runbook:
+> [`docs/OPERATIONS.md`](docs/OPERATIONS.md)). Sibling project:
 > [KnowYourCity](https://github.com/wardcrazy01894/KnowYourCity) (same engine
 > lineage, per-city satellite maps).
 
@@ -85,6 +86,14 @@ Towns are curated in [`data/towns-seed.json`](data/towns-seed.json) and
 geocoded into `public/towns.json` by `npm run build-towns` (OpenStreetMap
 Nominatim, cached, no key). Schema, tiers and the add-a-town recipe:
 [`docs/DATA.md`](docs/DATA.md). Mechanics and scoring: [`docs/PLAN.md`](docs/PLAN.md).
+
+## ☁️ Deploy (GitHub Pages)
+
+Every push to `main` builds and publishes via `.github/workflows/deploy.yml`
+(test gate → Vite build → Pages). The site is a project page, so
+`vite.config.ts` has `base: '/CampusPinShowdown/'`; see
+[`docs/OPERATIONS.md`](docs/OPERATIONS.md) for the custom-domain flip, repo
+Variables, and the first-run Pages gotcha.
 
 ## 🧰 Development
 
