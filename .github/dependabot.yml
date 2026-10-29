@@ -1,0 +1,62 @@
+# Dependabot keeps dependencies patched and surfaces upgrades as PRs, which
+# then run the same required CI checks as any other change (see CLAUDE.md).
+#
+# Grouping policy (inherited from KnowYourCity): minor + patch updates land as
+# ONE batched PR per ecosystem so routine bumps stay low-noise on a solo repo.
+# Major updates are excluded from the group on purpose — each arrives as its
+# own PR so a breaking upgrade gets reviewed on its own merits.
+#
+# One hole, and it is semver's, not Dependabot's: for a 0.x package a
+# middle-digit bump is semver-MINOR, so it rides the grouped PR even though it
+# is semantically breaking. Check whether a grouped PR moved a 0.x package
+# before waving it through.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    # Majors are excluded from the group below, so each one takes its own slot;
+    # 10 keeps the batched minor/patch PR from being starved by long-lived
+    # major PRs.
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: chore
+      include: scope
+    labels:
+      - dependencies
+    groups:
+      npm-minor-patch:
+        patterns:
+          - '*'
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # TypeScript 7 is blocked UPSTREAM: typescript-eslint pins
+      # `peerDependencies.typescript: ">=4.8.4 <6.1.0"` and crashes on TS 7, so
+      # a TS 7 PR can never go green (lint is a required check). Ignored so it
+      # doesn't reopen every Monday. REMOVE once typescript-eslint supports TS 7.
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: chore
+      include: scope
+    labels:
+      - dependencies
+    groups:
+      actions-minor-patch:
+        patterns:
+          - '*'
+        update-types:
+          - minor
+          - patch

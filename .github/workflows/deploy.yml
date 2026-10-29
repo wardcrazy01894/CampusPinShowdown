@@ -1,0 +1,81 @@
+name: deploy
+
+# Auto-publish the site to GitHub Pages on every push to main (i.e. after a PR
+# merges). The workflow enables Pages itself on first run (configure-pages with
+# enablement: true), so no manual Settings → Pages toggle is needed.
+#
+# The site's PUBLIC client config is read from repo Variables (Settings →
+# Secrets and variables → Actions → Variables) so it bakes into the bundle:
+#   - VITE_CF_BEACON_TOKEN  optional, Cloudflare Web Analytics page-view beacon
+# These are PUBLIC values (they ship in client JS), so Variables — not Secrets —
+# is correct. If unset, the build still succeeds.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # allow manual re-deploys from the Actions tab
+
+# Least-privilege; the deploy job needs pages:write + id-token:write.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two deploys at once; let an in-flight deploy finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build site
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies (locked)
+        run: npm ci
+
+      # Deploy gate: merges to main are CI-gated by branch protection, but a
+      # workflow_dispatch re-deploy isn't — without this, a manual re-run could
+      # publish an untested tree. Cheap insurance.
+      - name: Test gate (vitest + lint + format)
+        run: |
+          npm test
+          npm run lint
+          npm run format:check
+
+      - name: Configure Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+        with:
+          enablement: true
+
+      - name: Build (vite)
+        run: npm run build
+        env:
+          VITE_CF_BEACON_TOKEN: ${{ vars.VITE_CF_BEACON_TOKEN }}
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: dist
+
+  deploy:
+    name: deploy to Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

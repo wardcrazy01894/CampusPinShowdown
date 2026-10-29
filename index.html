@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Defense-in-depth: block injected/inline scripts (self + the optional
+         analytics beacon only) while staying permissive for map tiles. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src * data: blob:; connect-src *; font-src 'self' data:"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>CampusPin Showdown — daily college-town map game</title>
+    <meta
+      name="description"
+      content="A daily map-guessing game for US college towns. Five towns a day — drop a pin where you think each one is, score by distance, share your result. Same puzzle for everyone, new game at midnight."
+    />
+    <link
+      rel="canonical"
+      href="https://wardcrazy01894.github.io/CampusPinShowdown/"
+    />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0f1720" />
+
+    <!-- Social share unfurls (Open Graph + Twitter). -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://wardcrazy01894.github.io/CampusPinShowdown/"
+    />
+    <meta property="og:site_name" content="CampusPin Showdown" />
+    <meta
+      property="og:title"
+      content="CampusPin Showdown — daily college-town map game"
+    />
+    <meta
+      property="og:description"
+      content="How well do you know America's college towns? Pin 5 a day on the map, score by distance, share your result."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="CampusPin Showdown — daily college-town map game"
+    />
+    <meta
+      name="twitter:description"
+      content="How well do you know America's college towns? Pin 5 a day on the map, score by distance, share your result."
+    />
+
+    <!-- Structured data for rich results. JSON-LD is inert data, not executed,
+         so the script-src CSP above does not block it. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "CampusPin Showdown",
+        "url": "https://wardcrazy01894.github.io/CampusPinShowdown/",
+        "description": "A daily map-guessing game for US college towns. Drop a pin on the map for 5 towns a day — same puzzle for everyone, new game at midnight.",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <h1>CampusPin Showdown</h1>
+      <p>
+        A free daily map-guessing game for US college towns. Each day, everyone
+        gets the same 5 towns — drop a pin on the map as close as you can.
+        JavaScript is required to play.
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
