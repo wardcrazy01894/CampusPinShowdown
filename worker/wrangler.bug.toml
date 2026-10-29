@@ -1,0 +1,30 @@
+# Bug-report Worker for CampusPin Showdown (`cps-bug`) — separate from the
+# leaderboard worker (`wrangler.toml`) but in this directory because it shares
+# leaderboard-lib's CORS/origin helpers. Deploy with (from the repo root):
+#   npm run bug:deploy        # = wrangler deploy -c worker/wrangler.bug.toml
+# Secret (once): wrangler secret put GH_TOKEN -c worker/wrangler.bug.toml
+
+name = "cps-bug"
+main = "bug-report.mjs"
+compatibility_date = "2025-11-01"
+
+[vars]
+GH_REPO = "wardcrazy01894/CampusPinShowdown"
+# Comma-separated allowed browser origins (the worker rejects others).
+ALLOWED_ORIGIN = "https://campuspinshowdown.com,https://www.campuspinshowdown.com,https://wardcrazy01894.github.io,http://localhost:5173,http://localhost:4173"
+
+# Per-IP rate limit — GA binding, needs NO account resource. 5 reports / 60 s
+# per IP satisfies the worker's fail-closed check, so a fresh deploy is not
+# wide-open. Distinct namespace_id from the leaderboard worker (3001).
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "3002"
+
+  [ratelimits.simple]
+  limit = 5
+  period = 60
+
+# --- Secrets (`wrangler secret put NAME -c worker/wrangler.bug.toml`) --------
+# GH_TOKEN         REQUIRED: fine-grained PAT, Issues: read & write, this repo only
+# TURNSTILE_SECRET optional: Cloudflare Turnstile bot check (also set
+#                  VITE_TURNSTILE_SITEKEY in the app)

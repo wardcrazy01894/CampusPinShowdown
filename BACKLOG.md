@@ -18,8 +18,7 @@ shipped them (git history is the changelog).
   locked to the lower 48; a second region/board or a wider box with an inset.
 - **Leaderboard: invisible Turnstile** on submit if score inflation ever
   appears (the worker already verifies a token when `TURNSTILE_SECRET` is set).
-- **One-click bug reports** — port KnowYourCity's bug worker (Turnstile +
-  rate-limit) instead of the prefilled-issue link.
+- **Turnstile on the bug form** if spam appears (worker + client plumbed).
 - **Town blurbs** on the day recap (a sentence per town, like KnowYourCity's
   blurb sidecar).
 - **Downgraded lint rules:** `react-hooks/refs` and `react-hooks/set-state-in-effect`

@@ -148,6 +148,23 @@ offline or a non-official game → the line and button are simply absent.
   Scores are client-computed, so a determined actor can still POST a fake
   total — accepted for a friends game; Turnstile is the documented next step.
 
+## Bug reports (`worker/bug-report.mjs`, `src/components/BugReport.tsx`)
+
+"🐛 report a bug" opens an **in-app form** (an overlay, like the town search):
+type what happened, optionally attach the session log buffer, send, stay on
+the site. With `VITE_BUG_ENDPOINT` set the form POSTs
+`{ message, context: { date, url, userAgent }, logs, turnstileToken? }` to the
+`cps-bug` Worker, which files a GitHub issue (`bug`, `from-app`) with a
+fine-grained PAT kept server-side and returns its URL; without the endpoint
+the form opens a prefilled GitHub issue page instead. The "is my town in the
+game?" miss opens the same form prefilled with "Please add "X" to the game."
+Hardening (ported from KnowYourCity): fails closed without a rate limit or
+Turnstile; per-IP rate limit (5/min); server-side origin allowlist; body and
+field caps; `defang()` neutralises @mentions, code fences, Markdown links and
+images, raw HTML and issue cross-references; the reported URL is kept only if
+it is from our own origin, embedded parsed + defanged. Anti-spam beyond the
+rate limit (Turnstile) is plumbed but off.
+
 ## Data (`docs/DATA.md`)
 
 `data/towns-seed.json` (hand-curated: town, state, schools, difficulty) →

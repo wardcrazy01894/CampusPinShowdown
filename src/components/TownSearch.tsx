@@ -1,7 +1,8 @@
 /**
  * TownSearch — "is my college town in the game?" Look up whether a town (or
  * school) is in the dataset, with an autocomplete list of matches. A miss
- * offers a prefilled GitHub issue to request it.
+ * offers to request it — via the in-app report form when `onRequest` is
+ * given, else a prefilled GitHub issue.
  */
 
 import { useEffect, useState, type CSSProperties } from 'react'
@@ -12,9 +13,13 @@ import { addTownRequestMessage, bugReportUrl } from '../lib/report'
 export function TownSearch({
   towns,
   onClose,
+  onRequest,
 }: {
   towns: Town[]
   onClose: () => void
+  /** Open the in-app report form prefilled with an "add this town" request.
+   *  Without it the request is a prefilled GitHub issue link. */
+  onRequest?: (message: string) => void
 }) {
   const [query, setQuery] = useState('')
   // Escape closes the overlay (it has no backdrop to click).
@@ -28,7 +33,8 @@ export function TownSearch({
   const matches = searchTowns(towns, query)
   const active = query.trim().length >= 2
   const included = active && isIncluded(towns, query)
-  const requestUrl = bugReportUrl({}, addTownRequestMessage(query))
+  const requestMessage = addTownRequestMessage(query)
+  const requestUrl = bugReportUrl({}, requestMessage)
 
   return (
     <main style={{ padding: 16, maxWidth: 560, margin: '0 auto' }}>
@@ -71,14 +77,24 @@ export function TownSearch({
               <p style={{ color: '#e67e22', fontWeight: 600, marginBottom: 6 }}>
                 Not in the game (yet).
               </p>
-              <a
-                href={requestUrl}
-                target="_blank"
-                rel="noreferrer"
-                style={requestLink}
-              >
-                + Request to add it
-              </a>
+              {onRequest ? (
+                <button
+                  type="button"
+                  onClick={() => onRequest(requestMessage)}
+                  style={{ ...requestLink, border: 'none', cursor: 'pointer' }}
+                >
+                  + Request to add it
+                </button>
+              ) : (
+                <a
+                  href={requestUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={requestLink}
+                >
+                  + Request to add it
+                </a>
+              )}
             </>
           )}
 
