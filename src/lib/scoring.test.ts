@@ -9,6 +9,8 @@ import {
   scoreEmoji,
   HINT_PENALTY,
   applyHintPenalty,
+  perfectEmoji,
+  PERFECT_EMOJIS,
   MAX_ROUND_SCORE,
   PERFECT_RADIUS_M,
   DECAY_M,
@@ -168,7 +170,28 @@ describe('formatDistance (miles)', () => {
   })
 })
 
+describe('perfectEmoji', () => {
+  it('rotates through the list by puzzle number, starting at 💯 on #1', () => {
+    expect(perfectEmoji('2026-10-29')).toBe('💯') // puzzle #1
+    expect(perfectEmoji('2026-10-30')).toBe('🏆') // #2
+    expect(perfectEmoji('2026-10-31')).toBe('〽️') // #3 — Go Blue
+    expect(perfectEmoji('2026-11-04')).toBe('💯') // #7 wraps
+    // Same day → same emoji for everyone's share card.
+    expect(perfectEmoji('2026-11-02')).toBe(perfectEmoji('2026-11-02'))
+  })
+  it('every entry is one glyph (plus an optional variation selector), so the share bar stays one per round', () => {
+    // 〽️ is U+303D + U+FE0F; everything else is a single code point.
+    for (const e of PERFECT_EMOJIS)
+      expect([...e.replace(/\uFE0F/g, '')]).toHaveLength(1)
+  })
+})
+
 describe('scoreEmoji', () => {
+  it('gives a perfect 100 the day’s special emoji when a date is given', () => {
+    expect(scoreEmoji(100, '2026-10-29')).toBe('💯')
+    expect(scoreEmoji(100, '2026-10-30')).toBe('🏆')
+    expect(scoreEmoji(99, '2026-10-30')).toBe('🟩') // only a true 100
+  })
   it('maps scores to tiers', () => {
     expect(scoreEmoji(100)).toBe('🟩')
     expect(scoreEmoji(80)).toBe('🟩')

@@ -59,4 +59,14 @@ export default tseslint.config(
       ],
     },
   },
+  // The Worker runs on the Cloudflare/service-worker runtime, so it sees the
+  // fetch-platform globals (fetch, Response, URL, TextEncoder, …). serviceworker
+  // — not browser — on purpose: a Worker has no window/document, so an
+  // accidental DOM reference is still flagged.
+  {
+    files: ['worker/**/*.mjs'],
+    languageOptions: {
+      globals: { ...globals.serviceworker },
+    },
+  },
 )

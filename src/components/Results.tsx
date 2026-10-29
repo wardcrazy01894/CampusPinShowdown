@@ -13,6 +13,7 @@ import type { RoundResult } from '../types'
 import { MAX_ROUND_SCORE, formatDistance, scoreEmoji } from '../lib/scoring'
 import { buildShareString } from '../lib/share'
 import { ROUNDS_PER_DAY, getDateKey, puzzleNumber } from '../lib/daily'
+import { REGION } from '../lib/region'
 import { log } from '../lib/log'
 import { shouldCelebrate, countGreens } from '../lib/celebrate'
 import { isCelebrateTest } from '../lib/devmode'
@@ -21,6 +22,20 @@ import { playCheer } from '../lib/sound'
 import { tierLabel } from '../lib/tiers'
 import { schoolsLine } from '../lib/schools'
 import { RecapMap } from './RecapMap'
+import { loadState } from '../lib/storage'
+import {
+  submitDailyScore,
+  fetchLeaderboard,
+  readStanding,
+  refreshStanding,
+  formatStanding,
+  mergeStreak,
+  type Standing,
+} from '../lib/leaderboard'
+import { Leaderboard } from './Leaderboard'
+
+/** Whether the leaderboard endpoint is configured at build time. */
+const LEADERBOARD_ENABLED = Boolean(import.meta.env.VITE_LEADERBOARD_ENDPOINT)
 
 export interface ResultsProps {
   dateKey: string
@@ -28,8 +43,12 @@ export interface ResultsProps {
   bounds: [[number, number], [number, number]]
   results: RoundResult[]
   totalScore: number
+  /** Hash of the lineup just played (progress.ts:lineupHash) — keys the
+   *  leaderboard submission/cache so a changed-set replay adds its own row. */
+  lineup: string
   streak: { current: number; best: number }
-  /** True only for the official daily challenge — enables the rollover check. */
+  /** True only for the official daily challenge — enables the rollover check
+   *  and gates the leaderboard submission. */
   official: boolean
 }
 
@@ -47,10 +66,59 @@ export function Results({
   bounds,
   results,
   totalScore,
+  lineup,
   streak,
   official,
 }: ResultsProps) {
   const [copied, setCopied] = useState(false)
+  // Leaderboard standing: seed from any cached value (instant on reload), then
+  // submit once on mount. Stays null when the leaderboard is off/unavailable,
+  // in which case nothing renders — the feature never blocks the results.
+  const [standing, setStanding] = useState<Standing | null>(() =>
+    official ? readStanding(dateKey, lineup) : null,
+  )
+  // The viewer's BEST total for the day. The board is one row per device (its
+  // best), so even a changed-set replayer has exactly one row to highlight;
+  // every standing computation must speak in that best score.
+  const [bestScore] = useState<number>(() => {
+    if (!official) return totalScore
+    const totals = loadState(REGION.id)
+      .history.filter((h) => h.dateKey === dateKey)
+      .map((h) => h.totalScore)
+    return totals.length ? Math.max(...totals, totalScore) : totalScore
+  })
+  const [showBoard, setShowBoard] = useState(false)
+  // Shown streak = the larger of local and server, per field. The server
+  // table starts empty the day the leaderboard turns on, and misses any day a
+  // submit failed (offline, outage), so "prefer server" would drop a real
+  // 30-day streak to 1; the local count can't be inflated by anything but
+  // playing, so the max is honest. (lib/leaderboard.ts: mergeStreak.)
+  const shownStreak = mergeStreak(streak, standing?.streak)
+
+  useEffect(() => {
+    let live = true
+    async function run() {
+      const s = await submitDailyScore({
+        dateKey,
+        score: totalScore,
+        lineup,
+        official,
+      })
+      if (!live || !s) return
+      setStanding(s)
+      // The cached standing is write-once, so refresh rank/total against a
+      // fresh read so "Nth of Y" stays current as more players finish.
+      const fresh = await fetchLeaderboard(dateKey)
+      if (live && fresh) setStanding(refreshStanding(s, fresh, bestScore))
+    }
+    // Best-effort: any failure leaves the cached standing in place.
+    run().catch(() => {})
+    return () => {
+      live = false
+    }
+    // Submit once for this finished day; inputs are stable for a given render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   // Which round the recap map frames; null = the whole day. Tapping a row
   // toggles it.
   const [focus, setFocus] = useState<number | null>(null)
@@ -124,6 +192,17 @@ export function Results({
     }
   }
 
+  if (showBoard) {
+    return (
+      <Leaderboard
+        dateKey={dateKey}
+        yourScore={official ? bestScore : undefined}
+        yourStanding={standing}
+        onClose={() => setShowBoard(false)}
+      />
+    )
+  }
+
   return (
     <section style={{ padding: 16, maxWidth: 560, margin: '0 auto' }}>
       <h2 style={{ marginBottom: 4 }}>
@@ -147,8 +226,13 @@ export function Results({
         </span>
       </p>
       <p style={{ opacity: 0.8, marginTop: 0 }}>
-        🔥 Streak {streak.current} (best {streak.best})
+        🔥 Streak {shownStreak.current} (best {shownStreak.best})
       </p>
+      {standing && (
+        <p style={{ marginTop: 0, fontWeight: 600, color: '#7fb2ff' }}>
+          🏆 {formatStanding(standing)}
+        </p>
+      )}
 
       {/* Day recap: every round on one map. Never shown mid-day (it would
           answer the remaining rounds) — Results only mounts once finished. */}
@@ -181,7 +265,7 @@ export function Results({
                 <span style={rowBadge}>{i + 1}</span>
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ display: 'block' }}>
-                    {scoreEmoji(r.score)}{' '}
+                    {scoreEmoji(r.score, dateKey)}{' '}
                     <strong>
                       {r.town.name}, {r.town.stateCode}
                     </strong>{' '}
@@ -204,10 +288,15 @@ export function Results({
         })}
       </ol>
 
-      <div style={{ marginTop: 12 }}>
+      <div style={{ marginTop: 12, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         <button onClick={copy} style={copyButton}>
           {copied ? 'Copied!' : 'Copy result'}
         </button>
+        {LEADERBOARD_ENABLED && (
+          <button onClick={() => setShowBoard(true)} style={boardButton}>
+            🏆 View leaderboard
+          </button>
+        )}
       </div>
 
       <pre
@@ -266,6 +355,13 @@ const copyButton: CSSProperties = {
   background: '#f4b400',
   color: '#0f1720',
   cursor: 'pointer',
+}
+
+const boardButton: CSSProperties = {
+  ...copyButton,
+  border: '1px solid #7fb2ff',
+  background: 'transparent',
+  color: '#7fb2ff',
 }
 
 const playTodayButton: CSSProperties = {

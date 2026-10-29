@@ -14,10 +14,10 @@ shipped them (git history is the changelog).
 
 ## Later
 
-- **Alaska / Hawaii:** the map is locked to the lower 48; a second region or a
-  wider box with an inset.
-- **Anonymous daily leaderboard** — port KnowYourCity's Cloudflare Worker + D1
-  (the `lineupHash` charset is already leaderboard-safe).
+- **Alaska / Hawaii (idea, not planned yet — owner 2026-10-29):** the map is
+  locked to the lower 48; a second region/board or a wider box with an inset.
+- **Leaderboard: invisible Turnstile** on submit if score inflation ever
+  appears (the worker already verifies a token when `TURNSTILE_SECRET` is set).
 - **One-click bug reports** — port KnowYourCity's bug worker (Turnstile +
   rate-limit) instead of the prefilled-issue link.
 - **Town blurbs** on the day recap (a sentence per town, like KnowYourCity's

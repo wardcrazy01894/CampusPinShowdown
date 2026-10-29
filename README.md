@@ -22,10 +22,12 @@ result Wordle-style and keep your streak alive.
 
 - 🌃 **Earth at night** — NASA's Black Marble imagery (city lights, no labels)
   with state outlines, like maptap.gg.
-- 💸 **$0 to run** — free NASA tiles, free OpenStreetMap geocoding, no
-  backend, no keys.
-- 🔁 **No server** — "same 5 for everyone" is computed from the date (a
-  per-town hash), so adding a town never re-rolls today's puzzle.
+- 💸 **$0 to run** — free NASA tiles, free OpenStreetMap geocoding, no keys;
+  the only backend is an optional free-tier Cloudflare Worker.
+- 🔁 **No server needed to play** — "same 5 for everyone" is computed from the
+  date (a per-town hash), so adding a town never re-rolls today's puzzle.
+- 🏆 **Anonymous daily leaderboard** — "You placed 3rd of 47 today", a top-100
+  board, and a server-side streak; no accounts, no names (`worker/README.md`).
 - 🎓 **348 college towns**, hand-curated in three tiers (69 easy · 86 medium ·
   193 hard), lower 48 only for now.
 - 📈 **Difficulty ramp** — each day is easy → easy → medium → medium → hard,
@@ -57,7 +59,8 @@ result Wordle-style and keep your streak alive.
 3. **Submit** → the town is revealed (_Lubbock, Texas_) with your distance
    (miles) and score.
    100 points within ~15 miles, then an exponential falloff: right metro = 🟩,
-   right state = 🟨/🟧, wrong region = ⬛.
+   right state = 🟨/🟧, wrong region = ⬛. A perfect 100 gets the day's special
+   emoji (💯, 🏆, 〽️, 🎯, ⭐ or 🥇 — it rotates daily).
 4. Five rounds, then a results screen with your total /500, streak, and a
    copyable share.
 
@@ -103,7 +106,8 @@ Every push to `main` builds and publishes via `.github/workflows/deploy.yml`
 (test gate → Vite build → Pages). The site is a project page, so
 `vite.config.ts` has `base: '/CampusPinShowdown/'`; see
 [`docs/OPERATIONS.md`](docs/OPERATIONS.md) for the custom-domain flip, repo
-Variables, and the first-run Pages gotcha.
+Variables, and the first-run Pages gotcha. The leaderboard worker deploys
+separately, by hand: `npm run worker:deploy` (see `worker/README.md`).
 
 ## 🧰 Development
 

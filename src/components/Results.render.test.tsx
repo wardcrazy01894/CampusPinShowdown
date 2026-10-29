@@ -46,6 +46,7 @@ describe('Results', () => {
         bounds={REGION.bounds}
         results={results}
         totalScore={253}
+        lineup="abc123"
         streak={{ current: 2, best: 9 }}
         official={false}
       />,
@@ -57,7 +58,7 @@ describe('Results', () => {
     const pre = document.querySelector('pre')!
     expect(pre.textContent).toContain('📍 CampusPin Showdown #2')
     expect(pre.textContent).toContain('2026-10-30 · 253/500')
-    expect(pre.textContent).toContain('🟩🟩🟧🟧⬛')
+    expect(pre.textContent).toContain('🏆🟩🟧🟧⬛') // #2: the 100 is a 🏆
     expect(pre.textContent).toContain(window.location.origin)
     expect(screen.getByRole('button', { name: 'Copy result' })).toBeTruthy()
   })
@@ -69,6 +70,7 @@ describe('Results', () => {
         bounds={REGION.bounds}
         results={results}
         totalScore={253}
+        lineup="abc123"
         streak={{ current: 2, best: 9 }}
         official={false}
       />,
@@ -100,6 +102,7 @@ describe('Results', () => {
         bounds={REGION.bounds}
         results={results}
         totalScore={253}
+        lineup="abc123"
         streak={{ current: 0, best: 0 }}
         official
       />,
@@ -113,6 +116,7 @@ describe('Results', () => {
         bounds={REGION.bounds}
         results={results}
         totalScore={253}
+        lineup="abc123"
         streak={{ current: 0, best: 0 }}
         official={false}
       />,
