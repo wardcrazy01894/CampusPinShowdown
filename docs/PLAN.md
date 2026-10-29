@@ -50,8 +50,11 @@ are shown in **miles**. Haversine on a 6,371 km sphere.
 
 ## Map (`src/components/MapGuess.tsx`, `src/lib/tiles.ts`)
 
-CARTO `light_nolabels` raster tiles (free, keyless, OSM-derived; attribution
-rendered): state borders and terrain, **no city labels**. The map is locked to
+Esri **World Light Gray Canvas _Base_** tiles (free, keyless ArcGIS Online
+service; attribution rendered): state borders, coastlines and water, **no
+place labels** (those live in Esri's separate `_Reference` layer, which we
+never add). CARTO's `light_nolabels` was the first choice but now needs an
+API key. The map is locked to
 `REGION.bounds` (lower 48 + slack) via `maxBounds` padded by `MAX_BOUNDS_PAD`
 (0.05 — continent scale) with min zoom = the fit-to-bounds zoom and **max zoom
 10** (county scale; street names would give towns away). Alaska/Hawaii are out

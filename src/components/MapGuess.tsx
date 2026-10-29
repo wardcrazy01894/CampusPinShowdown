@@ -1,0 +1,180 @@
+/**
+ * MapGuess — the interactive USA map for one round.
+ *
+ * Uses raw Leaflet (via refs) rather than react-leaflet to keep deps light and
+ * avoid the default-marker-icon bundler breakage — we draw guess/truth as
+ * circle markers and connect them with a polyline on reveal.
+ *
+ * Tiles: the shared label-free basemap from src/lib/tiles.ts (Esri Light Gray
+ * Canvas base layer).
+ *
+ * The map is locked NEAR `bounds` (maxBounds + viscosity) so players can't pan
+ * off into the ocean. The lock box is padded (see padBounds): with maxBounds
+ * flush against the play area, zoom snapping could leave an axis unpannable
+ * and a coastal town couldn't be centred. Min zoom still locks to the UNPADDED
+ * bounds so players can't zoom out past the country; max zoom is capped by the
+ * tile layer (MAX_ZOOM) so street-level detail never gives a town away.
+ *
+ * Anti-cheat note: answers live in the bundled JSON and are readable via
+ * devtools. For a friends game that's acceptable and intentional.
+ */
+
+import { useEffect, useRef } from 'react'
+import L from 'leaflet'
+import type { Guess, Town } from '../types'
+import { log } from '../lib/log'
+import { padBounds } from '../lib/mapBounds'
+import { makeTileLayer, MAX_ZOOM } from '../lib/tiles'
+
+export interface MapGuessProps {
+  /** Bounding box the map is locked to, [[south, west], [north, east]]. */
+  bounds: [[number, number], [number, number]]
+  /** Current guess pin, or null if the player hasn't placed one yet. */
+  guess: Guess | null
+  onGuessChange: (g: Guess) => void
+  /** When set, the round is revealed: show truth marker + distance line. */
+  reveal?: { town: Town; distanceMeters: number } | null
+  /** Disable interaction after submit. */
+  locked?: boolean
+  /** Change this (e.g. the round index) to re-frame the map to full bounds. */
+  resetViewKey?: number
+}
+
+export function MapGuess({
+  bounds,
+  guess,
+  onGuessChange,
+  reveal,
+  locked,
+  resetViewKey,
+}: MapGuessProps) {
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const mapRef = useRef<L.Map | null>(null)
+  const guessMarkerRef = useRef<L.CircleMarker | null>(null)
+  const truthMarkerRef = useRef<L.CircleMarker | null>(null)
+  const lineRef = useRef<L.Polyline | null>(null)
+  // Keep the latest callback/locked without re-binding the map click handler
+  // (the "latest ref" idiom — written during render on purpose; the
+  // react-hooks/refs rule is staged to `warn` for exactly this pattern).
+  const onGuessRef = useRef(onGuessChange)
+  const lockedRef = useRef(locked)
+  onGuessRef.current = onGuessChange
+  lockedRef.current = locked
+
+  // Create the map once.
+  useEffect(() => {
+    if (!containerRef.current || mapRef.current) return
+    const map = L.map(containerRef.current, {
+      maxBounds: padBounds(bounds),
+      maxBoundsViscosity: 1,
+      zoomControl: true,
+    })
+    const tiles = makeTileLayer()
+    tiles.on('tileerror', () => log.debug('MapGuess', 'tile failed to load'))
+    tiles.addTo(map)
+    map.fitBounds(bounds)
+    // The initial fit-to-bounds is the WIDEST allowed view — lock minZoom to it
+    // so players can't zoom out past the country. (Recompute on resize so the
+    // floor stays correct across viewport sizes.)
+    const lockMinZoom = () => map.setMinZoom(map.getBoundsZoom(bounds))
+    lockMinZoom()
+    map.on('resize', lockMinZoom)
+    map.on('click', (e: L.LeafletMouseEvent) => {
+      if (lockedRef.current) return
+      log.debug('MapGuess', 'guess placed', {
+        lat: e.latlng.lat,
+        lng: e.latlng.lng,
+      })
+      onGuessRef.current({ lat: e.latlng.lat, lng: e.latlng.lng })
+    })
+    mapRef.current = map
+    log.debug('MapGuess', 'map initialized')
+    return () => {
+      map.remove()
+      mapRef.current = null
+    }
+    // bounds is constant for the game; intentionally run once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Sync the guess marker.
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map) return
+    if (!guess) {
+      guessMarkerRef.current?.remove()
+      guessMarkerRef.current = null
+      return
+    }
+    const latlng: L.LatLngExpression = [guess.lat, guess.lng]
+    if (guessMarkerRef.current) {
+      guessMarkerRef.current.setLatLng(latlng)
+    } else {
+      guessMarkerRef.current = L.circleMarker(latlng, {
+        radius: 8,
+        color: '#ffffff',
+        weight: 2,
+        fillColor: '#f4b400',
+        fillOpacity: 1,
+      }).addTo(map)
+    }
+  }, [guess])
+
+  // Sync the reveal (truth marker + connecting line + fit both in view).
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map) return
+    truthMarkerRef.current?.remove()
+    truthMarkerRef.current = null
+    lineRef.current?.remove()
+    lineRef.current = null
+    if (!reveal) return
+
+    const truth: L.LatLngExpression = [reveal.town.lat, reveal.town.lng]
+    // Use a text node, NOT a raw string — Leaflet's bindTooltip(string) assigns
+    // innerHTML, which would execute HTML in a town name (stored XSS). A span +
+    // textContent is safe regardless of the name's content.
+    const label = document.createElement('span')
+    label.textContent = `${reveal.town.name}, ${reveal.town.stateCode}`
+    truthMarkerRef.current = L.circleMarker(truth, {
+      radius: 9,
+      color: '#ffffff',
+      weight: 2,
+      fillColor: '#2ecc71',
+      fillOpacity: 1,
+    })
+      .addTo(map)
+      .bindTooltip(label, { permanent: true, direction: 'top' })
+      .openTooltip()
+
+    if (guess) {
+      lineRef.current = L.polyline([[guess.lat, guess.lng], truth], {
+        color: '#f4b400',
+        weight: 2,
+        dashArray: '6 6',
+      }).addTo(map)
+    }
+
+    // Frame the guess pin + truth marker (+ line) so nothing is clipped.
+    const candidates: (L.Layer | null)[] = [
+      guess ? L.marker([guess.lat, guess.lng]) : null,
+      truthMarkerRef.current,
+      lineRef.current,
+    ]
+    const framed = L.featureGroup(
+      candidates.filter((l): l is L.Layer => l != null),
+    )
+    map.fitBounds(framed.getBounds().pad(0.3), { maxZoom: MAX_ZOOM })
+  }, [reveal, guess])
+
+  // Re-frame to the full play area at the start of each new round.
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map || reveal) return
+    map.fitBounds(bounds)
+    // Only react to the round changing.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetViewKey])
+
+  return <div className="map-container" ref={containerRef} />
+}
