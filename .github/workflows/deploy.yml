@@ -1,8 +1,10 @@
 name: deploy
 
 # Auto-publish the site to GitHub Pages on every push to main (i.e. after a PR
-# merges). The workflow enables Pages itself on first run (configure-pages with
-# enablement: true), so no manual Settings → Pages toggle is needed.
+# merges). configure-pages runs with enablement: true, but on THIS repo the
+# first run could not create the Pages site ("Resource not accessible by
+# integration") — it was enabled once via the API instead. See
+# docs/OPERATIONS.md §Live site; the flag is harmless on later runs.
 #
 # The site's PUBLIC client config is read from repo Variables (Settings →
 # Secrets and variables → Actions → Variables) so it bakes into the bundle:

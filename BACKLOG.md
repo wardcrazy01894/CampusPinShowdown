@@ -27,7 +27,7 @@ shipped them (git history is the changelog).
 - **Day recap** after results: all five pins on one map with a blurb per town.
 - **Difficulty-tier labels** on the round ("🟢 easy") and a per-tier stats line
   on results.
-- **Lint-staged rules:** `react-hooks/refs` and `react-hooks/set-state-in-effect`
+- **Downgraded lint rules:** `react-hooks/refs` and `react-hooks/set-state-in-effect`
   are `warn` (inherited patterns in App/MapGuess); fixing them is behaviour
   work and must be test-first.
 - **TypeScript 7** once typescript-eslint supports it (Dependabot ignore in

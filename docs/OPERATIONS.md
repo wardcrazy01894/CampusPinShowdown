@@ -9,7 +9,8 @@ How the **live** site is hosted, deployed, and operated. (Architecture is in
 - **Host:** GitHub Pages, Source = **GitHub Actions** (`build_type: workflow`),
   served as a **project page** — hence `base: '/CampusPinShowdown/'` in
   `vite.config.ts`. Every runtime fetch (`towns.json`, `version.json`) is
-  base-relative, so moving to a custom domain is a one-line change (below).
+  base-relative, so the asset/fetch side of a custom-domain move is a one-line
+  `base` change (the full checklist is below).
 - **First-run gotcha (2026-10-29):** `actions/configure-pages` with
   `enablement: true` could **not** create the Pages site on this repo —
   `Create Pages site failed: Resource not accessible by integration` (the
@@ -34,7 +35,7 @@ How the **live** site is hosted, deployed, and operated. (Architecture is in
   (`workflow_dispatch`). Needed after changing a repo Variable — Variables
   only take effect on the **next build**.
 - **Rollback:** revert the offending PR on `main` (auto-redeploys), or
-  Settings → Pages → disable to pull the site entirely.
+  Settings → Pages → **Unpublish site** to pull it entirely.
 - `deploy.yml` is **not** a required status check, so a failed deploy never
   blocks merges; it just means the last publish didn't happen. Check Actions.
 - **Stale tabs:** the client polls `version.json` (emitted next to the bundle)
@@ -45,12 +46,17 @@ How the **live** site is hosted, deployed, and operated. (Architecture is in
 ## Custom domain (when the time comes)
 
 1. Register the domain; point an **ALIAS/ANAME** on the apex (and a `CNAME`
-   for `www`) at `wardcrazy01894.github.io`.
+   for `www`) at `wardcrazy01894.github.io` — or, for a DNS host without
+   ALIAS, the four GitHub Pages apex `A` records (185.199.108–111.153).
 2. Settings → Pages → Custom domain = the apex; tick **Enforce HTTPS** once the
    certificate is issued. Add `public/CNAME` with the domain so the file ships
    in every artifact.
-3. Flip `base` in `vite.config.ts` to `'/'`, and update the canonical/OG URLs in
-   `index.html` and `REPO_URL`-adjacent links in the README.
+3. Flip `base` in `vite.config.ts` to `'/'`, then replace **every** `github.io`
+   URL: `index.html` (canonical, `og:url`, and the JSON-LD `"url"`), the
+   README play-now + status links, the dev URL in `CLAUDE.md`, and the
+   hardcoded share URL in `src/lib/share.test.ts` (it still passes, but keep
+   it honest). `REPO_URL` in `src/lib/report.ts` is the GitHub repo and does
+   NOT change.
 4. Known consequence: `localStorage` (streaks/history) does **not** carry across
    origins — players start fresh on the new domain. One-time cost.
 
@@ -71,8 +77,9 @@ build-time only) need no key.
 
 `main` is PR-only: required checks `build / typecheck / lint`, `test`,
 `secret scan`; strict (branch up to date); conversation resolution required;
-rules apply to admins; no force-push/deletion; squash merge; delete branch on
-merge. Re-apply or audit with `bash scripts/protect-main.sh`. Dependabot alerts
+rules apply to admins; no force-push/deletion; squash merge is the convention
+(merge-commit and rebase merging are technically still enabled); delete branch
+on merge. Re-apply or audit with `bash scripts/protect-main.sh`. Dependabot alerts
 and automated security fixes are enabled.
 
 ## Dependency updates
