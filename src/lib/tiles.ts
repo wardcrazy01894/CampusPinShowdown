@@ -21,8 +21,9 @@ import { log } from './log'
 
 const GIBS_URL =
   'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_Black_Marble/default/2016-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png'
+/** A credit, not a ©: NASA imagery is public domain. GIBS asks to be named. */
 export const TILE_ATTRIBUTION =
-  'Imagery &copy; <a href="https://earthdata.nasa.gov/gibs">NASA GIBS</a> — VIIRS Black Marble'
+  'Imagery: <a href="https://earthdata.nasa.gov/gibs">NASA GIBS</a> / VIIRS Black Marble'
 
 /** Deepest zoom a player can reach. 10 ≈ 150 m/px: county scale. */
 export const MAX_ZOOM = 10
@@ -35,8 +36,7 @@ export function makeTileLayer(): L.TileLayer {
     attribution: TILE_ATTRIBUTION,
     maxNativeZoom: MAX_NATIVE_ZOOM,
     maxZoom: MAX_ZOOM,
-    // Night imagery is black at the edges of the world; a dark tile
-    // background keeps the pre-load flash from flashing white.
-    className: 'night-tiles',
+    // (The dark background behind loading tiles comes from `.map-container`
+    // in index.css.)
   })
 }

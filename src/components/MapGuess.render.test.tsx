@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, afterEach } from 'vitest'
 import { StrictMode } from 'react'
-import { render, cleanup } from '@testing-library/react'
+import { render, cleanup, waitFor } from '@testing-library/react'
 import { MapGuess } from './MapGuess'
 import { REGION } from '../lib/region'
 import type { Town } from '../types'
@@ -29,13 +29,16 @@ const town = (id: string, lat: number, lng: number): Town => ({
 afterEach(cleanup)
 
 describe('MapGuess Leaflet lifecycle', () => {
-  it('draws the state outlines in their own pane, under the marker pane', () => {
+  it('draws the state outlines in their own pane, under the marker pane', async () => {
     const { container } = render(
       <MapGuess bounds={REGION.bounds} guess={null} onGuessChange={() => {}} />,
     )
     const pane = container.querySelector('.leaflet-states-pane') as HTMLElement
     expect(pane).toBeTruthy()
-    expect(pane.querySelectorAll('path').length).toBeGreaterThan(40)
+    // Lazy-loaded chunk → wait for it.
+    await waitFor(() =>
+      expect(pane.querySelectorAll('path').length).toBeGreaterThan(40),
+    )
     expect(Number(pane.style.zIndex)).toBeLessThan(400)
     // …and they are NOT in the overlay pane the reveal/leak assertions count.
     expect(

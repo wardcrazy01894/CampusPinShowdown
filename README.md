@@ -34,8 +34,8 @@ result Wordle-style and keep your streak alive.
   womp-womp for a bad miss (🔊/🔇 to mute).
 - 🎉 **Strong-finish celebration** — confetti + a crowd cheer for 4+ greens or
   400+. (Cheer clip: CC0/public-domain, BigSoundBank.)
-- 🔎 **"Is my town in the game?"** — search by town, state or school; request a
-  missing one with one click.
+- 🔎 **"Is my town in the game?"** — after today's puzzle, search by town,
+  state or school; request a missing one with one click.
 - 🔥 **Streaks** and a Wordle-style share card with the puzzle number.
 
 > **Status:** **live** at <https://wardcrazy01894.github.io/CampusPinShowdown/> —

@@ -69,6 +69,10 @@ describe('App', () => {
     expect(
       screen.getByText('Idea courtesy of good friend Garret B.'),
     ).toBeTruthy()
+    // Mid-round the town search is hidden — it would answer the round.
+    expect(
+      screen.queryByRole('button', { name: /is my town in the game/ }),
+    ).toBeNull()
     expect(screen.getByText(/Town coordinates © test/)).toBeTruthy()
     // (Leaflet's own attribution control renders a second NASA GIBS link.)
     expect(
@@ -115,15 +119,38 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     window.history.replaceState({}, '', '/')
   })
 
-  it('keeps the game mounted (and its pin) while the town search overlay is open', async () => {
+  it('offers the town search only once the day is finished, as an overlay over the results', async () => {
+    const { selectDailyTowns, getDateKey } = await import('./lib/daily')
+    const { saveState, STORAGE_VERSION } = await import('./lib/storage')
+    const today = getDateKey(new Date())
+    const towns = selectDailyTowns(FILE.towns, `usa:${today}`)
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history: [],
+      streak: { current: 1, best: 1, lastPlayedDateKey: today },
+      current: {
+        dateKey: today,
+        towns,
+        roundIndex: 4,
+        // Modest scores: a strong finish would fire confetti + a cheer, which
+        // jsdom has no canvas/audio for.
+        results: towns.map((t) => ({
+          town: t,
+          guess: { lat: t.lat + 3, lng: t.lng },
+          distanceMeters: 330_000,
+          score: 42,
+        })),
+        phase: 'finished',
+      },
+    })
     render(<App />)
-    await screen.findByText(/Round 1 of 5/)
+    await screen.findByText(/Done for today!/)
     fireEvent.click(
       screen.getByRole('button', { name: /is my town in the game/ }),
     )
     expect(screen.getByLabelText('Search towns')).toBeTruthy()
-    // The round is still in the DOM underneath the overlay.
-    expect(screen.getByText(/Round 1 of 5/)).toBeTruthy()
+    // The results are still in the DOM underneath the overlay.
+    expect(screen.getByText(/Done for today!/)).toBeTruthy()
     // Leaflet's zoom control / attribution sit at z-index 1000; the overlay
     // must be above them or the hidden map's "+" takes the tap.
     expect(OVERLAY_Z_INDEX).toBeGreaterThan(1000)

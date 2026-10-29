@@ -4,9 +4,26 @@
  * ("Lubbock, Texas — home of Texas Tech University"). Pure; unit-tested.
  */
 
-/** The school the round asks about: the first listed (Cambridge → Harvard). */
-export function promptSchool(schools: string[]): string {
-  return schools[0] ?? ''
+const fold = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+
+/**
+ * The school the round asks about. Prefers a school whose name does NOT
+ * contain the town's name (Moorhead → Concordia College, not "Minnesota State
+ * University Moorhead"); otherwise the first listed (Cambridge → Harvard).
+ * Flagship names that embed the town ("University of Texas at Austin") have
+ * no alternative and are accepted — they are easy-tier by design.
+ */
+export function promptSchool(town: {
+  name: string
+  schools: string[]
+}): string {
+  const t = fold(town.name)
+  return town.schools.find((s) => !fold(s).includes(t)) ?? town.schools[0] ?? ''
 }
 
 /** "Home of the University of Michigan" / "Home of Carleton College and St. Olaf College". */

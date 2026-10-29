@@ -76,7 +76,11 @@ export function MapGuess({
     // State outlines over the night imagery, in their own pane BELOW the
     // default overlay pane (z 400) so markers and the reveal line stay on top.
     map.createPane(STATES_PANE).style.zIndex = '350'
-    makeStateOutlines().addTo(map)
+    // Async: the GeoJSON is its own chunk. Only attach if THIS map is still
+    // the live one (StrictMode double-mount / unmount race).
+    void makeStateOutlines().then((layer) => {
+      if (mapRef.current === map) layer.addTo(map)
+    })
     map.fitBounds(bounds)
     // The initial fit-to-bounds is the WIDEST allowed view — lock minZoom to it
     // so players can't zoom out past the country. (Recompute on resize so the

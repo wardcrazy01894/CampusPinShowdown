@@ -36,6 +36,6 @@ describe('src/data/us-states.json (state outlines)', () => {
   })
 
   it('is small enough to bundle (simplified, 3-decimal coordinates)', () => {
-    expect(JSON.stringify(usStates).length).toBeLessThan(400_000)
+    expect(JSON.stringify(usStates).length).toBeLessThan(150_000)
   })
 })

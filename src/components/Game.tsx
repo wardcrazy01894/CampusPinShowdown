@@ -37,6 +37,9 @@ export interface GameProps {
   towns: Town[]
   /** True only for the official daily challenge. */
   official: boolean
+  /** Called with the phase on mount and every transition (App hides the town
+   *  search until the day is finished — mid-round it would answer the round). */
+  onPhaseChange?: (phase: GameState['phase']) => void
 }
 
 export function Game({
@@ -45,6 +48,7 @@ export function Game({
   bounds,
   towns,
   official,
+  onPhaseChange,
 }: GameProps) {
   // One read of saved state at mount, shared by both the game + streak init.
   const [initial] = useState(() => loadState(storageId))
@@ -59,6 +63,13 @@ export function Game({
       : null,
   )
   const [streak, setStreak] = useState(initial.streak)
+
+  useEffect(() => {
+    onPhaseChange?.(game.phase)
+    // Report the phase whenever it changes; the callback identity is App's
+    // concern (it's a state setter).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game.phase])
 
   useEffect(() => {
     const resumed = game.phase !== 'guessing' || game.results.length > 0
@@ -213,7 +224,7 @@ export function Game({
       ) : (
         <>
           <h2 style={{ margin: '8px 0 2px' }}>
-            Where is {promptSchool(currentTown.schools)}?
+            Where is {promptSchool(currentTown)}?
           </h2>
           <p style={{ marginTop: 0, opacity: 0.8 }}>
             Pin the town it calls home.
