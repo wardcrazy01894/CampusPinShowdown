@@ -1,36 +1,42 @@
 /**
- * The basemap for every Leaflet map in the app. A college-town game wants a
- * CLEAN map — state borders and coastlines are fair, city labels are not — so
- * the default is Esri's **World Light Gray Canvas BASE** layer: free, keyless
- * (same ArcGIS Online service KnowYourCity's satellite layer uses), with
- * administrative boundaries and water but NO place labels (those live in the
- * separate `…_Gray_Reference` layer, which we deliberately don't add).
- * Attribution is required and rendered by Leaflet's attribution control.
+ * The basemap for every Leaflet map in the app: NASA's **Black Marble** —
+ * Earth at night from the VIIRS instrument (2016 composite), served by NASA
+ * GIBS. Free, keyless, public domain. City lights ARE the map: metros glow,
+ * highways trace faint lines between them, and the dark in between is dark.
+ * That is the maptap.gg feel the game is going for, and it is a fair hint —
+ * a college town is usually a modest glow near a bigger one, never labelled.
  *
- * (CARTO's `light_nolabels` raster tiles were the first choice but now require
- * an API key — the tiles render "API KEY REQUIRED" without one.)
+ * GIBS serves this layer to zoom 8 (~600 m/px); Leaflet upscales the level-8
+ * tiles to MAX_ZOOM so players can still fine-tune a pin (blurry, but a pin
+ * at 25 km tolerance doesn't need street detail). State outlines are drawn
+ * separately as a vector layer (src/data/us-states.json) because night
+ * imagery has no borders at all.
  *
- * Zoom is capped at MAX_ZOOM: the perfect radius is 25 km, so there's no reason
- * to zoom to street level, and detail at deep zoom would start to give towns
- * away.
+ * (History: CARTO light_nolabels was the first choice but now requires an API
+ * key; Esri's Light Gray Canvas base was the stand-in until the night map.)
  */
 
 import L from 'leaflet'
 import { log } from './log'
 
-const ESRI_URL =
-  'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'
+const GIBS_URL =
+  'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_Black_Marble/default/2016-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png'
 export const TILE_ATTRIBUTION =
-  'Tiles &copy; <a href="https://www.esri.com/">Esri</a> &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors'
+  'Imagery &copy; <a href="https://earthdata.nasa.gov/gibs">NASA GIBS</a> — VIIRS Black Marble'
 
-/** Deepest zoom a player can reach. 10 ≈ 150 m/px: county scale, no street names. */
+/** Deepest zoom a player can reach. 10 ≈ 150 m/px: county scale. */
 export const MAX_ZOOM = 10
+/** Deepest zoom GIBS actually serves for this layer; Leaflet upscales beyond it. */
+export const MAX_NATIVE_ZOOM = 8
 
 export function makeTileLayer(): L.TileLayer {
-  log.debug('tiles', 'tile provider: esri light gray canvas (base, no labels)')
-  return L.tileLayer(ESRI_URL, {
+  log.debug('tiles', 'tile provider: nasa gibs viirs black marble')
+  return L.tileLayer(GIBS_URL, {
     attribution: TILE_ATTRIBUTION,
-    maxNativeZoom: 16,
+    maxNativeZoom: MAX_NATIVE_ZOOM,
     maxZoom: MAX_ZOOM,
+    // Night imagery is black at the edges of the world; a dark tile
+    // background keeps the pre-load flash from flashing white.
+    className: 'night-tiles',
   })
 }

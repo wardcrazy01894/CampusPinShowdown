@@ -55,11 +55,11 @@ describe('App', () => {
     render(<App />)
     expect(await screen.findByText(/Round 1 of 5/)).toBeTruthy()
     const h2 = screen.getByRole('heading', { level: 2 })
-    expect(h2.textContent).toMatch(/^Where is [A-Za-z ]+\?$/)
-    // The clue is the school, never the state name.
-    expect(screen.getByText(/^Home of University of/)).toBeTruthy()
+    expect(h2.textContent).toMatch(/^Where is University of [A-Za-z ]+\?$/)
+    // The prompt is the school; neither the town nor the state may show.
     for (const t of FILE.towns) {
       expect(h2.textContent).not.toContain(t.state)
+      expect(h2.textContent).not.toContain(`is ${t.name}?`)
     }
   })
 
@@ -101,7 +101,7 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     const day2 = selectDailyTowns(FILE.towns, 'usa:2026-11-02')[0]
     expect(day1.id).not.toBe(day2.id)
     expect(screen.getByRole('heading', { level: 2 }).textContent).toBe(
-      `Where is ${day1.name}?`,
+      `Where is ${day1.schools[0]}?`,
     )
     // Change the day and force a re-render via an unrelated interaction (the
     // mute toggle) — exactly what a tab left open past midnight experiences.
@@ -110,7 +110,7 @@ describe('App — seed change never shows the previous seed’s towns', () => {
       screen.getByRole('button', { name: /Mute sounds|Unmute sounds/ }),
     )
     expect(screen.getByRole('heading', { level: 2 }).textContent).toBe(
-      `Where is ${day2.name}?`,
+      `Where is ${day2.schools[0]}?`,
     )
     window.history.replaceState({}, '', '/')
   })

@@ -29,6 +29,20 @@ const town = (id: string, lat: number, lng: number): Town => ({
 afterEach(cleanup)
 
 describe('MapGuess Leaflet lifecycle', () => {
+  it('draws the state outlines in their own pane, under the marker pane', () => {
+    const { container } = render(
+      <MapGuess bounds={REGION.bounds} guess={null} onGuessChange={() => {}} />,
+    )
+    const pane = container.querySelector('.leaflet-states-pane') as HTMLElement
+    expect(pane).toBeTruthy()
+    expect(pane.querySelectorAll('path').length).toBeGreaterThan(40)
+    expect(Number(pane.style.zIndex)).toBeLessThan(400)
+    // …and they are NOT in the overlay pane the reveal/leak assertions count.
+    expect(
+      container.querySelectorAll('.leaflet-overlay-pane path'),
+    ).toHaveLength(0)
+  })
+
   it('creates exactly one map under StrictMode double-invoke', () => {
     const { container } = render(
       <StrictMode>

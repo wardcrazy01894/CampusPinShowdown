@@ -23,7 +23,7 @@ import { log } from '../lib/log'
 import { loadState, saveState, STORAGE_VERSION } from '../lib/storage'
 import { resolveInitialGame } from '../lib/resume'
 import { lineupHash, recordCompletion } from '../lib/progress'
-import { schoolsLine } from '../lib/schools'
+import { schoolsLine, promptSchool } from '../lib/schools'
 import { revealTag } from '../lib/easterEgg'
 
 export interface GameProps {
@@ -192,22 +192,37 @@ export function Game({
         </span>
       </div>
 
-      <h2 style={{ margin: '8px 0 2px' }}>
-        Where is {currentTown.name}
-        {revealed ? `, ${currentTown.state}` : ''}?
-        {revealed && revealTag(currentTown) && (
-          // Only after the reveal — never a hint. See lib/easterEgg.ts.
-          <span style={{ marginLeft: 8, fontSize: 16, color: '#ffcb05' }}>
-            {revealTag(currentTown)}
-          </span>
-        )}
-      </h2>
-      <p style={{ marginTop: 0, opacity: 0.8 }}>
-        {schoolsLine(currentTown.schools)}
-      </p>
+      {/* The prompt is the SCHOOL; the town is the answer and is withheld until
+          the guess is in (owner rule: "ask where Texas Tech is, then tell me
+          it's Lubbock"). */}
+      {revealed ? (
+        <>
+          <h2 style={{ margin: '8px 0 2px' }}>
+            {currentTown.name}, {currentTown.state}
+            {revealTag(currentTown) && (
+              // Only after the reveal — never a hint. See lib/easterEgg.ts.
+              <span style={{ marginLeft: 8, fontSize: 16, color: '#ffcb05' }}>
+                {revealTag(currentTown)}
+              </span>
+            )}
+          </h2>
+          <p style={{ marginTop: 0, opacity: 0.8 }}>
+            {schoolsLine(currentTown.schools)}
+          </p>
+        </>
+      ) : (
+        <>
+          <h2 style={{ margin: '8px 0 2px' }}>
+            Where is {promptSchool(currentTown.schools)}?
+          </h2>
+          <p style={{ marginTop: 0, opacity: 0.8 }}>
+            Pin the town it calls home.
+          </p>
+        </>
+      )}
       <p style={{ marginTop: 0, fontSize: 14, opacity: 0.6 }}>
         {revealed
-          ? 'The green marker is the real spot.'
+          ? 'The green marker is the real town.'
           : 'Tap the map where you think it is, then submit.'}
       </p>
 

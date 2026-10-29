@@ -48,17 +48,18 @@ falloff with a 350 km length scale:
 Right metro = 🟩 (≥80), right state = 🟨/🟧, wrong region = ⬛ (<20). Distances
 are shown in **miles**. Haversine on a 6,371 km sphere.
 
-## Map (`src/components/MapGuess.tsx`, `src/lib/tiles.ts`)
+## Map (`src/components/MapGuess.tsx`, `src/lib/tiles.ts`, `src/lib/states.ts`)
 
-Esri **World Light Gray Canvas _Base_** tiles (free, keyless ArcGIS Online
-service; attribution rendered): state borders, coastlines and water, **no
-place labels** (those live in Esri's separate `_Reference` layer, which we
-never add). CARTO's `light_nolabels` was the first choice but now needs an
-API key. The map is locked to
-`REGION.bounds` (lower 48 + slack) via `maxBounds` padded by `MAX_BOUNDS_PAD`
-(0.05 — continent scale) with min zoom = the fit-to-bounds zoom and **max zoom
-10** (county scale; street names would give towns away). Alaska/Hawaii are out
-of play for now (BACKLOG).
+**NASA Black Marble** night imagery (VIIRS, 2016 composite) from NASA GIBS —
+free, keyless, public domain, served to zoom 8 and upscaled to the zoom-10 cap.
+City lights are the map: metros glow, the dark stays dark, nothing is labelled
+(the maptap.gg look). **State outlines** are a bundled vector layer
+(`src/data/us-states.json`: Census 1:20m boundaries, public domain, simplified
+to ~1 km, lower 48 + DC, ~120 KB) drawn in their own pane under the markers.
+The map is locked to `REGION.bounds` (lower 48 + slack) via `maxBounds` padded
+by `MAX_BOUNDS_PAD` (0.05) with min zoom = fit-to-bounds and **max zoom 10**.
+Alaska/Hawaii are out of play for now (BACKLOG). (History: CARTO needs a key
+now; Esri Light Gray Canvas was the interim basemap.)
 
 ## Modes, storage, rollover (`mode.ts`, `storage.ts`, `version.ts`)
 
