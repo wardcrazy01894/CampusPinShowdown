@@ -3,11 +3,9 @@ import { defineConfig, configDefaults } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 
 // `base` is the repo name because the site is served as a GitHub Pages PROJECT
-// page (https://wardcrazy01894.github.io/CampusPinShowdown/). When a custom
-// domain is attached, this must become '/' or asset URLs 404 — see
-// docs/OPERATIONS.md. Every runtime fetch of a public/ file goes through
-// import.meta.env.BASE_URL so it follows this value automatically.
-// (`vitest/config` re-exports vite's defineConfig and adds the typed `test` key.)
+// Served at the apex of the custom domain (https://campuspinshowdown.com/),
+// so the base is '/'. (It was '/CampusPinShowdown/' while the site was a
+// GitHub Pages project page; public/CNAME carries the domain.)
 
 function getBuildHash(): string {
   try {
@@ -20,7 +18,7 @@ function getBuildHash(): string {
 const BUILD_HASH = getBuildHash()
 
 export default defineConfig({
-  base: '/CampusPinShowdown/',
+  base: '/',
   plugins: [
     react(),
     {

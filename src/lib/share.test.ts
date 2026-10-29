@@ -59,7 +59,7 @@ describe('buildShareString', () => {
   })
 
   it('appends the site URL as the last line when given one', () => {
-    const url = 'https://wardcrazy01894.github.io/CampusPinShowdown/'
+    const url = 'https://campuspinshowdown.com/'
     const lines = buildShareString('2026-10-30', results, 285, url).split('\n')
     expect(lines).toHaveLength(4)
     expect(lines[3]).toBe(url)

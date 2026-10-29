@@ -9,7 +9,7 @@ compatibility_date = "2025-11-01"
 [vars]
 # Comma-separated allowed browser origins (the worker rejects others).
 # localhost entries are for `npm run dev` against `npm run worker:dev`.
-ALLOWED_ORIGIN = "https://wardcrazy01894.github.io,http://localhost:5173,http://localhost:4173"
+ALLOWED_ORIGIN = "https://campuspinshowdown.com,https://www.campuspinshowdown.com,https://wardcrazy01894.github.io,http://localhost:5173,http://localhost:4173"
 
 # --- D1 database (scores + streaks) ------------------------------------------
 # Created once with `wrangler d1 create cps-leaderboard`; the printed

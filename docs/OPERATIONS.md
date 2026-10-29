@@ -5,9 +5,10 @@ How the **live** site is hosted, deployed, and operated. (Architecture is in
 
 ## Live site
 
-- **URL:** <https://wardcrazy01894.github.io/CampusPinShowdown/>
+- **URL:** <https://campuspinshowdown.com/> (the old project-page URL
+  <https://wardcrazy01894.github.io/CampusPinShowdown/> redirects there)
 - **Host:** GitHub Pages, Source = **GitHub Actions** (`build_type: workflow`),
-  served as a **project page** — hence `base: '/CampusPinShowdown/'` in
+  served at the custom domain's apex — hence `base: '/'` in
   `vite.config.ts`. Every runtime fetch (`towns.json`, `version.json`) is
   base-relative, so the asset/fetch side of a custom-domain move is a one-line
   `base` change (the full checklist is below).
@@ -51,26 +52,28 @@ are absolute — update them with the custom domain (checklist below).
   the player is mid-round or parked on a past day's results (see
   `src/lib/version.ts`). No service worker, so a reload is all it takes.
 
-## Custom domain (when the time comes)
+## Custom domain — `campuspinshowdown.com` (Cloudflare Registrar)
 
-1. Register the domain; point an **ALIAS/ANAME** on the apex (and a `CNAME`
-   for `www`) at `wardcrazy01894.github.io` — or, for a DNS host without
-   ALIAS, the four GitHub Pages apex `A` records (185.199.108–111.153).
-2. Settings → Pages → Custom domain = the apex; tick **Enforce HTTPS** once the
-   certificate is issued. Add `public/CNAME` with the domain so the file ships
-   in every artifact.
-3. Flip `base` in `vite.config.ts` to `'/'`, then replace **every** `github.io`
-   URL: `index.html` (canonical, `og:url`, `og:image`, `twitter:image` and the JSON-LD
-   `"url"`), the
-   README play-now + status links, the dev URL in `CLAUDE.md`, and the
-   hardcoded share URL in `src/lib/share.test.ts` (it still passes, but keep
-   it honest). `REPO_URL` in `src/lib/report.ts` is the GitHub repo and does
-   NOT change.
-4. Add the new origin to `ALLOWED_ORIGIN` in `worker/wrangler.toml` and
-   `npm run worker:deploy`, or every leaderboard submit from the new domain
-   is a 403.
-5. Known consequence: `localStorage` (streaks/history) does **not** carry across
-   origins — players start fresh on the new domain. One-time cost.
+Registered at **Cloudflare Registrar** (at-cost .com, auto-renew ON). DNS is
+the Cloudflare zone for the domain, **DNS-only (grey cloud), not proxied**, so
+GitHub can issue and renew the Pages certificate:
+
+| Type  | Name  | Content                                                                    |
+| ----- | ----- | -------------------------------------------------------------------------- |
+| A     | `@`   | `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` |
+| CNAME | `www` | `wardcrazy01894.github.io`                                                 |
+
+Repo side: `public/CNAME` = `campuspinshowdown.com` (ships in every artifact),
+GitHub Settings → Pages → Custom domain = the apex with **Enforce HTTPS** on,
+`base: '/'` in `vite.config.ts`, absolute URLs in `index.html` (canonical,
+`og:url`, `og:image`, `twitter:image`, JSON-LD) and README, the dev URL in
+`CLAUDE.md`, and the new origins in the worker's `ALLOWED_ORIGIN` (then
+`npm run worker:deploy`). `REPO_URL` in `src/lib/report.ts` is the GitHub repo
+and did not change. Known consequence: `localStorage` (streaks/history) does
+not carry across origins — players who used the github.io URL start fresh.
+
+To move again: repeat the list above for the new name, keep the old origin in
+`ALLOWED_ORIGIN` for a while, and set the old domain to redirect.
 
 ## Client configuration — repo **Variables**
 

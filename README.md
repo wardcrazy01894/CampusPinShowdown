@@ -4,7 +4,7 @@
 
 **A daily "where is that college town?" map-guessing game for the USA.**
 
-### ▶ [Play now → wardcrazy01894.github.io/CampusPinShowdown](https://wardcrazy01894.github.io/CampusPinShowdown/)
+### ▶ [Play now → campuspinshowdown.com](https://campuspinshowdown.com/)
 
 [![CI](https://github.com/wardcrazy01894/CampusPinShowdown/actions/workflows/ci.yml/badge.svg)](https://github.com/wardcrazy01894/CampusPinShowdown/actions/workflows/ci.yml)
 &nbsp;·&nbsp; React + TypeScript + Vite + Leaflet
@@ -43,7 +43,7 @@ result Wordle-style and keep your streak alive.
 - 🔥 **Streaks**, lifetime averages per tier, and a Wordle-style share card
   with the puzzle number.
 
-> **Status:** **live** at <https://wardcrazy01894.github.io/CampusPinShowdown/> —
+> **Status:** **live** at <https://campuspinshowdown.com/> —
 > auto-deploys on every merge to `main` (runbook:
 > [`docs/OPERATIONS.md`](docs/OPERATIONS.md)). Sibling project:
 > [KnowYourCity](https://github.com/wardcrazy01894/KnowYourCity) (same engine
@@ -105,7 +105,7 @@ Nominatim, cached, no key). Schema, tiers and the add-a-town recipe:
 
 Every push to `main` builds and publishes via `.github/workflows/deploy.yml`
 (test gate → Vite build → Pages). The site is a project page, so
-`vite.config.ts` has `base: '/CampusPinShowdown/'`; see
+`vite.config.ts` has `base: '/'` and `public/CNAME` carries the domain; see
 [`docs/OPERATIONS.md`](docs/OPERATIONS.md) for the custom-domain flip, repo
 Variables, and the first-run Pages gotcha. The leaderboard worker deploys
 separately, by hand: `npm run worker:deploy` (see `worker/README.md`).

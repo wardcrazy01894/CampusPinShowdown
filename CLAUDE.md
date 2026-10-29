@@ -73,7 +73,7 @@ Inline `eslint-disable-next-line` is fine for a one-off and must carry a reason.
 
 ```bash
 npm install          # first time
-npm run dev          # local dev server → http://localhost:5173/CampusPinShowdown/
+npm run dev          # local dev server → http://localhost:5173/
 npm run typecheck    # tsc --noEmit (app) + tsconfig.worker.json (worker)
 npm run lint         # eslint
 npm test             # vitest run (write the test first!)
