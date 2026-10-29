@@ -34,11 +34,11 @@ data/towns-seed.json  ──  npm run build-towns  ──▶  public/towns.json
 Hand-assigned, roughly by how nationally recognisable the town is — it drives the
 daily `easy, easy, medium, medium, hard` plan (`docs/PLAN.md`).
 
-| tier   | what goes here                                                                | today |
-| ------ | ----------------------------------------------------------------------------- | ----- |
-| easy   | flagship / Power-conference towns most sports fans can place (Ann Arbor…)     | 59    |
-| medium | well-known mid-majors, regionals, famous small-town Ivies/LACs (Hanover…)     | 91    |
-| hard   | small liberal-arts and deep-cut regional towns (Gambier, Vermillion, Ada OK…) | 140   |
+| tier   | what goes here                                                                 | today |
+| ------ | ------------------------------------------------------------------------------ | ----- |
+| easy   | big schools most sports fans can place (Ann Arbor, Austin, Tuscaloosa…)        | 59    |
+| medium | known names that are tough to place (Toledo, Davidson, Boise State, Dartmouth) | 75    |
+| hard   | small / regional schools (Lehigh, Stetson, Colgate, Gambier, Vermillion…)      | 156   |
 
 **290 towns** total, lower 48 only (the map is locked to `REGION.bounds`;
 Alaska/Hawaii are a BACKLOG item). Big cities with a flagship (Austin,

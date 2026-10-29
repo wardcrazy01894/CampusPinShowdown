@@ -875,7 +875,7 @@
     "schools": [
       "Western Washington University"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Spokane",
@@ -923,7 +923,7 @@
     "schools": [
       "California State University, Chico"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Irvine",
@@ -995,7 +995,7 @@
     "schools": [
       "Gettysburg College"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Las Cruces",
@@ -1067,7 +1067,7 @@
     "schools": [
       "Lehigh University"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Lewisburg",
@@ -1075,7 +1075,7 @@
     "schools": [
       "Bucknell University"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Hamilton",
@@ -1083,7 +1083,7 @@
     "schools": [
       "Colgate University"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Williamstown",
@@ -1091,7 +1091,7 @@
     "schools": [
       "Williams College"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Middlebury",
@@ -1099,7 +1099,7 @@
     "schools": [
       "Middlebury College"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Brunswick",
@@ -1107,7 +1107,7 @@
     "schools": [
       "Bowdoin College"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Oberlin",
@@ -1115,7 +1115,7 @@
     "schools": [
       "Oberlin College"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Davidson",
@@ -1132,7 +1132,7 @@
       "Indiana State University",
       "Rose-Hulman Institute of Technology"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Hattiesburg",
@@ -1148,7 +1148,7 @@
     "schools": [
       "Arkansas State University"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Statesboro",
@@ -1156,7 +1156,7 @@
     "schools": [
       "Georgia Southern University"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Conway",
@@ -1172,7 +1172,7 @@
     "schools": [
       "East Tennessee State University"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Moscow",
@@ -1180,7 +1180,7 @@
     "schools": [
       "University of Idaho"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Golden",
@@ -1188,7 +1188,7 @@
     "schools": [
       "Colorado School of Mines"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Northfield",
@@ -1197,7 +1197,7 @@
       "Carleton College",
       "St. Olaf College"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Mankato",
@@ -1205,7 +1205,7 @@
     "schools": [
       "Minnesota State University, Mankato"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Waterville",
@@ -2133,7 +2133,7 @@
     "schools": [
       "Valparaiso University"
     ],
-    "difficulty": "hard"
+    "difficulty": "medium"
   },
   {
     "name": "Richmond",
@@ -2197,7 +2197,7 @@
     "schools": [
       "Murray State University"
     ],
-    "difficulty": "hard"
+    "difficulty": "medium"
   },
   {
     "name": "Danville",

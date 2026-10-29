@@ -23,8 +23,8 @@ result Wordle-style and keep your streak alive.
   geocoding, no backend, no keys.
 - 🔁 **No server** — "same 5 for everyone" is computed from the date (a
   per-town hash), so adding a town never re-rolls today's puzzle.
-- 🎓 **290 college towns**, hand-curated in three tiers (59 easy · 91 medium ·
-  140 hard), lower 48 only for now.
+- 🎓 **290 college towns**, hand-curated in three tiers (59 easy · 75 medium ·
+  156 hard), lower 48 only for now.
 - 📈 **Difficulty ramp** — each day is easy → easy → medium → medium → hard,
   never two towns from the same state.
 - 🔊 **Sound feedback** — a triumphant arpeggio for a perfect 100, down to a
