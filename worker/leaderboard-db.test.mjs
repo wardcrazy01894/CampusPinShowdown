@@ -7,6 +7,7 @@ import {
   topScores,
   updateStreak,
   pruneOldScores,
+  pruneIfDue,
 } from './leaderboard-lib.mjs'
 
 /**
@@ -26,7 +27,12 @@ function d1(db) {
     first: () => db.prepare(sql).all(...args)[0] ?? null,
   })
   return {
-    prepare: (sql) => ({ bind: (...args) => wrap(sql, args) }),
+    // Like real D1, an unbound statement can run directly (pruneIfDue's
+    // marker read has no params) or be bound first.
+    prepare: (sql) => ({
+      ...wrap(sql, []),
+      bind: (...args) => wrap(sql, args),
+    }),
     batch: async (stmts) => stmts.map((s) => ({ results: s.all() })),
   }
 }
@@ -105,6 +111,19 @@ describe('topScores board (deduped to per-device best)', () => {
       scores: [104, 103, 102],
       total: 5,
     })
+  })
+})
+
+describe('lazy prune (pruneIfDue)', () => {
+  it('prunes once per UTC day and is a no-op until the next day', async () => {
+    const now = new Date('2026-10-29T12:00:00Z')
+    await submit('device-A', 400, 'aaaa', '2026-01-01') // older than 90 days
+    await submit('device-A', 400, 'aaaa', DAY)
+    expect(await pruneIfDue(db, now)).toBe(1) // ran: one old row gone
+    await submit('device-B', 300, 'bbbb', '2026-01-02') // another old row…
+    expect(await pruneIfDue(db, now)).toBeNull() // …but today's prune already ran
+    expect(await pruneIfDue(db, new Date('2026-10-30T00:00:01Z'))).toBe(1) // next UTC day: runs again
+    expect((await topScores(db, 'usa', DAY)).total).toBe(1)
   })
 })
 

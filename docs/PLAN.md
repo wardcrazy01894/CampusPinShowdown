@@ -135,6 +135,13 @@ offline or a non-official game → the line and button are simply absent.
   results screen shows the **larger of local and server per field**
   (`mergeStreak`) — the server table is empty on launch day and misses any day
   a submit failed, so "prefer server" would drop a real streak.
+- **Retention:** `scores` older than 90 days are pruned **lazily** — on a
+  submit, at most once per UTC day (`pruneIfDue`, marker in the `meta` table)
+  — because the Cloudflare account is on the Workers Free plan (5 cron
+  triggers per account, all taken). The `scheduled` handler is kept for the
+  day a cron slot frees up. Streaks are never pruned.
+- **Standing line is a link** to the board; the "View leaderboard" button
+  remains for players without a standing.
 - **Integrity, not anti-cheat:** `official` gates the client; the worker
   validates board, date window, score ∈ [0, 500], id and lineup shapes, origin
   allowlist, body size, and per-IP rate limit (fails closed without one).

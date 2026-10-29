@@ -102,14 +102,27 @@ namespace — nothing is shared with KnowYourCity's `kyc-leaderboard`.
 > signal if you forget.
 
 ```bash
-npm run worker:migrate   # apply worker/migrations/*.sql to the REMOTE D1 (idempotent)
-npm run worker:deploy    # wrangler deploy -c worker/wrangler.toml
+npm run worker:migrate   # FIRST: apply worker/migrations/*.sql to the REMOTE D1 (idempotent)
+npm run worker:deploy    # THEN: wrangler deploy -c worker/wrangler.toml
 ```
+
+Always migrate **before** deploying code that uses a new table: until a
+migration is applied, the new code's queries against it fail (they are
+best-effort and logged — e.g. `leaderboard lazy prune failed: no such table:
+meta` — but nothing gets pruned). `wrangler d1 migrations apply` records what
+it has applied in `d1_migrations`, so only new files run.
 
 First-time setup (`wrangler d1 create cps-leaderboard` → paste the
 `database_id` into the toml → migrate → deploy → set the Variable above → re-run
 the deploy workflow) is in `worker/README.md`. `TURNSTILE_SECRET` is optional and
 should stay unset until the client has an invisible Turnstile execute.
+
+**Cron limit:** the account's Workers Free plan allows **5 cron triggers per
+account** and they were all taken, so this worker has no `[triggers]` block
+(the deploy failed on the schedules API until it was removed). Retention runs
+lazily from submits instead (`pruneIfDue`, once per UTC day). To use a real
+cron, free a slot on another worker or upgrade to Workers Paid, then restore
+the block in `worker/wrangler.toml` and `npm run worker:deploy`.
 
 **Runbook:** a 503 from the worker on every submit = D1 outage or a missing
 migration — `wrangler tail -c worker/wrangler.toml` shows the logged
