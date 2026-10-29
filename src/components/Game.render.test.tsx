@@ -37,7 +37,7 @@ beforeEach(() => localStorage.clear())
 afterEach(cleanup)
 
 describe('Game', () => {
-  it('shows the town + school but withholds the state, and disables submit until a pin is placed', () => {
+  it('asks for the SCHOOL and withholds the town and state until the guess is in', () => {
     render(
       <Game
         storageId="usa"
@@ -48,10 +48,12 @@ describe('Game', () => {
       />,
     )
     expect(screen.getByRole('heading', { level: 2 }).textContent).toBe(
-      'Where is Ann Arbor?',
-    ) // no 〽️ before the reveal — it must never be a hint
-    expect(screen.getByText('Home of University of Michigan')).toBeTruthy()
-    expect(screen.queryByText(/Michigan\?/)).toBeNull()
+      'Where is University of Michigan?',
+    ) // no town, no state, no 〽️ before the reveal — none may be a hint
+    expect(screen.queryByText(/Ann Arbor/)).toBeNull()
+    // The state would appear as ", Michigan" after the town — never before.
+    expect(screen.queryByText(/, Michigan/)).toBeNull()
+    expect(screen.getByText('Pin the town it calls home.')).toBeTruthy()
     expect(
       (
         screen.getByRole('button', {
@@ -90,10 +92,11 @@ describe('Game', () => {
         official
       />,
     )
-    // The 〽️ egg appears only now, after the reveal.
+    // The town (and the 〽️ egg) appear only now, after the reveal.
     expect(screen.getByRole('heading', { level: 2 }).textContent).toBe(
-      'Where is Ann Arbor, Michigan?〽️ Go Blue!',
+      'Ann Arbor, Michigan〽️ Go Blue!',
     )
+    expect(screen.getByText('Home of University of Michigan')).toBeTruthy()
     expect(screen.getByText('25 mi')).toBeTruthy()
     expect(screen.getByRole('button', { name: 'Next round' })).toBeTruthy()
   })
@@ -165,5 +168,54 @@ describe('Game — resume mid-reveal restores the pin', () => {
     expect(
       container.querySelectorAll('.leaflet-overlay-pane path'),
     ).toHaveLength(3)
+  })
+})
+
+describe('Game — reports its phase to the parent', () => {
+  it('calls onPhaseChange with the saved phase on mount', () => {
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history: [],
+      streak: { current: 0, best: 0, lastPlayedDateKey: null },
+      current: {
+        dateKey: '2026-10-29',
+        towns,
+        roundIndex: 1,
+        results: towns.map((t) => ({
+          town: t,
+          guess: { lat: t.lat, lng: t.lng },
+          distanceMeters: 900_000,
+          score: 8,
+        })),
+        phase: 'finished',
+      },
+    })
+    const seen: string[] = []
+    render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+        onPhaseChange={(p) => seen.push(p)}
+      />,
+    )
+    expect(seen).toEqual(['finished'])
+  })
+
+  it('reports guessing for a fresh day', () => {
+    const seen: string[] = []
+    render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+        onPhaseChange={(p) => seen.push(p)}
+      />,
+    )
+    expect(seen).toEqual(['guessing'])
   })
 })

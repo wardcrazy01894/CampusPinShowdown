@@ -14,13 +14,16 @@
 
 ---
 
-Every day, **everyone gets the same 5 college towns**. You see a town's name and
-the school that calls it home (e.g. _Ann Arbor — University of Michigan_), drop
-a pin on a map of the United States, and score by how close you got. Share your
+Every day, **everyone gets the same 5 college towns**. You're asked where a
+school is (_Where is Texas Tech University?_), you drop a pin on a night-lights
+map of the United States, and only then do you learn the town (_Lubbock,
+Texas_) and how close you got. Share your
 result Wordle-style and keep your streak alive.
 
-- 💸 **$0 to run** — free label-free Esri canvas map tiles, free OpenStreetMap
-  geocoding, no backend, no keys.
+- 🌃 **Earth at night** — NASA's Black Marble imagery (city lights, no labels)
+  with state outlines, like maptap.gg.
+- 💸 **$0 to run** — free NASA tiles, free OpenStreetMap geocoding, no
+  backend, no keys.
 - 🔁 **No server** — "same 5 for everyone" is computed from the date (a
   per-town hash), so adding a town never re-rolls today's puzzle.
 - 🎓 **290 college towns**, hand-curated in three tiers (59 easy · 91 medium ·
@@ -31,8 +34,8 @@ result Wordle-style and keep your streak alive.
   womp-womp for a bad miss (🔊/🔇 to mute).
 - 🎉 **Strong-finish celebration** — confetti + a crowd cheer for 4+ greens or
   400+. (Cheer clip: CC0/public-domain, BigSoundBank.)
-- 🔎 **"Is my town in the game?"** — search by town, state or school; request a
-  missing one with one click.
+- 🔎 **"Is my town in the game?"** — after today's puzzle, search by town,
+  state or school; request a missing one with one click.
 - 🔥 **Streaks** and a Wordle-style share card with the puzzle number.
 
 > **Status:** **live** at <https://wardcrazy01894.github.io/CampusPinShowdown/> —
@@ -43,11 +46,12 @@ result Wordle-style and keep your streak alive.
 
 ## 🎮 How to play
 
-1. A **town name and its school** appear over a map of the USA (the state is
-   withheld — that's the game).
+1. A **school name** appears over a night-lights map of the USA — the town
+   and state are withheld; that's the game.
 2. **Click the map** where you think it is (zoom in for precision — up to
    county scale).
-3. **Submit** → the real spot is revealed with your distance (miles) and score.
+3. **Submit** → the town is revealed (_Lubbock, Texas_) with your distance
+   (miles) and score.
    100 points within ~15 miles, then an exponential falloff: right metro = 🟩,
    right state = 🟨/🟧, wrong region = ⬛.
 4. Five rounds, then a results screen with your total /500, streak, and a

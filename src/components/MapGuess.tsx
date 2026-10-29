@@ -5,8 +5,8 @@
  * avoid the default-marker-icon bundler breakage — we draw guess/truth as
  * circle markers and connect them with a polyline on reveal.
  *
- * Tiles: the shared label-free basemap from src/lib/tiles.ts (Esri Light Gray
- * Canvas base layer).
+ * Tiles: NASA Black Marble night imagery from src/lib/tiles.ts, with state
+ * outlines from src/lib/states.ts drawn in their own pane.
  *
  * The map is locked NEAR `bounds` (maxBounds + viscosity) so players can't pan
  * off into the ocean. The lock box is padded (see padBounds): with maxBounds
@@ -25,6 +25,7 @@ import type { Guess, Town } from '../types'
 import { log } from '../lib/log'
 import { padBounds } from '../lib/mapBounds'
 import { makeTileLayer, MAX_ZOOM } from '../lib/tiles'
+import { makeStateOutlines, STATES_PANE } from '../lib/states'
 
 export interface MapGuessProps {
   /** Bounding box the map is locked to, [[south, west], [north, east]]. */
@@ -72,6 +73,14 @@ export function MapGuess({
     const tiles = makeTileLayer()
     tiles.on('tileerror', () => log.debug('MapGuess', 'tile failed to load'))
     tiles.addTo(map)
+    // State outlines over the night imagery, in their own pane BELOW the
+    // default overlay pane (z 400) so markers and the reveal line stay on top.
+    map.createPane(STATES_PANE).style.zIndex = '350'
+    // Async: the GeoJSON is its own chunk. Only attach if THIS map is still
+    // the live one (StrictMode double-mount / unmount race).
+    void makeStateOutlines().then((layer) => {
+      if (mapRef.current === map) layer.addTo(map)
+    })
     map.fitBounds(bounds)
     // The initial fit-to-bounds is the WIDEST allowed view — lock minZoom to it
     // so players can't zoom out past the country. (Recompute on resize so the
