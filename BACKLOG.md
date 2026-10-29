@@ -5,14 +5,30 @@ shipped them (git history is the changelog).
 
 ## Next
 
-- Game engine (daily selection, scoring, storage/streaks, share) — PR #1.
-- Playable UI + first town dataset — PR #2.
-- Docs (PLAN / DATA / OPERATIONS) + SEO polish — PR #3.
+- **Custom domain** (likely soon): runbook in `docs/OPERATIONS.md` §Custom domain.
+- **Open Graph image** for link unfurls (`og:image`, 1200×630) — currently
+  `twitter:card: summary` with no image.
+- **Playtest the scoring curve** with real players; constants in
+  `src/lib/scoring.ts` (25 km perfect radius, 350 km decay) and the table in
+  `docs/PLAN.md` are the thing to tune.
+- **Dataset passes:** more deep-cut towns (HBCUs, service academies beyond
+  Annapolis/West Point/USAFA, more D-III towns); re-tier anything players flag.
 
 ## Later
 
-- Custom domain (likely soon — flip `base` in `vite.config.ts` to `/`).
-- Open Graph image for link unfurls.
-- "Hint" mode: reveal the state for a point penalty.
-- Alaska / Hawaii towns (the map is locked to the lower 48 for now).
-- Anonymous daily leaderboard (port from KnowYourCity's worker).
+- **Hint mode:** reveal the state for a point penalty (the state is withheld by
+  design today).
+- **Alaska / Hawaii:** the map is locked to the lower 48; a second region or a
+  wider box with an inset.
+- **Anonymous daily leaderboard** — port KnowYourCity's Cloudflare Worker + D1
+  (the `lineupHash` charset is already leaderboard-safe).
+- **One-click bug reports** — port KnowYourCity's bug worker (Turnstile +
+  rate-limit) instead of the prefilled-issue link.
+- **Day recap** after results: all five pins on one map with a blurb per town.
+- **Difficulty-tier labels** on the round ("🟢 easy") and a per-tier stats line
+  on results.
+- **Downgraded lint rules:** `react-hooks/refs` and `react-hooks/set-state-in-effect`
+  are `warn` (inherited patterns in App/MapGuess); fixing them is behaviour
+  work and must be test-first.
+- **TypeScript 7** once typescript-eslint supports it (Dependabot ignore in
+  `.github/dependabot.yml`).

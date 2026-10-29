@@ -52,6 +52,7 @@ never in a follow-up. The PR template has the checklist.
 | `scripts/build-towns.mjs`, `data/towns-seed.json` | `docs/DATA.md` (schema, tiers, how to add a town)     |
 | `public/towns.json`                               | Counts in README + DATA                               |
 | `.github/workflows/*`, `scripts/protect-main.sh`  | `docs/OPERATIONS.md` + this file's CI-checks list     |
+| `vite.config.ts` (`base`), `index.html` URLs      | `docs/OPERATIONS.md` §Live site / §Custom domain      |
 | `.github/dependabot.yml`                          | `docs/OPERATIONS.md` §Dependency updates              |
 | `eslint.config.js`                                | A comment in the config saying why a rule was changed |
 | `package.json` scripts / engines                  | README + this file's command list                     |
