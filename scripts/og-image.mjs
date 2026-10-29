@@ -3,12 +3,15 @@
  * Render public/og-image.png (1200×630) from scripts/og-image/index.html with
  * headless Chrome. Run: `npm run og-image`. Override the browser binary with
  * CHROME=/path/to/chrome (any Chromium ≥ 112 with --headless=new works).
+ * Paths resolve against the repo root, so it also works from any cwd.
  */
 import { execFileSync } from 'node:child_process'
-import { existsSync, mkdtempSync, rmSync } from 'node:fs'
+import { existsSync, mkdtempSync, rmSync, statSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join, resolve } from 'node:path'
+import { join } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
+const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const CANDIDATES = [
   process.env.CHROME,
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
@@ -23,8 +26,9 @@ if (!chrome) {
   process.exit(1)
 }
 
-const src = resolve('scripts/og-image/index.html')
-const out = resolve('public/og-image.png')
+const src = join(ROOT, 'scripts', 'og-image', 'index.html')
+const out = join(ROOT, 'public', 'og-image.png')
+const started = Date.now()
 const profile = mkdtempSync(join(tmpdir(), 'cps-og-'))
 try {
   execFileSync(
@@ -37,11 +41,17 @@ try {
       '--window-size=1200,630',
       `--user-data-dir=${profile}`,
       `--screenshot=${out}`,
-      `file://${src}`,
+      pathToFileURL(src).href,
     ],
     { stdio: ['ignore', 'ignore', 'inherit'] },
   )
 } finally {
   rmSync(profile, { recursive: true, force: true })
+}
+
+// Chrome can exit 0 without writing (e.g. a crashed renderer) — verify.
+if (!existsSync(out) || statSync(out).mtimeMs < started) {
+  console.error(`Chrome exited but ${out} was not (re)written`)
+  process.exit(1)
 }
 console.log(`wrote ${out}`)
