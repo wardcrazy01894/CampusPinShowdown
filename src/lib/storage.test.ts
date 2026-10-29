@@ -118,7 +118,17 @@ describe('loadState', () => {
     })
     saveState('usa', sp)
     expect(loadState('usa')).toEqual(sp)
-    expect(loadState('seattle')).toEqual(defaultState())
+    expect(loadState('usa__date')).toEqual(defaultState())
+  })
+})
+
+describe('loadState shape check', () => {
+  it('treats a right-version but malformed value as corrupt (no deep throw later)', () => {
+    stub.map.set(
+      `cps:v${STORAGE_VERSION}:usa`,
+      JSON.stringify({ version: STORAGE_VERSION }),
+    )
+    expect(loadState('usa')).toEqual(defaultState())
   })
 })
 
@@ -137,14 +147,14 @@ describe('clearState', () => {
   it('removes ONLY the given key, leaving other namespaces intact', () => {
     saveState('usa', sample())
     saveState('usa__shuffle', sample())
-    saveState('seattle', sample())
+    saveState('usa__date', sample())
     stub.map.set('unrelated:key', 'keep-me')
     clearState('usa')
     // Only the official usa save is gone.
     expect(loadState('usa')).toEqual(defaultState())
-    // The isolated shuffle namespace and other cities are untouched.
+    // The isolated shuffle and date namespaces are untouched.
     expect(loadState('usa__shuffle')).not.toEqual(defaultState())
-    expect(loadState('seattle')).not.toEqual(defaultState())
+    expect(loadState('usa__date')).not.toEqual(defaultState())
     expect(stub.map.get('unrelated:key')).toBe('keep-me')
   })
 
@@ -170,21 +180,42 @@ describe('applyStartupReset', () => {
     expect(loadState('usa')).not.toEqual(defaultState())
   })
 
-  it('clears the active namespace and returns true when the URL asks for a fresh start', () => {
+  it('drops the current game but KEEPS history + streak when the URL asks for a fresh start', () => {
+    // The bug: ?reset used to wipe the whole key — a bookmarked ?reset link
+    // zeroed a 30-day streak on every visit.
     vi.stubGlobal('window', { location: { search: '?reset' } })
-    saveState('usa', sample())
+    const before = sample({
+      current: {
+        dateKey: '2026-10-29',
+        towns: [],
+        roundIndex: 2,
+        results: [],
+        phase: 'guessing',
+      },
+    })
+    saveState('usa', before)
     expect(applyStartupReset('usa')).toBe(true)
-    expect(loadState('usa')).toEqual(defaultState())
+    const after = loadState('usa')
+    expect(after.current).toBeUndefined()
+    expect(after.history).toEqual(before.history)
+    expect(after.streak).toEqual(before.streak)
   })
 
   it('a ?shuffle reset clears ONLY the shuffle namespace, never the official daily', () => {
     // The bug: ?shuffle wiped the real in-progress daily via a blanket clear.
     vi.stubGlobal('window', { location: { search: '?shuffle' } })
-    saveState('usa', sample()) // the official daily in progress
-    saveState('usa__shuffle', sample()) // a previous shuffle game
+    const game = {
+      dateKey: '2026-10-29',
+      towns: [],
+      roundIndex: 1,
+      results: [],
+      phase: 'guessing' as const,
+    }
+    saveState('usa', sample({ current: game })) // the official daily in progress
+    saveState('usa__shuffle', sample({ current: game })) // a previous shuffle game
     expect(applyStartupReset('usa__shuffle')).toBe(true)
-    expect(loadState('usa')).not.toEqual(defaultState()) // daily preserved
-    expect(loadState('usa__shuffle')).toEqual(defaultState()) // shuffle cleared
+    expect(loadState('usa').current).toEqual(game) // daily preserved
+    expect(loadState('usa__shuffle').current).toBeUndefined() // shuffle cleared
   })
 
   it('returns false (clears nothing) when no active namespace is known', () => {

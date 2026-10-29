@@ -6,11 +6,22 @@ import {
   getDateKey,
   isValidDateKey,
   hashStringToSeed,
-  mulberry32,
+  dayRank,
   puzzleNumber,
   selectDailyTowns,
 } from './daily'
 import type { Difficulty, Town } from '../types'
+
+// Golden values — see the GOLDEN tests below before touching.
+const GOLDEN_HASH = 604240846
+const GOLDEN_RANK = -988247844
+const GOLDEN_LINEUP = [
+  'easy-002',
+  'easy-005',
+  'medium-009',
+  'medium-003',
+  'hard-007',
+]
 
 function town(id: string, stateCode: string, difficulty: Difficulty): Town {
   return {
@@ -28,7 +39,23 @@ function town(id: string, stateCode: string, difficulty: Difficulty): Town {
 }
 
 /** n towns per difficulty, spread across `states` round-robin. */
-function makeTowns(perTier: number, states = ['MI', 'OH', 'TX', 'CA']): Town[] {
+/** Twelve states so the fresh-state preference rarely has to compromise. */
+const STATES = [
+  'MI',
+  'OH',
+  'TX',
+  'CA',
+  'GA',
+  'NY',
+  'PA',
+  'WA',
+  'CO',
+  'FL',
+  'IL',
+  'VA',
+]
+
+function makeTowns(perTier: number, states = STATES): Town[] {
   const out: Town[] = []
   for (const d of ['easy', 'medium', 'hard'] as const) {
     for (let i = 0; i < perTier; i++) {
@@ -95,7 +122,7 @@ describe('puzzleNumber', () => {
   })
 })
 
-describe('hashStringToSeed / mulberry32', () => {
+describe('hashStringToSeed / dayRank', () => {
   it('hashes deterministically and distinguishes similar strings', () => {
     expect(hashStringToSeed('usa:2026-10-29')).toBe(
       hashStringToSeed('usa:2026-10-29'),
@@ -105,15 +132,9 @@ describe('hashStringToSeed / mulberry32', () => {
     )
   })
 
-  it('PRNG is deterministic and in [0, 1)', () => {
-    const a = mulberry32(42)
-    const b = mulberry32(42)
-    for (let i = 0; i < 100; i++) {
-      const x = a()
-      expect(x).toBe(b())
-      expect(x).toBeGreaterThanOrEqual(0)
-      expect(x).toBeLessThan(1)
-    }
+  it('GOLDEN: the hash is pinned — changing it re-rolls every past and future puzzle', () => {
+    expect(hashStringToSeed('usa:2026-10-29')).toBe(GOLDEN_HASH)
+    expect(dayRank('usa:2026-10-29', 'ann-arbor-mi')).toBe(GOLDEN_RANK)
   })
 })
 
@@ -124,6 +145,43 @@ describe('selectDailyTowns', () => {
     const picks = selectDailyTowns(towns, 'usa:2026-10-29')
     expect(picks).toHaveLength(ROUNDS_PER_DAY)
     expect(new Set(picks.map((t) => t.id)).size).toBe(ROUNDS_PER_DAY)
+  })
+
+  it('GOLDEN: the launch-day lineup for the fixture is pinned', () => {
+    // If this changes, every player's puzzle for every day changes. Only
+    // update it deliberately (and say so in the PR).
+    expect(selectDailyTowns(towns, 'usa:2026-10-29').map((t) => t.id)).toEqual(
+      GOLDEN_LINEUP,
+    )
+  })
+
+  it('STABILITY: adding one town leaves almost every day untouched', () => {
+    // The must-fix from PR #1 review: a whole-pool shuffle re-rolled TODAY's
+    // puzzle under players on every dataset deploy. With per-town ranks, a new
+    // town changes a day only when it out-ranks a current pick for a slot.
+    // Same state as an existing town: a new town in a brand-new state would
+    // win the fresh-state preference every day it isn't already used, which is
+    // the (accepted, documented) cost of that rule — not what this test guards.
+    const grown = [...towns, town('hard-999', 'MI', 'hard')]
+    let same = 0
+    const DAYS = 60
+    for (let i = 0; i < DAYS; i++) {
+      const d = new Date(Date.UTC(2026, 10, 1 + i)).toISOString().slice(0, 10)
+      const a = selectDailyTowns(towns, `usa:${d}`).map((t) => t.id)
+      const b = selectDailyTowns(grown, `usa:${d}`).map((t) => t.id)
+      if (a.join() === b.join()) same++
+    }
+    // One new hard town among 11 can win the single hard slot ~1 day in 11.
+    expect(same).toBeGreaterThanOrEqual(DAYS * 0.8)
+  })
+
+  it('STABILITY: removing a town that was not picked changes nothing for that day', () => {
+    const picks = selectDailyTowns(towns, 'usa:2026-10-29')
+    const notPicked = towns.find((t) => !picks.some((p) => p.id === t.id))!
+    const without = towns.filter((t) => t.id !== notPicked.id)
+    expect(
+      selectDailyTowns(without, 'usa:2026-10-29').map((t) => t.id),
+    ).toEqual(picks.map((t) => t.id))
   })
 
   it('is deterministic for the same seed and independent of input order', () => {
@@ -146,8 +204,8 @@ describe('selectDailyTowns', () => {
   })
 
   it('prefers a fresh state for every slot when the pool allows it', () => {
-    // 4 states × 10 per tier: five distinct states are impossible, but no state
-    // should repeat until all four are used.
+    // With 12 states and 10 towns per tier, the first four slots can always
+    // find a fresh state.
     for (const day of [
       '2026-10-29',
       '2026-11-05',

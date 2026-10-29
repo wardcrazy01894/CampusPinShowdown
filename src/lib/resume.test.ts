@@ -56,7 +56,7 @@ describe('sameLineup', () => {
     expect(sameLineup([], [])).toBe(true)
   })
 
-  it('false when a location was re-pinned (same id, different coords)', () => {
+  it('false when a town was re-pinned (same id, different coords)', () => {
     const a = lineup(['a', 'b', 'c'])
     const b = lineup(['a', 'b', 'c'])
     b[1] = { ...b[1], lat: b[1].lat + 0.004 } // override edited the answer pin
@@ -99,7 +99,7 @@ describe('resolveInitialGame', () => {
     )
   })
 
-  // The bug fix: a venue was removed / an override edited after the player
+  // The bug fix: a town was removed / re-pinned after the player
   // finished, so today's freshly-selected lineup no longer matches the stored
   // one. Don't replay the stale lineup — start fresh so the NEW set is playable.
   it('starts fresh when the lineup changed since the saved game', () => {
@@ -126,10 +126,10 @@ describe('resolveInitialGame', () => {
     expect(result.results).toEqual([])
   })
 
-  // A location's answer pin was corrected (same ids/order, moved coords) after
+  // A town's answer pin was corrected (same ids/order, moved coords) after
   // the player started today. Don't keep serving the stale pin on reload — start
   // fresh so today's reload reflects the fix instead of waiting for tomorrow.
-  it('starts fresh when a location was re-pinned today', () => {
+  it('starts fresh when a town was re-pinned today', () => {
     const saved = savedGame(today, ['a', 'b', 'c'])
     const corrected = lineup(['a', 'b', 'c'])
     corrected[1] = { ...corrected[1], lat: corrected[1].lat + 0.004 }

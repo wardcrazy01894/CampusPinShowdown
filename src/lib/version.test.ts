@@ -9,6 +9,7 @@ import type { GameState } from '../types'
 
 afterEach(() => {
   vi.restoreAllMocks()
+  vi.unstubAllEnvs()
 })
 
 const game = (over: Partial<GameState> = {}): GameState => ({
@@ -87,6 +88,19 @@ describe('fetchRemoteHash', () => {
   it('returns the deployed hash on a good response', async () => {
     const fetchFn = vi.fn(async () => res()) as unknown as typeof fetch
     expect(await fetchRemoteHash(fetchFn)).toBe('abc123')
+  })
+
+  it('fetches version.json RELATIVE to the Vite base, cache-busted', async () => {
+    // The site is a GitHub Pages PROJECT page (/CampusPinShowdown/). A fetch of
+    // the absolute `/version.json` would 404 there and silently disable
+    // auto-update for every player.
+    vi.stubEnv('BASE_URL', '/CampusPinShowdown/')
+    const fetchFn = vi.fn(async () => res()) as unknown as typeof fetch
+    await fetchRemoteHash(fetchFn)
+    const url = String(
+      (fetchFn as unknown as { mock: { calls: string[][] } }).mock.calls[0][0],
+    )
+    expect(url.startsWith('/CampusPinShowdown/version.json?_=')).toBe(true)
   })
 
   it('returns null and logs the HTTP status when /version.json is failing', async () => {

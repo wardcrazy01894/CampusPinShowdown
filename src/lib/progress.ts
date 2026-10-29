@@ -2,10 +2,10 @@
  * Day-completion bookkeeping: folding a finished game into history + streak.
  *
  * A day's puzzle is identified by (dateKey, lineup) — the lineup being a short
- * hash of the day's location ids. Normally there's one lineup per date, so one
- * record. But the OFFICIAL daily set can change under a player mid-day (a venue
- * removed, an override edited); when that happens they're allowed to replay the
- * new set (see resume.ts), and that genuine second completion deserves its own
+ * hash of the day's town ids. Normally there's one lineup per date, so one
+ * record. But the OFFICIAL daily set can change under a player mid-day (a town
+ * removed or re-pinned); when that happens they're allowed to replay the new
+ * set (see resume.ts), and that genuine second completion deserves its own
  * record. Both records are kept. The streak, by
  * contrast, is binary "did they complete the official game that day" — it bumps
  * once per calendar date no matter how many lineups get played.
@@ -47,7 +47,7 @@ export function bumpStreak(prev: Streak, dateKey: string): Streak {
 }
 
 /**
- * Stable identity for a day's lineup: a short hash of its location ids in play
+ * Stable identity for a day's lineup: a short hash of its town ids in play
  * order. Distinguishes the normal official set from a changed set, so a genuine
  * replay is a distinct completion while a reload of the same game is not.
  */
@@ -59,7 +59,7 @@ export function lineupHash(towns: Pick<Town, 'id'>[]): string {
   return (hashStringToSeed(towns.map((l) => l.id).join('|')) >>> 0).toString(36)
 }
 
-interface CompletedDay {
+export interface CompletedDay {
   dateKey: string
   /** lineupHash of the set actually played. */
   lineup: string

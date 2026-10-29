@@ -5,6 +5,7 @@ import {
   scoreGuess,
   formatDistance,
   metersToMiles,
+  totalScore,
   scoreEmoji,
   MAX_ROUND_SCORE,
   PERFECT_RADIUS_M,
@@ -59,11 +60,18 @@ describe('scoreForDistance', () => {
     expect(scoreForDistance(PERFECT_RADIUS_M + DECAY_M)).toBe(37)
   })
 
-  it('hits the documented anchor points (right metro / right state / wrong region)', () => {
-    expect(scoreForDistance(100_000)).toBe(81)
-    expect(scoreForDistance(300_000)).toBe(46)
-    expect(scoreForDistance(500_000)).toBe(26)
-    expect(scoreForDistance(1_000_000)).toBe(6)
+  it('hits every documented anchor point (the table in scoring.ts)', () => {
+    const table: Array<[number, number]> = [
+      [50_000, 93],
+      [100_000, 81],
+      [200_000, 61],
+      [300_000, 46],
+      [500_000, 26],
+      [800_000, 11],
+      [1_000_000, 6],
+      [1_500_000, 1],
+    ]
+    for (const [m, s] of table) expect(scoreForDistance(m), `${m} m`).toBe(s)
   })
 
   it('reaches exactly 0 for a cross-country miss', () => {
@@ -102,6 +110,13 @@ describe('scoreGuess', () => {
     // Eugene, OR
     const r = scoreGuess(annArbor, { lat: 44.0521, lng: -123.0868 })
     expect(r.score).toBe(0)
+  })
+})
+
+describe('totalScore', () => {
+  it('sums round scores (0 for no rounds)', () => {
+    expect(totalScore([])).toBe(0)
+    expect(totalScore([{ score: 100 }, { score: 37 }, { score: 0 }])).toBe(137)
   })
 })
 

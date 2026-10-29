@@ -63,6 +63,11 @@ export function scoreGuess(
   return { distanceMeters, score: scoreForDistance(distanceMeters) }
 }
 
+/** Sum of round scores — the day's total. */
+export function totalScore(results: ReadonlyArray<{ score: number }>): number {
+  return results.reduce((sum, r) => sum + r.score, 0)
+}
+
 export function metersToMiles(meters: number): number {
   return meters / METERS_PER_MILE
 }

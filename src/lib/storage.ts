@@ -8,6 +8,7 @@
  */
 
 import type { DayRecord, GameState } from '../types'
+import type { Streak } from './progress'
 import { log } from './log'
 import { shouldStartFresh } from './devmode'
 
@@ -19,11 +20,17 @@ const keyFor = (storageId: string) => `${PREFIX}:${storageId}`
 
 export interface PersistedState {
   version: number
-  /** In-progress game, if the player hasn't finished today. */
+  /**
+   * Today's game — in progress OR finished. A finished game STAYS here (Game
+   * persists `phase: 'finished'`): the results screen re-shows on reload, and
+   * both the midnight-rollover freeze (mode.ts:resolveSessionMode) and the
+   * auto-reload deferral (version.ts:shouldDeferReload) read it to decide
+   * whether a day-advance would disturb the player. Never clear it on finish.
+   */
   current?: GameState
   /** Completed days, newest last. */
   history: DayRecord[]
-  streak: { current: number; best: number; lastPlayedDateKey: string | null }
+  streak: Streak
 }
 
 /** Returns persisted state for a namespace, or a fresh default on miss/corruption. */
@@ -31,7 +38,7 @@ export function loadState(storageId: string): PersistedState {
   try {
     const raw = localStorage.getItem(keyFor(storageId))
     if (!raw) return defaultState()
-    const parsed = JSON.parse(raw) as PersistedState
+    const parsed = JSON.parse(raw) as Partial<PersistedState> | null
     if (parsed?.version !== STORAGE_VERSION) {
       log.warn('storage', 'version mismatch — resetting saved state', {
         found: parsed?.version,
@@ -39,7 +46,14 @@ export function loadState(storageId: string): PersistedState {
       })
       return defaultState()
     }
-    return parsed
+    // Shape check: a hand-edited or partially-written value with the right
+    // version but no `history`/`streak` would otherwise throw deep inside
+    // recordCompletion on game completion. Treat it as corrupt.
+    if (!Array.isArray(parsed.history) || typeof parsed.streak !== 'object') {
+      log.warn('storage', 'malformed saved state — resetting', {})
+      return defaultState()
+    }
+    return parsed as PersistedState
   } catch (e) {
     // Corrupt JSON, disabled storage, etc. — never throw on read.
     log.warn('storage', 'load failed — using defaults', { error: String(e) })
@@ -82,9 +96,23 @@ export function clearState(storageId: string): void {
 }
 
 /**
- * Clears saved progress on load when the URL asks for it (`?reset`/`?fresh`/
- * `?shuffle`) — see src/lib/devmode.ts. Default loads persist. Returns true if
- * it cleared. Call once at startup, before any component reads state.
+ * Drop ONLY the current game from a namespace, keeping its history and streak.
+ * This is what `?reset` needs: replay today's set from round 1 without
+ * erasing a 30-day streak (which a whole-key wipe would). Best-effort.
+ */
+export function clearCurrent(storageId: string): void {
+  const state = loadState(storageId)
+  if (!state.current) return
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- drop `current`
+  const { current: _dropped, ...rest } = state
+  saveState(storageId, rest)
+}
+
+/**
+ * Clears the in-progress/finished game on load when the URL asks for it
+ * (`?reset`/`?fresh`/`?shuffle`) — see src/lib/devmode.ts. History and streak
+ * are preserved. Default loads persist. Returns true if it cleared. Call once
+ * at startup, before any component reads state.
  *
  * `storageId` is the ACTIVE mode's namespace (from resolveMode): `?reset`/
  * `?fresh` resolve to the official `usa` (replay today's set fresh), while
@@ -96,7 +124,7 @@ export function applyStartupReset(storageId: string | null): boolean {
   if (typeof window === 'undefined') return false
   if (!shouldStartFresh(window.location.search)) return false
   if (!storageId) return false
-  clearState(storageId)
-  log.info('storage', 'startup reset: cleared saved state', { storageId })
+  clearCurrent(storageId)
+  log.info('storage', 'startup reset: cleared current game', { storageId })
   return true
 }

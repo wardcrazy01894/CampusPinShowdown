@@ -33,22 +33,8 @@ export function shouldDeferReload(
 }
 
 /**
- * Decide what to do when /version.json reports a (possibly new) deploy.
- *
- * @param localHash  - Git hash embedded at build time (import.meta.env.VITE_BUILD_HASH)
- * @param remoteHash - Hash returned by /version.json on the live CDN
- * @param defer      - Whether a reload would interrupt the player (see shouldDeferReload)
- *
- * Returns:
- *   'noop'   — hashes match; nothing to do
- *   'reload' — new deploy detected and a reload wouldn't disrupt anything; reload
- *   'defer'  — new deploy detected but a reload would disrupt the player (mid-round,
- *              or sitting on results after the day rolled over); do nothing now. A
- *              later check (interval/tab-focus) picks it up once it's safe — there's
- *              no banner to click.
- */
-/**
- * Fetch the deployed build hash from /version.json (cache-busted). Returns the
+ * Fetch the deployed build hash from version.json next to the app (cache-busted,
+ * base-relative — the site is a GitHub Pages project page). Returns the
  * hash, or null on any failure — never throws.
  *
  * Failure logging is deliberate (scan finding): if /version.json persistently
@@ -82,6 +68,21 @@ export async function fetchRemoteHash(
   }
 }
 
+/**
+ * Decide what to do when version.json reports a (possibly new) deploy.
+ *
+ * @param localHash  - Git hash embedded at build time (import.meta.env.VITE_BUILD_HASH)
+ * @param remoteHash - Hash returned by version.json (fetched relative to the Vite base)
+ * @param defer      - Whether a reload would interrupt the player (see shouldDeferReload)
+ *
+ * Returns:
+ *   'noop'   — hashes match; nothing to do
+ *   'reload' — new deploy detected and a reload wouldn't disrupt anything; reload
+ *   'defer'  — new deploy detected but a reload would disrupt the player (mid-round,
+ *              or sitting on results after the day rolled over); do nothing now. A
+ *              later check (interval/tab-focus) picks it up once it's safe — there's
+ *              no banner to click.
+ */
 export function versionCheckAction(
   localHash: string,
   remoteHash: string,

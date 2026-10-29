@@ -36,8 +36,11 @@ describe('padBounds', () => {
       [27, -84],
       [28, -82],
     ])
-    // The default pad must actually widen the box (the whole point of #71).
+    // The default pad must actually widen the box (the whole point of padding).
     expect(MAX_BOUNDS_PAD).toBeGreaterThan(0)
+    // …but stay continent-appropriate: on the lower-48 box (~25° × ~59°) more
+    // than ~0.1 per side would let players pan deep into Mexico/Canada/ocean.
+    expect(MAX_BOUNDS_PAD).toBeLessThanOrEqual(0.1)
     expect(padded[0][0]).toBeLessThan(27)
     expect(padded[1][0]).toBeGreaterThan(28)
   })

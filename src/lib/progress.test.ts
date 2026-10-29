@@ -44,8 +44,9 @@ describe('lineupHash', () => {
 
   // REGRESSION: the underlying 32-bit hash is negative ~half the time, and a
   // naive `.toString(36)` then prefixes a '-'. A strict-charset validator
-  // isValidLineup rejects anything outside [0-9a-z] (a leading '-' → HTTP 400),
-  // so a negative-hash lineup silently dropped the player's score from the board.
+  // would reject anything outside [0-9a-z] (a leading '-'), so the hash must be
+  // coerced to unsigned before base36 — pinned here so a future leaderboard
+  // can rely on it.
   // The hash MUST always be charset-safe. `['a','b','e']` is a known negative case.
   it('is always charset-safe (never a leading "-")', () => {
     // Charset inherited from KnowYourCity's leaderboard validator; {1,16}

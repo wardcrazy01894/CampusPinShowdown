@@ -2,10 +2,10 @@
  * Deterministic daily town selection.
  *
  * GOAL: every player who loads the game on a given day sees the SAME 5 towns in
- * the SAME order, with NO backend. Achieved by hashing the selection seed
- * (region + date) into a seed for a tiny PRNG, shuffling a COPY of the dataset
- * sorted by id, then filling the fixed difficulty plan (DIFFICULTY_PLAN) while
- * preferring a fresh state for each slot.
+ * the SAME order, with NO backend. Each town gets a per-day rank — a hash of
+ * `<seed>|<town id>` — the pool is sorted by that rank, and the fixed
+ * difficulty plan (DIFFICULTY_PLAN) is filled from the front while preferring a
+ * fresh state for each slot.
  *
  * ── Day boundary (read this) ─────────────────────────────────────────────────
  * The puzzle rolls over at midnight in the PLAYER's local timezone, like Wordle.
@@ -14,11 +14,18 @@
  * takes an explicit IANA timezone for tests and for anything that needs
  * determinism.)
  *
- * ── Stability tradeoff ───────────────────────────────────────────────────────
- * Selection is a pure function of (seed, dataset). Adding/removing a town
- * changes the shuffle for every date — past and future puzzles shift. For a
- * friends game that's acceptable; if it ever matters, freeze per-date picks
- * into a committed manifest. See docs/PLAN.md.
+ * ── Stability under dataset changes (read this) ──────────────────────────────
+ * Ranks are per town, NOT a shuffle of the whole list, so adding or removing a
+ * town leaves every other town's rank for every day untouched. A day's lineup
+ * changes only if the new town out-ranks a current pick for one of that day's
+ * slots (or a removed town WAS a pick). One subtlety: the fresh-state preference
+ * means a new town in a state that day hasn't used yet can also win a slot over
+ * a higher-ranked town whose state is taken — rare with ~46 states and 5
+ * slots, and accepted. The dataset grows through the "add my
+ * town" flow, so this matters: a whole-pool Fisher–Yates would re-roll TODAY's
+ * puzzle under players mid-game on every data deploy (the resume logic then
+ * restarts them on the new lineup — see resume.ts). A guard test pins this
+ * property. See docs/PLAN.md.
  */
 
 import type { Difficulty, Town } from '../types'
@@ -47,14 +54,22 @@ export const EPOCH_DATE_KEY = '2026-10-29'
 
 /**
  * Returns the calendar day as "YYYY-MM-DD" — in `timeZone` when given,
- * otherwise in the runtime's local timezone (the player's). Uses the en-CA
- * locale, which formats as YYYY-MM-DD. Pure given `now` (+ timeZone).
+ * otherwise in the runtime's local timezone (the player's). Pure given `now`
+ * (+ timeZone).
  */
 export function getDateKey(now: Date = new Date(), timeZone?: string): string {
-  return new Intl.DateTimeFormat(
-    'en-CA',
-    timeZone ? { timeZone } : undefined,
-  ).format(now)
+  // Assemble from numeric parts rather than trusting a locale's short-date
+  // pattern: ICU has changed `en-CA` output before (Chrome 110 briefly gave
+  // M/D/YYYY), and a non-ISO key would seed a different puzzle for that browser
+  // and blow up the streak math.
+  const parts = new Intl.DateTimeFormat('en-US', {
+    ...(timeZone ? { timeZone } : {}),
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(now)
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? ''
+  return `${get('year')}-${get('month')}-${get('day')}`
 }
 
 /**
@@ -102,29 +117,17 @@ export function hashStringToSeed(str: string): number {
   return (h2 >>> 0) ^ (h1 >>> 0)
 }
 
-/** mulberry32 — tiny deterministic PRNG. Returns floats in [0, 1). */
-export function mulberry32(seed: number): () => number {
-  let a = seed >>> 0
-  return function () {
-    a |= 0
-    a = (a + 0x6d2b79f5) | 0
-    let t = Math.imul(a ^ (a >>> 15), 1 | a)
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
-  }
-}
-
 /**
  * Deterministically pick `count` towns for a selection seed (e.g.
  * "usa:2026-10-29"), following DIFFICULTY_PLAN.
  *
- *  - The list is first sorted by `id` so source-file order never matters (only
- *    membership does).
- *  - Fisher–Yates shuffle driven by a seed-derived mulberry32. Same seed + same
- *    dataset ⇒ identical result in every browser. No Math.random().
- *  - Each slot takes the first shuffled town of its difficulty whose state is
- *    not yet in today's lineup; then any of its difficulty; then any town at
- *    all — so a full set is always returned.
+ *  - Every town is ranked by hashStringToSeed(`${seed}|${id}`) (ties broken
+ *    by id), so source-file order never matters and other towns' ranks don't
+ *    move when one is added or removed. Same seed + same dataset ⇒ identical
+ *    result in every browser. No Math.random().
+ *  - Each slot takes the best-ranked town of its difficulty whose state is not
+ *    yet in today's lineup; then any of its difficulty; then any town at all —
+ *    so a full set is always returned.
  *
  * @throws if the dataset has fewer than `count` towns.
  */
@@ -138,13 +141,18 @@ export function selectDailyTowns(
       `Need at least ${count} towns, got ${all.length}. Add more to public/towns.json.`,
     )
   }
-  const pool = [...all].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
-  const rand = mulberry32(hashStringToSeed(seed))
-  for (let i = pool.length - 1; i > 0; i--) {
-    const j = Math.floor(rand() * (i + 1))
-    ;[pool[i], pool[j]] = [pool[j], pool[i]]
-  }
+  const rank = new Map(all.map((t) => [t.id, dayRank(seed, t.id)]))
+  const pool = [...all].sort(
+    (a, b) =>
+      rank.get(a.id)! - rank.get(b.id)! ||
+      (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+  )
   return fillByDifficulty(pool, count)
+}
+
+/** A town's position in the day's ordering. Pure; independent of every other town. */
+export function dayRank(seed: string, townId: string): number {
+  return hashStringToSeed(`${seed}|${townId}`)
 }
 
 function fillByDifficulty(pool: Town[], count: number): Town[] {

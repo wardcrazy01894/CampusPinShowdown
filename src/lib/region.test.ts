@@ -1,5 +1,7 @@
-import { describe, it, expect } from 'vitest'
-import { REGION, inRegion } from './region'
+import { describe, it, expect, afterEach, vi } from 'vitest'
+import { REGION, inRegion, townsUrl } from './region'
+
+afterEach(() => vi.unstubAllEnvs())
 
 describe('REGION (lower 48)', () => {
   it('contains towns from every corner of the country', () => {
@@ -17,6 +19,11 @@ describe('REGION (lower 48)', () => {
   it('excludes Alaska and Hawaii (out of play for now)', () => {
     expect(inRegion(REGION, { lat: 64.84, lng: -147.72 })).toBe(false) // Fairbanks
     expect(inRegion(REGION, { lat: 21.3, lng: -157.86 })).toBe(false) // Honolulu
+  })
+
+  it('townsUrl is relative to the Vite base (project page), not the origin root', () => {
+    vi.stubEnv('BASE_URL', '/CampusPinShowdown/')
+    expect(townsUrl()).toBe('/CampusPinShowdown/towns.json')
   })
 
   it('is well-formed: south < north, west < east', () => {

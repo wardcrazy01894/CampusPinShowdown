@@ -1,7 +1,7 @@
 /**
  * Map-bounds helpers (pure — no Leaflet/DOM so they're unit-testable).
  *
- * Why padding exists (#71): MapGuess locks the map with `maxBounds` +
+ * Why padding exists (inherited from KnowYourCity): MapGuess locks the map with `maxBounds` +
  * `maxBoundsViscosity: 1`. With maxBounds set to EXACTLY the play bounds, the
  * hard wall sits flush against playable towns: integer zoom snapping can
  * leave a whole axis unpannable just above min zoom, and a location on the
@@ -12,8 +12,14 @@
 
 type LatLngBoundsTuple = [[number, number], [number, number]]
 
-/** How much slack MapGuess gives `maxBounds` around the play area, per side. */
-export const MAX_BOUNDS_PAD = 0.3
+/**
+ * How much slack MapGuess gives `maxBounds` around the play area, per side, as
+ * a fraction of each axis. KnowYourCity uses 0.3 at city scale; on the lower-48
+ * box that would be ~7.5° of latitude / ~17.6° of longitude per side (deep into
+ * Mexico, Canada and open ocean). 0.05 ≈ 1.3° / 3° — enough to centre a coastal
+ * town, not enough to lose the country.
+ */
+export const MAX_BOUNDS_PAD = 0.05
 
 /** Expand a [[south, west], [north, east]] box by `ratio` of each axis extent
  *  on every side (mirrors Leaflet's `LatLngBounds.pad`). */
