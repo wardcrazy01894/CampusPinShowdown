@@ -12,7 +12,7 @@ import { ROUNDS_PER_DAY, puzzleNumber } from './daily'
  *
  *   📍 CampusPin Showdown #12
  *   2026-11-09 · 412/500
- *   🟩🟩🟨🟧⬛
+ *   💯🟩🟨🟧⬛        (a perfect 100 gets the day's special emoji)
  *   https://…/            (only when `url` is given)
  */
 export function buildShareString(
@@ -22,7 +22,7 @@ export function buildShareString(
   url?: string,
 ): string {
   const maxTotal = ROUNDS_PER_DAY * MAX_ROUND_SCORE
-  const bar = results.map((r) => scoreEmoji(r.score)).join('')
+  const bar = results.map((r) => scoreEmoji(r.score, dateKey)).join('')
   const lines = [
     `📍 CampusPin Showdown #${puzzleNumber(dateKey)}`,
     `${dateKey} · ${totalScore.toLocaleString('en-US')}/${maxTotal.toLocaleString('en-US')}`,

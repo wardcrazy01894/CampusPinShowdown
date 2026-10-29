@@ -59,8 +59,10 @@ falloff with a 350 km length scale:
 | -------- | ----- | ------ | ------ | ------ | ------ | ------ | ------- | ------- |
 | score    | 93    | 81     | 61     | 46     | 26     | 11     | 6       | 1       |
 
-Right metro = 🟩 (≥80), right state = 🟨/🟧, wrong region = ⬛ (<20). Distances
-are shown in **miles**. Haversine on a 6,371 km sphere.
+Right metro = 🟩 (≥80), right state = 🟨/🟧, wrong region = ⬛ (<20). A
+**perfect 100** shows the day's special emoji instead of 🟩 — `PERFECT_EMOJIS`
+rotates by puzzle number (#1 💯, #2 🏆, #3 〽️, #4 🎯, #5 ⭐, #6 🥇, repeat) so
+every share card that day agrees. Distances are shown in **miles**. Haversine on a 6,371 km sphere.
 
 ## Map (`src/components/MapGuess.tsx`, `src/lib/tiles.ts`, `src/lib/states.ts`)
 

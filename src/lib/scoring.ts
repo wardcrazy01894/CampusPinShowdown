@@ -16,6 +16,7 @@
  */
 
 import type { Guess, Town } from '../types'
+import { puzzleNumber } from './daily'
 
 /** Max points for one round. A perfect 5-round day = 500. */
 export const MAX_ROUND_SCORE = 100
@@ -82,8 +83,28 @@ export function formatDistance(meters: number): string {
   return `${Math.round(mi).toLocaleString('en-US')} mi`
 }
 
-/** Emoji tier for a single round score: 🟩≥80 🟨≥50 🟧≥20 ⬛<20. */
-export function scoreEmoji(score: number): string {
+/**
+ * The emoji for a PERFECT round (100), which rotates daily so a share card
+ * with a 100 in it stands out from an ordinary green — and everyone's card
+ * agrees on the day's emoji. Indexed by puzzle number: #1 💯, #2 🏆, #3 〽️
+ * (the Michigan one), #4 🎯, #5 ⭐, #6 🥇, then round again.
+ */
+export const PERFECT_EMOJIS = ['💯', '🏆', '〽️', '🎯', '⭐', '🥇'] as const
+
+export function perfectEmoji(dateKey: string): string {
+  const n = puzzleNumber(dateKey)
+  const len = PERFECT_EMOJIS.length
+  // An invalid date key would make n NaN → index NaN; fall back to plain green.
+  return PERFECT_EMOJIS[(((n - 1) % len) + len) % len] ?? '🟩'
+}
+
+/**
+ * Score → tier emoji for the share bar and results rows. With a `dateKey`, a
+ * perfect 100 gets that day's special emoji instead of plain green; without
+ * one (legacy callers), 100 is just a 🟩.
+ */
+export function scoreEmoji(score: number, dateKey?: string): string {
+  if (score >= MAX_ROUND_SCORE && dateKey) return perfectEmoji(dateKey)
   if (score >= 80) return '🟩'
   if (score >= 50) return '🟨'
   if (score >= 20) return '🟧'
