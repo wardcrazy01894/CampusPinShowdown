@@ -236,16 +236,16 @@ export function App() {
         }}
       >
         <div>
-          {file.attribution} Map tiles ©{' '}
+          {file.attribution} Night imagery ©{' '}
           <a
-            href="https://www.esri.com/"
+            href="https://earthdata.nasa.gov/gibs"
             target="_blank"
             rel="noreferrer"
             style={{ color: 'inherit' }}
           >
-            Esri
+            NASA GIBS
           </a>{' '}
-          (Esri, HERE, Garmin, © OpenStreetMap contributors).
+          (VIIRS Black Marble, public domain). State outlines: US Census Bureau.
         </div>
         <div>Idea courtesy of good friend Garret B.</div>
       </footer>

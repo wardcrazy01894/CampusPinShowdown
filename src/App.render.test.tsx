@@ -70,9 +70,9 @@ describe('App', () => {
       screen.getByText('Idea courtesy of good friend Garret B.'),
     ).toBeTruthy()
     expect(screen.getByText(/Town coordinates © test/)).toBeTruthy()
-    // (Leaflet's own attribution control renders a second Esri link.)
+    // (Leaflet's own attribution control renders a second NASA GIBS link.)
     expect(
-      screen.getAllByRole('link', { name: 'Esri' }).length,
+      screen.getAllByRole('link', { name: 'NASA GIBS' }).length,
     ).toBeGreaterThan(0)
   })
 
