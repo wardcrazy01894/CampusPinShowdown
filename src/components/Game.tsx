@@ -30,6 +30,7 @@ import { resolveInitialGame } from '../lib/resume'
 import { lineupHash, recordCompletion } from '../lib/progress'
 import { schoolsLine, promptSchool } from '../lib/schools'
 import { revealTag } from '../lib/easterEgg'
+import { hintText } from '../lib/hintRegions'
 import { tierLabel } from '../lib/tiers'
 
 export interface GameProps {
@@ -120,8 +121,9 @@ export function Game({
     })
   }
 
-  /** Reveal the state for this round (costs HINT_PENALTY on submit). Persisted
-   *  immediately so a reload keeps both the hint and the penalty. */
+  /** Reveal the REGION (3–6 neighbouring states, never the one state) for
+   *  this round; costs HINT_PENALTY on submit. Persisted immediately so a
+   *  reload keeps both the hint and the penalty. */
   function useHint() {
     if (game.phase !== 'guessing' || game.hintUsed) return
     log.info('Game', 'hint used', {
@@ -252,14 +254,15 @@ export function Game({
           <p style={{ marginTop: 0, opacity: 0.8 }}>
             Pin the town it calls home.
             {/* Hint: the state is withheld by design (PLAN §Game loop); the
-                player can buy it for HINT_PENALTY points on this round. */}{' '}
+                player can buy the REGION for HINT_PENALTY points this round. */}{' '}
             {game.hintUsed ? (
               <span style={{ color: '#ffcb05' }}>
-                💡 It’s in {currentTown.state} · −{HINT_PENALTY} pts
+                💡 It’s in {hintText(currentTown.stateCode)} · −{HINT_PENALTY}{' '}
+                pts
               </span>
             ) : (
               <button type="button" onClick={useHint} style={hintButton}>
-                💡 Reveal the state (−{HINT_PENALTY} pts)
+                💡 Reveal the region (−{HINT_PENALTY} pts)
               </button>
             )}
           </p>

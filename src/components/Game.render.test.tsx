@@ -139,7 +139,7 @@ describe('Game', () => {
 })
 
 describe('Game — hint mode', () => {
-  it('offers the state for a penalty before the guess, never shows it unasked', () => {
+  it('offers the REGION for a penalty before the guess, never shows it unasked', () => {
     render(
       <Game
         storageId="usa"
@@ -150,14 +150,17 @@ describe('Game — hint mode', () => {
       />,
     )
     const hint = screen.getByRole('button', {
-      name: '💡 Reveal the state (−30 pts)',
+      name: '💡 Reveal the region (−25 pts)',
     })
-    // The prompt names the University of Michigan; the STATE line must not.
-    expect(screen.queryByText(/It’s in Michigan/)).toBeNull()
+    expect(screen.queryByText(/It’s in/)).toBeNull()
     fireEvent.click(hint)
-    expect(screen.getByText(/💡 It’s in Michigan · −30 pts/)).toBeTruthy()
+    // The REGION (a group of states), never the one state by itself.
     expect(
-      screen.queryByRole('button', { name: /Reveal the state/ }),
+      screen.getByText(/💡 It’s in the Great Lakes \(OH, MI, IN, IL, WI\)/),
+    ).toBeTruthy()
+    expect(screen.queryByText(/, Michigan/)).toBeNull()
+    expect(
+      screen.queryByRole('button', { name: /Reveal the region/ }),
     ).toBeNull()
     // Still no town, and the hint is persisted for a reload.
     expect(screen.queryByText(/Ann Arbor/)).toBeNull()
@@ -187,7 +190,7 @@ describe('Game — hint mode', () => {
         official
       />,
     )
-    expect(screen.getByText(/It’s in Michigan/)).toBeTruthy()
+    expect(screen.getByText(/It’s in the Great Lakes/)).toBeTruthy()
     unmount()
     // A revealed hinted round shows the deduction next to the score.
     saveState('usa', {
@@ -203,7 +206,7 @@ describe('Game — hint mode', () => {
             town: towns[0],
             guess: { lat: 42.29, lng: -83.75 },
             distanceMeters: 1_000,
-            score: 70,
+            score: 75,
             hinted: true,
           },
         ],
@@ -220,8 +223,8 @@ describe('Game — hint mode', () => {
         official
       />,
     )
-    expect(screen.getByText(/💡 hint used \(−30\)/)).toBeTruthy()
-    expect(screen.getByText('70')).toBeTruthy()
+    expect(screen.getByText(/💡 hint used \(−25\)/)).toBeTruthy()
+    expect(screen.getByText('75')).toBeTruthy()
   })
 })
 

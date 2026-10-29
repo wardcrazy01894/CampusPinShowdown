@@ -13,6 +13,7 @@ import { ROUNDS_PER_DAY, puzzleNumber } from './daily'
  *   📍 CampusPin Showdown #12
  *   2026-11-09 · 412/500
  *   🟩🟩🟨🟧⬛
+ *   💡 2 hints           (only when a region hint was taken)
  *   https://…/            (only when `url` is given)
  */
 export function buildShareString(
@@ -28,6 +29,9 @@ export function buildShareString(
     `${dateKey} · ${totalScore.toLocaleString('en-US')}/${maxTotal.toLocaleString('en-US')}`,
     bar,
   ]
+  // Hints are an honest part of the card: say how many rounds used one.
+  const hints = results.filter((r) => r.hinted).length
+  if (hints > 0) lines.push(`💡 ${hints} ${hints === 1 ? 'hint' : 'hints'}`)
   if (url) lines.push(url)
   return lines.join('\n')
 }

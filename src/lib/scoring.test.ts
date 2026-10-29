@@ -122,7 +122,7 @@ describe('scoreGuess', () => {
         hinted: true,
       },
     )
-    expect(perfect.score).toBe(MAX_ROUND_SCORE - HINT_PENALTY) // 70: never green
+    expect(perfect.score).toBe(MAX_ROUND_SCORE - HINT_PENALTY) // 75: never green
     expect(perfect.score).toBeLessThan(80)
     const miss = scoreGuess(
       annArbor,
@@ -141,9 +141,9 @@ describe('scoreGuess', () => {
 })
 
 describe('applyHintPenalty', () => {
-  it('is HINT_PENALTY (30) off, floored at zero, and a no-op without a hint', () => {
-    expect(HINT_PENALTY).toBe(30)
-    expect(applyHintPenalty(100, true)).toBe(70)
+  it('is HINT_PENALTY (25) off, floored at zero, and a no-op without a hint', () => {
+    expect(HINT_PENALTY).toBe(25)
+    expect(applyHintPenalty(100, true)).toBe(75)
     expect(applyHintPenalty(10, true)).toBe(0)
     expect(applyHintPenalty(55, false)).toBe(55)
   })

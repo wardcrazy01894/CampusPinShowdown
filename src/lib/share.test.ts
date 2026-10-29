@@ -35,6 +35,23 @@ describe('buildShareString', () => {
     expect(lines).toHaveLength(3)
   })
 
+  it('adds a 💡 line when any round used a hint, and none otherwise', () => {
+    const hinted = results.map((r, i) =>
+      i === 1 || i === 3 ? { ...r, hinted: true } : r,
+    )
+    const lines = buildShareString('2026-10-30', hinted, 235, 'https://x/')
+    expect(lines.split('\n')).toEqual([
+      '📍 CampusPin Showdown #2',
+      '2026-10-30 · 235/500',
+      expect.any(String),
+      '💡 2 hints',
+      'https://x/',
+    ])
+    const one = results.map((r, i) => (i === 0 ? { ...r, hinted: true } : r))
+    expect(buildShareString('2026-10-30', one, 260)).toMatch(/\n💡 1 hint$/)
+    expect(buildShareString('2026-10-30', results, 285)).not.toMatch(/💡/)
+  })
+
   it('has one emoji per round', () => {
     const bar = buildShareString('2026-10-30', results, 285).split('\n')[2]
     expect([...bar].length).toBe(results.length)

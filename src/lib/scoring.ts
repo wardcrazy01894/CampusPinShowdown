@@ -56,11 +56,12 @@ export function scoreForDistance(distanceMeters: number): number {
 
 /** Score a guess against a town, returning distance + score. */
 /**
- * Points deducted from a round when the player revealed the state first. The
- * state collapses the search from a continent to one region, so a hinted
- * perfect pin tops out at 70 — a good round, never a green one.
+ * Points deducted from a round when the player revealed the region first
+ * (src/lib/hintRegions.ts: a group of 3–6 neighbouring states, never the one
+ * state). It narrows the search from a continent to a corner of it, so a
+ * hinted perfect pin tops out at 75 — a good round, never a green one.
  */
-export const HINT_PENALTY = 30
+export const HINT_PENALTY = 25
 
 /** The round score after an optional hint penalty, floored at 0. Pure. */
 export function applyHintPenalty(score: number, hinted: boolean): number {
