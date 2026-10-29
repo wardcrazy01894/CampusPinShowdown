@@ -19,5 +19,10 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "include": ["worker/leaderboard-lib.mjs", "worker/leaderboard.mjs"]
+  "include": [
+    "worker/leaderboard-lib.mjs",
+    "worker/leaderboard.mjs",
+    "worker/bug-report-lib.mjs",
+    "worker/bug-report.mjs"
+  ]
 }

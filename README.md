@@ -36,6 +36,8 @@ result Wordle-style and keep your streak alive.
   womp-womp for a bad miss (🔊/🔇 to mute).
 - 🎉 **Strong-finish celebration** — confetti + a crowd cheer for 4+ greens or
   400+. (Cheer clip: CC0/public-domain, BigSoundBank.)
+- 🐛 **In-app bug reports** — type what went wrong and send; it lands as a
+  GitHub issue without leaving the site.
 - 🔎 **"Is my town in the game?"** — after today's puzzle, search by town,
   state or school; request a missing one with one click.
 - 💡 **Hint mode** — buy the region (3–6 neighbouring states) for −25 points
