@@ -16,6 +16,7 @@
     "test": "vitest run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "og-image": "node scripts/og-image.mjs",
     "build-towns": "node scripts/build-towns.mjs"
   },
   "dependencies": {

@@ -6,8 +6,6 @@ shipped them (git history is the changelog).
 ## Next
 
 - **Custom domain** (likely soon): runbook in `docs/OPERATIONS.md` §Custom domain.
-- **Open Graph image** for link unfurls (`og:image`, 1200×630) — currently
-  `twitter:card: summary` with no image.
 - **Playtest the scoring curve** with real players; constants in
   `src/lib/scoring.ts` (25 km perfect radius, 350 km decay) and the table in
   `docs/PLAN.md` are the thing to tune.
@@ -25,8 +23,7 @@ shipped them (git history is the changelog).
 - **One-click bug reports** — port KnowYourCity's bug worker (Turnstile +
   rate-limit) instead of the prefilled-issue link.
 - **Day recap** after results: all five pins on one map with a blurb per town.
-- **Difficulty-tier labels** on the round ("🟢 easy") and a per-tier stats line
-  on results.
+- **Per-tier stats line** on results (lifetime average per 🟢/🟡/🔴).
 - **Downgraded lint rules:** `react-hooks/refs` and `react-hooks/set-state-in-effect`
   are `warn` (inherited patterns in App/MapGuess); fixing them is behaviour
   work and must be test-first.

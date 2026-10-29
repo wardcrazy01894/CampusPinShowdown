@@ -105,6 +105,7 @@ Variables, and the first-run Pages gotcha.
 
 ```bash
 npm run typecheck && npm run lint && npm run format:check && npm test && npm run build
+npm run og-image     # re-render public/og-image.png (share card) after a branding change
 ```
 
 That is exactly what CI gates on. See [`CLAUDE.md`](CLAUDE.md) for the working

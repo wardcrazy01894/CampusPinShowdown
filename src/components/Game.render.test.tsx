@@ -54,6 +54,8 @@ describe('Game', () => {
     // The state would appear as ", Michigan" after the town — never before.
     expect(screen.queryByText(/, Michigan/)).toBeNull()
     expect(screen.getByText('Pin the town it calls home.')).toBeTruthy()
+    // The tier is shown up front as an expectation-setter (town-independent).
+    expect(screen.getByText('🟢 Easy')).toBeTruthy()
     expect(
       (
         screen.getByRole('button', {
@@ -130,6 +132,9 @@ describe('Game', () => {
     )
     expect(screen.getByText(/Done for today!/)).toBeTruthy()
     expect(screen.getByText(/Streak 3 \(best 5\)/)).toBeTruthy()
+    // Each results row carries its tier so a miss on a 🔴 reads fairly.
+    expect(screen.getByText('🟢 Easy')).toBeTruthy()
+    expect(screen.getByText('🔴 Hard')).toBeTruthy()
   })
 })
 
