@@ -17,7 +17,7 @@ the school that calls it home (e.g. _Ann Arbor — University of Michigan_), dro
 a pin on a map of the United States, and score by how close you got. Share your
 result Wordle-style and keep your streak alive.
 
-- 💸 **$0 to run** — free label-free CARTO map tiles, free OpenStreetMap
+- 💸 **$0 to run** — free label-free Esri canvas map tiles, free OpenStreetMap
   geocoding, no backend, no keys.
 - 🔁 **No server** — "same 5 for everyone" is computed from the date (a
   per-town hash), so adding a town never re-rolls today's puzzle.

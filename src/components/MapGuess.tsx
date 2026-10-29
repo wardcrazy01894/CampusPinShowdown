@@ -5,7 +5,8 @@
  * avoid the default-marker-icon bundler breakage — we draw guess/truth as
  * circle markers and connect them with a polyline on reveal.
  *
- * Tiles: the shared label-free basemap from src/lib/tiles.ts (CARTO).
+ * Tiles: the shared label-free basemap from src/lib/tiles.ts (Esri Light Gray
+ * Canvas base layer).
  *
  * The map is locked NEAR `bounds` (maxBounds + viscosity) so players can't pan
  * off into the ocean. The lock box is padded (see padBounds): with maxBounds

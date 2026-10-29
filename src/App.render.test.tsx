@@ -70,9 +70,9 @@ describe('App', () => {
       screen.getByText('Idea courtesy of good friend Garret B.'),
     ).toBeTruthy()
     expect(screen.getByText(/Town coordinates © test/)).toBeTruthy()
-    // (Leaflet's own attribution control renders a second OSM link.)
+    // (Leaflet's own attribution control renders a second Esri link.)
     expect(
-      screen.getAllByRole('link', { name: 'OpenStreetMap' }).length,
+      screen.getAllByRole('link', { name: 'Esri' }).length,
     ).toBeGreaterThan(0)
   })
 

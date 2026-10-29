@@ -220,25 +220,16 @@ export function App() {
         }}
       >
         <div>
-          {file.attribution} Map ©{' '}
+          {file.attribution} Map tiles ©{' '}
           <a
-            href="https://www.openstreetmap.org/copyright"
+            href="https://www.esri.com/"
             target="_blank"
             rel="noreferrer"
             style={{ color: 'inherit' }}
           >
-            OpenStreetMap
+            Esri
           </a>{' '}
-          contributors ©{' '}
-          <a
-            href="https://carto.com/attributions"
-            target="_blank"
-            rel="noreferrer"
-            style={{ color: 'inherit' }}
-          >
-            CARTO
-          </a>
-          .
+          (Esri, HERE, Garmin, © OpenStreetMap contributors).
         </div>
         <div>Idea courtesy of good friend Garret B.</div>
       </footer>
