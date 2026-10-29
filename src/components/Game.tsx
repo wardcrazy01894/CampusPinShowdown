@@ -30,7 +30,7 @@ import { resolveInitialGame } from '../lib/resume'
 import { lineupHash, recordCompletion } from '../lib/progress'
 import { schoolsLine, promptSchool } from '../lib/schools'
 import { revealTag } from '../lib/easterEgg'
-import { hintText } from '../lib/hintRegions'
+import { hintRegion, hintText } from '../lib/hintRegions'
 import { tierLabel } from '../lib/tiers'
 
 export interface GameProps {
@@ -124,11 +124,13 @@ export function Game({
   /** Reveal the REGION (3–6 neighbouring states, never the one state) for
    *  this round; costs HINT_PENALTY on submit. Persisted immediately so a
    *  reload keeps both the hint and the penalty. */
-  function useHint() {
+  function revealHint() {
     if (game.phase !== 'guessing' || game.hintUsed) return
+    // Log the REGION, never the town: the round is still open and info logs
+    // print to the console.
     log.info('Game', 'hint used', {
       round: game.roundIndex + 1,
-      town: currentTown.id,
+      region: hintRegion(currentTown.stateCode).name,
     })
     const next: GameState = { ...game, hintUsed: true }
     setGame(next)
@@ -262,7 +264,7 @@ export function Game({
                 pts
               </span>
             ) : (
-              <button type="button" onClick={useHint} style={hintButton}>
+              <button type="button" onClick={revealHint} style={hintButton}>
                 💡 Reveal the region (−{HINT_PENALTY} pts)
               </button>
             )}

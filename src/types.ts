@@ -67,7 +67,7 @@ export interface RoundResult {
   distanceMeters: number
   /** Score for this round, integer 0..MAX_ROUND_SCORE (after any hint penalty). */
   score: number
-  /** True when the player revealed the state before guessing (scoring.ts:
+  /** True when the player revealed the REGION before guessing (scoring.ts:
    *  HINT_PENALTY was deducted). Absent on rounds played before hints existed. */
   hinted?: boolean
 }
@@ -86,7 +86,7 @@ export interface GameState {
   /** Completed round results so far. */
   results: RoundResult[]
   phase: GamePhase
-  /** True while the CURRENT round's state hint is revealed (persisted so a
+  /** True while the CURRENT round's region hint is revealed (persisted so a
    *  reload mid-round keeps both the hint and its penalty). Reset on advance. */
   hintUsed?: boolean
 }

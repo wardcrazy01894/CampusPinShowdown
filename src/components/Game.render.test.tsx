@@ -5,6 +5,7 @@ import { Game } from './Game'
 import { REGION } from '../lib/region'
 import { saveState, loadState, STORAGE_VERSION } from '../lib/storage'
 import type { Town } from '../types'
+import { applyHintPenalty, scoreForDistance } from '../lib/scoring'
 
 const towns: Town[] = [
   {
@@ -225,6 +226,44 @@ describe('Game — hint mode', () => {
     )
     expect(screen.getByText(/💡 hint used \(−25\)/)).toBeTruthy()
     expect(screen.getByText('75')).toBeTruthy()
+  })
+})
+
+describe('Game — hinted submit and advance', () => {
+  it('applies the penalty from the SAVED flag on submit, marks the result, and resets on Next round', () => {
+    const { container } = render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+      />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: /Reveal the region/ }))
+    // A jsdom click on the Leaflet container yields a (far-off) guess.
+    fireEvent.click(container.querySelector('.leaflet-container')!, {
+      clientX: 100,
+      clientY: 100,
+    })
+    const submit = screen.getByRole('button', { name: 'Submit guess' })
+    expect((submit as HTMLButtonElement).disabled).toBe(false)
+    fireEvent.click(submit)
+    const saved = loadState('usa').current!
+    const r = saved.results[0]
+    expect(r.hinted).toBe(true)
+    // Penalty applied exactly once, at submit, from the persisted flag.
+    expect(r.score).toBe(
+      applyHintPenalty(scoreForDistance(r.distanceMeters), true),
+    )
+    expect(screen.getByText(/💡 hint used \(−25\)/)).toBeTruthy()
+    // Next round: the hint is gone and the button is back.
+    fireEvent.click(screen.getByRole('button', { name: 'Next round' }))
+    expect(loadState('usa').current!.hintUsed).toBe(false)
+    expect(
+      screen.getByRole('button', { name: /Reveal the region/ }),
+    ).toBeTruthy()
+    expect(screen.queryByText(/It’s in/)).toBeNull()
   })
 })
 

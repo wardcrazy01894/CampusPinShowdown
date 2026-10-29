@@ -16,7 +16,7 @@ export const HINT_REGIONS: readonly HintRegion[] = [
   { name: 'the Mid-Atlantic', states: ['NY', 'NJ', 'PA', 'DE', 'MD', 'DC'] },
   { name: 'the Southeast', states: ['VA', 'NC', 'SC', 'GA', 'FL'] },
   { name: 'Appalachia', states: ['WV', 'KY', 'TN'] },
-  { name: 'the Gulf South', states: ['AL', 'MS', 'LA', 'AR'] },
+  { name: 'the Deep South', states: ['AL', 'MS', 'LA', 'AR'] },
   { name: 'the Great Lakes', states: ['OH', 'MI', 'IN', 'IL', 'WI'] },
   { name: 'the Upper Midwest', states: ['MN', 'IA', 'ND', 'SD', 'NE'] },
   { name: 'the Central Plains', states: ['MO', 'KS', 'OK'] },
