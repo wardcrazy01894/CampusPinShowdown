@@ -43,25 +43,26 @@ tests (`*.render.test.tsx`, jsdom). Never mock the unit under test.
 If a change affects documented behavior, update the docs in the **same PR** —
 never in a follow-up. The PR template has the checklist.
 
-| Change touches…                                   | Update / verify                                                         |
-| ------------------------------------------------- | ----------------------------------------------------------------------- |
-| `src/lib/daily.ts`                                | PLAN §Daily selection                                                   |
-| `src/lib/scoring.ts`                              | PLAN §Scoring (constants, curve)                                        |
-| `src/lib/hintRegions.ts`, hint UI in Game.tsx     | PLAN §Game loop (hint mode)                                             |
-| `src/components/MapGuess.tsx`, `src/lib/tiles.ts` | PLAN §Map                                                               |
-| `src/components/RecapMap.tsx`, Results rows       | PLAN §Game loop (day recap)                                             |
-| `src/lib/stats.ts`, `DayRecord` shape             | PLAN §Modes, storage (lifetime stats)                                   |
-| `src/lib/version.ts`, `src/lib/mode.ts`, App      | PLAN §Rollover + auto-reload                                            |
-| `worker/*`, `src/lib/leaderboard.ts`, Leaderboard | PLAN §Leaderboard + `worker/README.md` + OPERATIONS §Leaderboard worker |
-| `scripts/build-towns.mjs`, `data/towns-seed.json` | `docs/DATA.md` (schema, tiers, how to add a town)                       |
-| `src/lib/schools.ts` (prompt rule), seed `prompt` | PLAN §Game loop + DATA §Which school gets asked                         |
-| `public/towns.json`                               | Counts in README + DATA                                                 |
-| `.github/workflows/*`, `scripts/protect-main.sh`  | `docs/OPERATIONS.md` + this file's CI-checks list                       |
-| `vite.config.ts` (`base`), `index.html` URLs      | `docs/OPERATIONS.md` §Live site / §Custom domain                        |
-| `scripts/og-image/*`, `public/og-image.png`       | `docs/OPERATIONS.md` §Share image                                       |
-| `.github/dependabot.yml`                          | `docs/OPERATIONS.md` §Dependency updates                                |
-| `eslint.config.js`                                | A comment in the config saying why a rule was changed                   |
-| `package.json` scripts / engines                  | README + this file's command list                                       |
+| Change touches…                                      | Update / verify                                                         |
+| ---------------------------------------------------- | ----------------------------------------------------------------------- |
+| `src/lib/daily.ts`                                   | PLAN §Daily selection                                                   |
+| `src/lib/scoring.ts`                                 | PLAN §Scoring (constants, curve)                                        |
+| `src/lib/hintRegions.ts`, hint UI in Game.tsx        | PLAN §Game loop (hint mode)                                             |
+| `src/components/MapGuess.tsx`, `src/lib/tiles.ts`    | PLAN §Map                                                               |
+| `src/components/RecapMap.tsx`, Results rows          | PLAN §Game loop (day recap)                                             |
+| `src/lib/stats.ts`, `DayRecord` shape                | PLAN §Modes, storage (lifetime stats)                                   |
+| `src/lib/version.ts`, `src/lib/mode.ts`, App         | PLAN §Rollover + auto-reload                                            |
+| `worker/*`, `src/lib/leaderboard.ts`, Leaderboard    | PLAN §Leaderboard + `worker/README.md` + OPERATIONS §Leaderboard worker |
+| `worker/bug-report*`, `src/lib/report.ts`, BugReport | PLAN §Bug reports + `worker/README.md` + OPERATIONS §Bug worker         |
+| `scripts/build-towns.mjs`, `data/towns-seed.json`    | `docs/DATA.md` (schema, tiers, how to add a town)                       |
+| `src/lib/schools.ts` (prompt rule), seed `prompt`    | PLAN §Game loop + DATA §Which school gets asked                         |
+| `public/towns.json`                                  | Counts in README + DATA                                                 |
+| `.github/workflows/*`, `scripts/protect-main.sh`     | `docs/OPERATIONS.md` + this file's CI-checks list                       |
+| `vite.config.ts` (`base`), `index.html` URLs         | `docs/OPERATIONS.md` §Live site / §Custom domain                        |
+| `scripts/og-image/*`, `public/og-image.png`          | `docs/OPERATIONS.md` §Share image                                       |
+| `.github/dependabot.yml`                             | `docs/OPERATIONS.md` §Dependency updates                                |
+| `eslint.config.js`                                   | A comment in the config saying why a rule was changed                   |
+| `package.json` scripts / engines                     | README + this file's command list                                       |
 
 ## Lint rule policy
 
@@ -83,6 +84,7 @@ npm run build-towns  # geocode data/towns-seed.json → public/towns.json
 npm run og-image     # re-render public/og-image.png from scripts/og-image/index.html
 npm run worker:dev   # leaderboard worker on :8787 against a local D1 (worker/README.md)
 npm run worker:migrate:local / worker:migrate / worker:deploy   # D1 schema + worker (by hand, never CI)
+npm run bug:dev / bug:deploy   # bug-report worker (needs GH_TOKEN secret; by hand)
 ```
 
 Run `npm run typecheck && npm run lint && npm run format:check && npm test &&
@@ -96,8 +98,10 @@ other file types — after editing Markdown, JSON or `.mjs`, run `npm run format
 None in the repo. The client config values (`VITE_CF_BEACON_TOKEN`,
 `VITE_LEADERBOARD_ENDPOINT`) are public by design and come from repo Variables
 in CI (`.env.local` locally). Nominatim geocoding in `build-towns` needs no
-key. The leaderboard worker's only possible secret (`TURNSTILE_SECRET`,
-optional) lives in Cloudflare via `wrangler secret put`, never here.
+key. Worker secrets — the bug worker's `GH_TOKEN` (fine-grained PAT, Issues
+read/write, this repo only) and the optional `TURNSTILE_SECRET` — live in
+Cloudflare via `wrangler secret put`, never here (nor in `worker/.dev.vars`,
+which is gitignored).
 
 ## Git identity
 

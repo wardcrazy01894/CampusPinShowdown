@@ -32,6 +32,7 @@ import {
   topScores,
   cutoffDateKey,
   pruneOldScores,
+  pruneIfDue,
   updateStreak,
 } from './leaderboard-lib.mjs'
 
@@ -69,7 +70,7 @@ async function verifyTurnstile(token, secret, ip) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin')
     const headers = cors(env, origin)
     if (request.method === 'OPTIONS') return new Response(null, { headers })
@@ -167,6 +168,13 @@ export default {
         })
         streak = undefined
       }
+      // Lazy retention prune (at most once per UTC day; see pruneIfDue). Runs
+      // after the response is built and never affects it.
+      ctx?.waitUntil?.(
+        pruneIfDue(env.DB, new Date()).catch((e) =>
+          console.error('leaderboard lazy prune failed', { error: String(e) }),
+        ),
+      )
       return json({ ok: true, ...standing, streak }, 200, headers)
     } catch (e) {
       // D1 outage / quota — degrade gracefully; the client just omits the
@@ -180,9 +188,10 @@ export default {
   },
 
   /**
-   * Cron Trigger ([triggers] in wrangler.toml): prune daily scores older than
-   * RETENTION_DAYS so the table stays bounded. Best effort — a failure just
-   * retries next run; it never affects the live game.
+   * Cron Trigger handler, kept for the day a cron slot is available (the
+   * account's Workers Free plan allows 5 per account and they are all taken,
+   * so [triggers] is NOT in wrangler.toml today). Retention is covered by the
+   * lazy prune in `fetch` (pruneIfDue). Best effort either way.
    */
   async scheduled(_event, env, ctx) {
     if (!env.DB) return

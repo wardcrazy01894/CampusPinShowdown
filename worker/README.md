@@ -22,7 +22,9 @@ with KnowYourCity's `kyc-leaderboard` (the code is a port of it).
   through (`TURNSTILE_SECRET`) for the day abuse appears.
 - **Per-player streak** in its own `streaks` table (survives the prune) —
   returned with the standing; the UI prefers it over the local streak.
-- **Bounded storage.** A daily Cron Trigger prunes `scores` older than 90 days.
+- **Bounded storage.** `scores` older than 90 days are pruned lazily on a
+  submit, at most once per UTC day (`meta.last_prune`, migration `0003`) — the
+  account's Workers Free plan has no cron slot left (5 per account).
 - **Optional.** Behind `VITE_LEADERBOARD_ENDPOINT`; unset → the UI is hidden.
 
 Request/response shape:
@@ -67,3 +69,27 @@ merge** (see `docs/OPERATIONS.md`).
 (the SQL against a real `node:sqlite` with the real migrations),
 `leaderboard.handler.test.mjs` (the request path with a fake D1/KV). All run
 under `npm test`; `npm run typecheck` includes `tsconfig.worker.json`.
+
+---
+
+# Bug-report worker (`cps-bug`)
+
+`worker/bug-report.mjs` (config `worker/wrangler.bug.toml`) receives the
+in-app "🐛 report a bug" form and files a **GitHub issue** so the token stays
+server-side. Its own worker and rate-limit namespace; it imports the
+leaderboard lib's CORS/origin helpers, which is why it lives in this
+directory. Request: `POST { message, context: { date, url, userAgent }, logs,
+turnstileToken? }` → `{ ok, url }`.
+
+Hardening (same as KnowYourCity's): fails closed without a rate limit or
+Turnstile; 5 reports / IP / 60 s; server-side Origin allowlist; 20 KB body
+cap + per-field caps; `defang()` (bug-report-lib.mjs) neutralises @mentions,
+code fences, Markdown links/images, raw HTML and `#123` cross-references; the
+reported URL is kept only if it is from our own origin.
+
+Deploy: `wrangler secret put GH_TOKEN -c worker/wrangler.bug.toml` (a
+fine-grained PAT, Issues: read & write, this repo only), then
+`npm run bug:deploy`, then set the repo Variable `VITE_BUG_ENDPOINT`. Local:
+`npm run bug:dev` (port 8789) with `VITE_BUG_ENDPOINT=http://localhost:8789`
+in `.env.local` — you still need a `GH_TOKEN` in `worker/.dev.vars` for the
+issue to be created (gitignored).

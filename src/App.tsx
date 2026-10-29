@@ -19,7 +19,7 @@ import { getDateKey, selectDailyTowns } from './lib/daily'
 import { resolveMode, resolveSessionMode, type Mode } from './lib/mode'
 import { REGION, townsUrl } from './lib/region'
 import { isMuted, setMuted } from './lib/sound'
-import { bugReportUrl } from './lib/report'
+import { BugReport } from './components/BugReport'
 import { log } from './lib/log'
 import { Game } from './components/Game'
 import { TownSearch } from './components/TownSearch'
@@ -44,6 +44,9 @@ export function App() {
   const [loadError, setLoadError] = useState<string | null>(null)
   const [muted, setMutedState] = useState(isMuted())
   const [searching, setSearching] = useState(false)
+  // The in-app bug/request form (an overlay, like the search). `null` =
+  // closed; a string = open, prefilled with that text ('' for a blank form).
+  const [reporting, setReporting] = useState<string | null>(null)
   // Today's game phase, reported by <Game>. The town search is offered only
   // once the day is FINISHED: mid-round, typing the prompt's school into it
   // would list "Lubbock, TX" — the whole answer. (Review finding on PR #5.)
@@ -179,9 +182,25 @@ export function App() {
   return (
     <main>
       {/* Overlay, not a route: the game (and any unsubmitted pin) stays mounted. */}
-      {searching && finished && (
+      {reporting !== null && (
         <div style={overlay}>
-          <TownSearch towns={file.towns} onClose={() => setSearching(false)} />
+          <BugReport
+            context={{ date: mode.dateKey }}
+            initialMessage={reporting}
+            onClose={() => setReporting(null)}
+          />
+        </div>
+      )}
+      {searching && finished && reporting === null && (
+        <div style={overlay}>
+          <TownSearch
+            towns={file.towns}
+            onClose={() => setSearching(false)}
+            onRequest={(message) => {
+              setSearching(false)
+              setReporting(message)
+            }}
+          />
         </div>
       )}
       <header
@@ -210,14 +229,9 @@ export function App() {
                 🔎 is my town in the game?
               </button>
             )}
-            <a
-              href={bugReportUrl({ date: mode.dateKey })}
-              target="_blank"
-              rel="noreferrer"
-              style={{ ...linkButton, textDecoration: 'none' }}
-            >
+            <button onClick={() => setReporting('')} style={linkButton}>
               🐛 report a bug
-            </a>
+            </button>
           </div>
         </div>
         <button

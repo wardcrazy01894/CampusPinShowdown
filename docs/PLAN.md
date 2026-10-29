@@ -135,11 +135,35 @@ offline or a non-official game → the line and button are simply absent.
   results screen shows the **larger of local and server per field**
   (`mergeStreak`) — the server table is empty on launch day and misses any day
   a submit failed, so "prefer server" would drop a real streak.
+- **Retention:** `scores` older than 90 days are pruned **lazily** — on a
+  submit, at most once per UTC day (`pruneIfDue`, marker in the `meta` table)
+  — because the Cloudflare account is on the Workers Free plan (5 cron
+  triggers per account, all taken). The `scheduled` handler is kept for the
+  day a cron slot frees up. Streaks are never pruned.
+- **Standing line is a link** to the board; the "View leaderboard" button
+  remains for players without a standing.
 - **Integrity, not anti-cheat:** `official` gates the client; the worker
   validates board, date window, score ∈ [0, 500], id and lineup shapes, origin
   allowlist, body size, and per-IP rate limit (fails closed without one).
   Scores are client-computed, so a determined actor can still POST a fake
   total — accepted for a friends game; Turnstile is the documented next step.
+
+## Bug reports (`worker/bug-report.mjs`, `src/components/BugReport.tsx`)
+
+"🐛 report a bug" opens an **in-app form** (an overlay, like the town search):
+type what happened, optionally attach the session log buffer, send, stay on
+the site. With `VITE_BUG_ENDPOINT` set the form POSTs
+`{ message, context: { date, url, userAgent }, logs, turnstileToken? }` to the
+`cps-bug` Worker, which files a GitHub issue (`bug`, `from-app`) with a
+fine-grained PAT kept server-side and returns its URL; without the endpoint
+the form opens a prefilled GitHub issue page instead. The "is my town in the
+game?" miss opens the same form prefilled with "Please add "X" to the game."
+Hardening (ported from KnowYourCity): fails closed without a rate limit or
+Turnstile; per-IP rate limit (5/min); server-side origin allowlist; body and
+field caps; `defang()` neutralises @mentions, code fences, Markdown links and
+images, raw HTML and issue cross-references; the reported URL is kept only if
+it is from our own origin, embedded parsed + defanged. Anti-spam beyond the
+rate limit (Turnstile) is plumbed but off.
 
 ## Data (`docs/DATA.md`)
 

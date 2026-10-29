@@ -18,6 +18,8 @@
     "format:check": "prettier --check .",
     "og-image": "node scripts/og-image.mjs",
     "worker:dev": "wrangler dev -c worker/wrangler.toml",
+    "bug:dev": "wrangler dev -c worker/wrangler.bug.toml --port 8789",
+    "bug:deploy": "wrangler deploy -c worker/wrangler.bug.toml",
     "worker:deploy": "wrangler deploy -c worker/wrangler.toml",
     "worker:migrate": "wrangler d1 migrations apply cps-leaderboard --remote -c worker/wrangler.toml",
     "worker:migrate:local": "wrangler d1 migrations apply cps-leaderboard --local -c worker/wrangler.toml",

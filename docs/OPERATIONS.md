@@ -81,10 +81,12 @@ The site is a static bundle, so all its config is **public** (ships in the JS)
 and is injected at build time from repo **Variables** (Settings → Secrets and
 variables → Actions → **Variables**), never Secrets:
 
-| Variable                    | Current value                    | Purpose                                                                               |
-| --------------------------- | -------------------------------- | ------------------------------------------------------------------------------------- |
-| `VITE_CF_BEACON_TOKEN`      | _(unset)_                        | Cloudflare Web Analytics beacon — cookieless page views                               |
-| `VITE_LEADERBOARD_ENDPOINT` | the `cps-leaderboard` worker URL | anonymous daily leaderboard + server streak; **unset → the leaderboard UI is hidden** |
+| Variable                    | Current value                    | Purpose                                                                                       |
+| --------------------------- | -------------------------------- | --------------------------------------------------------------------------------------------- |
+| `VITE_CF_BEACON_TOKEN`      | _(unset)_                        | Cloudflare Web Analytics beacon — cookieless page views                                       |
+| `VITE_LEADERBOARD_ENDPOINT` | the `cps-leaderboard` worker URL | anonymous daily leaderboard + server streak; **unset → the leaderboard UI is hidden**         |
+| `VITE_BUG_ENDPOINT`         | the `cps-bug` worker URL         | in-app bug reports → GitHub issues; **unset → the form opens a prefilled issue page instead** |
+| `VITE_TURNSTILE_SITEKEY`    | _(unset)_                        | optional Turnstile bot check on the bug form; pair with the worker secret `TURNSTILE_SECRET`  |
 
 Nothing else. Map tiles (NASA GIBS) and geocoding (Nominatim, build-time only)
 need no key.
@@ -105,14 +107,27 @@ namespace — nothing is shared with KnowYourCity's `kyc-leaderboard`.
 > signal if you forget.
 
 ```bash
-npm run worker:migrate   # apply worker/migrations/*.sql to the REMOTE D1 (idempotent)
-npm run worker:deploy    # wrangler deploy -c worker/wrangler.toml
+npm run worker:migrate   # FIRST: apply worker/migrations/*.sql to the REMOTE D1 (idempotent)
+npm run worker:deploy    # THEN: wrangler deploy -c worker/wrangler.toml
 ```
+
+Always migrate **before** deploying code that uses a new table: until a
+migration is applied, the new code's queries against it fail (they are
+best-effort and logged — e.g. `leaderboard lazy prune failed: no such table:
+meta` — but nothing gets pruned). `wrangler d1 migrations apply` records what
+it has applied in `d1_migrations`, so only new files run.
 
 First-time setup (`wrangler d1 create cps-leaderboard` → paste the
 `database_id` into the toml → migrate → deploy → set the Variable above → re-run
 the deploy workflow) is in `worker/README.md`. `TURNSTILE_SECRET` is optional and
 should stay unset until the client has an invisible Turnstile execute.
+
+**Cron limit:** the account's Workers Free plan allows **5 cron triggers per
+account** and they were all taken, so this worker has no `[triggers]` block
+(the deploy failed on the schedules API until it was removed). Retention runs
+lazily from submits instead (`pruneIfDue`, once per UTC day). To use a real
+cron, free a slot on another worker or upgrade to Workers Paid, then restore
+the block in `worker/wrangler.toml` and `npm run worker:deploy`.
 
 **Runbook:** a 503 from the worker on every submit = D1 outage or a missing
 migration — `wrangler tail -c worker/wrangler.toml` shows the logged
@@ -139,13 +154,39 @@ review as any other change — green CI is necessary, not sufficient. Watch for
 0.x packages riding the grouped PR (semver-minor there can be breaking).
 TypeScript majors are ignored until typescript-eslint supports TS 7.
 
+## Bug worker (`cps-bug`)
+
+A second Worker (`worker/bug-report.mjs`, config `worker/wrangler.bug.toml`)
+receives the in-app bug form and files a GitHub issue with a token kept
+server-side. Same by-hand deploy rule as the leaderboard worker.
+
+**One-time setup:**
+
+1. Create a **fine-grained personal access token** on GitHub (Settings →
+   Developer settings → Fine-grained tokens): repository access = only
+   `CampusPinShowdown`, permission **Issues: Read and write**, an expiry you
+   will remember to renew.
+2. `wrangler secret put GH_TOKEN -c worker/wrangler.bug.toml` (paste it).
+3. `npm run bug:deploy` → prints `https://cps-bug.<account>.workers.dev`.
+4. Set the repo Variable `VITE_BUG_ENDPOINT` to that URL and re-run the deploy
+   workflow.
+
+**Runbook:** every report failing with "couldn't send" = check
+`wrangler tail -c worker/wrangler.bug.toml` for `github issue create failed`
+(status 401 = expired/revoked PAT → mint a new one and `secret put` again;
+403 = the PAT lacks Issues write or targets the wrong repo). Issues arrive
+labelled `bug` + `from-app`; triage them like any other. If spam appears, add
+Turnstile (`TURNSTILE_SECRET` on the worker + `VITE_TURNSTILE_SITEKEY` on the
+site, hostname allowlisted in the Turnstile widget).
+
 ## Monitoring & bug reports
 
 - The site has no backend; the optional leaderboard worker is best-effort
   (every failure path hides the line, never breaks the game). The Actions tab
   shows deploy health; `wrangler tail` shows the worker's logs.
-- Players report bugs via the in-app **🐛 report a bug** link → a prefilled
-  GitHub issue (title, puzzle date, URL, browser). Ask them for
-  `cpsDumpLogs()` output (browser console) when the report is thin.
+- Players report bugs via the in-app **🐛 report a bug** form → a GitHub
+  issue filed by the bug worker (message, puzzle date, URL, browser, and the
+  session log buffer unless they untick it). Without `VITE_BUG_ENDPOINT` the
+  form opens a prefilled issue page instead.
 - Town/pin corrections: edit `data/towns-seed.json`, `npm run build-towns`,
   PR. Per-town ranking means a fix only changes the days that town was picked.

@@ -34,10 +34,13 @@ namespace_id = "3001"
   limit = 30
   period = 60
 
-# Daily retention prune (Cron Trigger): deletes scores older than
-# RETENTION_DAYS (90). 09:00 UTC is quiet for every US timezone. Free.
-[triggers]
-crons = ["0 9 * * *"]
+# Retention prune: NOT a Cron Trigger. The account is on the Workers Free plan
+# (5 cron triggers per account) and every slot was taken when this worker was
+# first deployed, so `wrangler deploy` failed on the schedules call. The worker
+# prunes lazily instead (pruneIfDue: at most once per UTC day, from a submit).
+# If a slot frees up, add back:
+#   [triggers]
+#   crons = ["0 9 * * *"]
 
 # --- Optional secret (set with `wrangler secret put NAME -c worker/wrangler.toml`)
 # TURNSTILE_SECRET  when set, a valid Turnstile token is REQUIRED on every

@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, it, expect, afterEach } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import { TownSearch } from './TownSearch'
 import type { Town } from '../types'
@@ -49,5 +49,20 @@ describe('TownSearch', () => {
     expect(
       (screen.getByLabelText('Search towns') as HTMLInputElement).value,
     ).toBe('Ann Arbor, MI')
+  })
+})
+
+describe('TownSearch — in-app request', () => {
+  it('opens the report form prefilled instead of a GitHub link when onRequest is given', () => {
+    const onRequest = vi.fn()
+    render(
+      <TownSearch towns={towns} onClose={() => {}} onRequest={onRequest} />,
+    )
+    fireEvent.change(screen.getByRole('textbox', { name: /search towns/i }), {
+      target: { value: 'Lorman' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: /Request to add it/ }))
+    expect(onRequest).toHaveBeenCalledWith('Please add "Lorman" to the game.')
+    expect(screen.queryByRole('link', { name: /Request to add it/ })).toBeNull()
   })
 })
