@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
 import { describe, it, expect, afterEach } from 'vitest'
-import { render, cleanup, screen } from '@testing-library/react'
+import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import { Results } from './Results'
+import { REGION } from '../lib/region'
 import type { RoundResult, Town } from '../types'
 
 const town = (name: string, st: string): Town => ({
@@ -42,6 +43,7 @@ describe('Results', () => {
     render(
       <Results
         dateKey="2026-10-30"
+        bounds={REGION.bounds}
         results={results}
         totalScore={253}
         streak={{ current: 2, best: 9 }}
@@ -60,10 +62,41 @@ describe('Results', () => {
     expect(screen.getByRole('button', { name: 'Copy result' })).toBeTruthy()
   })
 
+  it('shows the day recap: every round on one map, rows toggle focus', () => {
+    const { container } = render(
+      <Results
+        dateKey="2026-10-30"
+        bounds={REGION.bounds}
+        results={results}
+        totalScore={253}
+        streak={{ current: 2, best: 9 }}
+        official={false}
+      />,
+    )
+    // One recap map with a numbered marker per round, in play order.
+    expect(container.querySelectorAll('.leaflet-map-pane')).toHaveLength(1)
+    expect(
+      [...container.querySelectorAll('.recap-marker')].map(
+        (el) => el.textContent,
+      ),
+    ).toEqual(['1', '2', '3', '4', '5'])
+    // Rows carry the schools line and act as focus toggles.
+    const row = screen.getByRole('button', { name: /Athens, GA/ })
+    expect(row.textContent).toContain('Home of U')
+    expect(row.getAttribute('aria-pressed')).toBe('false')
+    fireEvent.click(row)
+    expect(row.getAttribute('aria-pressed')).toBe('true')
+    fireEvent.click(row)
+    expect(row.getAttribute('aria-pressed')).toBe('false')
+    // Focusing never duplicates layers: still exactly five markers.
+    expect(container.querySelectorAll('.recap-marker')).toHaveLength(5)
+  })
+
   it('offers "Play today’s puzzle" only on an official day that has rolled over', () => {
     const { unmount } = render(
       <Results
         dateKey="2020-01-01"
+        bounds={REGION.bounds}
         results={results}
         totalScore={253}
         streak={{ current: 0, best: 0 }}
@@ -76,6 +109,7 @@ describe('Results', () => {
     render(
       <Results
         dateKey="2020-01-01"
+        bounds={REGION.bounds}
         results={results}
         totalScore={253}
         streak={{ current: 0, best: 0 }}

@@ -176,6 +176,7 @@ export function Game({
     return (
       <Results
         dateKey={game.dateKey}
+        bounds={bounds}
         results={game.results}
         totalScore={total}
         streak={streak}

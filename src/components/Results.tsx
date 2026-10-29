@@ -19,9 +19,13 @@ import { isCelebrateTest } from '../lib/devmode'
 import { fireConfetti } from '../lib/confetti'
 import { playCheer } from '../lib/sound'
 import { tierLabel } from '../lib/tiers'
+import { schoolsLine } from '../lib/schools'
+import { RecapMap } from './RecapMap'
 
 export interface ResultsProps {
   dateKey: string
+  /** Play bounds — the recap map's widest view. */
+  bounds: [[number, number], [number, number]]
   results: RoundResult[]
   totalScore: number
   streak: { current: number; best: number }
@@ -40,12 +44,29 @@ function shareSiteUrl(): string {
 
 export function Results({
   dateKey,
+  bounds,
   results,
   totalScore,
   streak,
   official,
 }: ResultsProps) {
   const [copied, setCopied] = useState(false)
+  // Which round the recap map frames; null = the whole day. Tapping a row
+  // toggles it.
+  const [focus, setFocus] = useState<number | null>(null)
+  const mapWrapRef = useRef<HTMLDivElement | null>(null)
+  function focusRound(i: number) {
+    const next = focus === i ? null : i
+    log.debug('Results', 'focus round', { round: next })
+    setFocus(next)
+    // On a phone the map sits above the rows — bring it back into view
+    // (optional chaining: jsdom has no scrollIntoView).
+    if (next !== null)
+      mapWrapRef.current?.scrollIntoView?.({
+        behavior: 'smooth',
+        block: 'start',
+      })
+  }
   // Day rollover under an open tab — OFFICIAL sessions only: App freezes the
   // official mode across midnight (resolveSessionMode), so advancing is THIS
   // click; the reload re-resolves the mode fresh (and picks up any pending
@@ -129,20 +150,57 @@ export function Results({
         🔥 Streak {streak.current} (best {streak.best})
       </p>
 
-      <ol style={{ paddingLeft: 20, lineHeight: 1.6 }}>
-        {results.map((r, i) => (
-          <li key={`${i}-${r.town.id}`}>
-            {scoreEmoji(r.score)}{' '}
-            <strong>
-              {r.town.name}, {r.town.stateCode}
-            </strong>{' '}
-            — {formatDistance(r.distanceMeters)} ·{' '}
-            {r.score.toLocaleString('en-US')} pts{' '}
-            <span style={{ fontSize: 13, opacity: 0.6 }}>
-              {tierLabel(r.town.difficulty)}
-            </span>
-          </li>
-        ))}
+      {/* Day recap: every round on one map. Never shown mid-day (it would
+          answer the remaining rounds) — Results only mounts once finished. */}
+      <p style={{ margin: '8px 0 6px', opacity: 0.7, fontSize: 14 }}>
+        <span style={{ color: '#2ecc71' }}>●</span> real town ·{' '}
+        <span style={{ color: '#f4b400' }}>●</span> your guess · tap a row to
+        zoom in
+      </p>
+      <div ref={mapWrapRef} style={{ scrollMarginTop: 8 }}>
+        <RecapMap bounds={bounds} results={results} focus={focus} />
+      </div>
+
+      <ol style={{ listStyle: 'none', padding: 0, margin: '12px 0 0' }}>
+        {results.map((r, i) => {
+          const focused = focus === i
+          return (
+            <li key={`${i}-${r.town.id}`} style={{ marginBottom: 6 }}>
+              <button
+                type="button"
+                onClick={() => focusRound(i)}
+                aria-pressed={focused}
+                style={{
+                  ...rowButton,
+                  borderColor: focused ? '#2ecc71' : 'rgba(255,255,255,0.12)',
+                  background: focused
+                    ? 'rgba(46,204,113,0.10)'
+                    : 'rgba(255,255,255,0.04)',
+                }}
+              >
+                <span style={rowBadge}>{i + 1}</span>
+                <span style={{ flex: 1, minWidth: 0 }}>
+                  <span style={{ display: 'block' }}>
+                    {scoreEmoji(r.score)}{' '}
+                    <strong>
+                      {r.town.name}, {r.town.stateCode}
+                    </strong>{' '}
+                    — {formatDistance(r.distanceMeters)} ·{' '}
+                    {r.score.toLocaleString('en-US')} pts{' '}
+                    <span style={{ fontSize: 13, opacity: 0.6 }}>
+                      {tierLabel(r.town.difficulty)}
+                    </span>
+                  </span>
+                  <span
+                    style={{ display: 'block', fontSize: 13, opacity: 0.7 }}
+                  >
+                    {schoolsLine(r.town.schools)}
+                  </span>
+                </span>
+              </button>
+            </li>
+          )
+        })}
       </ol>
 
       <div style={{ marginTop: 12 }}>
@@ -165,6 +223,37 @@ export function Results({
       </pre>
     </section>
   )
+}
+
+const rowButton: CSSProperties = {
+  display: 'flex',
+  gap: 10,
+  alignItems: 'flex-start',
+  width: '100%',
+  textAlign: 'left',
+  padding: '8px 10px',
+  border: '1px solid',
+  borderRadius: 10,
+  color: 'inherit',
+  font: 'inherit',
+  lineHeight: 1.5,
+  cursor: 'pointer',
+  transition: 'background 120ms, border-color 120ms',
+}
+
+const rowBadge: CSSProperties = {
+  flex: '0 0 auto',
+  width: 24,
+  height: 24,
+  marginTop: 2,
+  borderRadius: '50%',
+  background: '#2ecc71',
+  color: '#0f1720',
+  fontWeight: 700,
+  fontSize: 13,
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 }
 
 const copyButton: CSSProperties = {
