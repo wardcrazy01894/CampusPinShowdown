@@ -83,6 +83,32 @@ export function isValidDateKey(key) {
   return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === key
 }
 
+/**
+ * Lazy retention: run pruneOldScores at most once per UTC day, from a request
+ * path, using the `meta.last_prune` marker (migration 0003). This replaces
+ * the Cron Trigger, which could not be registered: the account is on the
+ * Workers Free plan (5 cron triggers per account, all in use). Two requests
+ * racing on the day boundary may both prune — harmless (same DELETE). Returns
+ * the rows removed, or null when it was not due. Throws on D1 errors; the
+ * caller treats it as best-effort.
+ */
+export async function pruneIfDue(db, now) {
+  const today = utcDateKey(now)
+  const row = await db
+    .prepare(`SELECT value FROM meta WHERE key = 'last_prune'`)
+    .first()
+  if (row?.value === today) return null
+  const removed = await pruneOldScores(db, cutoffDateKey(now))
+  await db
+    .prepare(
+      `INSERT INTO meta (key, value, updated_at) VALUES ('last_prune', ?1, ?2)
+       ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at`,
+    )
+    .bind(today, now.getTime())
+    .run()
+  return removed
+}
+
 /** The calendar day before `dateKey` ("YYYY-MM-DD"), via a UTC round-trip.
  *  Mirrors the client's previousDateKey (src/lib/progress.ts). */
 export function previousDateKey(dateKey) {

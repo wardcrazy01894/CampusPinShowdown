@@ -236,8 +236,16 @@ export function Results({
         🔥 Streak {shownStreak.current} (best {shownStreak.best})
       </p>
       {standing && (
-        <p style={{ marginTop: 0, fontWeight: 600, color: '#7fb2ff' }}>
-          🏆 {formatStanding(standing)}
+        <p style={{ marginTop: 0 }}>
+          {/* The standing is a link to the board (owner: "that should be a
+              link"); the button below stays for players with no standing. */}
+          <button
+            type="button"
+            onClick={() => setShowBoard(true)}
+            style={standingLink}
+          >
+            🏆 {formatStanding(standing)} ›
+          </button>
         </p>
       )}
       {lifetime && (
@@ -367,6 +375,18 @@ const copyButton: CSSProperties = {
   background: '#f4b400',
   color: '#0f1720',
   cursor: 'pointer',
+}
+
+const standingLink: CSSProperties = {
+  background: 'transparent',
+  border: 'none',
+  padding: 0,
+  font: 'inherit',
+  fontWeight: 600,
+  color: '#7fb2ff',
+  cursor: 'pointer',
+  textDecoration: 'underline',
+  textUnderlineOffset: 3,
 }
 
 const boardButton: CSSProperties = {

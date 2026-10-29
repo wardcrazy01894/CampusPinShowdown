@@ -111,6 +111,13 @@ First-time setup (`wrangler d1 create cps-leaderboard` → paste the
 the deploy workflow) is in `worker/README.md`. `TURNSTILE_SECRET` is optional and
 should stay unset until the client has an invisible Turnstile execute.
 
+**Cron limit:** the account's Workers Free plan allows **5 cron triggers per
+account** and they were all taken, so this worker has no `[triggers]` block
+(the deploy failed on the schedules API until it was removed). Retention runs
+lazily from submits instead (`pruneIfDue`, once per UTC day). To use a real
+cron, free a slot on another worker or upgrade to Workers Paid, then restore
+the block in `worker/wrangler.toml` and `npm run worker:deploy`.
+
 **Runbook:** a 503 from the worker on every submit = D1 outage or a missing
 migration — `wrangler tail -c worker/wrangler.toml` shows the logged
 `leaderboard submit failed` / `streak update failed` lines. A 403 on the live

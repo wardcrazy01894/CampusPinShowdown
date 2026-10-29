@@ -22,7 +22,9 @@ with KnowYourCity's `kyc-leaderboard` (the code is a port of it).
   through (`TURNSTILE_SECRET`) for the day abuse appears.
 - **Per-player streak** in its own `streaks` table (survives the prune) —
   returned with the standing; the UI prefers it over the local streak.
-- **Bounded storage.** A daily Cron Trigger prunes `scores` older than 90 days.
+- **Bounded storage.** `scores` older than 90 days are pruned lazily on a
+  submit, at most once per UTC day (`meta.last_prune`, migration `0003`) — the
+  account's Workers Free plan has no cron slot left (5 per account).
 - **Optional.** Behind `VITE_LEADERBOARD_ENDPOINT`; unset → the UI is hidden.
 
 Request/response shape:

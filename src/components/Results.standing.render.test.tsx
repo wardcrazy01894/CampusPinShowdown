@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { it, expect, vi, afterEach } from 'vitest'
-import { render, cleanup, screen } from '@testing-library/react'
+import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 
 /**
  * DOM-level test for the standing + server streak on the results screen, and
@@ -79,7 +79,13 @@ it('a lower-scoring replay still shows the standing of the device’s BEST entry
       official={true}
     />,
   )
-  expect(await screen.findByText(/1st of 2/)).toBeTruthy()
+  const standing = await screen.findByRole('button', { name: /1st of 2/ })
+  // The standing line is a link to the board.
+  fireEvent.click(standing)
+  expect(await screen.findByText(/🏆 Leaderboard/)).toBeTruthy()
+  expect(await screen.findByText(/2 players today/)).toBeTruthy()
+  fireEvent.click(screen.getByRole('button', { name: /back/ }))
+  expect(await screen.findByRole('button', { name: /1st of 2/ })).toBeTruthy()
   // Shown streak is the larger of local (1) and server (9), per field.
   expect(screen.getByText(/Streak 9 \(best 9\)/)).toBeTruthy()
   expect(submitDailyScore).toHaveBeenCalledWith(

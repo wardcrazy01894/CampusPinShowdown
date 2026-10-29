@@ -253,6 +253,42 @@ describe('leaderboard worker handler', () => {
     expect(env.DB.batch).toHaveBeenCalledOnce()
   })
 
+  it('kicks the lazy prune after a successful submit via ctx.waitUntil (never on the response path)', async () => {
+    const env = makeEnv({ DB: fakeDBWithStreak({ better: 0, total: 1 }, null) })
+    const pending = []
+    const res = await handler.fetch(post(goodBody()), env, {
+      waitUntil: (p) => pending.push(p),
+    })
+    expect(res.status).toBe(200)
+    expect(pending).toHaveLength(1)
+    await Promise.allSettled(pending)
+  })
+
+  it('still answers 200 when the lazy prune throws (logged, best-effort)', async () => {
+    const db = fakeDBWithStreak({ better: 0, total: 1 }, null)
+    const stmt = {
+      bind: () => stmt,
+      first: async () => {
+        throw new Error('META_D1_ERROR')
+      },
+      run: async () => ({ meta: { changes: 1 } }),
+    }
+    db.prepare = vi.fn((sql) =>
+      /meta/.test(sql)
+        ? stmt
+        : { bind: () => ({ first: async () => null, run: async () => ({}) }) },
+    )
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const pending = []
+    const res = await handler.fetch(post(goodBody()), makeEnv({ DB: db }), {
+      waitUntil: (p) => pending.push(p),
+    })
+    expect(res.status).toBe(200)
+    await Promise.allSettled(pending)
+    expect(JSON.stringify(spy.mock.calls)).toMatch(/lazy prune/)
+    spy.mockRestore()
+  })
+
   it('returns a starting streak of 1 for a first-ever play', async () => {
     const env = makeEnv({ DB: fakeDBWithStreak({ better: 0, total: 1 }, null) })
     const res = await handler.fetch(post(goodBody()), env)
