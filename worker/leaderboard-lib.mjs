@@ -60,11 +60,13 @@ export function utcDateKey(now) {
 
 /**
  * The puzzle days we accept a submission for at `now`. The puzzle day is the
- * PLAYER'S local calendar day (the client rolls over at local midnight), and
- * at any instant the world's local dates span UTC-1 .. UTC+1. A player who
- * started before their midnight and finished after submits the EARLIER day,
- * and clocks skew — so the window is [UTC today − 2, UTC today + 1]. Anything
- * else is an attempt to seed an arbitrary past/future board.
+ * PLAYER'S local calendar day (the client rolls over at local midnight). Time
+ * zones run UTC−12..UTC+14, so at any instant every local DATE is within one
+ * day of the UTC date. A player who started before their midnight and
+ * finished after submits the EARLIER day, and clocks skew — so the window is
+ * [UTC today − 2, UTC today + 1]. Anything else is an attempt to seed an
+ * arbitrary past/future board (the worst case, seeding tomorrow's board a few
+ * hours early, is within the documented anti-cheat non-goal).
  */
 export function validDateKeys(now) {
   const DAY = 86_400_000
@@ -250,6 +252,14 @@ export async function pruneOldScores(db, cutoff) {
  * `prev` is the stored row (or null for a first-ever play).
  */
 export function advanceStreak(prev, dateKey) {
+  // An OLDER day than the last one counted (clock skew / a late finisher
+  // inside the accepted window) must never rewind the streak: keep it as is.
+  if (prev && dateKey < prev.last_played_date)
+    return {
+      current: prev.current,
+      best: prev.best,
+      last_played_date: prev.last_played_date,
+    }
   let current
   if (!prev) current = 1
   else if (prev.last_played_date === dateKey) current = prev.current

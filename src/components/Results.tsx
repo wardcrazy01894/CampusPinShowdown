@@ -29,6 +29,7 @@ import {
   readStanding,
   refreshStanding,
   formatStanding,
+  mergeStreak,
   type Standing,
 } from '../lib/leaderboard'
 import { Leaderboard } from './Leaderboard'
@@ -87,9 +88,12 @@ export function Results({
     return totals.length ? Math.max(...totals, totalScore) : totalScore
   })
   const [showBoard, setShowBoard] = useState(false)
-  // Prefer the server-computed streak (authoritative, accounts-ready) when the
-  // submission returns one; otherwise fall back to the local streak.
-  const shownStreak = standing?.streak ?? streak
+  // Shown streak = the larger of local and server, per field. The server
+  // table starts empty the day the leaderboard turns on, and misses any day a
+  // submit failed (offline, outage), so "prefer server" would drop a real
+  // 30-day streak to 1; the local count can't be inflated by anything but
+  // playing, so the max is honest. (lib/leaderboard.ts: mergeStreak.)
+  const shownStreak = mergeStreak(streak, standing?.streak)
 
   useEffect(() => {
     let live = true

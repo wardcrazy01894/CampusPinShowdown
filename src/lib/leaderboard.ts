@@ -40,6 +40,21 @@ export interface Standing {
   streak?: Streak
 }
 
+/**
+ * The streak to DISPLAY given the local one and (maybe) the server one: the
+ * larger of each field. The server table is empty when the leaderboard first
+ * turns on and misses any day a submit failed, so taking the server value
+ * blindly would drop a real streak; the local one only grows by playing, so
+ * the max is honest. Pure.
+ */
+export function mergeStreak(local: Streak, server?: Streak | null): Streak {
+  if (!server) return local
+  return {
+    current: Math.max(local.current, server.current),
+    best: Math.max(local.best, server.best),
+  }
+}
+
 /** Only show a "top X%" once the field is big enough for it to mean anything. */
 export const PERCENTILE_MIN_TOTAL = 20
 

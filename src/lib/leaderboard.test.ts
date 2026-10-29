@@ -11,6 +11,7 @@ import {
   fetchLeaderboard,
   refreshStanding,
   buildLeaderboardRows,
+  mergeStreak,
   PERCENTILE_MIN_TOTAL,
 } from './leaderboard'
 import { log } from './log'
@@ -214,6 +215,27 @@ describe('fetchLeaderboard', () => {
     })
     expect(calledUrl).toContain(`board=${BOARD}`)
     expect(calledUrl).toContain('date=2026-10-29')
+  })
+})
+
+describe('mergeStreak', () => {
+  it('shows the larger of local and server per field, and local alone without a server value', () => {
+    expect(
+      mergeStreak({ current: 30, best: 30 }, { current: 1, best: 1 }),
+    ).toEqual({
+      current: 30,
+      best: 30,
+    })
+    expect(
+      mergeStreak({ current: 2, best: 9 }, { current: 5, best: 5 }),
+    ).toEqual({
+      current: 5,
+      best: 9,
+    })
+    expect(mergeStreak({ current: 3, best: 4 }, null)).toEqual({
+      current: 3,
+      best: 4,
+    })
   })
 })
 

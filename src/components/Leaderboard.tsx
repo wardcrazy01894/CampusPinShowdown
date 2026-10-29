@@ -60,9 +60,11 @@ export function Leaderboard({
           : (yourStanding ?? null)
       setState({
         phase: 'ready',
+        // Flag "you" only when we KNOW we're on the board (a standing came
+        // back); otherwise a stranger's equal score would be highlighted.
         rows: buildLeaderboardRows(
           data.scores,
-          yourScore !== undefined ? [yourScore] : [],
+          yourStanding && yourScore !== undefined ? [yourScore] : [],
         ),
         total: data.total,
         you,

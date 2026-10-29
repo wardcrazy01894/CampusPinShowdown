@@ -116,8 +116,11 @@ offline or a non-official game → the line and button are simply absent.
   the standing per (date, lineup) so it never re-POSTs, then refreshes rank and
   total from a fresh read (`refreshStanding`) so the line doesn't freeze at
   finish time.
-- **Server streak** (`streaks` table, survives the 90-day prune): returned with
-  the standing and shown in preference to the local streak when present.
+- **Server streak** (`streaks` table, survives the 90-day prune; never
+  rewinds on an older-dated submission): returned with the standing. The
+  results screen shows the **larger of local and server per field**
+  (`mergeStreak`) — the server table is empty on launch day and misses any day
+  a submit failed, so "prefer server" would drop a real streak.
 - **Integrity, not anti-cheat:** `official` gates the client; the worker
   validates board, date window, score ∈ [0, 500], id and lineup shapes, origin
   allowlist, body size, and per-IP rate limit (fails closed without one).

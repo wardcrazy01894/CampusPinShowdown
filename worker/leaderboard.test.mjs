@@ -167,6 +167,14 @@ describe('advanceStreak', () => {
       ),
     ).toMatchObject({ current: 1, best: 9 })
   })
+  it('never rewinds on an OLDER date than the last counted (skew / late finisher)', () => {
+    const prev = { current: 4, best: 7, last_played_date: '2026-06-15' }
+    expect(advanceStreak(prev, '2026-06-14')).toEqual({
+      current: 4,
+      best: 7,
+      last_played_date: '2026-06-15',
+    })
+  })
   it('is a no-op on a same-day replay', () => {
     expect(
       advanceStreak(

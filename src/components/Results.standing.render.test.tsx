@@ -80,11 +80,28 @@ it('a lower-scoring replay still shows the standing of the device’s BEST entry
     />,
   )
   expect(await screen.findByText(/1st of 2/)).toBeTruthy()
-  // The server streak (authoritative) replaces the local one.
+  // Shown streak is the larger of local (1) and server (9), per field.
   expect(screen.getByText(/Streak 9 \(best 9\)/)).toBeTruthy()
   expect(submitDailyScore).toHaveBeenCalledWith(
     expect.objectContaining({ lineup: 'bbbb', score: 350, official: true }),
   )
+})
+
+it('never lets a thin server streak hide a real local one (launch day / missed submit)', async () => {
+  render(
+    <Results
+      dateKey="2026-10-29"
+      bounds={REGION.bounds}
+      results={five}
+      totalScore={350}
+      lineup="bbbb"
+      streak={{ current: 30, best: 31 }}
+      official={true}
+    />,
+  )
+  await screen.findByText(/1st of 2/)
+  // Server said { current: 9, best: 9 }; local 30/31 wins field by field.
+  expect(screen.getByText(/Streak 30 \(best 31\)/)).toBeTruthy()
 })
 
 it('never submits a non-official (shuffle / date override) game', async () => {

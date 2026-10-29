@@ -31,6 +31,6 @@ CREATE TABLE IF NOT EXISTS scores (
   PRIMARY KEY (board, date, client_id, lineup)
 );
 
--- Covers the rank count (board, date, score > ?) and the total count
--- (board, date). Leading (board, date) makes per-day scans cheap.
+-- The standing/board queries group per device (served by the primary-key
+-- prefix); this index keeps the per-day score scan for the top-N view cheap.
 CREATE INDEX IF NOT EXISTS idx_scores_rank ON scores (board, date, score);

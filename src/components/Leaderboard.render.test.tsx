@@ -37,6 +37,19 @@ it('ranks the board (ties share a rank), highlights the viewer, shows the off-li
   expect(onClose).toHaveBeenCalled()
 })
 
+it('does not flag a stranger’s equal score as "you" when the submit failed', async () => {
+  render(
+    <Leaderboard
+      dateKey="2026-10-29"
+      yourScore={420}
+      yourStanding={null}
+      onClose={() => {}}
+    />,
+  )
+  await screen.findByText(/4 players today/)
+  expect(screen.queryByText(/· you/)).toBeNull()
+})
+
 it('shows a friendly empty state when there is no board', async () => {
   fetchLeaderboard.mockResolvedValueOnce(null as never)
   render(<Leaderboard dateKey="2026-10-29" onClose={() => {}} />)
