@@ -49,7 +49,7 @@ describe('Game', () => {
     )
     expect(screen.getByRole('heading', { level: 2 }).textContent).toBe(
       'Where is Ann Arbor?',
-    )
+    ) // no 〽️ before the reveal — it must never be a hint
     expect(screen.getByText('Home of University of Michigan')).toBeTruthy()
     expect(screen.queryByText(/Michigan\?/)).toBeNull()
     expect(
@@ -90,8 +90,9 @@ describe('Game', () => {
         official
       />,
     )
+    // The 〽️ egg appears only now, after the reveal.
     expect(screen.getByRole('heading', { level: 2 }).textContent).toBe(
-      'Where is Ann Arbor, Michigan?',
+      'Where is Ann Arbor, Michigan?〽️ Go Blue!',
     )
     expect(screen.getByText('25 mi')).toBeTruthy()
     expect(screen.getByRole('button', { name: 'Next round' })).toBeTruthy()
