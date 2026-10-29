@@ -33,6 +33,7 @@ import {
   type Standing,
 } from '../lib/leaderboard'
 import { Leaderboard } from './Leaderboard'
+import { tierStats, formatTierStats } from '../lib/stats'
 
 /** Whether the leaderboard endpoint is configured at build time. */
 const LEADERBOARD_ENABLED = Boolean(import.meta.env.VITE_LEADERBOARD_ENDPOINT)
@@ -88,6 +89,12 @@ export function Results({
     return totals.length ? Math.max(...totals, totalScore) : totalScore
   })
   const [showBoard, setShowBoard] = useState(false)
+  // Lifetime per-tier averages from the official history (today's record is
+  // already in it by the time Results mounts). Empty for non-official modes
+  // and until at least one tiered day exists.
+  const [lifetime] = useState<string>(() =>
+    official ? formatTierStats(tierStats(loadState(REGION.id).history)) : '',
+  )
   // Shown streak = the larger of local and server, per field. The server
   // table starts empty the day the leaderboard turns on, and misses any day a
   // submit failed (offline, outage), so "prefer server" would drop a real
@@ -231,6 +238,11 @@ export function Results({
       {standing && (
         <p style={{ marginTop: 0, fontWeight: 600, color: '#7fb2ff' }}>
           🏆 {formatStanding(standing)}
+        </p>
+      )}
+      {lifetime && (
+        <p style={{ marginTop: 0, fontSize: 14, opacity: 0.7 }}>
+          Lifetime by tier: {lifetime}
         </p>
       )}
 

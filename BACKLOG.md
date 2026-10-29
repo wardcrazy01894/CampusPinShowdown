@@ -24,7 +24,6 @@ shipped them (git history is the changelog).
   rate-limit) instead of the prefilled-issue link.
 - **Town blurbs** on the day recap (a sentence per town, like KnowYourCity's
   blurb sidecar).
-- **Per-tier stats line** on results (lifetime average per 🟢/🟡/🔴).
 - **Downgraded lint rules:** `react-hooks/refs` and `react-hooks/set-state-in-effect`
   are `warn` (inherited patterns in App/MapGuess); fixing them is behaviour
   work and must be test-first.
