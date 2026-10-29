@@ -53,7 +53,9 @@ export function MapGuess({
   const guessMarkerRef = useRef<L.CircleMarker | null>(null)
   const truthMarkerRef = useRef<L.CircleMarker | null>(null)
   const lineRef = useRef<L.Polyline | null>(null)
-  // Keep the latest callback/locked without re-binding the map click handler.
+  // Keep the latest callback/locked without re-binding the map click handler
+  // (the "latest ref" idiom — written during render on purpose; the
+  // react-hooks/refs rule is staged to `warn` for exactly this pattern).
   const onGuessRef = useRef(onGuessChange)
   const lockedRef = useRef(locked)
   onGuessRef.current = onGuessChange

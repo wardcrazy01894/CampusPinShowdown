@@ -109,40 +109,49 @@ export function nominatimQuery(entry) {
   return `${entry.name}, ${STATE_NAMES[entry.stateCode]}, USA`
 }
 
-const PLACE_TYPES = new Set([
+/**
+ * Settlement kinds we accept, best first. Nominatim's `addresstype` (jsonv2)
+ * says what KIND of place a hit is regardless of whether it came back as a
+ * `place` node or a `boundary/administrative` polygon — which is the field
+ * that matters. Counties, states and districts are NOT here, so a county
+ * boundary that shares the town's name (Hamilton County for Hamilton, NY) can
+ * never win; and a city/town/village always beats a same-named neighbourhood
+ * or hamlet (Claremont, CA the city vs. the Claremont neighbourhood of
+ * Berkeley; Clinton, NY the village vs. Clinton in Manhattan).
+ */
+export const SETTLEMENT_RANK = [
   'city',
   'town',
   'village',
-  'hamlet',
   'borough',
-  'suburb',
-  'neighbourhood',
+  'municipality',
+  'hamlet',
   'census-designated-place',
   'locality',
-  'administrative',
-])
+  'suburb',
+  'quarter',
+  'neighbourhood',
+]
 
 /**
  * Choose the best Nominatim hit for an entry: must be in the right state
- * (address.state) and be a settlement-ish place (not a university building or
- * a county), preferring `place` results over `boundary` ones. Returns null if
- * nothing qualifies — the caller treats that as a miss to fix by hand.
+ * (address.state) and be a settlement (SETTLEMENT_RANK by `addresstype`),
+ * ranked by settlement kind first and Nominatim `importance` second. Returns
+ * null if nothing qualifies — the caller treats that as a miss to fix by hand.
  */
 export function pickResult(results, entry) {
   const wantState = STATE_NAMES[entry.stateCode]
+  const rank = (r) => SETTLEMENT_RANK.indexOf(r?.addresstype)
   const ok = (results ?? []).filter(
     (r) =>
       r?.address?.state === wantState &&
-      (r.category === 'place' || r.category === 'boundary') &&
-      PLACE_TYPES.has(r.type) &&
+      rank(r) !== -1 &&
       Number.isFinite(Number(r.lat)) &&
       Number.isFinite(Number(r.lon)),
   )
-  ok.sort((a, b) => {
-    const pa = a.category === 'place' ? 0 : 1
-    const pb = b.category === 'place' ? 0 : 1
-    return pa - pb || (b.importance ?? 0) - (a.importance ?? 0)
-  })
+  ok.sort(
+    (a, b) => rank(a) - rank(b) || (b.importance ?? 0) - (a.importance ?? 0),
+  )
   return ok[0] ?? null
 }
 
@@ -185,4 +194,59 @@ export function toTown(entry, coords) {
 /** Stable output ordering (by id) so rebuilds produce minimal diffs. */
 export function sortTowns(towns) {
   return [...towns].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
+}
+
+/** Great-circle distance in km (duplicated from src/lib/scoring.ts so the Node script has no TS import). */
+export function haversineKm(a, b) {
+  const toRad = (d) => (d * Math.PI) / 180
+  const dLat = toRad(b.lat - a.lat)
+  const dLng = toRad(b.lng - a.lng)
+  const s =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2
+  return 2 * 6371 * Math.asin(Math.sqrt(s))
+}
+
+/**
+ * How far a geocoded pin may sit from the town's INDEPENDENT Census pin
+ * (data/census-pins.json, the place polygon's internal point) before the build
+ * and the dataset guard test fail: 10 km, or 1.5× the place's equivalent
+ * radius (√(land area/π)) when that is larger. The floor catches every class
+ * of geocoder mistake seen so far (same-named county ≥16 km for small towns,
+ * neighbourhood/hamlet hundreds of km); the size term tolerates a downtown
+ * node sitting 12–17 km from a sprawling city's internal point (Tucson,
+ * Columbia SC, Colorado Springs) without loosening the check for a village.
+ * Mirrored in src/lib/towns.test.ts.
+ */
+export const CENSUS_TOLERANCE_KM = 10
+export const CENSUS_RADIUS_FACTOR = 1.5
+
+export function censusToleranceKm(pin) {
+  const r = Math.sqrt((pin?.alandKm2 ?? 0) / Math.PI)
+  return Math.max(CENSUS_TOLERANCE_KM, CENSUS_RADIUS_FACTOR * r)
+}
+
+/**
+ * Towns whose pin disagrees with their Census pin by more than `toleranceKm`,
+ * plus towns with NO Census pin at all (every town must have one — see
+ * scripts/build-census-pins.mjs). Pure; returns [] when all is well.
+ */
+export function censusMismatches(towns, pins) {
+  const out = []
+  for (const t of towns) {
+    const c = pins[t.id]
+    if (!c) {
+      out.push({ id: t.id, km: null, reason: 'no Census pin' })
+      continue
+    }
+    const km = haversineKm(t, c)
+    const tol = censusToleranceKm(c)
+    if (km > tol)
+      out.push({
+        id: t.id,
+        km: Math.round(km),
+        reason: `${Math.round(km)} km from Census pin (${c.place}; tolerance ${Math.round(tol)} km)`,
+      })
+  }
+  return out
 }

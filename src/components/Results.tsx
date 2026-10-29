@@ -129,8 +129,8 @@ export function Results({
       </p>
 
       <ol style={{ paddingLeft: 20, lineHeight: 1.6 }}>
-        {results.map((r) => (
-          <li key={r.town.id}>
+        {results.map((r, i) => (
+          <li key={`${i}-${r.town.id}`}>
             {scoreEmoji(r.score)}{' '}
             <strong>
               {r.town.name}, {r.town.stateCode}

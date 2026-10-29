@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { REGION, inRegion } from './region'
 import { ROUNDS_PER_DAY, selectDailyTowns } from './daily'
+import { haversineMeters } from './scoring'
 import type { TownsFile, Town } from '../types'
 
 /**
@@ -13,6 +14,23 @@ const file = JSON.parse(
   readFileSync(new URL('../../public/towns.json', import.meta.url), 'utf8'),
 ) as TownsFile
 const towns = file.towns
+const census = (
+  JSON.parse(
+    readFileSync(
+      new URL('../../data/census-pins.json', import.meta.url),
+      'utf8',
+    ),
+  ) as {
+    pins: Record<
+      string,
+      { lat: number; lng: number; place: string; alandKm2?: number }
+    >
+  }
+).pins
+/** Mirrors censusToleranceKm in scripts/build-towns-lib.mjs: 10 km, or 1.5× the
+ *  place's equivalent radius for sprawling cities. */
+const censusToleranceKm = (pin: { alandKm2?: number }) =>
+  Math.max(10, 1.5 * Math.sqrt((pin.alandKm2 ?? 0) / Math.PI))
 
 describe('public/towns.json', () => {
   it('has the expected envelope', () => {
@@ -54,7 +72,27 @@ describe('public/towns.json', () => {
     expect(by('hard')).toBeGreaterThanOrEqual(80)
   })
 
-  it('spot-checks a few well-known pins (catches a geocoder picking the wrong place)', () => {
+  it('EVERY pin agrees with the independent US Census Gazetteer pin (≤ 10 km, size-aware)', () => {
+    // The real guard against a geocoder picking a same-named county,
+    // neighbourhood or hamlet (PR #2 review found 11 such pins; all > 16 km).
+    const bad: string[] = []
+    for (const t of towns) {
+      const c = census[t.id]
+      if (!c) {
+        bad.push(`${t.id}: no Census pin`)
+        continue
+      }
+      const km = haversineMeters(t, c) / 1000
+      const tol = censusToleranceKm(c)
+      if (km > tol)
+        bad.push(
+          `${t.id}: ${km.toFixed(1)} km from ${c.place} (tol ${tol.toFixed(0)})`,
+        )
+    }
+    expect(bad).toEqual([])
+  })
+
+  it('spot-checks the pins the PR #2 review found wrong (regression) + a few famous ones', () => {
     const near = (id: string, lat: number, lng: number) => {
       const t = towns.find((x) => x.id === id)!
       expect(t, id).toBeTruthy()
@@ -68,6 +106,19 @@ describe('public/towns.json', () => {
     near('west-point-ny', 41.39, -73.96)
     near('eugene-or', 44.05, -123.09)
     near('gainesville-fl', 29.65, -82.32)
+    // The eleven mis-pins from the PR #2 review (county / neighbourhood / hamlet).
+    near('ada-oh', 40.77, -83.82)
+    near('canyon-tx', 34.98, -101.92)
+    near('claremont-ca', 34.1, -117.72)
+    near('clinton-ny', 43.05, -75.38)
+    near('hamilton-ny', 42.83, -75.54)
+    near('meadville-pa', 41.64, -80.15)
+    near('kutztown-pa', 40.52, -75.78)
+    near('bloomsburg-pa', 41.0, -76.45)
+    near('kearney-ne', 40.7, -99.08)
+    near('san-luis-obispo-ca', 35.28, -120.66)
+    near('gunnison-co', 38.55, -106.93)
+    near('santa-cruz-ca', 36.97, -122.03)
   })
 
   it('selects a full, state-diverse lineup for every day of the first year', () => {

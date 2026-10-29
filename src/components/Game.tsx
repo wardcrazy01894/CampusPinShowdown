@@ -13,7 +13,7 @@
  * finished game stays in `current` on purpose (see storage.ts).
  */
 
-import { useEffect, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import type { GameState, Guess, Town, RoundResult } from '../types'
 import { MapGuess } from './MapGuess'
 import { Results } from './Results'
@@ -50,7 +50,13 @@ export function Game({
   const [game, setGame] = useState<GameState>(() =>
     resolveInitialGame(initial.current, dateKey, towns),
   )
-  const [guess, setGuess] = useState<Guess | null>(null)
+  // Resuming mid-reveal (reload after submit, before "Next round"): restore
+  // the submitted pin so the map frames guess + truth + line, not truth alone.
+  const [guess, setGuess] = useState<Guess | null>(() =>
+    game.phase === 'revealed'
+      ? (game.results[game.results.length - 1]?.guess ?? null)
+      : null,
+  )
   const [streak, setStreak] = useState(initial.streak)
 
   useEffect(() => {
@@ -143,6 +149,19 @@ export function Game({
     }
   }
 
+  const revealed = game.phase === 'revealed'
+  // Hooks must run unconditionally, so this sits above the finished-return.
+  // Memoised so MapGuess's reveal effect (keyed on this object) runs once per
+  // reveal, not on every Game re-render (which would re-fitBounds under the
+  // player while they pan around the reveal).
+  const reveal = useMemo(
+    () =>
+      revealed && lastResult
+        ? { town: lastResult.town, distanceMeters: lastResult.distanceMeters }
+        : null,
+    [revealed, lastResult],
+  )
+
   if (game.phase === 'finished') {
     return (
       <Results
@@ -154,8 +173,6 @@ export function Game({
       />
     )
   }
-
-  const revealed = game.phase === 'revealed'
 
   return (
     <section style={{ padding: 16, maxWidth: 720, margin: '0 auto' }}>
@@ -193,14 +210,7 @@ export function Game({
         onGuessChange={setGuess}
         locked={revealed}
         resetViewKey={game.roundIndex}
-        reveal={
-          revealed && lastResult
-            ? {
-                town: lastResult.town,
-                distanceMeters: lastResult.distanceMeters,
-              }
-            : null
-        }
+        reveal={reveal}
       />
 
       {revealed && lastResult ? (

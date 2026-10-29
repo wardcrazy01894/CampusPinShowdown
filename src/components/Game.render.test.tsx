@@ -128,3 +128,41 @@ describe('Game', () => {
     expect(screen.getByText(/Streak 3 \(best 5\)/)).toBeTruthy()
   })
 })
+
+describe('Game — resume mid-reveal restores the pin', () => {
+  it('frames guess + truth + line (not the truth alone) when reloaded after submit', () => {
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history: [],
+      streak: { current: 0, best: 0, lastPlayedDateKey: null },
+      current: {
+        dateKey: '2026-10-29',
+        towns,
+        roundIndex: 0,
+        results: [
+          {
+            town: towns[0],
+            guess: { lat: 40, lng: -90 },
+            distanceMeters: 600_000,
+            score: 19,
+          },
+        ],
+        phase: 'revealed',
+      },
+    })
+    const { container } = render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+      />,
+    )
+    // Truth marker + guess marker + dashed line = three SVG paths. Without the
+    // restored pin there would be only the truth marker.
+    expect(
+      container.querySelectorAll('.leaflet-overlay-pane path'),
+    ).toHaveLength(3)
+  })
+})

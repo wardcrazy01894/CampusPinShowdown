@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest'
-import { render, cleanup, screen } from '@testing-library/react'
+import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import { App } from './App'
 import type { Town, TownsFile } from './types'
 
@@ -83,5 +83,48 @@ describe('App', () => {
     )
     render(<App />)
     expect(await screen.findByText(/Failed to load/)).toBeTruthy()
+  })
+})
+
+describe('App — seed change never shows the previous seed’s towns', () => {
+  // Review finding on PR #2: picks were set in an effect, but <Game> is keyed
+  // on the seed and remounted on the render BEFORE that effect ran, so a
+  // rollover (or ?date change) mounted the new day with the OLD towns baked
+  // into Game's state. The seed is driven by ?date= here; a midnight rollover
+  // takes the same path through resolveMode → selectionSeed.
+  it('mounts the new day with the new day’s towns on the same render', async () => {
+    const { selectDailyTowns } = await import('./lib/daily')
+    window.history.replaceState({}, '', '/?date=2026-11-01')
+    render(<App />)
+    await screen.findByText(/Round 1 of 5/)
+    const day1 = selectDailyTowns(FILE.towns, 'usa:2026-11-01')[0]
+    const day2 = selectDailyTowns(FILE.towns, 'usa:2026-11-02')[0]
+    expect(day1.id).not.toBe(day2.id)
+    expect(screen.getByRole('heading', { level: 2 }).textContent).toBe(
+      `Where is ${day1.name}?`,
+    )
+    // Change the day and force a re-render via an unrelated interaction (the
+    // mute toggle) — exactly what a tab left open past midnight experiences.
+    window.history.replaceState({}, '', '/?date=2026-11-02')
+    fireEvent.click(
+      screen.getByRole('button', { name: /Mute sounds|Unmute sounds/ }),
+    )
+    expect(screen.getByRole('heading', { level: 2 }).textContent).toBe(
+      `Where is ${day2.name}?`,
+    )
+    window.history.replaceState({}, '', '/')
+  })
+
+  it('keeps the game mounted (and its pin) while the town search overlay is open', async () => {
+    render(<App />)
+    await screen.findByText(/Round 1 of 5/)
+    fireEvent.click(
+      screen.getByRole('button', { name: /is my town in the game/ }),
+    )
+    expect(screen.getByLabelText('Search towns')).toBeTruthy()
+    // The round is still in the DOM underneath the overlay.
+    expect(screen.getByText(/Round 1 of 5/)).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: '← back' }))
+    expect(screen.queryByLabelText('Search towns')).toBeNull()
   })
 })

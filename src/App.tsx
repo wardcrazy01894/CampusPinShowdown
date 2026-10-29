@@ -7,7 +7,7 @@
  * refresh), ?date=YYYY-MM-DD (a specific day).
  */
 
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import {
   fetchRemoteHash,
   versionCheckAction,
@@ -41,8 +41,7 @@ async function loadTowns(): Promise<TownsFile> {
 
 export function App() {
   const [file, setFile] = useState<TownsFile | null>(null)
-  const [today, setToday] = useState<Town[] | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [muted, setMutedState] = useState(isMuted())
   const [searching, setSearching] = useState(false)
 
@@ -52,6 +51,9 @@ export function App() {
   // sitting on a past day's results) — day-advance stays the player's click
   // (Results shows a "Play today's puzzle" button). See resolveSessionMode.
   const search = typeof window !== 'undefined' ? window.location.search : ''
+  // Read/written during render on purpose (react-hooks/refs is staged to
+  // `warn` for this): the ref must hold the PREVIOUS render's mode so the
+  // freeze can compare seeds before anything else renders.
   const sessionModeRef = useRef<Mode | null>(null)
   const mode = resolveSessionMode(
     sessionModeRef.current,
@@ -114,29 +116,39 @@ export function App() {
       .catch((e) => {
         if (!live) return
         log.error('App', 'failed to load towns', { error: String(e) })
-        setError(String(e))
+        setLoadError(String(e))
       })
     return () => {
       live = false
     }
   }, [])
 
-  // Select the day's towns whenever the seed (date / shuffle) changes.
-  useEffect(() => {
-    if (!file) return
+  // Select the day's towns SYNCHRONOUSLY from (dataset, seed) with useMemo —
+  // not in an effect. <Game key={mode.selectionSeed}> remounts on the very
+  // render where the seed changes; an effect-driven setState would run one
+  // render later, so the new Game would mount (and bake into its state) the
+  // PREVIOUS seed's towns under the new dateKey — i.e. yesterday's five
+  // played and recorded as today. Memoising makes picks and seed change
+  // together. (Review finding on PR #2; render-tested in App.render.test.)
+  const selection = useMemo<{
+    picks: Town[] | null
+    error: string | null
+  }>(() => {
+    if (!file) return { picks: null, error: null }
     try {
       const picks = selectDailyTowns(file.towns, mode.selectionSeed)
       log.info('App', 'picks', {
         seed: mode.selectionSeed,
         picks: picks.map((p) => p.id),
       })
-      setToday(picks)
+      return { picks, error: null }
     } catch (e) {
       log.error('App', 'failed to select towns', { error: String(e) })
-      setError(String(e))
+      return { picks: null, error: String(e) }
     }
-    // mode.selectionSeed captures date/shuffle; file is the dataset.
   }, [file, mode.selectionSeed])
+  const today = selection.picks
+  const error = loadError ?? selection.error
 
   function toggleMute() {
     const next = !muted
@@ -144,13 +156,17 @@ export function App() {
     setMutedState(next)
   }
 
-  if (searching && file)
-    return <TownSearch towns={file.towns} onClose={() => setSearching(false)} />
   if (error) return <main style={{ padding: 24 }}>Failed to load: {error}</main>
   if (!file || !today) return <main style={{ padding: 24 }}>Loading…</main>
 
   return (
     <main>
+      {/* Overlay, not a route: the game (and any unsubmitted pin) stays mounted. */}
+      {searching && (
+        <div style={overlay}>
+          <TownSearch towns={file.towns} onClose={() => setSearching(false)} />
+        </div>
+      )}
       <header
         style={{
           padding: '12px 16px',
@@ -235,6 +251,14 @@ export function App() {
       </footer>
     </main>
   )
+}
+
+const overlay: CSSProperties = {
+  position: 'fixed',
+  inset: 0,
+  zIndex: 1000,
+  overflowY: 'auto',
+  background: 'var(--bg)',
 }
 
 const linkButton: CSSProperties = {

@@ -705,7 +705,9 @@
     "schools": [
       "United States Air Force Academy"
     ],
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "lat": 38.9983,
+    "lng": -104.8614
   },
   {
     "name": "New Brunswick",
@@ -2041,7 +2043,9 @@
     "schools": [
       "Grand Valley State University"
     ],
-    "difficulty": "hard"
+    "difficulty": "hard",
+    "lat": 42.972,
+    "lng": -85.953
   },
   {
     "name": "Holland",

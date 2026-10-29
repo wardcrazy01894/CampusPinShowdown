@@ -28,29 +28,61 @@ import {
   toTown,
   sortTowns,
   slug,
+  censusMismatches,
 } from './build-towns-lib.mjs'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const SEED = path.join(ROOT, 'data', 'towns-seed.json')
 const CACHE = path.join(ROOT, 'data', '.nominatim-cache.json')
 const OUT = path.join(ROOT, 'public', 'towns.json')
+const CENSUS = path.join(ROOT, 'data', 'census-pins.json')
 const USER_AGENT =
   'CampusPinShowdown/0.1 (+https://github.com/wardcrazy01894/CampusPinShowdown)'
 const MIN_GAP_MS = 1100
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
-async function geocode(query) {
+/**
+ * Cache key version: bump when the QUERY changes shape (params below), so
+ * stale answers from an older query form are never reused.
+ */
+const QUERY_VERSION = 'v2'
+const cacheKey = (query) => `${QUERY_VERSION}|${query}`
+
+async function geocode(query, attempt = 1) {
   const url =
     'https://nominatim.openstreetmap.org/search?' +
     new URLSearchParams({
       q: query,
       format: 'jsonv2',
-      limit: '5',
+      // 10 (not 5): a same-named county/neighbourhood can crowd the real town
+      // out of a short list; pickResult then has nothing valid to choose.
+      limit: '10',
       countrycodes: 'us',
       addressdetails: '1',
+      // Settlements only (state → neighbourhood): keeps university buildings,
+      // roads and POIs out of the candidate list entirely.
+      featureType: 'settlement',
     })
-  const r = await fetch(url, { headers: { 'User-Agent': USER_AGENT } })
+  let r
+  try {
+    r = await fetch(url, {
+      headers: { 'User-Agent': USER_AGENT },
+      signal: AbortSignal.timeout(15_000),
+    })
+  } catch (e) {
+    if (attempt >= 2) throw e
+    console.log(`  (network error, retrying) ${String(e)}`)
+    await sleep(5_000)
+    return geocode(query, attempt + 1)
+  }
+  if (r.status === 429 || r.status >= 500) {
+    if (attempt >= 2)
+      throw new Error(`Nominatim HTTP ${r.status} for "${query}"`)
+    console.log(`  (HTTP ${r.status}, backing off 10 s)`)
+    await sleep(10_000)
+    return geocode(query, attempt + 1)
+  }
   if (!r.ok) throw new Error(`Nominatim HTTP ${r.status} for "${query}"`)
   return r.json()
 }
@@ -79,15 +111,16 @@ async function main() {
       continue
     }
     const q = nominatimQuery(entry)
-    if (!cache[q]) {
+    const k = cacheKey(q)
+    if (!cache[k]) {
       if (fetched > 0) await sleep(MIN_GAP_MS)
       process.stdout.write(`geocoding ${id} … `)
-      cache[q] = await geocode(q)
+      cache[k] = await geocode(q)
       fetched++
       await writeFile(CACHE, JSON.stringify(cache, null, 1))
-      console.log(`${cache[q].length} hits`)
+      console.log(`${cache[k].length} hits`)
     }
-    const hit = pickResult(cache[q], entry)
+    const hit = pickResult(cache[k], entry)
     if (!hit) {
       misses.push(`${id}: no settlement hit in ${entry.stateCode} for "${q}"`)
       continue
@@ -104,6 +137,14 @@ async function main() {
       continue
     }
     towns.push(toTown(entry, coords))
+  }
+
+  // Independent cross-check: every pin must agree with the US Census Gazetteer
+  // internal point for that place (data/census-pins.json). This is what stops
+  // a same-named county / neighbourhood / hamlet from shipping.
+  const census = JSON.parse(await readFile(CENSUS, 'utf8')).pins
+  for (const m of censusMismatches(towns, census)) {
+    misses.push(`${m.id}: ${m.reason}`)
   }
 
   if (misses.length) {

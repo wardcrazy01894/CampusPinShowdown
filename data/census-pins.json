@@ -1,0 +1,2035 @@
+{
+  "source": "US Census Bureau, 2024 Gazetteer Files — Places (national). Public domain. INTPTLAT/INTPTLONG = internal point of the place polygon; alandKm2 = ALAND.",
+  "pins": {
+    "ada-oh": {
+      "lat": 40.768139,
+      "lng": -83.825211,
+      "place": "Ada village",
+      "geoid": "3900198",
+      "alandKm2": 6
+    },
+    "ada-ok": {
+      "lat": 34.767914,
+      "lng": -96.669114,
+      "place": "Ada city",
+      "geoid": "4000200",
+      "alandKm2": 50
+    },
+    "akron-oh": {
+      "lat": 41.080456,
+      "lng": -81.521429,
+      "place": "Akron city",
+      "geoid": "3901000",
+      "alandKm2": 160
+    },
+    "albuquerque-nm": {
+      "lat": 35.10478,
+      "lng": -106.646809,
+      "place": "Albuquerque city",
+      "geoid": "3502000",
+      "alandKm2": 485
+    },
+    "allendale-mi": {
+      "lat": 42.981962,
+      "lng": -85.944126,
+      "place": "Allendale CDP",
+      "geoid": "2601340",
+      "alandKm2": 60
+    },
+    "ames-ia": {
+      "lat": 42.026327,
+      "lng": -93.621264,
+      "place": "Ames city",
+      "geoid": "1901855",
+      "alandKm2": 73
+    },
+    "amherst-ma": {
+      "lat": 42.363534,
+      "lng": -72.507291,
+      "place": "Amherst Town city",
+      "geoid": "2501370",
+      "alandKm2": 72
+    },
+    "ann-arbor-mi": {
+      "lat": 42.276147,
+      "lng": -83.73086,
+      "place": "Ann Arbor city",
+      "geoid": "2603000",
+      "alandKm2": 74
+    },
+    "annapolis-md": {
+      "lat": 38.972152,
+      "lng": -76.505332,
+      "place": "Annapolis city",
+      "geoid": "2401600",
+      "alandKm2": 19
+    },
+    "appleton-wi": {
+      "lat": 44.278873,
+      "lng": -88.388284,
+      "place": "Appleton city",
+      "geoid": "5502375",
+      "alandKm2": 66
+    },
+    "arcata-ca": {
+      "lat": 40.862291,
+      "lng": -124.074967,
+      "place": "Arcata city",
+      "geoid": "0602476",
+      "alandKm2": 24
+    },
+    "ashland-or": {
+      "lat": 42.192216,
+      "lng": -122.69825,
+      "place": "Ashland city",
+      "geoid": "4103050",
+      "alandKm2": 17
+    },
+    "athens-ga": {
+      "lat": 33.949597,
+      "lng": -83.370088,
+      "place": "Athens-Clarke County unified government (balance)",
+      "geoid": "1303440",
+      "alandKm2": 302
+    },
+    "athens-oh": {
+      "lat": 39.326286,
+      "lng": -82.100187,
+      "place": "Athens city",
+      "geoid": "3902736",
+      "alandKm2": 26
+    },
+    "auburn-al": {
+      "lat": 32.607806,
+      "lng": -85.494746,
+      "place": "Auburn city",
+      "geoid": "0103076",
+      "alandKm2": 163
+    },
+    "austin-tx": {
+      "lat": 30.298622,
+      "lng": -97.754134,
+      "place": "Austin city",
+      "geoid": "4805000",
+      "alandKm2": 845
+    },
+    "baton-rouge-la": {
+      "lat": 30.440443,
+      "lng": -91.133166,
+      "place": "Baton Rouge city",
+      "geoid": "2205000",
+      "alandKm2": 225
+    },
+    "bellingham-wa": {
+      "lat": 48.753442,
+      "lng": -122.470179,
+      "place": "Bellingham city",
+      "geoid": "5305280",
+      "alandKm2": 73
+    },
+    "berea-ky": {
+      "lat": 37.589296,
+      "lng": -84.294502,
+      "place": "Berea city",
+      "geoid": "2105842",
+      "alandKm2": 43
+    },
+    "berkeley-ca": {
+      "lat": 37.865673,
+      "lng": -122.298725,
+      "place": "Berkeley city",
+      "geoid": "0606000",
+      "alandKm2": 27
+    },
+    "bethlehem-pa": {
+      "lat": 40.626424,
+      "lng": -75.367898,
+      "place": "Bethlehem city",
+      "geoid": "4206088",
+      "alandKm2": 50
+    },
+    "big-rapids-mi": {
+      "lat": 43.699671,
+      "lng": -85.48125,
+      "place": "Big Rapids city",
+      "geoid": "2608300",
+      "alandKm2": 12
+    },
+    "binghamton-ny": {
+      "lat": 42.101331,
+      "lng": -75.909369,
+      "place": "Binghamton city",
+      "geoid": "3606607",
+      "alandKm2": 27
+    },
+    "blacksburg-va": {
+      "lat": 37.231264,
+      "lng": -80.426745,
+      "place": "Blacksburg town",
+      "geoid": "5107784",
+      "alandKm2": 51
+    },
+    "bloomington-in": {
+      "lat": 39.1637,
+      "lng": -86.524264,
+      "place": "Bloomington city",
+      "geoid": "1805860",
+      "alandKm2": 60
+    },
+    "bloomsburg-pa": {
+      "lat": 41.002717,
+      "lng": -76.45658,
+      "place": "Bloomsburg town",
+      "geoid": "4207128",
+      "alandKm2": 11
+    },
+    "boca-raton-fl": {
+      "lat": 26.37269,
+      "lng": -80.103711,
+      "place": "Boca Raton city",
+      "geoid": "1207300",
+      "alandKm2": 76
+    },
+    "boise-id": {
+      "lat": 43.599335,
+      "lng": -116.229817,
+      "place": "Boise City city",
+      "geoid": "1608830",
+      "alandKm2": 221
+    },
+    "boone-nc": {
+      "lat": 36.213842,
+      "lng": -81.665197,
+      "place": "Boone town",
+      "geoid": "3707080",
+      "alandKm2": 17
+    },
+    "boulder-co": {
+      "lat": 40.024431,
+      "lng": -105.251251,
+      "place": "Boulder city",
+      "geoid": "0807850",
+      "alandKm2": 70
+    },
+    "bowling-green-ky": {
+      "lat": 36.976832,
+      "lng": -86.433661,
+      "place": "Bowling Green city",
+      "geoid": "2108902",
+      "alandKm2": 109
+    },
+    "bowling-green-oh": {
+      "lat": 41.377677,
+      "lng": -83.649584,
+      "place": "Bowling Green city",
+      "geoid": "3907972",
+      "alandKm2": 34
+    },
+    "bozeman-mt": {
+      "lat": 45.683155,
+      "lng": -111.053782,
+      "place": "Bozeman city",
+      "geoid": "3008950",
+      "alandKm2": 55
+    },
+    "brookings-sd": {
+      "lat": 44.303364,
+      "lng": -96.787339,
+      "place": "Brookings city",
+      "geoid": "4607580",
+      "alandKm2": 36
+    },
+    "brunswick-me": {
+      "lat": 43.887452,
+      "lng": -69.942623,
+      "place": "Brunswick CDP",
+      "geoid": "2308395",
+      "alandKm2": 50
+    },
+    "buckhannon-wv": {
+      "lat": 38.992734,
+      "lng": -80.228243,
+      "place": "Buckhannon city",
+      "geoid": "5411188",
+      "alandKm2": 7
+    },
+    "buffalo-ny": {
+      "lat": 42.892492,
+      "lng": -78.859686,
+      "place": "Buffalo city",
+      "geoid": "3611000",
+      "alandKm2": 105
+    },
+    "burlington-vt": {
+      "lat": 44.491927,
+      "lng": -73.238882,
+      "place": "Burlington city",
+      "geoid": "5010675",
+      "alandKm2": 27
+    },
+    "cambridge-ma": {
+      "lat": 42.376043,
+      "lng": -71.11868,
+      "place": "Cambridge city",
+      "geoid": "2511000",
+      "alandKm2": 17
+    },
+    "canyon-tx": {
+      "lat": 34.990291,
+      "lng": -101.918951,
+      "place": "Canyon city",
+      "geoid": "4812532",
+      "alandKm2": 21
+    },
+    "cape-girardeau-mo": {
+      "lat": 37.309389,
+      "lng": -89.558359,
+      "place": "Cape Girardeau city",
+      "geoid": "2911242",
+      "alandKm2": 76
+    },
+    "carbondale-il": {
+      "lat": 37.722062,
+      "lng": -89.223664,
+      "place": "Carbondale city",
+      "geoid": "1711163",
+      "alandKm2": 45
+    },
+    "carlisle-pa": {
+      "lat": 40.199994,
+      "lng": -77.204149,
+      "place": "Carlisle borough",
+      "geoid": "4211272",
+      "alandKm2": 14
+    },
+    "carrollton-ga": {
+      "lat": 33.581847,
+      "lng": -85.083333,
+      "place": "Carrollton city",
+      "geoid": "1313492",
+      "alandKm2": 60
+    },
+    "castleton-vt": {
+      "lat": 43.605438,
+      "lng": -73.184824,
+      "place": "Castleton CDP",
+      "geoid": "5011875",
+      "alandKm2": 3
+    },
+    "cedar-city-ut": {
+      "lat": 37.683818,
+      "lng": -113.09554,
+      "place": "Cedar City city",
+      "geoid": "4911320",
+      "alandKm2": 94
+    },
+    "cedar-falls-ia": {
+      "lat": 42.51907,
+      "lng": -92.454009,
+      "place": "Cedar Falls city",
+      "geoid": "1911755",
+      "alandKm2": 76
+    },
+    "champaign-il": {
+      "lat": 40.114099,
+      "lng": -88.274619,
+      "place": "Champaign city",
+      "geoid": "1712385",
+      "alandKm2": 60
+    },
+    "chapel-hill-nc": {
+      "lat": 35.928328,
+      "lng": -79.041375,
+      "place": "Chapel Hill town",
+      "geoid": "3711800",
+      "alandKm2": 56
+    },
+    "charleston-il": {
+      "lat": 39.48483,
+      "lng": -88.177609,
+      "place": "Charleston city",
+      "geoid": "1712567",
+      "alandKm2": 24
+    },
+    "charlottesville-va": {
+      "lat": 38.037658,
+      "lng": -78.485381,
+      "place": "Charlottesville city",
+      "geoid": "5114968",
+      "alandKm2": 27
+    },
+    "cheney-wa": {
+      "lat": 47.49113,
+      "lng": -117.581546,
+      "place": "Cheney city",
+      "geoid": "5311825",
+      "alandKm2": 11
+    },
+    "chestertown-md": {
+      "lat": 39.218383,
+      "lng": -76.074022,
+      "place": "Chestertown town",
+      "geoid": "2416225",
+      "alandKm2": 7
+    },
+    "chico-ca": {
+      "lat": 39.758951,
+      "lng": -121.81772,
+      "place": "Chico city",
+      "geoid": "0613014",
+      "alandKm2": 89
+    },
+    "claremont-ca": {
+      "lat": 34.124925,
+      "lng": -117.713923,
+      "place": "Claremont city",
+      "geoid": "0613756",
+      "alandKm2": 35
+    },
+    "clemson-sc": {
+      "lat": 34.683564,
+      "lng": -82.810575,
+      "place": "Clemson city",
+      "geoid": "4514950",
+      "alandKm2": 21
+    },
+    "clinton-ny": {
+      "lat": 43.048866,
+      "lng": -75.378462,
+      "place": "Clinton village",
+      "geoid": "3616419",
+      "alandKm2": 2
+    },
+    "college-park-md": {
+      "lat": 38.996276,
+      "lng": -76.935594,
+      "place": "College Park city",
+      "geoid": "2418750",
+      "alandKm2": 15
+    },
+    "college-station-tx": {
+      "lat": 30.58516,
+      "lng": -96.29636,
+      "place": "College Station city",
+      "geoid": "4815976",
+      "alandKm2": 133
+    },
+    "colorado-springs-co": {
+      "lat": 38.867255,
+      "lng": -104.760749,
+      "place": "Colorado Springs city",
+      "geoid": "0816000",
+      "alandKm2": 523
+    },
+    "columbia-mo": {
+      "lat": 38.94729,
+      "lng": -92.326387,
+      "place": "Columbia city",
+      "geoid": "2915670",
+      "alandKm2": 175
+    },
+    "columbia-sc": {
+      "lat": 34.040519,
+      "lng": -80.906099,
+      "place": "Columbia city",
+      "geoid": "4516000",
+      "alandKm2": 359
+    },
+    "columbus-oh": {
+      "lat": 39.983938,
+      "lng": -82.984882,
+      "place": "Columbus city",
+      "geoid": "3918000",
+      "alandKm2": 574
+    },
+    "commerce-tx": {
+      "lat": 33.240992,
+      "lng": -95.898869,
+      "place": "Commerce city",
+      "geoid": "4816240",
+      "alandKm2": 22
+    },
+    "conway-ar": {
+      "lat": 35.074404,
+      "lng": -92.467004,
+      "place": "Conway city",
+      "geoid": "0515190",
+      "alandKm2": 121
+    },
+    "conway-sc": {
+      "lat": 33.834533,
+      "lng": -79.049173,
+      "place": "Conway city",
+      "geoid": "4516405",
+      "alandKm2": 72
+    },
+    "cookeville-tn": {
+      "lat": 36.146926,
+      "lng": -85.512653,
+      "place": "Cookeville city",
+      "geoid": "4716920",
+      "alandKm2": 93
+    },
+    "coral-gables-fl": {
+      "lat": 25.683061,
+      "lng": -80.261659,
+      "place": "Coral Gables city",
+      "geoid": "1214250",
+      "alandKm2": 33
+    },
+    "corvallis-or": {
+      "lat": 44.569949,
+      "lng": -123.278285,
+      "place": "Corvallis city",
+      "geoid": "4115800",
+      "alandKm2": 38
+    },
+    "crawfordsville-in": {
+      "lat": 40.041286,
+      "lng": -86.897576,
+      "place": "Crawfordsville city",
+      "geoid": "1815742",
+      "alandKm2": 27
+    },
+    "cullowhee-nc": {
+      "lat": 35.309726,
+      "lng": -83.181548,
+      "place": "Cullowhee CDP",
+      "geoid": "3715880",
+      "alandKm2": 10
+    },
+    "danville-ky": {
+      "lat": 37.639256,
+      "lng": -84.776013,
+      "place": "Danville city",
+      "geoid": "2119882",
+      "alandKm2": 47
+    },
+    "davidson-nc": {
+      "lat": 35.480375,
+      "lng": -80.82095,
+      "place": "Davidson town",
+      "geoid": "3716400",
+      "alandKm2": 17
+    },
+    "davis-ca": {
+      "lat": 38.556147,
+      "lng": -121.737793,
+      "place": "Davis city",
+      "geoid": "0618100",
+      "alandKm2": 26
+    },
+    "dayton-oh": {
+      "lat": 39.784743,
+      "lng": -84.199632,
+      "place": "Dayton city",
+      "geoid": "3921000",
+      "alandKm2": 145
+    },
+    "decorah-ia": {
+      "lat": 43.301618,
+      "lng": -91.78475,
+      "place": "Decorah city",
+      "geoid": "1919405",
+      "alandKm2": 19
+    },
+    "dekalb-il": {
+      "lat": 41.928186,
+      "lng": -88.747585,
+      "place": "DeKalb city",
+      "geoid": "1719161",
+      "alandKm2": 45
+    },
+    "deland-fl": {
+      "lat": 29.022663,
+      "lng": -81.286498,
+      "place": "DeLand city",
+      "geoid": "1216875",
+      "alandKm2": 51
+    },
+    "delaware-oh": {
+      "lat": 40.286476,
+      "lng": -83.074864,
+      "place": "Delaware city",
+      "geoid": "3921434",
+      "alandKm2": 52
+    },
+    "denton-tx": {
+      "lat": 33.217449,
+      "lng": -97.141346,
+      "place": "Denton city",
+      "geoid": "4819972",
+      "alandKm2": 251
+    },
+    "dover-de": {
+      "lat": 39.160602,
+      "lng": -75.521659,
+      "place": "Dover city",
+      "geoid": "1021200",
+      "alandKm2": 62
+    },
+    "duluth-mn": {
+      "lat": 46.774458,
+      "lng": -92.134135,
+      "place": "Duluth city",
+      "geoid": "2717000",
+      "alandKm2": 186
+    },
+    "durango-co": {
+      "lat": 37.264534,
+      "lng": -107.874124,
+      "place": "Durango city",
+      "geoid": "0822035",
+      "alandKm2": 46
+    },
+    "durham-nc": {
+      "lat": 35.977928,
+      "lng": -78.898109,
+      "place": "Durham city",
+      "geoid": "3719000",
+      "alandKm2": 308
+    },
+    "durham-nh": {
+      "lat": 43.142752,
+      "lng": -70.925002,
+      "place": "Durham CDP",
+      "geoid": "3319620",
+      "alandKm2": 8
+    },
+    "east-lansing-mi": {
+      "lat": 42.748913,
+      "lng": -84.482442,
+      "place": "East Lansing city",
+      "geoid": "2624120",
+      "alandKm2": 35
+    },
+    "easton-pa": {
+      "lat": 40.685971,
+      "lng": -75.218548,
+      "place": "Easton city",
+      "geoid": "4221648",
+      "alandKm2": 11
+    },
+    "eau-claire-wi": {
+      "lat": 44.818343,
+      "lng": -91.494769,
+      "place": "Eau Claire city",
+      "geoid": "5522300",
+      "alandKm2": 89
+    },
+    "edmond-ok": {
+      "lat": 35.673807,
+      "lng": -97.413076,
+      "place": "Edmond city",
+      "geoid": "4023200",
+      "alandKm2": 219
+    },
+    "ellensburg-wa": {
+      "lat": 47.000124,
+      "lng": -120.54954,
+      "place": "Ellensburg city",
+      "geoid": "5321240",
+      "alandKm2": 22
+    },
+    "elon-nc": {
+      "lat": 36.102266,
+      "lng": -79.508787,
+      "place": "Elon town",
+      "geoid": "3721095",
+      "alandKm2": 11
+    },
+    "emmitsburg-md": {
+      "lat": 39.705192,
+      "lng": -77.321301,
+      "place": "Emmitsburg town",
+      "geoid": "2426200",
+      "alandKm2": 4
+    },
+    "emporia-ks": {
+      "lat": 38.40186,
+      "lng": -96.191654,
+      "place": "Emporia city",
+      "geoid": "2021275",
+      "alandKm2": 32
+    },
+    "eugene-or": {
+      "lat": 44.056848,
+      "lng": -123.119019,
+      "place": "Eugene city",
+      "geoid": "4123850",
+      "alandKm2": 115
+    },
+    "evanston-il": {
+      "lat": 42.046391,
+      "lng": -87.694352,
+      "place": "Evanston city",
+      "geoid": "1724582",
+      "alandKm2": 20
+    },
+    "fairmont-wv": {
+      "lat": 39.476877,
+      "lng": -80.149089,
+      "place": "Fairmont city",
+      "geoid": "5426452",
+      "alandKm2": 22
+    },
+    "fargo-nd": {
+      "lat": 46.8647,
+      "lng": -96.82908,
+      "place": "Fargo city",
+      "geoid": "3825700",
+      "alandKm2": 133
+    },
+    "farmville-va": {
+      "lat": 37.296115,
+      "lng": -78.400447,
+      "place": "Farmville town",
+      "geoid": "5127440",
+      "alandKm2": 20
+    },
+    "fayetteville-ar": {
+      "lat": 36.071455,
+      "lng": -94.166564,
+      "place": "Fayetteville city",
+      "geoid": "0523290",
+      "alandKm2": 142
+    },
+    "flagstaff-az": {
+      "lat": 35.185212,
+      "lng": -111.620698,
+      "place": "Flagstaff city",
+      "geoid": "0423620",
+      "alandKm2": 171
+    },
+    "forest-grove-or": {
+      "lat": 45.524781,
+      "lng": -123.10991,
+      "place": "Forest Grove city",
+      "geoid": "4126200",
+      "alandKm2": 16
+    },
+    "fort-collins-co": {
+      "lat": 40.548216,
+      "lng": -105.064833,
+      "place": "Fort Collins city",
+      "geoid": "0827425",
+      "alandKm2": 148
+    },
+    "fort-worth-tx": {
+      "lat": 32.781954,
+      "lng": -97.348573,
+      "place": "Fort Worth city",
+      "geoid": "4827000",
+      "alandKm2": 911
+    },
+    "fredericksburg-va": {
+      "lat": 38.299272,
+      "lng": -77.486658,
+      "place": "Fredericksburg city",
+      "geoid": "5129744",
+      "alandKm2": 27
+    },
+    "frostburg-md": {
+      "lat": 39.650523,
+      "lng": -78.926793,
+      "place": "Frostburg city",
+      "geoid": "2430900",
+      "alandKm2": 9
+    },
+    "gainesville-fl": {
+      "lat": 29.679537,
+      "lng": -82.346793,
+      "place": "Gainesville city",
+      "geoid": "1225175",
+      "alandKm2": 166
+    },
+    "galesburg-il": {
+      "lat": 40.950217,
+      "lng": -90.376564,
+      "place": "Galesburg city",
+      "geoid": "1728326",
+      "alandKm2": 46
+    },
+    "gambier-oh": {
+      "lat": 40.376228,
+      "lng": -82.394596,
+      "place": "Gambier village",
+      "geoid": "3929246",
+      "alandKm2": 2
+    },
+    "geneseo-ny": {
+      "lat": 42.79902,
+      "lng": -77.809548,
+      "place": "Geneseo village",
+      "geoid": "3628618",
+      "alandKm2": 7
+    },
+    "geneva-ny": {
+      "lat": 42.863488,
+      "lng": -76.982722,
+      "place": "Geneva city",
+      "geoid": "3628640",
+      "alandKm2": 11
+    },
+    "gettysburg-pa": {
+      "lat": 39.830597,
+      "lng": -77.234147,
+      "place": "Gettysburg borough",
+      "geoid": "4228960",
+      "alandKm2": 4
+    },
+    "golden-co": {
+      "lat": 39.742483,
+      "lng": -105.210561,
+      "place": "Golden city",
+      "geoid": "0830835",
+      "alandKm2": 25
+    },
+    "grand-forks-nd": {
+      "lat": 47.919595,
+      "lng": -97.087328,
+      "place": "Grand Forks city",
+      "geoid": "3832060",
+      "alandKm2": 75
+    },
+    "granville-oh": {
+      "lat": 40.0568,
+      "lng": -82.50414,
+      "place": "Granville village",
+      "geoid": "3931402",
+      "alandKm2": 12
+    },
+    "greeley-co": {
+      "lat": 40.416576,
+      "lng": -104.77328,
+      "place": "Greeley city",
+      "geoid": "0832155",
+      "alandKm2": 130
+    },
+    "greencastle-in": {
+      "lat": 39.641841,
+      "lng": -86.846339,
+      "place": "Greencastle city",
+      "geoid": "1829358",
+      "alandKm2": 14
+    },
+    "greenville-nc": {
+      "lat": 35.596431,
+      "lng": -77.375256,
+      "place": "Greenville city",
+      "geoid": "3728080",
+      "alandKm2": 99
+    },
+    "grinnell-ia": {
+      "lat": 41.735236,
+      "lng": -92.724902,
+      "place": "Grinnell city",
+      "geoid": "1933105",
+      "alandKm2": 15
+    },
+    "grove-city-pa": {
+      "lat": 41.157116,
+      "lng": -80.088596,
+      "place": "Grove City borough",
+      "geoid": "4231656",
+      "alandKm2": 7
+    },
+    "gunnison-co": {
+      "lat": 38.547978,
+      "lng": -106.924604,
+      "place": "Gunnison city",
+      "geoid": "0833640",
+      "alandKm2": 13
+    },
+    "hamilton-ny": {
+      "lat": 42.828457,
+      "lng": -75.553015,
+      "place": "Hamilton village",
+      "geoid": "3631709",
+      "alandKm2": 6
+    },
+    "hammond-la": {
+      "lat": 30.50565,
+      "lng": -90.456493,
+      "place": "Hammond city",
+      "geoid": "2232755",
+      "alandKm2": 37
+    },
+    "hanover-nh": {
+      "lat": 43.71159,
+      "lng": -72.273144,
+      "place": "Hanover CDP",
+      "geoid": "3333780",
+      "alandKm2": 12
+    },
+    "harrisonburg-va": {
+      "lat": 38.436255,
+      "lng": -78.873303,
+      "place": "Harrisonburg city",
+      "geoid": "5135624",
+      "alandKm2": 45
+    },
+    "hattiesburg-ms": {
+      "lat": 31.307305,
+      "lng": -89.317434,
+      "place": "Hattiesburg city",
+      "geoid": "2831020",
+      "alandKm2": 138
+    },
+    "haverford-pa": {
+      "lat": 40.009262,
+      "lng": -75.307376,
+      "place": "Haverford College CDP",
+      "geoid": "4233154",
+      "alandKm2": 1
+    },
+    "hays-ks": {
+      "lat": 38.882156,
+      "lng": -99.321975,
+      "place": "Hays city",
+      "geoid": "2031100",
+      "alandKm2": 23
+    },
+    "hillsdale-mi": {
+      "lat": 41.927461,
+      "lng": -84.637479,
+      "place": "Hillsdale city",
+      "geoid": "2638460",
+      "alandKm2": 15
+    },
+    "holland-mi": {
+      "lat": 42.767049,
+      "lng": -86.098572,
+      "place": "Holland city",
+      "geoid": "2638640",
+      "alandKm2": 44
+    },
+    "houghton-mi": {
+      "lat": 47.111751,
+      "lng": -88.567237,
+      "place": "Houghton city",
+      "geoid": "2639360",
+      "alandKm2": 11
+    },
+    "huntingdon-pa": {
+      "lat": 40.498154,
+      "lng": -78.007336,
+      "place": "Huntingdon borough",
+      "geoid": "4236368",
+      "alandKm2": 9
+    },
+    "huntington-wv": {
+      "lat": 38.410651,
+      "lng": -82.434689,
+      "place": "Huntington city",
+      "geoid": "5439460",
+      "alandKm2": 42
+    },
+    "huntsville-tx": {
+      "lat": 30.700542,
+      "lng": -95.55489,
+      "place": "Huntsville city",
+      "geoid": "4835528",
+      "alandKm2": 108
+    },
+    "indiana-pa": {
+      "lat": 40.621954,
+      "lng": -79.155283,
+      "place": "Indiana borough",
+      "geoid": "4236816",
+      "alandKm2": 5
+    },
+    "iowa-city-ia": {
+      "lat": 41.655661,
+      "lng": -91.530859,
+      "place": "Iowa City city",
+      "geoid": "1938595",
+      "alandKm2": 67
+    },
+    "irvine-ca": {
+      "lat": 33.678399,
+      "lng": -117.771254,
+      "place": "Irvine city",
+      "geoid": "0636770",
+      "alandKm2": 170
+    },
+    "ithaca-ny": {
+      "lat": 42.443937,
+      "lng": -76.503055,
+      "place": "Ithaca city",
+      "geoid": "3638077",
+      "alandKm2": 14
+    },
+    "jacksonville-al": {
+      "lat": 33.810066,
+      "lng": -85.755217,
+      "place": "Jacksonville city",
+      "geoid": "0138272",
+      "alandKm2": 28
+    },
+    "johnson-city-tn": {
+      "lat": 36.342325,
+      "lng": -82.380915,
+      "place": "Johnson City city",
+      "geoid": "4738320",
+      "alandKm2": 113
+    },
+    "jonesboro-ar": {
+      "lat": 35.819755,
+      "lng": -90.679033,
+      "place": "Jonesboro city",
+      "geoid": "0535710",
+      "alandKm2": 208
+    },
+    "kalamazoo-mi": {
+      "lat": 42.275163,
+      "lng": -85.588501,
+      "place": "Kalamazoo city",
+      "geoid": "2642160",
+      "alandKm2": 64
+    },
+    "kearney-ne": {
+      "lat": 40.701745,
+      "lng": -99.082312,
+      "place": "Kearney city",
+      "geoid": "3125055",
+      "alandKm2": 39
+    },
+    "keene-nh": {
+      "lat": 42.953842,
+      "lng": -72.306875,
+      "place": "Keene city",
+      "geoid": "3339300",
+      "alandKm2": 96
+    },
+    "kent-oh": {
+      "lat": 41.147561,
+      "lng": -81.361965,
+      "place": "Kent city",
+      "geoid": "3939872",
+      "alandKm2": 25
+    },
+    "kingston-ri": {
+      "lat": 41.473179,
+      "lng": -71.524124,
+      "place": "Kingston CDP",
+      "geoid": "4438980",
+      "alandKm2": 4
+    },
+    "kingsville-tx": {
+      "lat": 27.509201,
+      "lng": -97.861028,
+      "place": "Kingsville city",
+      "geoid": "4839352",
+      "alandKm2": 36
+    },
+    "kirksville-mo": {
+      "lat": 40.198171,
+      "lng": -92.574562,
+      "place": "Kirksville city",
+      "geoid": "2939026",
+      "alandKm2": 37
+    },
+    "knoxville-tn": {
+      "lat": 35.97068,
+      "lng": -83.94927,
+      "place": "Knoxville city",
+      "geoid": "4740000",
+      "alandKm2": 256
+    },
+    "kutztown-pa": {
+      "lat": 40.521313,
+      "lng": -75.777288,
+      "place": "Kutztown borough",
+      "geoid": "4240656",
+      "alandKm2": 4
+    },
+    "la-crosse-wi": {
+      "lat": 43.824685,
+      "lng": -91.224616,
+      "place": "La Crosse city",
+      "geoid": "5540775",
+      "alandKm2": 56
+    },
+    "lafayette-la": {
+      "lat": 30.2056,
+      "lng": -92.028058,
+      "place": "Lafayette city",
+      "geoid": "2240735",
+      "alandKm2": 146
+    },
+    "lakeland-fl": {
+      "lat": 28.055496,
+      "lng": -81.954772,
+      "place": "Lakeland city",
+      "geoid": "1238250",
+      "alandKm2": 172
+    },
+    "laramie-wy": {
+      "lat": 41.305955,
+      "lng": -105.608637,
+      "place": "Laramie city",
+      "geoid": "5645050",
+      "alandKm2": 48
+    },
+    "las-cruces-nm": {
+      "lat": 32.326444,
+      "lng": -106.789695,
+      "place": "Las Cruces city",
+      "geoid": "3539380",
+      "alandKm2": 199
+    },
+    "latrobe-pa": {
+      "lat": 40.312434,
+      "lng": -79.382596,
+      "place": "Latrobe borough",
+      "geoid": "4241680",
+      "alandKm2": 6
+    },
+    "lawrence-ks": {
+      "lat": 38.959551,
+      "lng": -95.265468,
+      "place": "Lawrence city",
+      "geoid": "2038900",
+      "alandKm2": 90
+    },
+    "lewisburg-pa": {
+      "lat": 40.964126,
+      "lng": -76.889957,
+      "place": "Lewisburg borough",
+      "geoid": "4242976",
+      "alandKm2": 3
+    },
+    "lewiston-me": {
+      "lat": 44.089513,
+      "lng": -70.172095,
+      "place": "Lewiston city",
+      "geoid": "2338740",
+      "alandKm2": 88
+    },
+    "lexington-ky": {
+      "lat": 38.040678,
+      "lng": -84.458272,
+      "place": "Lexington-Fayette urban county",
+      "geoid": "2146027",
+      "alandKm2": 735
+    },
+    "lexington-va": {
+      "lat": 37.782332,
+      "lng": -79.44432,
+      "place": "Lexington city",
+      "geoid": "5145512",
+      "alandKm2": 6
+    },
+    "lincoln-ne": {
+      "lat": 40.810284,
+      "lng": -96.674856,
+      "place": "Lincoln city",
+      "geoid": "3128000",
+      "alandKm2": 262
+    },
+    "logan-ut": {
+      "lat": 41.740256,
+      "lng": -111.841764,
+      "place": "Logan city",
+      "geoid": "4945860",
+      "alandKm2": 47
+    },
+    "lubbock-tx": {
+      "lat": 33.561901,
+      "lng": -101.888883,
+      "place": "Lubbock city",
+      "geoid": "4845000",
+      "alandKm2": 371
+    },
+    "lynchburg-va": {
+      "lat": 37.399016,
+      "lng": -79.195458,
+      "place": "Lynchburg city",
+      "geoid": "5147672",
+      "alandKm2": 127
+    },
+    "macomb-il": {
+      "lat": 40.470149,
+      "lng": -90.683114,
+      "place": "Macomb city",
+      "geoid": "1745889",
+      "alandKm2": 28
+    },
+    "macon-ga": {
+      "lat": 32.80899,
+      "lng": -83.69406,
+      "place": "Macon-Bibb County",
+      "geoid": "1349008",
+      "alandKm2": 646
+    },
+    "madison-wi": {
+      "lat": 43.087815,
+      "lng": -89.429856,
+      "place": "Madison city",
+      "geoid": "5548000",
+      "alandKm2": 217
+    },
+    "manhattan-ks": {
+      "lat": 39.188307,
+      "lng": -96.605864,
+      "place": "Manhattan city",
+      "geoid": "2044250",
+      "alandKm2": 53
+    },
+    "mankato-mn": {
+      "lat": 44.171122,
+      "lng": -93.97638,
+      "place": "Mankato city",
+      "geoid": "2739878",
+      "alandKm2": 51
+    },
+    "marquette-mi": {
+      "lat": 46.550698,
+      "lng": -87.395833,
+      "place": "Marquette city",
+      "geoid": "2651900",
+      "alandKm2": 29
+    },
+    "martin-tn": {
+      "lat": 36.337885,
+      "lng": -88.851365,
+      "place": "Martin city",
+      "geoid": "4746240",
+      "alandKm2": 32
+    },
+    "maryville-mo": {
+      "lat": 40.342515,
+      "lng": -94.870048,
+      "place": "Maryville city",
+      "geoid": "2946640",
+      "alandKm2": 17
+    },
+    "meadville-pa": {
+      "lat": 41.647878,
+      "lng": -80.147438,
+      "place": "Meadville city",
+      "geoid": "4248360",
+      "alandKm2": 11
+    },
+    "middlebury-vt": {
+      "lat": 44.007904,
+      "lng": -73.157609,
+      "place": "Middlebury CDP",
+      "geoid": "5044275",
+      "alandKm2": 37
+    },
+    "middletown-ct": {
+      "lat": 41.548611,
+      "lng": -72.656784,
+      "place": "Middletown city",
+      "geoid": "0947290",
+      "alandKm2": 106
+    },
+    "milledgeville-ga": {
+      "lat": 33.087945,
+      "lng": -83.240613,
+      "place": "Milledgeville city",
+      "geoid": "1351492",
+      "alandKm2": 52
+    },
+    "millersville-pa": {
+      "lat": 40.005322,
+      "lng": -76.35176,
+      "place": "Millersville borough",
+      "geoid": "4249728",
+      "alandKm2": 5
+    },
+    "minneapolis-mn": {
+      "lat": 44.963324,
+      "lng": -93.26832,
+      "place": "Minneapolis city",
+      "geoid": "2743000",
+      "alandKm2": 140
+    },
+    "missoula-mt": {
+      "lat": 46.874359,
+      "lng": -114.026136,
+      "place": "Missoula city",
+      "geoid": "3050200",
+      "alandKm2": 91
+    },
+    "mobile-al": {
+      "lat": 30.668246,
+      "lng": -88.107853,
+      "place": "Mobile city",
+      "geoid": "0150000",
+      "alandKm2": 391
+    },
+    "monmouth-or": {
+      "lat": 44.851316,
+      "lng": -123.228603,
+      "place": "Monmouth city",
+      "geoid": "4149550",
+      "alandKm2": 6
+    },
+    "moorhead-mn": {
+      "lat": 46.864704,
+      "lng": -96.744552,
+      "place": "Moorhead city",
+      "geoid": "2743864",
+      "alandKm2": 58
+    },
+    "morehead-ky": {
+      "lat": 38.190026,
+      "lng": -83.449072,
+      "place": "Morehead city",
+      "geoid": "2153418",
+      "alandKm2": 25
+    },
+    "morgantown-wv": {
+      "lat": 39.637487,
+      "lng": -79.946856,
+      "place": "Morgantown city",
+      "geoid": "5455756",
+      "alandKm2": 26
+    },
+    "moscow-id": {
+      "lat": 46.730609,
+      "lng": -116.998909,
+      "place": "Moscow city",
+      "geoid": "1654550",
+      "alandKm2": 18
+    },
+    "mount-pleasant-mi": {
+      "lat": 43.59671,
+      "lng": -84.775972,
+      "place": "Mount Pleasant city",
+      "geoid": "2656020",
+      "alandKm2": 20
+    },
+    "mount-vernon-ia": {
+      "lat": 41.924272,
+      "lng": -91.425601,
+      "place": "Mount Vernon city",
+      "geoid": "1954840",
+      "alandKm2": 10
+    },
+    "muncie-in": {
+      "lat": 40.198826,
+      "lng": -85.395059,
+      "place": "Muncie city",
+      "geoid": "1851876",
+      "alandKm2": 71
+    },
+    "murfreesboro-tn": {
+      "lat": 35.853915,
+      "lng": -86.421224,
+      "place": "Murfreesboro city",
+      "geoid": "4751560",
+      "alandKm2": 167
+    },
+    "murray-ky": {
+      "lat": 36.614202,
+      "lng": -88.322075,
+      "place": "Murray city",
+      "geoid": "2154642",
+      "alandKm2": 30
+    },
+    "nacogdoches-tx": {
+      "lat": 31.612364,
+      "lng": -94.652046,
+      "place": "Nacogdoches city",
+      "geoid": "4850256",
+      "alandKm2": 72
+    },
+    "natchitoches-la": {
+      "lat": 31.734775,
+      "lng": -93.100942,
+      "place": "Natchitoches city",
+      "geoid": "2253545",
+      "alandKm2": 60
+    },
+    "new-brunswick-nj": {
+      "lat": 40.486677,
+      "lng": -74.444414,
+      "place": "New Brunswick city",
+      "geoid": "3451210",
+      "alandKm2": 14
+    },
+    "new-haven-ct": {
+      "lat": 41.310809,
+      "lng": -72.924953,
+      "place": "New Haven city",
+      "geoid": "0952000",
+      "alandKm2": 48
+    },
+    "newark-de": {
+      "lat": 39.677649,
+      "lng": -75.757479,
+      "place": "Newark city",
+      "geoid": "1050670",
+      "alandKm2": 25
+    },
+    "normal-il": {
+      "lat": 40.52014,
+      "lng": -88.992234,
+      "place": "Normal town",
+      "geoid": "1753234",
+      "alandKm2": 48
+    },
+    "norman-ok": {
+      "lat": 35.240569,
+      "lng": -97.345299,
+      "place": "Norman city",
+      "geoid": "4052500",
+      "alandKm2": 463
+    },
+    "northfield-mn": {
+      "lat": 44.455645,
+      "lng": -93.170311,
+      "place": "Northfield city",
+      "geoid": "2746924",
+      "alandKm2": 22
+    },
+    "northfield-vt": {
+      "lat": 44.146522,
+      "lng": -72.657101,
+      "place": "Northfield CDP",
+      "geoid": "5050200",
+      "alandKm2": 6
+    },
+    "oberlin-oh": {
+      "lat": 41.286063,
+      "lng": -82.219565,
+      "place": "Oberlin city",
+      "geoid": "3957834",
+      "alandKm2": 13
+    },
+    "ogden-ut": {
+      "lat": 41.228391,
+      "lng": -111.968147,
+      "place": "Ogden city",
+      "geoid": "4955980",
+      "alandKm2": 71
+    },
+    "omaha-ne": {
+      "lat": 41.262705,
+      "lng": -96.053475,
+      "place": "Omaha city",
+      "geoid": "3137000",
+      "alandKm2": 370
+    },
+    "oneonta-ny": {
+      "lat": 42.454818,
+      "lng": -75.066884,
+      "place": "Oneonta city",
+      "geoid": "3654881",
+      "alandKm2": 11
+    },
+    "orangeburg-sc": {
+      "lat": 33.493596,
+      "lng": -80.86688,
+      "place": "Orangeburg city",
+      "geoid": "4553080",
+      "alandKm2": 23
+    },
+    "orono-me": {
+      "lat": 44.878261,
+      "lng": -68.688144,
+      "place": "Orono CDP",
+      "geoid": "2355575",
+      "alandKm2": 18
+    },
+    "oshkosh-wi": {
+      "lat": 44.023168,
+      "lng": -88.56226,
+      "place": "Oshkosh city",
+      "geoid": "5560500",
+      "alandKm2": 71
+    },
+    "oxford-ms": {
+      "lat": 34.351262,
+      "lng": -89.536981,
+      "place": "Oxford city",
+      "geoid": "2854840",
+      "alandKm2": 69
+    },
+    "oxford-oh": {
+      "lat": 39.505558,
+      "lng": -84.744335,
+      "place": "Oxford city",
+      "geoid": "3959234",
+      "alandKm2": 20
+    },
+    "peoria-il": {
+      "lat": 40.751641,
+      "lng": -89.617198,
+      "place": "Peoria city",
+      "geoid": "1759000",
+      "alandKm2": 125
+    },
+    "pittsburg-ks": {
+      "lat": 37.413564,
+      "lng": -94.697998,
+      "place": "Pittsburg city",
+      "geoid": "2056025",
+      "alandKm2": 35
+    },
+    "platteville-wi": {
+      "lat": 42.727923,
+      "lng": -90.468103,
+      "place": "Platteville city",
+      "geoid": "5563250",
+      "alandKm2": 16
+    },
+    "plattsburgh-ny": {
+      "lat": 44.692025,
+      "lng": -73.458276,
+      "place": "Plattsburgh city",
+      "geoid": "3658574",
+      "alandKm2": 14
+    },
+    "plymouth-nh": {
+      "lat": 43.738775,
+      "lng": -71.702625,
+      "place": "Plymouth CDP",
+      "geoid": "3362580",
+      "alandKm2": 15
+    },
+    "pocatello-id": {
+      "lat": 42.872748,
+      "lng": -112.463836,
+      "place": "Pocatello city",
+      "geoid": "1664090",
+      "alandKm2": 88
+    },
+    "potsdam-ny": {
+      "lat": 44.670831,
+      "lng": -74.983463,
+      "place": "Potsdam village",
+      "geoid": "3659564",
+      "alandKm2": 13
+    },
+    "poughkeepsie-ny": {
+      "lat": 41.694595,
+      "lng": -73.919869,
+      "place": "Poughkeepsie city",
+      "geoid": "3659641",
+      "alandKm2": 13
+    },
+    "princeton-nj": {
+      "lat": 40.358244,
+      "lng": -74.666728,
+      "place": "Princeton",
+      "geoid": "3460900",
+      "alandKm2": 46
+    },
+    "providence-ri": {
+      "lat": 41.823056,
+      "lng": -71.418784,
+      "place": "Providence city",
+      "geoid": "4459000",
+      "alandKm2": 48
+    },
+    "provo-ut": {
+      "lat": 40.245312,
+      "lng": -111.645057,
+      "place": "Provo city",
+      "geoid": "4962470",
+      "alandKm2": 108
+    },
+    "pullman-wa": {
+      "lat": 46.733126,
+      "lng": -117.168277,
+      "place": "Pullman city",
+      "geoid": "5356625",
+      "alandKm2": 29
+    },
+    "radford-va": {
+      "lat": 37.120119,
+      "lng": -80.559147,
+      "place": "Radford city",
+      "geoid": "5165392",
+      "alandKm2": 25
+    },
+    "reno-nv": {
+      "lat": 39.549097,
+      "lng": -119.849907,
+      "place": "Reno city",
+      "geoid": "3260600",
+      "alandKm2": 282
+    },
+    "richmond-in": {
+      "lat": 39.832086,
+      "lng": -84.890917,
+      "place": "Richmond city",
+      "geoid": "1864260",
+      "alandKm2": 63
+    },
+    "richmond-ky": {
+      "lat": 37.729145,
+      "lng": -84.299364,
+      "place": "Richmond city",
+      "geoid": "2165226",
+      "alandKm2": 57
+    },
+    "ripon-wi": {
+      "lat": 43.84356,
+      "lng": -88.837936,
+      "place": "Ripon city",
+      "geoid": "5568175",
+      "alandKm2": 13
+    },
+    "rock-hill-sc": {
+      "lat": 34.938216,
+      "lng": -81.019177,
+      "place": "Rock Hill city",
+      "geoid": "4561405",
+      "alandKm2": 115
+    },
+    "rolla-mo": {
+      "lat": 37.94594,
+      "lng": -91.761202,
+      "place": "Rolla city",
+      "geoid": "2962912",
+      "alandKm2": 31
+    },
+    "russellville-ar": {
+      "lat": 35.276328,
+      "lng": -93.138743,
+      "place": "Russellville city",
+      "geoid": "0561670",
+      "alandKm2": 73
+    },
+    "ruston-la": {
+      "lat": 32.532986,
+      "lng": -92.635327,
+      "place": "Ruston city",
+      "geoid": "2266655",
+      "alandKm2": 55
+    },
+    "salisbury-md": {
+      "lat": 38.375328,
+      "lng": -75.585925,
+      "place": "Salisbury city",
+      "geoid": "2469925",
+      "alandKm2": 36
+    },
+    "salt-lake-city-ut": {
+      "lat": 40.776928,
+      "lng": -111.930991,
+      "place": "Salt Lake City city",
+      "geoid": "4967000",
+      "alandKm2": 287
+    },
+    "san-luis-obispo-ca": {
+      "lat": 35.266195,
+      "lng": -120.668438,
+      "place": "San Luis Obispo city",
+      "geoid": "0668154",
+      "alandKm2": 35
+    },
+    "san-marcos-tx": {
+      "lat": 29.87361,
+      "lng": -97.936725,
+      "place": "San Marcos city",
+      "geoid": "4865600",
+      "alandKm2": 103
+    },
+    "santa-barbara-ca": {
+      "lat": 34.403592,
+      "lng": -119.713714,
+      "place": "Santa Barbara city",
+      "geoid": "0669070",
+      "alandKm2": 50
+    },
+    "santa-cruz-ca": {
+      "lat": 36.974385,
+      "lng": -122.035268,
+      "place": "Santa Cruz city",
+      "geoid": "0669112",
+      "alandKm2": 33
+    },
+    "saratoga-springs-ny": {
+      "lat": 43.067704,
+      "lng": -73.778142,
+      "place": "Saratoga Springs city",
+      "geoid": "3665255",
+      "alandKm2": 73
+    },
+    "schenectady-ny": {
+      "lat": 42.802641,
+      "lng": -73.9272,
+      "place": "Schenectady city",
+      "geoid": "3665508",
+      "alandKm2": 28
+    },
+    "seattle-wa": {
+      "lat": 47.619335,
+      "lng": -122.351538,
+      "place": "Seattle city",
+      "geoid": "5363000",
+      "alandKm2": 218
+    },
+    "selinsgrove-pa": {
+      "lat": 40.800138,
+      "lng": -76.865401,
+      "place": "Selinsgrove borough",
+      "geoid": "4269216",
+      "alandKm2": 5
+    },
+    "sewanee-tn": {
+      "lat": 35.19788,
+      "lng": -85.921476,
+      "place": "Sewanee CDP",
+      "geoid": "4767140",
+      "alandKm2": 10
+    },
+    "shepherdstown-wv": {
+      "lat": 39.431905,
+      "lng": -77.804651,
+      "place": "Shepherdstown town",
+      "geoid": "5473468",
+      "alandKm2": 1
+    },
+    "shippensburg-pa": {
+      "lat": 40.048733,
+      "lng": -77.523193,
+      "place": "Shippensburg borough",
+      "geoid": "4270352",
+      "alandKm2": 5
+    },
+    "slippery-rock-pa": {
+      "lat": 41.069487,
+      "lng": -80.057929,
+      "place": "Slippery Rock borough",
+      "geoid": "4271184",
+      "alandKm2": 4
+    },
+    "socorro-nm": {
+      "lat": 34.054535,
+      "lng": -106.906199,
+      "place": "Socorro city",
+      "geoid": "3573540",
+      "alandKm2": 37
+    },
+    "south-bend-in": {
+      "lat": 41.676643,
+      "lng": -86.268809,
+      "place": "South Bend city",
+      "geoid": "1871000",
+      "alandKm2": 109
+    },
+    "spartanburg-sc": {
+      "lat": 34.945627,
+      "lng": -81.925944,
+      "place": "Spartanburg city",
+      "geoid": "4568290",
+      "alandKm2": 52
+    },
+    "spearfish-sd": {
+      "lat": 44.491431,
+      "lng": -103.816297,
+      "place": "Spearfish city",
+      "geoid": "4660020",
+      "alandKm2": 45
+    },
+    "spokane-wa": {
+      "lat": 47.666935,
+      "lng": -117.433322,
+      "place": "Spokane city",
+      "geoid": "5367000",
+      "alandKm2": 178
+    },
+    "springfield-mo": {
+      "lat": 37.194157,
+      "lng": -93.292642,
+      "place": "Springfield city",
+      "geoid": "2970000",
+      "alandKm2": 216
+    },
+    "st-cloud-mn": {
+      "lat": 45.526658,
+      "lng": -94.171007,
+      "place": "St. Cloud city",
+      "geoid": "2756896",
+      "alandKm2": 104
+    },
+    "st-peter-mn": {
+      "lat": 44.329282,
+      "lng": -93.967656,
+      "place": "St. Peter city",
+      "geoid": "2758036",
+      "alandKm2": 16
+    },
+    "stanford-ca": {
+      "lat": 37.426933,
+      "lng": -122.167741,
+      "place": "Stanford CDP",
+      "geoid": "0673906",
+      "alandKm2": 7
+    },
+    "starkville-ms": {
+      "lat": 33.463261,
+      "lng": -88.827796,
+      "place": "Starkville city",
+      "geoid": "2870240",
+      "alandKm2": 72
+    },
+    "state-college-pa": {
+      "lat": 40.791039,
+      "lng": -77.856813,
+      "place": "State College borough",
+      "geoid": "4273808",
+      "alandKm2": 12
+    },
+    "statesboro-ga": {
+      "lat": 32.437726,
+      "lng": -81.775637,
+      "place": "Statesboro city",
+      "geoid": "1373256",
+      "alandKm2": 39
+    },
+    "stephenville-tx": {
+      "lat": 32.214544,
+      "lng": -98.219885,
+      "place": "Stephenville city",
+      "geoid": "4870208",
+      "alandKm2": 31
+    },
+    "stevens-point-wi": {
+      "lat": 44.5253,
+      "lng": -89.550377,
+      "place": "Stevens Point city",
+      "geoid": "5577200",
+      "alandKm2": 45
+    },
+    "stillwater-ok": {
+      "lat": 36.131496,
+      "lng": -97.074464,
+      "place": "Stillwater city",
+      "geoid": "4070300",
+      "alandKm2": 77
+    },
+    "storrs-ct": {
+      "lat": 41.808938,
+      "lng": -72.251617,
+      "place": "Storrs CDP",
+      "geoid": "0973980",
+      "alandKm2": 19
+    },
+    "swarthmore-pa": {
+      "lat": 39.902321,
+      "lng": -75.348744,
+      "place": "Swarthmore borough",
+      "geoid": "4275648",
+      "alandKm2": 4
+    },
+    "syracuse-ny": {
+      "lat": 43.040998,
+      "lng": -76.143554,
+      "place": "Syracuse city",
+      "geoid": "3673000",
+      "alandKm2": 65
+    },
+    "tahlequah-ok": {
+      "lat": 35.910503,
+      "lng": -94.97772,
+      "place": "Tahlequah city",
+      "geoid": "4072100",
+      "alandKm2": 33
+    },
+    "tallahassee-fl": {
+      "lat": 30.453529,
+      "lng": -84.252272,
+      "place": "Tallahassee city",
+      "geoid": "1270600",
+      "alandKm2": 266
+    },
+    "tempe-az": {
+      "lat": 33.388414,
+      "lng": -111.931782,
+      "place": "Tempe city",
+      "geoid": "0473000",
+      "alandKm2": 104
+    },
+    "terre-haute-in": {
+      "lat": 39.464152,
+      "lng": -87.376036,
+      "place": "Terre Haute city",
+      "geoid": "1875428",
+      "alandKm2": 90
+    },
+    "toledo-oh": {
+      "lat": 41.664071,
+      "lng": -83.581861,
+      "place": "Toledo city",
+      "geoid": "3977000",
+      "alandKm2": 208
+    },
+    "troy-al": {
+      "lat": 31.80196,
+      "lng": -85.96713,
+      "place": "Troy city",
+      "geoid": "0176920",
+      "alandKm2": 73
+    },
+    "troy-ny": {
+      "lat": 42.735812,
+      "lng": -73.675321,
+      "place": "Troy city",
+      "geoid": "3675484",
+      "alandKm2": 27
+    },
+    "tucson-az": {
+      "lat": 32.153036,
+      "lng": -110.870773,
+      "place": "Tucson city",
+      "geoid": "0477000",
+      "alandKm2": 627
+    },
+    "tulsa-ok": {
+      "lat": 36.127949,
+      "lng": -95.902316,
+      "place": "Tulsa city",
+      "geoid": "4075000",
+      "alandKm2": 512
+    },
+    "tuscaloosa-al": {
+      "lat": 33.234404,
+      "lng": -87.5283,
+      "place": "Tuscaloosa city",
+      "geoid": "0177256",
+      "alandKm2": 162
+    },
+    "tuskegee-al": {
+      "lat": 32.418723,
+      "lng": -85.682509,
+      "place": "Tuskegee city",
+      "geoid": "0177304",
+      "alandKm2": 44
+    },
+    "valdosta-ga": {
+      "lat": 30.850126,
+      "lng": -83.278833,
+      "place": "Valdosta city",
+      "geoid": "1378800",
+      "alandKm2": 93
+    },
+    "valparaiso-in": {
+      "lat": 41.479812,
+      "lng": -87.052273,
+      "place": "Valparaiso city",
+      "geoid": "1878326",
+      "alandKm2": 44
+    },
+    "vermillion-sd": {
+      "lat": 42.781726,
+      "lng": -96.925636,
+      "place": "Vermillion city",
+      "geoid": "4666700",
+      "alandKm2": 12
+    },
+    "villanova-pa": {
+      "lat": 40.040534,
+      "lng": -75.341007,
+      "place": "Villanova CDP",
+      "geoid": "4280248",
+      "alandKm2": 5
+    },
+    "waco-tx": {
+      "lat": 31.557994,
+      "lng": -97.18975,
+      "place": "Waco city",
+      "geoid": "4876000",
+      "alandKm2": 236
+    },
+    "walla-walla-wa": {
+      "lat": 46.067006,
+      "lng": -118.337033,
+      "place": "Walla Walla city",
+      "geoid": "5375775",
+      "alandKm2": 36
+    },
+    "warrensburg-mo": {
+      "lat": 38.762381,
+      "lng": -93.725337,
+      "place": "Warrensburg city",
+      "geoid": "2977092",
+      "alandKm2": 24
+    },
+    "waterville-me": {
+      "lat": 44.545285,
+      "lng": -69.661396,
+      "place": "Waterville city",
+      "geoid": "2380740",
+      "alandKm2": 35
+    },
+    "west-lafayette-in": {
+      "lat": 40.443707,
+      "lng": -86.923616,
+      "place": "West Lafayette city",
+      "geoid": "1882862",
+      "alandKm2": 35
+    },
+    "west-point-ny": {
+      "lat": 41.360729,
+      "lng": -74.019749,
+      "place": "West Point CDP",
+      "geoid": "3680747",
+      "alandKm2": 48
+    },
+    "whitewater-wi": {
+      "lat": 42.837439,
+      "lng": -88.734282,
+      "place": "Whitewater city",
+      "geoid": "5586925",
+      "alandKm2": 23
+    },
+    "williamsburg-va": {
+      "lat": 37.269481,
+      "lng": -76.708193,
+      "place": "Williamsburg city",
+      "geoid": "5186160",
+      "alandKm2": 23
+    },
+    "williamstown-ma": {
+      "lat": 42.708906,
+      "lng": -73.201361,
+      "place": "Williamstown CDP",
+      "geoid": "2579950",
+      "alandKm2": 9
+    },
+    "wilmington-nc": {
+      "lat": 34.209225,
+      "lng": -77.885767,
+      "place": "Wilmington city",
+      "geoid": "3774440",
+      "alandKm2": 133
+    },
+    "winston-salem-nc": {
+      "lat": 36.102863,
+      "lng": -80.260829,
+      "place": "Winston-Salem city",
+      "geoid": "3775000",
+      "alandKm2": 346
+    },
+    "wooster-oh": {
+      "lat": 40.81906,
+      "lng": -81.931557,
+      "place": "Wooster city",
+      "geoid": "3986548",
+      "alandKm2": 45
+    },
+    "yellow-springs-oh": {
+      "lat": 39.798382,
+      "lng": -83.891984,
+      "place": "Yellow Springs village",
+      "geoid": "3986940",
+      "alandKm2": 7
+    },
+    "ypsilanti-mi": {
+      "lat": 42.244354,
+      "lng": -83.62116,
+      "place": "Ypsilanti city",
+      "geoid": "2689140",
+      "alandKm2": 11
+    }
+  }
+}

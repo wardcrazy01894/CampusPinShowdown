@@ -8,6 +8,10 @@ import {
   toTown,
   sortTowns,
   CONUS,
+  censusMismatches,
+  censusToleranceKm,
+  haversineKm,
+  SETTLEMENT_RANK,
 } from './build-towns-lib.mjs'
 import { REGION } from '../src/lib/region'
 
@@ -63,6 +67,7 @@ describe('pickResult', () => {
   const hit = (over) => ({
     category: 'place',
     type: 'city',
+    addresstype: 'city',
     lat: '42.28',
     lon: '-83.74',
     importance: 0.5,
@@ -70,24 +75,110 @@ describe('pickResult', () => {
     ...over,
   })
 
-  it('rejects hits in the wrong state and non-settlement types', () => {
+  it('rejects hits in the wrong state, counties, and non-settlements', () => {
     expect(pickResult([hit({ address: { state: 'Ohio' } })], entry)).toBeNull()
+    // Hamilton County for Hamilton, NY: a boundary whose addresstype is county.
     expect(
-      pickResult([hit({ category: 'amenity', type: 'university' })], entry),
+      pickResult(
+        [
+          hit({
+            category: 'boundary',
+            type: 'administrative',
+            addresstype: 'county',
+          }),
+        ],
+        entry,
+      ),
+    ).toBeNull()
+    expect(
+      pickResult(
+        [
+          hit({
+            category: 'amenity',
+            type: 'university',
+            addresstype: 'amenity',
+          }),
+        ],
+        entry,
+      ),
     ).toBeNull()
     expect(pickResult([], entry)).toBeNull()
   })
 
-  it('prefers a place over a boundary, then higher importance', () => {
-    const boundary = hit({
+  it('prefers a city/town/village over a same-named neighbourhood or hamlet, whatever the importance', () => {
+    // Claremont, CA: the Berkeley neighbourhood scores higher importance than
+    // the real city; Ada, OH: a hamlet by the Ohio River vs the village.
+    const neighbourhood = hit({
+      addresstype: 'neighbourhood',
+      importance: 0.9,
+      lat: '37.86',
+    })
+    const hamlet = hit({ addresstype: 'hamlet', importance: 0.8, lat: '38.84' })
+    const city = hit({
       category: 'boundary',
       type: 'administrative',
-      importance: 0.9,
+      addresstype: 'city',
+      importance: 0.3,
+      lat: '34.12',
     })
-    const lowPlace = hit({ importance: 0.3, lat: '1' })
-    const highPlace = hit({ importance: 0.6, lat: '2' })
-    expect(pickResult([boundary, lowPlace, highPlace], entry)).toBe(highPlace)
-    expect(pickResult([boundary], entry)).toBe(boundary)
+    expect(pickResult([neighbourhood, hamlet, city], entry)).toBe(city)
+  })
+
+  it('accepts a boundary/administrative row when its addresstype is a settlement', () => {
+    const cityBoundary = hit({
+      category: 'boundary',
+      type: 'administrative',
+      addresstype: 'city',
+    })
+    expect(pickResult([cityBoundary], entry)).toBe(cityBoundary)
+  })
+
+  it('breaks ties within a settlement kind by importance', () => {
+    const low = hit({ importance: 0.3, lat: '1' })
+    const high = hit({ importance: 0.6, lat: '2' })
+    expect(pickResult([low, high], entry)).toBe(high)
+  })
+
+  it('ranks settlement kinds city-first and never lists county/state', () => {
+    expect(SETTLEMENT_RANK[0]).toBe('city')
+    expect(SETTLEMENT_RANK).not.toContain('county')
+    expect(SETTLEMENT_RANK).not.toContain('state')
+  })
+})
+
+describe('censusMismatches', () => {
+  const pins = {
+    'ann-arbor-mi': {
+      lat: 42.2808,
+      lng: -83.743,
+      place: 'Ann Arbor city',
+      alandKm2: 73,
+    },
+  }
+  it('tolerance is 10 km for a town and grows with land area for a sprawling city', () => {
+    expect(censusToleranceKm({ alandKm2: 8 })).toBe(10) // Gunnison-sized
+    expect(censusToleranceKm({ alandKm2: 73 })).toBe(10) // Ann Arbor
+    expect(censusToleranceKm({ alandKm2: 610 })).toBeCloseTo(20.9, 0) // Tucson
+    expect(censusToleranceKm({})).toBe(10)
+  })
+  it('passes a pin within tolerance and flags one outside it or missing', () => {
+    expect(
+      censusMismatches([{ id: 'ann-arbor-mi', lat: 42.29, lng: -83.75 }], pins),
+    ).toEqual([])
+    const far = censusMismatches(
+      [{ id: 'ann-arbor-mi', lat: 42.73, lng: -84.48 }],
+      pins,
+    )
+    expect(far).toHaveLength(1)
+    expect(far[0].km).toBeGreaterThan(40)
+    expect(
+      censusMismatches([{ id: 'nowhere-xx', lat: 0, lng: 0 }], pins)[0].reason,
+    ).toBe('no Census pin')
+  })
+  it('haversineKm agrees with the app (one degree of latitude ≈ 111 km)', () => {
+    expect(
+      haversineKm({ lat: 40, lng: -90 }, { lat: 41, lng: -90 }),
+    ).toBeCloseTo(111.2, 0)
   })
 })
 
