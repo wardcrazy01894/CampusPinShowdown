@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
 import { describe, it, expect, afterEach, beforeEach } from 'vitest'
-import { render, cleanup, screen } from '@testing-library/react'
+import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import { Game } from './Game'
 import { REGION } from '../lib/region'
-import { saveState, STORAGE_VERSION } from '../lib/storage'
+import { saveState, loadState, STORAGE_VERSION } from '../lib/storage'
 import type { Town } from '../types'
 
 const towns: Town[] = [
@@ -135,6 +135,93 @@ describe('Game', () => {
     // Each results row carries its tier so a miss on a 🔴 reads fairly.
     expect(screen.getByText('🟢 Easy')).toBeTruthy()
     expect(screen.getByText('🔴 Hard')).toBeTruthy()
+  })
+})
+
+describe('Game — hint mode', () => {
+  it('offers the state for a penalty before the guess, never shows it unasked', () => {
+    render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+      />,
+    )
+    const hint = screen.getByRole('button', {
+      name: '💡 Reveal the state (−30 pts)',
+    })
+    // The prompt names the University of Michigan; the STATE line must not.
+    expect(screen.queryByText(/It’s in Michigan/)).toBeNull()
+    fireEvent.click(hint)
+    expect(screen.getByText(/💡 It’s in Michigan · −30 pts/)).toBeTruthy()
+    expect(
+      screen.queryByRole('button', { name: /Reveal the state/ }),
+    ).toBeNull()
+    // Still no town, and the hint is persisted for a reload.
+    expect(screen.queryByText(/Ann Arbor/)).toBeNull()
+    expect(loadState('usa').current?.hintUsed).toBe(true)
+  })
+
+  it('keeps the hint revealed on reload and marks the result after a hinted submit', () => {
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history: [],
+      streak: { current: 0, best: 0, lastPlayedDateKey: null },
+      current: {
+        dateKey: '2026-10-29',
+        towns,
+        roundIndex: 0,
+        results: [],
+        phase: 'guessing',
+        hintUsed: true,
+      },
+    })
+    const { unmount } = render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+      />,
+    )
+    expect(screen.getByText(/It’s in Michigan/)).toBeTruthy()
+    unmount()
+    // A revealed hinted round shows the deduction next to the score.
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history: [],
+      streak: { current: 0, best: 0, lastPlayedDateKey: null },
+      current: {
+        dateKey: '2026-10-29',
+        towns,
+        roundIndex: 0,
+        results: [
+          {
+            town: towns[0],
+            guess: { lat: 42.29, lng: -83.75 },
+            distanceMeters: 1_000,
+            score: 70,
+            hinted: true,
+          },
+        ],
+        phase: 'revealed',
+        hintUsed: true,
+      },
+    })
+    render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+      />,
+    )
+    expect(screen.getByText(/💡 hint used \(−30\)/)).toBeTruthy()
+    expect(screen.getByText('70')).toBeTruthy()
   })
 })
 

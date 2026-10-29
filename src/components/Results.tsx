@@ -189,6 +189,7 @@ export function Results({
                     {r.score.toLocaleString('en-US')} pts{' '}
                     <span style={{ fontSize: 13, opacity: 0.6 }}>
                       {tierLabel(r.town.difficulty)}
+                      {r.hinted && ' · 💡 hint'}
                     </span>
                   </span>
                   <span

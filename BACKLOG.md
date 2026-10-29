@@ -14,8 +14,6 @@ shipped them (git history is the changelog).
 
 ## Later
 
-- **Hint mode:** reveal the state for a point penalty (the state is withheld by
-  design today).
 - **Alaska / Hawaii:** the map is locked to the lower 48; a second region or a
   wider box with an inset.
 - **Anonymous daily leaderboard** — port KnowYourCity's Cloudflare Worker + D1
