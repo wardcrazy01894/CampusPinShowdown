@@ -19,7 +19,7 @@ ALLOWED_ORIGIN = "https://wardcrazy01894.github.io,http://localhost:5173,http://
 [[d1_databases]]
 binding = "DB"
 database_name = "cps-leaderboard"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "da2d1381-481b-46e7-b98e-6bb282e53ee4"
 migrations_dir = "migrations"
 
 # Per-IP rate limit — GA binding, needs NO account resource (just this config).

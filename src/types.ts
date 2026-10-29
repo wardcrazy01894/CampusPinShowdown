@@ -95,7 +95,12 @@ export interface GameState {
 export interface DayRecord {
   dateKey: string
   totalScore: number
-  results: Array<Pick<RoundResult, 'distanceMeters' | 'score'>>
+  /** Per-round facts kept for lifetime stats. `difficulty` (the town's tier)
+   *  is stored from PR #14 on; older records lack it and are skipped by
+   *  src/lib/stats.ts. */
+  results: Array<
+    Pick<RoundResult, 'distanceMeters' | 'score'> & { difficulty?: Difficulty }
+  >
   /**
    * Hash of the lineup that was played (see progress.ts:lineupHash). Identifies
    * the completion so a replay against a CHANGED official set is recorded

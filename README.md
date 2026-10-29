@@ -40,7 +40,8 @@ result Wordle-style and keep your streak alive.
   state or school; request a missing one with one click.
 - 💡 **Hint mode** — buy the region (3–6 neighbouring states) for −25 points
   on that round; hints show on the share card.
-- 🔥 **Streaks** and a Wordle-style share card with the puzzle number.
+- 🔥 **Streaks**, lifetime averages per tier, and a Wordle-style share card
+  with the puzzle number.
 
 > **Status:** **live** at <https://wardcrazy01894.github.io/CampusPinShowdown/> —
 > auto-deploys on every merge to `main` (runbook:

@@ -107,6 +107,7 @@ export function Game({
         results: next.results.map((r) => ({
           distanceMeters: r.distanceMeters,
           score: r.score,
+          difficulty: r.town.difficulty,
         })),
       })
       history = folded.history
