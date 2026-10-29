@@ -2848,7 +2848,7 @@
       "name": "Norfolk",
       "state": "Virginia",
       "stateCode": "VA",
-      "schools": ["Norfolk State University", "Old Dominion University"],
+      "schools": ["Old Dominion University", "Norfolk State University"],
       "lat": 36.8494,
       "lng": -76.29,
       "difficulty": "medium",

@@ -133,17 +133,20 @@ describe('public/towns.json', () => {
     near('rome-ga', 34.26, -85.16)
   })
 
-  // Tier honesty: where the default rule (skip schools that name the town)
-  // would ask about a small private on a big-city row, the seed pins the prompt.
-  it('big-city rows ask about their flagship, not a D-III neighbour', () => {
+  // Tier honesty: an easy/medium row is judged by its most famous school, so
+  // the round must ask about the FIRST listed one (set `prompt` in the seed
+  // when the default rule would skip it for naming the town — Memphis,
+  // Charlotte, Jackson, San Antonio, Birmingham). Hard rows may ask about any
+  // of their schools (Moorhead → Concordia College is the documented example).
+  it('every easy/medium row asks about its first-listed school', () => {
+    const offenders = towns
+      .filter((t) => t.difficulty !== 'hard')
+      .filter((t) => promptSchool(t) !== t.schools[0])
+      .map((t) => `${t.id}: asks ${promptSchool(t)}`)
+    expect(offenders).toEqual([])
+    // And the overrides resolve to the flagship, not merely to schools[0].
     const asks = (id: string) => promptSchool(towns.find((t) => t.id === id)!)
     expect(asks('memphis-tn')).toBe('University of Memphis')
-    expect(asks('charlotte-nc')).toBe(
-      'University of North Carolina at Charlotte',
-    )
-    expect(asks('jackson-ms')).toBe('Jackson State University')
-    expect(asks('san-antonio-tx')).toBe('University of Texas at San Antonio')
-    expect(asks('birmingham-al')).toBe('University of Alabama at Birmingham')
     expect(asks('fayetteville-nc')).toBe('Fayetteville State University')
   })
 

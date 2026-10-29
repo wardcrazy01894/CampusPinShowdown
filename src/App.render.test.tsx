@@ -1,4 +1,5 @@
 // @vitest-environment jsdom
+import { promptSchool } from './lib/schools'
 import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import { App, OVERLAY_Z_INDEX } from './App'
@@ -105,7 +106,7 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     const day2 = selectDailyTowns(FILE.towns, 'usa:2026-11-02')[0]
     expect(day1.id).not.toBe(day2.id)
     expect(screen.getByRole('heading', { level: 2 }).textContent).toBe(
-      `Where is ${day1.schools[0]}?`,
+      `Where is ${promptSchool(day1)}?`,
     )
     // Change the day and force a re-render via an unrelated interaction (the
     // mute toggle) — exactly what a tab left open past midnight experiences.
@@ -114,7 +115,7 @@ describe('App — seed change never shows the previous seed’s towns', () => {
       screen.getByRole('button', { name: /Mute sounds|Unmute sounds/ }),
     )
     expect(screen.getByRole('heading', { level: 2 }).textContent).toBe(
-      `Where is ${day2.schools[0]}?`,
+      `Where is ${promptSchool(day2)}?`,
     )
     window.history.replaceState({}, '', '/')
   })
