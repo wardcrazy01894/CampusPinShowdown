@@ -11,8 +11,8 @@ shipped them (git history is the changelog).
 - **Playtest the scoring curve** with real players; constants in
   `src/lib/scoring.ts` (25 km perfect radius, 350 km decay) and the table in
   `docs/PLAN.md` are the thing to tune.
-- **Dataset passes:** more deep-cut towns (HBCUs, service academies beyond
-  Annapolis/West Point/USAFA, more D-III towns); re-tier anything players flag.
+- **Dataset passes:** re-tier anything players flag; more deep-cut D-III and
+  NAIA towns; Alcorn State needs a Census-backed pin (no "Lorman" place row).
 
 ## Later
 

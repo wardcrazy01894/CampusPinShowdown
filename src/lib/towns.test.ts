@@ -119,6 +119,14 @@ describe('public/towns.json', () => {
     near('san-luis-obispo-ca', 35.28, -120.66)
     near('gunnison-co', 38.55, -106.93)
     near('santa-cruz-ca', 36.97, -122.03)
+    // Dataset pass 2 (HBCUs / academies / D-III): names that exist in many
+    // states or as neighbourhoods — the pins must be the Nominatim settlement.
+    near('orange-ca', 33.79, -117.85)
+    near('georgetown-tx', 30.64, -97.68)
+    near('hanover-in', 38.71, -85.47)
+    near('kings-point-ny', 40.82, -73.74)
+    near('prairie-view-tx', 30.09, -95.99)
+    near('clinton-sc', 34.47, -81.88)
   })
 
   it('selects a full, state-diverse lineup for every day of the first year', () => {

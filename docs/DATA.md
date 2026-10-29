@@ -36,14 +36,21 @@ daily `easy, easy, medium, medium, hard` plan (`docs/PLAN.md`).
 
 | tier   | what goes here                                                                 | today |
 | ------ | ------------------------------------------------------------------------------ | ----- |
-| easy   | big schools most sports fans can place (Ann Arbor, Austin, Tuscaloosa…)        | 63    |
-| medium | known names that are tough to place (Toledo, Davidson, Boise State, Dartmouth) | 72    |
-| hard   | small / regional schools (Lehigh, Stetson, Colgate, Gambier, Vermillion…)      | 155   |
+| easy   | big schools most sports fans can place (Ann Arbor, Austin, Tuscaloosa…)        | 69    |
+| medium | known names that are tough to place (Toledo, Davidson, Boise State, Dartmouth) | 86    |
+| hard   | small / regional schools (Lehigh, Stetson, Colgate, Gambier, Vermillion…)      | 193   |
 
-**290 towns** total, lower 48 only (the map is locked to `REGION.bounds`;
-Alaska/Hawaii are a BACKLOG item). Big cities with a flagship (Austin,
-Minneapolis, Seattle) are in as `easy`; cities where the university isn't the
-town's identity (Los Angeles, Chicago, Houston) are left out on purpose.
+**348 towns** total, lower 48 only (the map is locked to `REGION.bounds`;
+Alaska/Hawaii are a BACKLOG item). Big cities are in when a nationally known
+campus is part of the city's identity — flagships (Austin, Minneapolis,
+Seattle) and, since the prompt became the school, Atlanta (Georgia Tech),
+Nashville (Vanderbilt), New Orleans (Tulane), Memphis, Tampa (USF). Cities
+with no such anchor (Los Angeles, Chicago, Houston, Washington, Baltimore) are
+left out on purpose. Coverage passes so far: HBCUs (Grambling, Prairie View,
+Itta Bena, Langston…), the service academies (Annapolis, West Point, USAFA,
+Coast Guard at New London, Merchant Marine at Kings Point) and D-III towns.
+Alcorn State (Lorman, MS) is out because the Census has no place named
+Lorman, so the cross-check below cannot guard it.
 
 ## Geocoding (`scripts/build-towns.mjs`)
 
@@ -92,7 +99,7 @@ node scripts/build-census-pins.mjs <path/to/2024_Gaz_place_national.txt>
 seed town to its Gazetteer place by state + name (handles "Athens-Clarke County
 unified government", "Amherst Town city", "Boise City city", campus CDPs such
 as "Haverford College CDP"), prefers an incorporated place over a CDP, and
-fails loudly on a town with no row. Every seeded town has a pin today (290).
+fails loudly on a town with no row. Every seeded town has a pin today (348).
 Add a town → add its Census pin by re-running this script.
 
 ## Guard test (`src/lib/towns.test.ts`)
