@@ -16,7 +16,8 @@ Harvard), unless the seed pins a `prompt` (Memphis asks "University of
 Memphis", not Rhodes College — see `docs/DATA.md`); flagship names that embed
 the town ("University of Texas at Austin") are accepted — the location is the
 answer, not the name. The player drops a
-pin on the night-lights map of the USA and submits. The round header carries
+pin on the satellite map of the USA (or the night-lights map, one tap away)
+and submits. The round header carries
 the town's **tier badge** (🟢 Easy / 🟡 Medium / 🔴 Hard, `src/lib/tiers.ts`)
 up front — it sets expectations and says nothing about the town, so it is not
 a hint; the same badge sits on each results row. On submit the reveal shows the real

@@ -70,6 +70,10 @@ body,
     height: 42dvh;
     min-height: 220px;
   }
+  /* Finger-sized on touch screens (~40px tall). */
+  .basemap-toggle {
+    padding: 10px 14px;
+  }
 }
 
 /* A map plus the worded basemap button floating over its top-right corner

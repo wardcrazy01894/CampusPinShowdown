@@ -15,9 +15,10 @@ export interface BasemapToggleProps {
   onChange: (next: Basemap) => void
 }
 
-const LABEL: Record<Basemap, string> = {
-  night: '🌃 Switch to night lights',
-  satellite: '🛰️ Switch to satellite',
+/** Icon + words; the emoji is decoration, hidden from screen readers. */
+const LABEL: Record<Basemap, { icon: string; text: string }> = {
+  night: { icon: '🌃', text: 'Switch to night lights' },
+  satellite: { icon: '🛰️', text: 'Switch to satellite' },
 }
 
 export function BasemapToggle({ basemap, onChange }: BasemapToggleProps) {
@@ -28,7 +29,7 @@ export function BasemapToggle({ basemap, onChange }: BasemapToggleProps) {
       className="basemap-toggle"
       onClick={() => onChange(next)}
     >
-      {LABEL[next]}
+      <span aria-hidden="true">{LABEL[next].icon}</span> {LABEL[next].text}
     </button>
   )
 }
