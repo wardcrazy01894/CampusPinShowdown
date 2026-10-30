@@ -1,5 +1,5 @@
 /**
- * RecapMap — a read-only night map showing ALL of the day's rounds at once:
+ * RecapMap — a read-only map (night or satellite) showing ALL of the day's rounds at once:
  * each real town as a numbered green marker (play order), the player's guess
  * as an amber pin, and a dashed line between them. Shown on the results
  * screen, never during play (it would answer the rounds).
@@ -16,6 +16,7 @@ import type { RoundResult } from '../types'
 import { log } from '../lib/log'
 import { padBounds } from '../lib/mapBounds'
 import { makeTileLayer, MAX_ZOOM } from '../lib/tiles'
+import type { Basemap } from '../lib/basemap'
 import { makeStateOutlines, STATES_PANE } from '../lib/states'
 
 export interface RecapMapProps {
@@ -25,6 +26,8 @@ export interface RecapMapProps {
   results: RoundResult[]
   /** Index of the round to frame, or null/undefined to frame the whole day. */
   focus?: number | null
+  /** Imagery to show; defaults to the night map. */
+  basemap?: Basemap
 }
 
 /** Numbered marker for the real town — a div icon so the label is crisp text. */
@@ -43,10 +46,17 @@ function roundBounds(r: RoundResult): L.LatLngBounds {
   return L.latLngBounds([r.town.lat, r.town.lng], [r.guess.lat, r.guess.lng])
 }
 
-export function RecapMap({ bounds, results, focus }: RecapMapProps) {
+export function RecapMap({
+  bounds,
+  results,
+  focus,
+  basemap = 'night',
+}: RecapMapProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const mapRef = useRef<L.Map | null>(null)
   const layersRef = useRef<L.FeatureGroup | null>(null)
+  const tilesRef = useRef<L.TileLayer | null>(null)
+  const basemapRef = useRef(basemap)
 
   // Create the map once.
   useEffect(() => {
@@ -56,9 +66,10 @@ export function RecapMap({ bounds, results, focus }: RecapMapProps) {
       maxBoundsViscosity: 1,
       zoomControl: true,
     })
-    const tiles = makeTileLayer()
+    const tiles = makeTileLayer(basemapRef.current)
     tiles.on('tileerror', () => log.debug('RecapMap', 'tile failed to load'))
     tiles.addTo(map)
+    tilesRef.current = tiles
     map.createPane(STATES_PANE).style.zIndex = '350'
     void makeStateOutlines()
       .then((layer) => {
@@ -84,6 +95,18 @@ export function RecapMap({ bounds, results, focus }: RecapMapProps) {
     // bounds is constant for a mounted recap; intentionally run once.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // Swap imagery in place when the basemap preference changes.
+  useEffect(() => {
+    basemapRef.current = basemap
+    const map = mapRef.current
+    if (!map) return
+    tilesRef.current?.remove()
+    const tiles = makeTileLayer(basemap)
+    tiles.on('tileerror', () => log.debug('RecapMap', 'tile failed to load'))
+    tiles.addTo(map)
+    tilesRef.current = tiles
+  }, [basemap])
 
   // (Re)draw every round's layers as one group.
   useEffect(() => {

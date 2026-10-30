@@ -19,6 +19,8 @@ import { getDateKey, selectDailyTowns } from './lib/daily'
 import { resolveMode, resolveSessionMode, type Mode } from './lib/mode'
 import { REGION, townsUrl } from './lib/region'
 import { isMuted, setMuted } from './lib/sound'
+import { getBasemap, setBasemap, nextBasemap } from './lib/basemap'
+import { BASEMAPS, SATELLITE_YEAR } from './lib/tiles'
 import { BugReport } from './components/BugReport'
 import { log } from './lib/log'
 import { Game } from './components/Game'
@@ -43,6 +45,9 @@ export function App() {
   const [file, setFile] = useState<TownsFile | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [muted, setMutedState] = useState(isMuted())
+  // Night vs satellite imagery — a display preference (lib/basemap.ts), not
+  // game state: it never touches the save or the share card.
+  const [basemap, setBasemapState] = useState(getBasemap())
   const [searching, setSearching] = useState(false)
   // The in-app bug/request form (an overlay, like the search). `null` =
   // closed; a string = open, prefilled with that text ('' for a blank form).
@@ -176,6 +181,13 @@ export function App() {
     setMutedState(next)
   }
 
+  function toggleBasemap() {
+    const next = nextBasemap(basemap)
+    setBasemap(next)
+    setBasemapState(next)
+    log.info('App', 'basemap', { basemap: next })
+  }
+
   if (error) return <main style={{ padding: 24 }}>Failed to load: {error}</main>
   if (!file || !today) return <main style={{ padding: 24 }}>Loading…</main>
 
@@ -245,14 +257,24 @@ export function App() {
               </div>
             </div>
           </div>
-          <button
-            onClick={toggleMute}
-            aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
-            title={muted ? 'Unmute sounds' : 'Mute sounds'}
-            className="icon-button"
-          >
-            {muted ? '🔇' : '🔊'}
-          </button>
+          <div className="header-actions">
+            <button
+              onClick={toggleBasemap}
+              aria-label={`Switch to ${BASEMAPS[nextBasemap(basemap)].label} map`}
+              title={`Switch to ${BASEMAPS[nextBasemap(basemap)].label} map`}
+              className="icon-button"
+            >
+              {basemap === 'night' ? '🌃' : '🛰️'}
+            </button>
+            <button
+              onClick={toggleMute}
+              aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
+              title={muted ? 'Unmute sounds' : 'Mute sounds'}
+              className="icon-button"
+            >
+              {muted ? '🔇' : '🔊'}
+            </button>
+          </div>
         </div>
       </header>
       <Game
@@ -264,6 +286,7 @@ export function App() {
         towns={today}
         official={mode.official}
         onPhaseChange={setPhase}
+        basemap={basemap}
       />
       <footer
         style={{
@@ -284,7 +307,26 @@ export function App() {
           >
             NASA GIBS
           </a>{' '}
-          (VIIRS Black Marble; public domain). State outlines: US Census Bureau.
+          (VIIRS Black Marble; public domain). Satellite imagery:{' '}
+          <a
+            href="https://cloudless.eox.at"
+            target="_blank"
+            rel="noreferrer"
+            style={{ color: 'inherit' }}
+          >
+            EOxCloudless
+          </a>{' '}
+          by EOX IT Services GmbH (contains modified Copernicus Sentinel data{' '}
+          {SATELLITE_YEAR};{' '}
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            target="_blank"
+            rel="noreferrer"
+            style={{ color: 'inherit' }}
+          >
+            CC BY-NC-SA 4.0
+          </a>
+          ). State outlines: US Census Bureau.
         </div>
         <div>Idea courtesy of good friend Garret B.</div>
       </footer>

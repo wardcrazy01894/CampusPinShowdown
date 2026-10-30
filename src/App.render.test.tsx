@@ -169,4 +169,35 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     fireEvent.click(screen.getByRole('button', { name: '← back' }))
     expect(screen.queryByLabelText('Search towns')).toBeNull()
   })
+
+  it('toggles night ↔ satellite from the header and remembers the choice', async () => {
+    render(<App />)
+    await screen.findByText(/Round 1 of 5/)
+    const credit = () =>
+      document.querySelector('.leaflet-control-attribution')?.textContent ?? ''
+    expect(credit()).toContain('NASA')
+
+    const toggle = screen.getByRole('button', {
+      name: 'Switch to satellite map',
+    })
+    fireEvent.click(toggle)
+    expect(
+      screen.getByRole('button', { name: 'Switch to night map' }),
+    ).toBeTruthy()
+    expect(credit()).toContain('EOX')
+    expect(localStorage.getItem('cps:basemap')).toBe('satellite')
+    // The footer credits the imagery provider too (licence: legible, nearby).
+    expect(document.querySelector('footer')?.textContent).toContain(
+      'EOX IT Services GmbH',
+    )
+
+    // A fresh mount honours the saved preference.
+    cleanup()
+    render(<App />)
+    await screen.findByText(/Round 1 of 5/)
+    expect(
+      screen.getByRole('button', { name: 'Switch to night map' }),
+    ).toBeTruthy()
+    expect(credit()).toContain('EOX')
+  })
 })

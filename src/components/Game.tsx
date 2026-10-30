@@ -16,6 +16,7 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import type { GameState, Guess, Town, RoundResult } from '../types'
 import { MapGuess } from './MapGuess'
+import type { Basemap } from '../lib/basemap'
 import { Results } from './Results'
 import {
   scoreGuess,
@@ -47,6 +48,8 @@ export interface GameProps {
   /** Called with the phase on mount and every transition (App hides the town
    *  search until the day is finished — mid-round it would answer the round). */
   onPhaseChange?: (phase: GameState['phase']) => void
+  /** Imagery for the maps; defaults to the night map. */
+  basemap?: Basemap
 }
 
 export function Game({
@@ -56,6 +59,7 @@ export function Game({
   towns,
   official,
   onPhaseChange,
+  basemap = 'night',
 }: GameProps) {
   // One read of saved state at mount, shared by both the game + streak init.
   const [initial] = useState(() => loadState(storageId))
@@ -208,6 +212,7 @@ export function Game({
         results={game.results}
         totalScore={total}
         streak={streak}
+        basemap={basemap}
         official={official}
       />
     )
@@ -285,6 +290,7 @@ export function Game({
         locked={revealed}
         resetViewKey={game.roundIndex}
         reveal={reveal}
+        basemap={basemap}
       />
 
       {revealed && lastResult ? (
