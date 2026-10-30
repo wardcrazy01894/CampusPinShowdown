@@ -1426,6 +1426,14 @@
     "difficulty": "hard"
   },
   {
+    "name": "West Chester",
+    "stateCode": "PA",
+    "schools": [
+      "West Chester University"
+    ],
+    "difficulty": "hard"
+  },
+  {
     "name": "Selinsgrove",
     "stateCode": "PA",
     "schools": [

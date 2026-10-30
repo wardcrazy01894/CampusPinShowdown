@@ -63,3 +63,109 @@ body,
   border: 2px solid #ffffff;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
+
+/* ---- Site header (App.tsx) -------------------------------------------- */
+
+/* Same 720px column as the game so the title and the round card line up. A
+   faint accent glow + hairline separate the brand from the play area without
+   a solid bar. */
+.site-header {
+  background:
+    radial-gradient(
+      560px 200px at calc(50% - 300px) 0%,
+      rgba(244, 180, 0, 0.12),
+      transparent 70%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.site-header__inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 14px 16px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.brand {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+.brand__mark {
+  flex: none;
+  display: block;
+  line-height: 0;
+  filter: drop-shadow(0 2px 6px rgba(244, 180, 0, 0.35));
+}
+.brand__title {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+.tagline {
+  margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+.chip {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.chip--dev {
+  color: var(--accent);
+  border-color: rgba(244, 180, 0, 0.4);
+}
+.header-links {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 12px;
+}
+.link-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: #7fb2ff;
+  cursor: pointer;
+  opacity: 0.85;
+}
+.link-button:hover,
+.link-button:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+}
+.icon-button {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--fg);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.icon-button:hover,
+.icon-button:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+}

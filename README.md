@@ -28,8 +28,8 @@ result Wordle-style and keep your streak alive.
   date (a per-town hash), so adding a town never re-rolls today's puzzle.
 - 🏆 **Anonymous daily leaderboard** — "You placed 3rd of 47 today", a top-100
   board, and a server-side streak; no accounts, no names (`worker/README.md`).
-- 🎓 **348 college towns**, hand-curated in three tiers (69 easy · 86 medium ·
-  193 hard), lower 48 only for now.
+- 🎓 **349 college towns**, hand-curated in three tiers (69 easy · 86 medium ·
+  194 hard), lower 48 only for now.
 - 📈 **Difficulty ramp** — each day is easy → easy → medium → medium → hard,
   never two towns from the same state.
 - 🔊 **Sound feedback** — a triumphant arpeggio for a perfect 100, down to a

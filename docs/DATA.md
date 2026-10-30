@@ -61,9 +61,9 @@ daily `easy, easy, medium, medium, hard` plan (`docs/PLAN.md`).
 | ------ | ------------------------------------------------------------------------------ | ----- |
 | easy   | big schools most sports fans can place (Ann Arbor, Austin, Tuscaloosa…)        | 69    |
 | medium | known names that are tough to place (Toledo, Davidson, Boise State, Dartmouth) | 86    |
-| hard   | small / regional schools (Lehigh, Stetson, Colgate, Gambier, Vermillion…)      | 193   |
+| hard   | small / regional schools (Lehigh, Stetson, Colgate, Gambier, Vermillion…)      | 194   |
 
-**348 towns** total, lower 48 only (the map is locked to `REGION.bounds`;
+**349 towns** total, lower 48 only (the map is locked to `REGION.bounds`;
 Alaska/Hawaii are a BACKLOG item). Big cities are in when a nationally known
 campus is part of the city's identity — flagships (Austin, Minneapolis,
 Seattle) and, since the prompt became the school, Atlanta (Georgia Tech),
@@ -122,7 +122,7 @@ node scripts/build-census-pins.mjs <path/to/2024_Gaz_place_national.txt>
 seed town to its Gazetteer place by state + name (handles "Athens-Clarke County
 unified government", "Amherst Town city", "Boise City city", campus CDPs such
 as "Haverford College CDP"), prefers an incorporated place over a CDP, and
-fails loudly on a town with no row. Every seeded town has a pin today (348).
+fails loudly on a town with no row. Every seeded town has a pin today (349).
 Add a town → add its Census pin by re-running this script.
 
 ## Guard test (`src/lib/towns.test.ts`)

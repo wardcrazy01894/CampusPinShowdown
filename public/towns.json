@@ -4107,6 +4107,18 @@
       "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
     },
     {
+      "id": "west-chester-pa",
+      "name": "West Chester",
+      "state": "Pennsylvania",
+      "stateCode": "PA",
+      "schools": ["West Chester University"],
+      "lat": 39.9597,
+      "lng": -75.6045,
+      "difficulty": "hard",
+      "source": "nominatim",
+      "attribution": "© OpenStreetMap contributors (ODbL), via Nominatim"
+    },
+    {
       "id": "west-lafayette-in",
       "name": "West Lafayette",
       "state": "Indiana",

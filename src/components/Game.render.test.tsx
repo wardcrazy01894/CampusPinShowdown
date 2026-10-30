@@ -3,6 +3,7 @@ import { describe, it, expect, afterEach, beforeEach } from 'vitest'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import { Game } from './Game'
 import { REGION } from '../lib/region'
+import { getDateKey } from '../lib/daily'
 import { saveState, loadState, STORAGE_VERSION } from '../lib/storage'
 import type { Town } from '../types'
 
@@ -104,12 +105,16 @@ describe('Game', () => {
   })
 
   it('renders Results for a finished saved game', () => {
+    // The REAL current day: Results says "Done for today!" only while the
+    // saved game's dateKey is today, so a hardcoded date here is a time bomb
+    // (this test broke on its own the morning after it was written).
+    const today = getDateKey(new Date())
     saveState('usa', {
       version: STORAGE_VERSION,
       history: [],
-      streak: { current: 3, best: 5, lastPlayedDateKey: '2026-10-29' },
+      streak: { current: 3, best: 5, lastPlayedDateKey: today },
       current: {
-        dateKey: '2026-10-29',
+        dateKey: today,
         towns,
         roundIndex: 1,
         results: towns.map((t) => ({
@@ -124,7 +129,7 @@ describe('Game', () => {
     render(
       <Game
         storageId="usa"
-        dateKey="2026-10-29"
+        dateKey={today}
         bounds={REGION.bounds}
         towns={towns}
         official

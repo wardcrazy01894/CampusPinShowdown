@@ -2353,6 +2353,13 @@
       "geoid": "1982875",
       "alandKm2": 29
     },
+    "west-chester-pa": {
+      "lat": 39.959883,
+      "lng": -75.605422,
+      "place": "West Chester borough",
+      "geoid": "4282704",
+      "alandKm2": 5
+    },
     "west-lafayette-in": {
       "lat": 40.443707,
       "lng": -86.923616,
