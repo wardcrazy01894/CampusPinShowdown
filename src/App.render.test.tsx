@@ -1,7 +1,13 @@
 // @vitest-environment jsdom
 import { promptSchool } from './lib/schools'
 import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest'
-import { render, cleanup, screen, fireEvent } from '@testing-library/react'
+import {
+  render,
+  cleanup,
+  screen,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react'
 import { App, OVERLAY_Z_INDEX } from './App'
 import type { Town, TownsFile } from './types'
 
@@ -175,7 +181,9 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     await screen.findByText(/Round 1 of 5/)
     const credit = () =>
       document.querySelector('.leaflet-control-attribution')?.textContent ?? ''
-    expect(credit()).toContain('NASA')
+    // The map mounts in an effect after the game renders — wait for it (CI
+    // runners are slower than a laptop; the first version raced here).
+    await waitFor(() => expect(credit()).toContain('NASA'))
 
     const toggle = screen.getByRole('button', {
       name: 'Switch to satellite map',
@@ -184,7 +192,7 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     expect(
       screen.getByRole('button', { name: 'Switch to night map' }),
     ).toBeTruthy()
-    expect(credit()).toContain('EOX')
+    await waitFor(() => expect(credit()).toContain('EOX'))
     expect(localStorage.getItem('cps:basemap')).toBe('satellite')
     // The footer credits the imagery provider too (licence: legible, nearby).
     expect(document.querySelector('footer')?.textContent).toContain(
@@ -198,6 +206,6 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     expect(
       screen.getByRole('button', { name: 'Switch to night map' }),
     ).toBeTruthy()
-    expect(credit()).toContain('EOX')
+    await waitFor(() => expect(credit()).toContain('EOX'))
   })
 })

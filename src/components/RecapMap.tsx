@@ -56,7 +56,19 @@ export function RecapMap({
   const mapRef = useRef<L.Map | null>(null)
   const layersRef = useRef<L.FeatureGroup | null>(null)
   const tilesRef = useRef<L.TileLayer | null>(null)
+  // The basemap the live tile layer was built for (null = no map yet).
+  const appliedBasemapRef = useRef<Basemap | null>(null)
   const basemapRef = useRef(basemap)
+  basemapRef.current = basemap
+
+  /** Build + add the tile layer for `b`, remembering which basemap it is. */
+  function attachTiles(map: L.Map, b: Basemap) {
+    const tiles = makeTileLayer(b)
+    tiles.on('tileerror', () => log.debug('RecapMap', 'tile failed to load'))
+    tiles.addTo(map)
+    tilesRef.current = tiles
+    appliedBasemapRef.current = b
+  }
 
   // Create the map once.
   useEffect(() => {
@@ -66,10 +78,7 @@ export function RecapMap({
       maxBoundsViscosity: 1,
       zoomControl: true,
     })
-    const tiles = makeTileLayer(basemapRef.current)
-    tiles.on('tileerror', () => log.debug('RecapMap', 'tile failed to load'))
-    tiles.addTo(map)
-    tilesRef.current = tiles
+    attachTiles(map, basemapRef.current)
     map.createPane(STATES_PANE).style.zIndex = '350'
     void makeStateOutlines()
       .then((layer) => {
@@ -90,6 +99,8 @@ export function RecapMap({
     return () => {
       map.remove()
       mapRef.current = null
+      tilesRef.current = null
+      appliedBasemapRef.current = null
       layersRef.current = null
     }
     // bounds is constant for a mounted recap; intentionally run once.
@@ -98,14 +109,12 @@ export function RecapMap({
 
   // Swap imagery in place when the basemap preference changes.
   useEffect(() => {
-    basemapRef.current = basemap
     const map = mapRef.current
-    if (!map) return
+    // No map yet, or the create effect already built this basemap (the swap
+    // effect also fires on mount, right after it) — nothing to do.
+    if (!map || appliedBasemapRef.current === basemap) return
     tilesRef.current?.remove()
-    const tiles = makeTileLayer(basemap)
-    tiles.on('tileerror', () => log.debug('RecapMap', 'tile failed to load'))
-    tiles.addTo(map)
-    tilesRef.current = tiles
+    attachTiles(map, basemap)
   }, [basemap])
 
   // (Re)draw every round's layers as one group.

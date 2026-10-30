@@ -143,6 +143,9 @@ describe('MapGuess Leaflet lifecycle', () => {
     expect(credit()).toContain('EOX')
     expect(credit()).not.toContain('NASA')
     expect(container.querySelectorAll('.leaflet-map-pane')).toHaveLength(1)
-    expect(container.querySelectorAll('.leaflet-tile-pane')).toHaveLength(1)
+    // Exactly ONE tile layer after the swap (and none duplicated on mount).
+    expect(
+      container.querySelectorAll('.leaflet-tile-pane > .leaflet-layer'),
+    ).toHaveLength(1)
   })
 })

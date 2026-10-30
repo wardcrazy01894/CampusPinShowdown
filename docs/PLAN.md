@@ -89,6 +89,8 @@ outlines stay).
   free, keyless, native to zoom 10. Licence **CC BY-NC-SA 4.0** (this game is
   non-commercial); the credit EOX asks for is the Leaflet attribution on the
   map and is repeated in the footer. A new mosaic year = bump the constant.
+  **If the game ever carries ads or a paid tier, this layer must go or be
+  re-licensed** (EOX sells a commercial licence); NASA's layer is unaffected.
 
 **State outlines** are a bundled vector layer
 (`src/data/us-states.json`: Census 1:20m boundaries, public domain, simplified

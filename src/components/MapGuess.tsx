@@ -60,7 +60,10 @@ export function MapGuess({
   const truthMarkerRef = useRef<L.CircleMarker | null>(null)
   const lineRef = useRef<L.Polyline | null>(null)
   const tilesRef = useRef<L.TileLayer | null>(null)
+  // The basemap the live tile layer was built for (null = no map yet).
+  const appliedBasemapRef = useRef<Basemap | null>(null)
   const basemapRef = useRef(basemap)
+  basemapRef.current = basemap
   // Keep the latest callback/locked without re-binding the map click handler
   // (the "latest ref" idiom — written during render on purpose; the
   // react-hooks/refs rule is staged to `warn` for exactly this pattern).
@@ -68,6 +71,15 @@ export function MapGuess({
   const lockedRef = useRef(locked)
   onGuessRef.current = onGuessChange
   lockedRef.current = locked
+
+  /** Build + add the tile layer for `b`, remembering which basemap it is. */
+  function attachTiles(map: L.Map, b: Basemap) {
+    const tiles = makeTileLayer(b)
+    tiles.on('tileerror', () => log.debug('MapGuess', 'tile failed to load'))
+    tiles.addTo(map)
+    tilesRef.current = tiles
+    appliedBasemapRef.current = b
+  }
 
   // Create the map once.
   useEffect(() => {
@@ -77,10 +89,7 @@ export function MapGuess({
       maxBoundsViscosity: 1,
       zoomControl: true,
     })
-    const tiles = makeTileLayer(basemapRef.current)
-    tiles.on('tileerror', () => log.debug('MapGuess', 'tile failed to load'))
-    tiles.addTo(map)
-    tilesRef.current = tiles
+    attachTiles(map, basemapRef.current)
     // State outlines over the night imagery, in their own pane BELOW the
     // default overlay pane (z 400) so markers and the reveal line stay on top.
     map.createPane(STATES_PANE).style.zIndex = '350'
@@ -116,6 +125,8 @@ export function MapGuess({
     return () => {
       map.remove()
       mapRef.current = null
+      tilesRef.current = null
+      appliedBasemapRef.current = null
     }
     // bounds is constant for the game; intentionally run once.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -124,14 +135,12 @@ export function MapGuess({
   // Swap imagery in place when the basemap preference changes: remove the old
   // tile layer, add the new one. View, pins and outlines are untouched.
   useEffect(() => {
-    basemapRef.current = basemap
     const map = mapRef.current
-    if (!map) return
+    // No map yet, or the create effect already built this basemap (the swap
+    // effect also fires on mount, right after it) — nothing to do.
+    if (!map || appliedBasemapRef.current === basemap) return
     tilesRef.current?.remove()
-    const tiles = makeTileLayer(basemap)
-    tiles.on('tileerror', () => log.debug('MapGuess', 'tile failed to load'))
-    tiles.addTo(map)
-    tilesRef.current = tiles
+    attachTiles(map, basemap)
   }, [basemap])
 
   // Sync the guess marker.

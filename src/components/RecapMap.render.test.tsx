@@ -114,4 +114,32 @@ describe('RecapMap Leaflet lifecycle', () => {
     ).toHaveLength(4)
     fit.mockRestore()
   })
+
+  it('swaps the tile layer when the basemap prop changes, keeping one layer', () => {
+    const results = [result(0)]
+    const { container, rerender } = render(
+      <StrictMode>
+        <RecapMap bounds={REGION.bounds} results={results} basemap="night" />
+      </StrictMode>,
+    )
+    const credit = () =>
+      container.querySelector('.leaflet-control-attribution')?.textContent ?? ''
+    const tileLayers = () =>
+      container.querySelectorAll('.leaflet-tile-pane > .leaflet-layer').length
+    expect(credit()).toContain('NASA')
+    expect(tileLayers()).toBe(1)
+    rerender(
+      <StrictMode>
+        <RecapMap
+          bounds={REGION.bounds}
+          results={results}
+          basemap="satellite"
+        />
+      </StrictMode>,
+    )
+    expect(credit()).toContain('EOX')
+    expect(credit()).not.toContain('NASA')
+    expect(tileLayers()).toBe(1)
+    expect(container.querySelectorAll('.leaflet-map-pane')).toHaveLength(1)
+  })
 })
