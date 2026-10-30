@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
-import { describe, it, expect, afterEach } from 'vitest'
+import { describe, it, expect, afterEach, vi } from 'vitest'
+import L from 'leaflet'
 import { StrictMode } from 'react'
 import { render, cleanup, waitFor } from '@testing-library/react'
 import { MapGuess } from './MapGuess'
@@ -147,5 +148,31 @@ describe('MapGuess Leaflet lifecycle', () => {
     expect(
       container.querySelectorAll('.leaflet-tile-pane > .leaflet-layer'),
     ).toHaveLength(1)
+  })
+
+  it('does not move the camera when the basemap is swapped', () => {
+    const { rerender } = render(
+      <MapGuess
+        bounds={REGION.bounds}
+        guess={null}
+        onGuessChange={() => {}}
+        basemap="satellite"
+        resetViewKey={0}
+      />,
+    )
+    const spies = ['fitBounds', 'setView', 'setZoom', 'panTo', 'flyTo'].map(
+      (m) => vi.spyOn(L.Map.prototype, m as 'fitBounds'),
+    )
+    rerender(
+      <MapGuess
+        bounds={REGION.bounds}
+        guess={null}
+        onGuessChange={() => {}}
+        basemap="night"
+        resetViewKey={0}
+      />,
+    )
+    for (const spy of spies) expect(spy).not.toHaveBeenCalled()
+    vi.restoreAllMocks()
   })
 })

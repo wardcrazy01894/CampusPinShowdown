@@ -176,25 +176,25 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     expect(screen.queryByLabelText('Search towns')).toBeNull()
   })
 
-  it('toggles night ↔ satellite from the header and remembers the choice', async () => {
+  it('starts on satellite, offers a labelled "night lights" button on the map, and remembers the choice', async () => {
     render(<App />)
     await screen.findByText(/Round 1 of 5/)
     const credit = () =>
       document.querySelector('.leaflet-control-attribution')?.textContent ?? ''
-    // The map mounts in an effect after the game renders — wait for it (CI
-    // runners are slower than a laptop; the first version raced here).
-    await waitFor(() => expect(credit()).toContain('NASA'))
-
-    const toggle = screen.getByRole('button', {
-      name: 'Switch to satellite map',
-    })
-    fireEvent.click(toggle)
-    expect(
-      screen.getByRole('button', { name: 'Switch to night map' }),
-    ).toBeTruthy()
     await waitFor(() => expect(credit()).toContain('EOX'))
-    expect(localStorage.getItem('cps:basemap')).toBe('satellite')
-    // The footer credits the imagery provider too (licence: legible, nearby).
+    // No cryptic header icon any more — a worded button on the map itself.
+    expect(
+      screen.queryByRole('button', { name: /Switch to .* map/ }),
+    ).toBeNull()
+    const toggle = screen.getByRole('button', { name: /night lights/i })
+    expect(toggle.closest('.map-wrap')).toBeTruthy()
+
+    fireEvent.click(toggle)
+    expect(screen.getByRole('button', { name: /satellite/i })).toBeTruthy()
+    expect(screen.queryByRole('button', { name: /night lights/i })).toBeNull()
+    await waitFor(() => expect(credit()).toContain('NASA'))
+    expect(localStorage.getItem('cps:basemap')).toBe('night')
+    // The footer credits both providers (licence: legible, nearby).
     expect(document.querySelector('footer')?.textContent).toContain(
       'EOX IT Services GmbH',
     )
@@ -203,9 +203,7 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     cleanup()
     render(<App />)
     await screen.findByText(/Round 1 of 5/)
-    expect(
-      screen.getByRole('button', { name: 'Switch to night map' }),
-    ).toBeTruthy()
-    await waitFor(() => expect(credit()).toContain('EOX'))
+    expect(screen.getByRole('button', { name: /satellite/i })).toBeTruthy()
+    await waitFor(() => expect(credit()).toContain('NASA'))
   })
 })

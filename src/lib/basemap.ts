@@ -1,8 +1,8 @@
 /**
  * Which imagery the maps show — a per-device display preference, like mute.
  *
- *   night      NASA Black Marble (the default; city lights are the hint)
- *   satellite  EOX Sentinel-2 cloudless (daytime true colour)
+ *   satellite  EOX Sentinel-2 cloudless (daytime true colour) — the default
+ *   night      NASA Black Marble (city lights; the original look, opt-in)
  *
  * Stored in localStorage; never part of the game save, so it can't affect a
  * day's record or the share card. The tile definitions live in tiles.ts.
@@ -12,6 +12,9 @@ export type Basemap = 'night' | 'satellite'
 
 export const BASEMAP_KEY = 'cps:basemap'
 
+/** What a player sees before they ever touch the toggle. */
+export const DEFAULT_BASEMAP: Basemap = 'satellite'
+
 export function isBasemap(v: unknown): v is Basemap {
   return v === 'night' || v === 'satellite'
 }
@@ -19,9 +22,9 @@ export function isBasemap(v: unknown): v is Basemap {
 export function getBasemap(): Basemap {
   try {
     const v = localStorage.getItem(BASEMAP_KEY)
-    return isBasemap(v) ? v : 'night'
+    return isBasemap(v) ? v : DEFAULT_BASEMAP
   } catch {
-    return 'night'
+    return DEFAULT_BASEMAP
   }
 }
 

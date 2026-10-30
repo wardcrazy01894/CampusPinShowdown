@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import {
   BASEMAP_KEY,
+  DEFAULT_BASEMAP,
   getBasemap,
   setBasemap,
   nextBasemap,
@@ -19,9 +20,10 @@ function stubStorage(initial: Record<string, string> = {}) {
 afterEach(() => vi.unstubAllGlobals())
 
 describe('basemap preference', () => {
-  it('defaults to the night map', () => {
+  it('defaults to the satellite map', () => {
     stubStorage()
-    expect(getBasemap()).toBe('night')
+    expect(getBasemap()).toBe('satellite')
+    expect(DEFAULT_BASEMAP).toBe('satellite')
   })
 
   it('round-trips through localStorage under cps:basemap', () => {
@@ -33,9 +35,14 @@ describe('basemap preference', () => {
     expect(getBasemap()).toBe('night')
   })
 
+  it('honours a saved night preference', () => {
+    stubStorage({ [BASEMAP_KEY]: 'night' })
+    expect(getBasemap()).toBe('night')
+  })
+
   it('ignores an unknown stored value', () => {
     stubStorage({ [BASEMAP_KEY]: 'hologram' })
-    expect(getBasemap()).toBe('night')
+    expect(getBasemap()).toBe('satellite')
     expect(isBasemap('hologram')).toBe(false)
     expect(isBasemap('satellite')).toBe(true)
   })
@@ -49,8 +56,8 @@ describe('basemap preference', () => {
         throw new Error('denied')
       },
     })
-    expect(getBasemap()).toBe('night')
-    expect(() => setBasemap('satellite')).not.toThrow()
+    expect(getBasemap()).toBe('satellite')
+    expect(() => setBasemap('night')).not.toThrow()
   })
 
   it('nextBasemap flips between the two', () => {

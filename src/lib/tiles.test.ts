@@ -7,12 +7,16 @@ const urlOf = (layer: L.TileLayer) =>
   (layer as unknown as { _url: string })._url
 
 describe('makeTileLayer', () => {
-  it('defaults to the NASA night map', () => {
-    const layer = makeTileLayer()
+  it('night is the NASA Black Marble layer, upscaled past zoom 8', () => {
+    const layer = makeTileLayer('night')
     expect(urlOf(layer)).toContain('gibs.earthdata.nasa.gov')
     expect(layer.getAttribution?.()).toContain('NASA GIBS')
     expect(layer.options.maxZoom).toBe(MAX_ZOOM)
     expect(layer.options.maxNativeZoom).toBe(8)
+  })
+
+  it('defaults to the satellite map', () => {
+    expect(urlOf(makeTileLayer())).toContain('tiles.maps.eox.at')
   })
 
   it('satellite is the EOX Sentinel-2 cloudless mosaic with its required credit', () => {

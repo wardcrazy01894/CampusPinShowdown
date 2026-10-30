@@ -16,7 +16,8 @@ Harvard), unless the seed pins a `prompt` (Memphis asks "University of
 Memphis", not Rhodes College — see `docs/DATA.md`); flagship names that embed
 the town ("University of Texas at Austin") are accepted — the location is the
 answer, not the name. The player drops a
-pin on the night-lights map of the USA and submits. The round header carries
+pin on the satellite map of the USA (or the night-lights map, one tap away)
+and submits. The round header carries
 the town's **tier badge** (🟢 Easy / 🟡 Medium / 🔴 Hard, `src/lib/tiers.ts`)
 up front — it sets expectations and says nothing about the town, so it is not
 a hint; the same badge sits on each results row. On submit the reveal shows the real
@@ -74,17 +75,20 @@ every share card that day agrees. Distances are shown in **miles**. Haversine on
 
 ## Map (`src/components/MapGuess.tsx`, `src/lib/tiles.ts`, `src/lib/states.ts`)
 
-Two basemaps, switched from the header (🌃/🛰️) and remembered per device in
-`localStorage` (`cps:basemap`, `src/lib/basemap.ts`) — a display preference,
-never part of the game save or the share card. Both `MapGuess` and the results
-`RecapMap` follow it; switching swaps the tile layer in place (view, pins and
-outlines stay).
+Two basemaps, switched with a worded button floating on the map itself
+("🌃 Switch to night lights" / "🛰️ Switch to satellite", `BasemapToggle`) and
+remembered per device in `localStorage` (`cps:basemap`, `src/lib/basemap.ts`,
+default **satellite**) — a display preference, never part of the game save or
+the share card. Both `MapGuess` and the results `RecapMap` follow it; switching
+swaps the tile layer in place — **the camera never moves** (centre and zoom are
+kept, pinned by a render test), so you can zoom in on satellite and flip to the
+lights of the same area.
 
-- **night** (default): **NASA Black Marble** imagery (VIIRS, 2016 composite)
+- **night**: **NASA Black Marble** imagery (VIIRS, 2016 composite)
   from NASA GIBS — free, keyless, public domain, served to zoom 8 and upscaled
   to the zoom-10 cap. City lights are the map: metros glow, the dark stays
   dark, nothing is labelled (the maptap.gg look), and the glow is a fair hint.
-- **satellite**: **EOX Sentinel-2 cloudless** (EOxCloudless, Copernicus
+- **satellite** (default): **EOX Sentinel-2 cloudless** (EOxCloudless, Copernicus
   Sentinel-2 true-colour mosaic, year in `SATELLITE_YEAR`) from EOX's WMTS —
   free, keyless, native to zoom 10. Licence **CC BY-NC-SA 4.0** (this game is
   non-commercial); the credit EOX asks for is the Leaflet attribution on the

@@ -137,9 +137,17 @@ describe('Game', () => {
         bounds={REGION.bounds}
         towns={towns}
         official
+        basemap="satellite"
+        onBasemapChange={() => {}}
       />,
     )
     expect(screen.getByText(/Done for today!/)).toBeTruthy()
+    // The recap map carries the same worded basemap button as the play map.
+    expect(
+      screen
+        .getByRole('button', { name: /night lights/i })
+        .closest('.map-wrap'),
+    ).toBeTruthy()
     expect(screen.getByText(/Streak 3 \(best 5\)/)).toBeTruthy()
     // Each results row carries its tier so a miss on a 🔴 reads fairly.
     expect(screen.getByText('🟢 Easy')).toBeTruthy()
