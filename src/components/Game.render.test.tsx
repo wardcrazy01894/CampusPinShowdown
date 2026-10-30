@@ -1,9 +1,8 @@
 // @vitest-environment jsdom
-import { describe, it, expect, afterEach, beforeEach } from 'vitest'
+import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import { Game } from './Game'
 import { REGION } from '../lib/region'
-import { getDateKey } from '../lib/daily'
 import { saveState, loadState, STORAGE_VERSION } from '../lib/storage'
 import type { Town } from '../types'
 
@@ -35,7 +34,10 @@ const towns: Town[] = [
 ]
 
 beforeEach(() => localStorage.clear())
-afterEach(cleanup)
+afterEach(() => {
+  cleanup()
+  vi.useRealTimers()
+})
 
 describe('Game', () => {
   it('asks for the SCHOOL and withholds the town and state until the guess is in', () => {
@@ -105,10 +107,12 @@ describe('Game', () => {
   })
 
   it('renders Results for a finished saved game', () => {
-    // The REAL current day: Results says "Done for today!" only while the
-    // saved game's dateKey is today, so a hardcoded date here is a time bomb
-    // (this test broke on its own the morning after it was written).
-    const today = getDateKey(new Date())
+    // Results says "Done for today!" only while the saved game's dateKey is
+    // the CURRENT day, so pin the clock (Date only — timers stay real for
+    // React Testing Library). A bare hardcoded date was a time bomb: this
+    // test broke on its own the morning after it was written.
+    vi.useFakeTimers({ toFake: ['Date'], now: new Date('2026-10-29T12:00:00') })
+    const today = '2026-10-29'
     saveState('usa', {
       version: STORAGE_VERSION,
       history: [],
