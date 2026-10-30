@@ -9,7 +9,7 @@
 [![CI](https://github.com/wardcrazy01894/CampusPinShowdown/actions/workflows/ci.yml/badge.svg)](https://github.com/wardcrazy01894/CampusPinShowdown/actions/workflows/ci.yml)
 [![deploy](https://github.com/wardcrazy01894/CampusPinShowdown/actions/workflows/deploy.yml/badge.svg)](https://github.com/wardcrazy01894/CampusPinShowdown/actions/workflows/deploy.yml)
 
-React · TypeScript · Vite · Leaflet &nbsp;·&nbsp; 349 towns &nbsp;·&nbsp; $0 to run
+React · TypeScript · Vite · Leaflet &nbsp;·&nbsp; 349 towns &nbsp;·&nbsp; $0 hosting
 
 </div>
 
@@ -35,7 +35,7 @@ streak alive.
 | 🐛  | **In-app bug reports**          | Type what went wrong and send; it lands as a GitHub issue without leaving the site.                                               |
 | 🔎  | **"Is my town in the game?"**   | After today's puzzle, search by town, state or school; request a missing one with one click.                                      |
 | 🔁  | **No server needed to play**    | "Same 5 for everyone" is computed from the date (a per-town hash), so adding a town never re-rolls today's puzzle.                |
-| 💸  | **$0 to run**                   | Free NASA tiles, free OpenStreetMap geocoding, no API keys; the only backend is two free-tier Cloudflare Workers.                 |
+| 💸  | **$0 hosting**                  | Free NASA tiles, free OpenStreetMap geocoding, no API keys; the only backend is two free-tier Cloudflare Workers.                 |
 
 > **Status:** **live** at <https://campuspinshowdown.com/> — auto-deploys on
 > every merge to `main` (runbook: [`docs/OPERATIONS.md`](docs/OPERATIONS.md)).

@@ -37,6 +37,13 @@ body,
   background: #000; /* night imagery: gaps and loading tiles stay dark */
 }
 
+/* End-of-day recap map: shorter than the play map so the rows stay in reach. */
+.map-container.recap-map {
+  height: 42vh;
+  min-height: 260px;
+  border-radius: 10px;
+}
+
 /* Phones: keep "tap the map → Submit guess" on ONE screen. Above the map sit
    the header (~95px) and the round/prompt block (~190px when the school name wraps, which
    it usually does); below it the button needs ~70px. 60vh overshoots that
@@ -45,9 +52,17 @@ body,
    never shorter than 220px (the lower 48 still read at that height; zoom
    does the rest). `vh` first as a fallback for browsers without `dvh`. */
 @media (max-width: 600px) {
+  :root {
+    /* Everything on the play screen that is NOT the map: header + round/
+       prompt block + Submit button + 30px of slack. Re-measure if the header
+       or prompt layout changes. */
+    --play-chrome: 390px;
+  }
+  /* Must come AFTER the base .map-container and .recap-map rules: same
+     specificity, so source order decides. */
   .map-container {
-    height: clamp(220px, calc(100vh - 390px), 60vh);
-    height: clamp(220px, calc(100dvh - 390px), 60vh);
+    height: clamp(220px, calc(100vh - var(--play-chrome)), 60vh);
+    height: clamp(220px, calc(100dvh - var(--play-chrome)), 60vh);
     min-height: 220px;
   }
   .map-container.recap-map {
@@ -55,13 +70,6 @@ body,
     height: 42dvh;
     min-height: 220px;
   }
-}
-
-/* End-of-day recap map: shorter than the play map so the rows stay in reach. */
-.map-container.recap-map {
-  height: 42vh;
-  min-height: 260px;
-  border-radius: 10px;
 }
 
 /* Numbered "real town" markers on the recap map (RecapMap.numberedIcon). */
