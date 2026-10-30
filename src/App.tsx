@@ -203,52 +203,57 @@ export function App() {
           />
         </div>
       )}
-      <header
-        style={{
-          padding: '12px 16px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          gap: 8,
-        }}
-      >
-        <div>
-          <h1 style={{ margin: 0, fontSize: 20 }}>📍 CampusPin Showdown</h1>
-          <small style={{ opacity: 0.7 }}>
-            Pin 5 college towns a day · {mode.label}
-            {import.meta.env.DEV && (
-              <span style={{ color: '#f4b400' }}>
-                {' '}
-                · dev: ?reset · ?shuffle · ?date=
-              </span>
-            )}
-          </small>
-          <div style={{ marginTop: 4, fontSize: 12, display: 'flex', gap: 12 }}>
-            {finished && (
-              <button onClick={() => setSearching(true)} style={linkButton}>
-                🔎 is my town in the game?
-              </button>
-            )}
-            <button onClick={() => setReporting('')} style={linkButton}>
-              🐛 report a bug
-            </button>
+      <header className="site-header">
+        <div className="site-header__inner">
+          <div className="brand">
+            <span className="brand__mark" aria-hidden="true">
+              <svg viewBox="0 0 64 64" width="34" height="34">
+                <rect width="64" height="64" rx="14" fill="var(--accent)" />
+                <path
+                  d="M32 9c-9.7 0-17.5 7.7-17.5 17.2C14.5 39.4 32 55 32 55s17.5-15.6 17.5-28.8C49.5 16.7 41.7 9 32 9z"
+                  fill="var(--bg)"
+                />
+                <circle cx="32" cy="26" r="6.8" fill="var(--accent)" />
+              </svg>
+            </span>
+            <div>
+              <h1 className="brand__title">CampusPin Showdown</h1>
+              <div className="tagline">
+                <span>Pin 5 college towns a day</span>
+                <span className="chip">{mode.label}</span>
+                {import.meta.env.DEV && (
+                  <span className="chip chip--dev">
+                    dev: ?reset · ?shuffle · ?date=
+                  </span>
+                )}
+              </div>
+              <div className="header-links">
+                {finished && (
+                  <button
+                    onClick={() => setSearching(true)}
+                    className="link-button"
+                  >
+                    🔎 is my town in the game?
+                  </button>
+                )}
+                <button
+                  onClick={() => setReporting('')}
+                  className="link-button"
+                >
+                  🐛 report a bug
+                </button>
+              </div>
+            </div>
           </div>
+          <button
+            onClick={toggleMute}
+            aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
+            title={muted ? 'Unmute sounds' : 'Mute sounds'}
+            className="icon-button"
+          >
+            {muted ? '🔇' : '🔊'}
+          </button>
         </div>
-        <button
-          onClick={toggleMute}
-          aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
-          title={muted ? 'Unmute sounds' : 'Mute sounds'}
-          style={{
-            background: 'transparent',
-            border: 'none',
-            color: 'var(--fg)',
-            fontSize: 20,
-            cursor: 'pointer',
-            lineHeight: 1,
-          }}
-        >
-          {muted ? '🔇' : '🔊'}
-        </button>
       </header>
       <Game
         // Remount on a seed change so a ?shuffle / rollover never carries state.
@@ -298,13 +303,4 @@ const overlay: CSSProperties = {
   zIndex: OVERLAY_Z_INDEX,
   overflowY: 'auto',
   background: 'var(--bg)',
-}
-
-const linkButton: CSSProperties = {
-  background: 'transparent',
-  border: 'none',
-  color: '#7fb2ff',
-  cursor: 'pointer',
-  padding: 0,
-  font: 'inherit',
 }

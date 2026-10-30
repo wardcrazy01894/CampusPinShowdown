@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, it, expect, afterEach, beforeEach } from 'vitest'
+import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import { Game } from './Game'
 import { REGION } from '../lib/region'
@@ -34,7 +34,10 @@ const towns: Town[] = [
 ]
 
 beforeEach(() => localStorage.clear())
-afterEach(cleanup)
+afterEach(() => {
+  cleanup()
+  vi.useRealTimers()
+})
 
 describe('Game', () => {
   it('asks for the SCHOOL and withholds the town and state until the guess is in', () => {
@@ -104,12 +107,18 @@ describe('Game', () => {
   })
 
   it('renders Results for a finished saved game', () => {
+    // Results says "Done for today!" only while the saved game's dateKey is
+    // the CURRENT day, so pin the clock (Date only — timers stay real for
+    // React Testing Library). A bare hardcoded date was a time bomb: this
+    // test broke on its own the morning after it was written.
+    vi.useFakeTimers({ toFake: ['Date'], now: new Date('2026-10-29T12:00:00') })
+    const today = '2026-10-29'
     saveState('usa', {
       version: STORAGE_VERSION,
       history: [],
-      streak: { current: 3, best: 5, lastPlayedDateKey: '2026-10-29' },
+      streak: { current: 3, best: 5, lastPlayedDateKey: today },
       current: {
-        dateKey: '2026-10-29',
+        dateKey: today,
         towns,
         roundIndex: 1,
         results: towns.map((t) => ({
@@ -124,7 +133,7 @@ describe('Game', () => {
     render(
       <Game
         storageId="usa"
-        dateKey="2026-10-29"
+        dateKey={today}
         bounds={REGION.bounds}
         towns={towns}
         official
