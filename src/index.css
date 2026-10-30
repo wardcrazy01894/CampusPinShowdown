@@ -177,6 +177,11 @@ body,
   opacity: 1;
   text-decoration: underline;
 }
+.header-actions {
+  flex: none;
+  display: flex;
+  gap: 6px;
+}
 .icon-button {
   flex: none;
   width: 38px;

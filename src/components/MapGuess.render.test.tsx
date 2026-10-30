@@ -117,4 +117,35 @@ describe('MapGuess Leaflet lifecycle', () => {
       '<img',
     )
   })
+
+  it('swaps the tile layer when the basemap prop changes, keeping one map', () => {
+    const { container, rerender } = render(
+      <MapGuess
+        bounds={REGION.bounds}
+        guess={null}
+        onGuessChange={() => {}}
+        basemap="night"
+      />,
+    )
+    const credit = () =>
+      container.querySelector('.leaflet-control-attribution')?.textContent ?? ''
+    expect(credit()).toContain('NASA')
+    expect(credit()).not.toContain('EOX')
+
+    rerender(
+      <MapGuess
+        bounds={REGION.bounds}
+        guess={null}
+        onGuessChange={() => {}}
+        basemap="satellite"
+      />,
+    )
+    expect(credit()).toContain('EOX')
+    expect(credit()).not.toContain('NASA')
+    expect(container.querySelectorAll('.leaflet-map-pane')).toHaveLength(1)
+    // Exactly ONE tile layer after the swap (and none duplicated on mount).
+    expect(
+      container.querySelectorAll('.leaflet-tile-pane > .leaflet-layer'),
+    ).toHaveLength(1)
+  })
 })

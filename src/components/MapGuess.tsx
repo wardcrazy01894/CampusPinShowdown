@@ -5,8 +5,9 @@
  * avoid the default-marker-icon bundler breakage — we draw guess/truth as
  * circle markers and connect them with a polyline on reveal.
  *
- * Tiles: NASA Black Marble night imagery from src/lib/tiles.ts, with state
- * outlines from src/lib/states.ts drawn in their own pane.
+ * Tiles: the night or satellite basemap from src/lib/tiles.ts (swapped in
+ * place when the `basemap` prop changes), with state outlines from
+ * src/lib/states.ts drawn in their own pane.
  *
  * The map is locked NEAR `bounds` (maxBounds + viscosity) so players can't pan
  * off into the ocean. The lock box is padded (see padBounds): with maxBounds
@@ -25,6 +26,7 @@ import type { Guess, Town } from '../types'
 import { log } from '../lib/log'
 import { padBounds } from '../lib/mapBounds'
 import { makeTileLayer, MAX_ZOOM } from '../lib/tiles'
+import type { Basemap } from '../lib/basemap'
 import { makeStateOutlines, STATES_PANE } from '../lib/states'
 
 export interface MapGuessProps {
@@ -39,6 +41,8 @@ export interface MapGuessProps {
   locked?: boolean
   /** Change this (e.g. the round index) to re-frame the map to full bounds. */
   resetViewKey?: number
+  /** Imagery to show; defaults to the night map. */
+  basemap?: Basemap
 }
 
 export function MapGuess({
@@ -48,12 +52,18 @@ export function MapGuess({
   reveal,
   locked,
   resetViewKey,
+  basemap = 'night',
 }: MapGuessProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const mapRef = useRef<L.Map | null>(null)
   const guessMarkerRef = useRef<L.CircleMarker | null>(null)
   const truthMarkerRef = useRef<L.CircleMarker | null>(null)
   const lineRef = useRef<L.Polyline | null>(null)
+  const tilesRef = useRef<L.TileLayer | null>(null)
+  // The basemap the live tile layer was built for (null = no map yet).
+  const appliedBasemapRef = useRef<Basemap | null>(null)
+  const basemapRef = useRef(basemap)
+  basemapRef.current = basemap
   // Keep the latest callback/locked without re-binding the map click handler
   // (the "latest ref" idiom — written during render on purpose; the
   // react-hooks/refs rule is staged to `warn` for exactly this pattern).
@@ -61,6 +71,15 @@ export function MapGuess({
   const lockedRef = useRef(locked)
   onGuessRef.current = onGuessChange
   lockedRef.current = locked
+
+  /** Build + add the tile layer for `b`, remembering which basemap it is. */
+  function attachTiles(map: L.Map, b: Basemap) {
+    const tiles = makeTileLayer(b)
+    tiles.on('tileerror', () => log.debug('MapGuess', 'tile failed to load'))
+    tiles.addTo(map)
+    tilesRef.current = tiles
+    appliedBasemapRef.current = b
+  }
 
   // Create the map once.
   useEffect(() => {
@@ -70,9 +89,7 @@ export function MapGuess({
       maxBoundsViscosity: 1,
       zoomControl: true,
     })
-    const tiles = makeTileLayer()
-    tiles.on('tileerror', () => log.debug('MapGuess', 'tile failed to load'))
-    tiles.addTo(map)
+    attachTiles(map, basemapRef.current)
     // State outlines over the night imagery, in their own pane BELOW the
     // default overlay pane (z 400) so markers and the reveal line stay on top.
     map.createPane(STATES_PANE).style.zIndex = '350'
@@ -108,10 +125,23 @@ export function MapGuess({
     return () => {
       map.remove()
       mapRef.current = null
+      tilesRef.current = null
+      appliedBasemapRef.current = null
     }
     // bounds is constant for the game; intentionally run once.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // Swap imagery in place when the basemap preference changes: remove the old
+  // tile layer, add the new one. View, pins and outlines are untouched.
+  useEffect(() => {
+    const map = mapRef.current
+    // No map yet, or the create effect already built this basemap (the swap
+    // effect also fires on mount, right after it) — nothing to do.
+    if (!map || appliedBasemapRef.current === basemap) return
+    tilesRef.current?.remove()
+    attachTiles(map, basemap)
+  }, [basemap])
 
   // Sync the guess marker.
   useEffect(() => {

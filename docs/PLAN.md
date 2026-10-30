@@ -74,10 +74,25 @@ every share card that day agrees. Distances are shown in **miles**. Haversine on
 
 ## Map (`src/components/MapGuess.tsx`, `src/lib/tiles.ts`, `src/lib/states.ts`)
 
-**NASA Black Marble** night imagery (VIIRS, 2016 composite) from NASA GIBS —
-free, keyless, public domain, served to zoom 8 and upscaled to the zoom-10 cap.
-City lights are the map: metros glow, the dark stays dark, nothing is labelled
-(the maptap.gg look). **State outlines** are a bundled vector layer
+Two basemaps, switched from the header (🌃/🛰️) and remembered per device in
+`localStorage` (`cps:basemap`, `src/lib/basemap.ts`) — a display preference,
+never part of the game save or the share card. Both `MapGuess` and the results
+`RecapMap` follow it; switching swaps the tile layer in place (view, pins and
+outlines stay).
+
+- **night** (default): **NASA Black Marble** imagery (VIIRS, 2016 composite)
+  from NASA GIBS — free, keyless, public domain, served to zoom 8 and upscaled
+  to the zoom-10 cap. City lights are the map: metros glow, the dark stays
+  dark, nothing is labelled (the maptap.gg look), and the glow is a fair hint.
+- **satellite**: **EOX Sentinel-2 cloudless** (EOxCloudless, Copernicus
+  Sentinel-2 true-colour mosaic, year in `SATELLITE_YEAR`) from EOX's WMTS —
+  free, keyless, native to zoom 10. Licence **CC BY-NC-SA 4.0** (this game is
+  non-commercial); the credit EOX asks for is the Leaflet attribution on the
+  map and is repeated in the footer. A new mosaic year = bump the constant.
+  **If the game ever carries ads or a paid tier, this layer must go or be
+  re-licensed** (EOX sells a commercial licence); NASA's layer is unaffected.
+
+**State outlines** are a bundled vector layer
 (`src/data/us-states.json`: Census 1:20m boundaries, public domain, simplified
 to ~1 km, lower 48 + DC, ~120 KB) drawn in their own pane under the markers.
 The map is locked to `REGION.bounds` (lower 48 + slack) via `maxBounds` padded
