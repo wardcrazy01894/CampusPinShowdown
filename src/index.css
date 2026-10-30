@@ -72,6 +72,35 @@ body,
   }
 }
 
+/* A map plus the worded basemap button floating over its top-right corner
+   (BasemapToggle). `.map-container` is its own stacking context (isolation),
+   so a later sibling with any z-index paints over Leaflet's controls. */
+.map-wrap {
+  position: relative;
+}
+.basemap-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(15, 23, 32, 0.82);
+  color: var(--fg);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+}
+.basemap-toggle:hover,
+.basemap-toggle:focus-visible {
+  background: rgba(15, 23, 32, 0.95);
+  border-color: var(--accent);
+}
+
 /* Numbered "real town" markers on the recap map (RecapMap.numberedIcon). */
 .recap-marker-wrap {
   background: transparent;
@@ -176,11 +205,6 @@ body,
 .link-button:focus-visible {
   opacity: 1;
   text-decoration: underline;
-}
-.header-actions {
-  flex: none;
-  display: flex;
-  gap: 6px;
 }
 .icon-button {
   flex: none;

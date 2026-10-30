@@ -22,7 +22,8 @@ import { playCheer } from '../lib/sound'
 import { tierLabel } from '../lib/tiers'
 import { schoolsLine } from '../lib/schools'
 import { RecapMap } from './RecapMap'
-import type { Basemap } from '../lib/basemap'
+import { DEFAULT_BASEMAP, type Basemap } from '../lib/basemap'
+import { BasemapToggle } from './BasemapToggle'
 import { loadState } from '../lib/storage'
 import {
   submitDailyScore,
@@ -52,8 +53,10 @@ export interface ResultsProps {
   /** True only for the official daily challenge — enables the rollover check
    *  and gates the leaderboard submission. */
   official: boolean
-  /** Imagery for the recap map; defaults to the night map. */
+  /** Imagery for the recap map; defaults to DEFAULT_BASEMAP (satellite). */
   basemap?: Basemap
+  /** When given, the worded basemap toggle is drawn on the recap map. */
+  onBasemapChange?: (next: Basemap) => void
 }
 
 /**
@@ -73,7 +76,8 @@ export function Results({
   lineup,
   streak,
   official,
-  basemap = 'night',
+  basemap = DEFAULT_BASEMAP,
+  onBasemapChange,
 }: ResultsProps) {
   const [copied, setCopied] = useState(false)
   // Leaderboard standing: seed from any cached value (instant on reload), then
@@ -268,12 +272,17 @@ export function Results({
         zoom in
       </p>
       <div ref={mapWrapRef} style={{ scrollMarginTop: 8 }}>
-        <RecapMap
-          bounds={bounds}
-          results={results}
-          focus={focus}
-          basemap={basemap}
-        />
+        <div className="map-wrap">
+          <RecapMap
+            bounds={bounds}
+            results={results}
+            focus={focus}
+            basemap={basemap}
+          />
+          {onBasemapChange && (
+            <BasemapToggle basemap={basemap} onChange={onBasemapChange} />
+          )}
+        </div>
       </div>
 
       <ol style={{ listStyle: 'none', padding: 0, margin: '12px 0 0' }}>

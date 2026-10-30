@@ -16,7 +16,7 @@ import type { RoundResult } from '../types'
 import { log } from '../lib/log'
 import { padBounds } from '../lib/mapBounds'
 import { makeTileLayer, MAX_ZOOM } from '../lib/tiles'
-import type { Basemap } from '../lib/basemap'
+import { DEFAULT_BASEMAP, type Basemap } from '../lib/basemap'
 import { makeStateOutlines, STATES_PANE } from '../lib/states'
 
 export interface RecapMapProps {
@@ -26,7 +26,7 @@ export interface RecapMapProps {
   results: RoundResult[]
   /** Index of the round to frame, or null/undefined to frame the whole day. */
   focus?: number | null
-  /** Imagery to show; defaults to the night map. */
+  /** Imagery to show; defaults to DEFAULT_BASEMAP (satellite). */
   basemap?: Basemap
 }
 
@@ -50,7 +50,7 @@ export function RecapMap({
   bounds,
   results,
   focus,
-  basemap = 'night',
+  basemap = DEFAULT_BASEMAP,
 }: RecapMapProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const mapRef = useRef<L.Map | null>(null)

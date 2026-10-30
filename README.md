@@ -16,26 +16,26 @@ React · TypeScript · Vite · Leaflet &nbsp;·&nbsp; 349 towns &nbsp;·&nbsp; $
 ---
 
 Every day, **everyone gets the same 5 college towns**. You're asked where a
-school is (_Where is Texas Tech University?_), you drop a pin on a night-lights
+school is (_Where is Texas Tech University?_), you drop a pin on a satellite
 map of the United States, and only then do you learn the town (_Lubbock,
 Texas_) and how close you got. Share your result Wordle-style and keep your
 streak alive.
 
 ## ✨ Features
 
-|     |                                  |                                                                                                                                               |
-| --- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| 🌃  | **Earth at night, or satellite** | NASA's Black Marble imagery (city lights, no labels) with state outlines — the glow _is_ the hint. Tap 🌃/🛰️ for a Sentinel-2 satellite view. |
-| 🎓  | **349 college towns**            | Hand-curated in three tiers (69 easy · 86 medium · 194 hard), lower 48 only for now. Flagships, HBCUs, service academies, D-III.              |
-| 📈  | **Difficulty ramp**              | Each day is easy → easy → medium → medium → hard, never two towns from the same state.                                                        |
-| 💡  | **Hint mode**                    | Buy the region (3–6 neighbouring states) for −25 points on that round; hints show on the share card.                                          |
-| 🏆  | **Anonymous daily leaderboard**  | "You placed 3rd of 47 today", a top-100 board and a server-side streak. No accounts, no names.                                                |
-| 🔥  | **Streaks & lifetime stats**     | Per-tier averages, a Wordle-style share card with the puzzle number, and a day recap map.                                                     |
-| 🔊  | **Sound & celebration**          | A triumphant arpeggio for a perfect 100 down to a womp-womp for a miss; confetti + a crowd cheer for a strong day. 🔊/🔇 to mute.             |
-| 🐛  | **In-app bug reports**           | Type what went wrong and send; it lands as a GitHub issue without leaving the site.                                                           |
-| 🔎  | **"Is my town in the game?"**    | After today's puzzle, search by town, state or school; request a missing one with one click.                                                  |
-| 🔁  | **No server needed to play**     | "Same 5 for everyone" is computed from the date (a per-town hash), so adding a town never re-rolls today's puzzle.                            |
-| 💸  | **$0 hosting**                   | Free NASA tiles, free OpenStreetMap geocoding, no API keys; the only backend is two free-tier Cloudflare Workers.                             |
+|     |                                  |                                                                                                                                                                 |
+| --- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🛰️  | **Satellite, or Earth at night** | Sentinel-2 satellite imagery with state outlines, no labels. One tap on the map switches to NASA's night lights — the city glow _is_ a hint — at the same zoom. |
+| 🎓  | **349 college towns**            | Hand-curated in three tiers (69 easy · 86 medium · 194 hard), lower 48 only for now. Flagships, HBCUs, service academies, D-III.                                |
+| 📈  | **Difficulty ramp**              | Each day is easy → easy → medium → medium → hard, never two towns from the same state.                                                                          |
+| 💡  | **Hint mode**                    | Buy the region (3–6 neighbouring states) for −25 points on that round; hints show on the share card.                                                            |
+| 🏆  | **Anonymous daily leaderboard**  | "You placed 3rd of 47 today", a top-100 board and a server-side streak. No accounts, no names.                                                                  |
+| 🔥  | **Streaks & lifetime stats**     | Per-tier averages, a Wordle-style share card with the puzzle number, and a day recap map.                                                                       |
+| 🔊  | **Sound & celebration**          | A triumphant arpeggio for a perfect 100 down to a womp-womp for a miss; confetti + a crowd cheer for a strong day. 🔊/🔇 to mute.                               |
+| 🐛  | **In-app bug reports**           | Type what went wrong and send; it lands as a GitHub issue without leaving the site.                                                                             |
+| 🔎  | **"Is my town in the game?"**    | After today's puzzle, search by town, state or school; request a missing one with one click.                                                                    |
+| 🔁  | **No server needed to play**     | "Same 5 for everyone" is computed from the date (a per-town hash), so adding a town never re-rolls today's puzzle.                                              |
+| 💸  | **$0 hosting**                   | Free NASA tiles, free OpenStreetMap geocoding, no API keys; the only backend is two free-tier Cloudflare Workers.                                               |
 
 > **Status:** **live** at <https://campuspinshowdown.com/> — auto-deploys on
 > every merge to `main` (runbook: [`docs/OPERATIONS.md`](docs/OPERATIONS.md)).
@@ -44,9 +44,9 @@ streak alive.
 
 ## 🎮 How to play
 
-1. A **school name** appears over a night-lights map of the USA (or a
-   satellite view — 🌃/🛰️ in the header) — the town and state are withheld;
-   that's the game.
+1. A **school name** appears over a satellite map of the USA (or NASA's
+   night lights — the button on the map switches) — the town and state are
+   withheld; that's the game.
 2. **Tap the map** where you think it is (zoom in for precision — up to
    county scale). Stuck? **💡 Reveal the region** (a few neighbouring
    states) for −25 points on that round; the share card notes how many hints

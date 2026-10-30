@@ -1,8 +1,9 @@
 /**
- * Basemaps for every Leaflet map in the app. Two, switchable from the header
- * (src/lib/basemap.ts holds the preference):
+ * Basemaps for every Leaflet map in the app. Two, switchable with the worded
+ * button on the map itself (src/lib/basemap.ts holds the preference;
+ * satellite is the default):
  *
- * **night** (default) — NASA's **Black Marble**: Earth at night from the VIIRS
+ * **night** — NASA's **Black Marble**: Earth at night from the VIIRS
  * instrument (2016 composite), served by NASA GIBS. Free, keyless, public
  * domain. City lights ARE the map: metros glow, highways trace faint lines
  * between them, and the dark in between is dark. That is the maptap.gg feel
@@ -12,7 +13,7 @@
  * players can still fine-tune a pin (blurry, but a pin at 25 km tolerance
  * doesn't need street detail).
  *
- * **satellite** — EOX's **Sentinel-2 cloudless** mosaic (EOxCloudless): a
+ * **satellite** (default) — EOX's **Sentinel-2 cloudless** mosaic (EOxCloudless): a
  * daytime true-colour composite of Copernicus Sentinel-2 imagery, served from
  * EOX's WMTS, keyless, native all the way to our zoom cap. Licence: CC
  * BY-NC-SA 4.0 for non-commercial use, which this free game is; the credit
@@ -30,7 +31,7 @@
 
 import L from 'leaflet'
 import { log } from './log'
-import type { Basemap } from './basemap'
+import { DEFAULT_BASEMAP, type Basemap } from './basemap'
 
 /** Deepest zoom a player can reach. 10 ≈ 150 m/px: county scale. */
 export const MAX_ZOOM = 10
@@ -76,7 +77,7 @@ export const BASEMAPS: Record<Basemap, BasemapDef> = {
 /** Kept for callers that only ever wanted the night credit. */
 export const TILE_ATTRIBUTION = BASEMAPS.night.attribution
 
-export function makeTileLayer(basemap: Basemap = 'night'): L.TileLayer {
+export function makeTileLayer(basemap: Basemap = DEFAULT_BASEMAP): L.TileLayer {
   const def = BASEMAPS[basemap]
   log.debug('tiles', `tile provider: ${basemap}`)
   return L.tileLayer(def.url, {

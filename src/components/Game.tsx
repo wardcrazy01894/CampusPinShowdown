@@ -16,7 +16,8 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import type { GameState, Guess, Town, RoundResult } from '../types'
 import { MapGuess } from './MapGuess'
-import type { Basemap } from '../lib/basemap'
+import { DEFAULT_BASEMAP, type Basemap } from '../lib/basemap'
+import { BasemapToggle } from './BasemapToggle'
 import { Results } from './Results'
 import {
   scoreGuess,
@@ -48,8 +49,10 @@ export interface GameProps {
   /** Called with the phase on mount and every transition (App hides the town
    *  search until the day is finished — mid-round it would answer the round). */
   onPhaseChange?: (phase: GameState['phase']) => void
-  /** Imagery for the maps; defaults to the night map. */
+  /** Imagery for the maps; defaults to DEFAULT_BASEMAP (satellite). */
   basemap?: Basemap
+  /** When given, a worded toggle is drawn on each map (App owns the state). */
+  onBasemapChange?: (next: Basemap) => void
 }
 
 export function Game({
@@ -59,7 +62,8 @@ export function Game({
   towns,
   official,
   onPhaseChange,
-  basemap = 'night',
+  basemap = DEFAULT_BASEMAP,
+  onBasemapChange,
 }: GameProps) {
   // One read of saved state at mount, shared by both the game + streak init.
   const [initial] = useState(() => loadState(storageId))
@@ -213,6 +217,7 @@ export function Game({
         totalScore={total}
         streak={streak}
         basemap={basemap}
+        onBasemapChange={onBasemapChange}
         official={official}
       />
     )
@@ -283,15 +288,20 @@ export function Game({
           : 'Tap the map where you think it is, then submit.'}
       </p>
 
-      <MapGuess
-        bounds={bounds}
-        guess={guess}
-        onGuessChange={setGuess}
-        locked={revealed}
-        resetViewKey={game.roundIndex}
-        reveal={reveal}
-        basemap={basemap}
-      />
+      <div className="map-wrap">
+        <MapGuess
+          bounds={bounds}
+          guess={guess}
+          onGuessChange={setGuess}
+          locked={revealed}
+          resetViewKey={game.roundIndex}
+          reveal={reveal}
+          basemap={basemap}
+        />
+        {onBasemapChange && (
+          <BasemapToggle basemap={basemap} onChange={onBasemapChange} />
+        )}
+      </div>
 
       {revealed && lastResult ? (
         <div style={{ marginTop: 12 }}>

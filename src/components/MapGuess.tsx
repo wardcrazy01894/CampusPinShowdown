@@ -26,7 +26,7 @@ import type { Guess, Town } from '../types'
 import { log } from '../lib/log'
 import { padBounds } from '../lib/mapBounds'
 import { makeTileLayer, MAX_ZOOM } from '../lib/tiles'
-import type { Basemap } from '../lib/basemap'
+import { DEFAULT_BASEMAP, type Basemap } from '../lib/basemap'
 import { makeStateOutlines, STATES_PANE } from '../lib/states'
 
 export interface MapGuessProps {
@@ -41,7 +41,7 @@ export interface MapGuessProps {
   locked?: boolean
   /** Change this (e.g. the round index) to re-frame the map to full bounds. */
   resetViewKey?: number
-  /** Imagery to show; defaults to the night map. */
+  /** Imagery to show; defaults to DEFAULT_BASEMAP (satellite). */
   basemap?: Basemap
 }
 
@@ -52,7 +52,7 @@ export function MapGuess({
   reveal,
   locked,
   resetViewKey,
-  basemap = 'night',
+  basemap = DEFAULT_BASEMAP,
 }: MapGuessProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const mapRef = useRef<L.Map | null>(null)

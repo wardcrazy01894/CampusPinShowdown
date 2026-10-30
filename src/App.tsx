@@ -19,8 +19,8 @@ import { getDateKey, selectDailyTowns } from './lib/daily'
 import { resolveMode, resolveSessionMode, type Mode } from './lib/mode'
 import { REGION, townsUrl } from './lib/region'
 import { isMuted, setMuted } from './lib/sound'
-import { getBasemap, setBasemap, nextBasemap } from './lib/basemap'
-import { BASEMAPS, SATELLITE_YEAR } from './lib/tiles'
+import { getBasemap, setBasemap, type Basemap } from './lib/basemap'
+import { SATELLITE_YEAR } from './lib/tiles'
 import { BugReport } from './components/BugReport'
 import { log } from './lib/log'
 import { Game } from './components/Game'
@@ -45,8 +45,9 @@ export function App() {
   const [file, setFile] = useState<TownsFile | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [muted, setMutedState] = useState(isMuted())
-  // Night vs satellite imagery — a display preference (lib/basemap.ts), not
-  // game state: it never touches the save or the share card.
+  // Satellite vs night imagery — a display preference (lib/basemap.ts), not
+  // game state: it never touches the save or the share card. The toggle
+  // itself is drawn on the maps (BasemapToggle); App just owns the value.
   const [basemap, setBasemapState] = useState(getBasemap())
   const [searching, setSearching] = useState(false)
   // The in-app bug/request form (an overlay, like the search). `null` =
@@ -181,8 +182,7 @@ export function App() {
     setMutedState(next)
   }
 
-  function toggleBasemap() {
-    const next = nextBasemap(basemap)
+  function changeBasemap(next: Basemap) {
     setBasemap(next)
     setBasemapState(next)
     log.info('App', 'basemap', { basemap: next })
@@ -257,24 +257,14 @@ export function App() {
               </div>
             </div>
           </div>
-          <div className="header-actions">
-            <button
-              onClick={toggleBasemap}
-              aria-label={`Switch to ${BASEMAPS[nextBasemap(basemap)].label} map`}
-              title={`Switch to ${BASEMAPS[nextBasemap(basemap)].label} map`}
-              className="icon-button"
-            >
-              {basemap === 'night' ? '🌃' : '🛰️'}
-            </button>
-            <button
-              onClick={toggleMute}
-              aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
-              title={muted ? 'Unmute sounds' : 'Mute sounds'}
-              className="icon-button"
-            >
-              {muted ? '🔇' : '🔊'}
-            </button>
-          </div>
+          <button
+            onClick={toggleMute}
+            aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
+            title={muted ? 'Unmute sounds' : 'Mute sounds'}
+            className="icon-button"
+          >
+            {muted ? '🔇' : '🔊'}
+          </button>
         </div>
       </header>
       <Game
@@ -287,6 +277,7 @@ export function App() {
         official={mode.official}
         onPhaseChange={setPhase}
         basemap={basemap}
+        onBasemapChange={changeBasemap}
       />
       <footer
         style={{
