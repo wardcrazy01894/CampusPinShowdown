@@ -207,3 +207,39 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     await waitFor(() => expect(credit()).toContain('NASA'))
   })
 })
+
+describe('App — flags play mode on <main> so phones can slim the header', () => {
+  it('marks main `is-playing` while a round is open, and not once finished', async () => {
+    const { selectDailyTowns, getDateKey } = await import('./lib/daily')
+    const { saveState, STORAGE_VERSION } = await import('./lib/storage')
+    const { unmount } = render(<App />)
+    await screen.findByText(/Round 1 of 5/)
+    expect(screen.getByRole('main').classList.contains('is-playing')).toBe(true)
+    unmount()
+    cleanup()
+    const today = getDateKey(new Date())
+    const towns = selectDailyTowns(FILE.towns, `usa:${today}`)
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history: [],
+      streak: { current: 1, best: 1, lastPlayedDateKey: today },
+      current: {
+        dateKey: today,
+        towns,
+        roundIndex: 4,
+        results: towns.map((t) => ({
+          town: t,
+          guess: { lat: t.lat, lng: t.lng },
+          distanceMeters: 0,
+          score: 100,
+        })),
+        phase: 'finished',
+      },
+    })
+    render(<App />)
+    await screen.findByText(/Done for today!/)
+    expect(screen.getByRole('main').classList.contains('is-playing')).toBe(
+      false,
+    )
+  })
+})

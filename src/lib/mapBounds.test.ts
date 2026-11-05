@@ -45,3 +45,48 @@ describe('padBounds', () => {
     expect(padded[1][0]).toBeGreaterThan(28)
   })
 })
+
+describe('MAX_BOUNDS_VISCOSITY', () => {
+  it('is elastic: the edge resists a drag but is not a hard wall', async () => {
+    const { MAX_BOUNDS_VISCOSITY } = await import('./mapBounds')
+    // 1 = rigid wall (the pan just stops — "hard to move around" on a phone);
+    // 0 = no resistance at all (the map drifts off into the ocean and snaps
+    // back). Anything strictly between gives a rubber-band edge.
+    expect(MAX_BOUNDS_VISCOSITY).toBeGreaterThan(0)
+    expect(MAX_BOUNDS_VISCOSITY).toBeLessThan(1)
+  })
+})
+
+describe('coverInsets', () => {
+  const map = { top: 100, bottom: 700, left: 0, right: 390 }
+  it('is zero when nothing overlaps the map (desktop: cards stack above/below)', async () => {
+    const { coverInsets } = await import('./mapBounds')
+    expect(
+      coverInsets(map, [
+        { top: 0, bottom: 90, left: 0, right: 390 },
+        { top: 720, bottom: 780, left: 0, right: 390 },
+      ]),
+    ).toEqual({ top: 0, bottom: 0 })
+  })
+
+  it('measures how far a card over the top or bottom edge reaches into the map', async () => {
+    const { coverInsets } = await import('./mapBounds')
+    expect(
+      coverInsets(map, [
+        { top: 108, bottom: 210, left: 8, right: 382 }, // prompt card
+        { top: 630, bottom: 688, left: 8, right: 382 }, // action bar
+      ]),
+    ).toEqual({ top: 110, bottom: 70 })
+  })
+
+  it('ignores covers beside the map and takes the deepest of several', async () => {
+    const { coverInsets } = await import('./mapBounds')
+    expect(
+      coverInsets(map, [
+        { top: 108, bottom: 300, left: 400, right: 500 }, // off to the side
+        { top: 100, bottom: 150, left: 0, right: 390 },
+        { top: 100, bottom: 180, left: 0, right: 390 },
+      ]),
+    ).toEqual({ top: 80, bottom: 0 })
+  })
+})

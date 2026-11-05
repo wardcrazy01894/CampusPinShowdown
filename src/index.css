@@ -44,26 +44,146 @@ body,
   border-radius: 10px;
 }
 
-/* Phones: keep "tap the map → Submit guess" on ONE screen. Above the map sit
-   the header (~95px) and the round/prompt block (~190px when the school name wraps, which
-   it usually does); below it the button needs ~70px. 60vh overshoots that
-   on every common phone (iPhone 14 in Safari: 664px tall → the button landed
-   ~30px below the fold). Size the map from the dynamic viewport instead,
-   never shorter than 220px (the lower 48 still read at that height; zoom
-   does the rest). `vh` first as a fallback for browsers without `dvh`. */
+/* ---- Play screen (Game.tsx) ------------------------------------------ */
+
+/* Wide screens: the prompt, the map and the action bar simply stack in the
+   720px column. */
+.play {
+  padding: 16px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.play__round {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  opacity: 0.7;
+}
+.play__question {
+  margin: 8px 0 2px;
+}
+.play__sub {
+  margin: 0;
+  opacity: 0.8;
+}
+.play__help {
+  margin: 0 0 8px;
+  font-size: 14px;
+  opacity: 0.6;
+}
+.play__actions {
+  margin-top: 12px;
+}
+.play__result {
+  margin: 0 0 8px;
+}
+
+/* Phones: the MAP IS THE SCREEN. Feedback (2026-11-04): "the map is a little
+   hard to move around and there is too much other stuff on the screen so the
+   map area is too small". The old layout sized the map as the viewport minus
+   ~390px of header + prompt + button, which left the whole lower 48 in a
+   ~270px box on an iPhone (about 40% of the screen).
+
+   Now `.play` is a full-height box below a slimmed header (`main.is-playing`
+   hides the tagline and links), the map fills it, and the prompt and the
+   action bar float over the top and bottom edges as translucent cards. "Tap
+   the map → Submit" still fits on one screen because Submit floats; the map
+   gets ~85% of the screen instead. `vh` first as a fallback for browsers
+   without `dvh` (iOS toolbars). */
 @media (max-width: 600px) {
   :root {
-    /* Everything on the play screen that is NOT the map: header + round/
-       prompt block + Submit button + 30px of slack. Re-measure if the header
-       or prompt layout changes. */
-    --play-chrome: 390px;
+    /* Height of the slimmed header (padding + brand mark). Re-measure if the
+       header changes; being a few px off only nudges the footer. */
+    --slim-header: 60px;
   }
-  /* Must come AFTER the base .map-container and .recap-map rules: same
-     specificity, so source order decides. */
-  .map-container {
-    height: clamp(220px, calc(100vh - var(--play-chrome)), 60vh);
-    height: clamp(220px, calc(100dvh - var(--play-chrome)), 60vh);
-    min-height: 220px;
+  .is-playing .tagline,
+  .is-playing .header-links {
+    display: none;
+  }
+  .play {
+    position: relative;
+    padding: 0;
+    max-width: none;
+    height: calc(100vh - var(--slim-header));
+    height: calc(100dvh - var(--slim-header));
+    min-height: 420px;
+    overflow: hidden;
+  }
+  /* Must come AFTER the base .map-container rule: same specificity, so
+     source order decides. */
+  .play .map-wrap,
+  .play .map-container {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    min-height: 0;
+  }
+  .play__prompt,
+  .play__actions {
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    z-index: 1; /* above .map-wrap (the map's own z-indexes are isolated) */
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: rgba(15, 23, 32, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+  }
+  .play__prompt {
+    top: 8px;
+    margin: 0;
+  }
+  .play__round {
+    font-size: 13px;
+  }
+  .play__question {
+    margin: 4px 0 2px;
+    font-size: 17px;
+    line-height: 1.25;
+  }
+  .play__sub {
+    font-size: 14px;
+  }
+  /* The map itself says "tap here"; the line only cost height. */
+  .play__help {
+    display: none;
+  }
+  .play__actions {
+    bottom: 12px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .play__actions > button {
+    flex: none;
+  }
+  .play__result {
+    margin: 0;
+    font-size: 15px;
+  }
+  /* Pinch zooms; the +/− buttons would sit under the prompt card. Keep
+     Leaflet's attribution (EOX asks for it) but lift it above the action bar. */
+  .play .leaflet-control-zoom {
+    display: none;
+  }
+  .play .leaflet-bottom {
+    bottom: 68px;
+  }
+  .play .leaflet-control-attribution {
+    font-size: 10px; /* the EOX credit wraps to two lines at phone width */
+  }
+  /* The basemap button moves to the bottom-left, above the attribution
+     (two lines at this width) and the action bar, clear of the prompt card. */
+  .play .basemap-toggle {
+    top: auto;
+    right: auto;
+    bottom: 104px;
+    left: 10px;
+    padding: 10px 14px;
   }
   .map-container.recap-map {
     height: 42vh;

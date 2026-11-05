@@ -192,7 +192,9 @@ export function App() {
   if (!file || !today) return <main style={{ padding: 24 }}>Loading…</main>
 
   return (
-    <main>
+    // `is-playing`: on phones the header slims down and the play map takes
+    // the screen (index.css); the results screen gets the full header back.
+    <main className={finished ? undefined : 'is-playing'}>
       {/* Overlay, not a route: the game (and any unsubmitted pin) stays mounted. */}
       {reporting !== null && (
         <div style={overlay}>

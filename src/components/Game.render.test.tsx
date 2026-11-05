@@ -376,3 +376,75 @@ describe('Game — reports its phase to the parent', () => {
     expect(seen).toEqual(['guessing'])
   })
 })
+
+describe('Game — play layout (phone: map fills the screen, chrome floats)', () => {
+  // On phones the CSS turns `section.play` into a full-height box with the
+  // map underneath and the prompt / action bars floating over it. That only
+  // works if the DOM has this exact shape, so pin it here (jsdom has no
+  // layout — this is the structure the stylesheet depends on).
+  it('puts the prompt and the actions in their own bars beside the map', () => {
+    const { container } = render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+      />,
+    )
+    const play = container.querySelector('section.play') as HTMLElement
+    expect(play).toBeTruthy()
+    const prompt = play.querySelector(':scope > .play__prompt') as HTMLElement
+    const map = play.querySelector(':scope > .map-wrap')
+    const actions = play.querySelector(':scope > .play__actions') as HTMLElement
+    expect(prompt && map && actions).toBeTruthy()
+    // Prompt bar: round line, the question, the hint offer, the helper line.
+    expect(prompt.querySelector('h2')?.textContent).toBe(
+      'Where is University of Michigan?',
+    )
+    expect(prompt.textContent).toContain('Round 1 of 2')
+    expect(prompt.querySelector('.play__help')?.textContent).toBe(
+      'Tap the map where you think it is, then submit.',
+    )
+    // Action bar: the Submit button, and nothing else before a reveal.
+    expect(actions.querySelector('button')?.textContent).toBe('Submit guess')
+    expect(actions.querySelectorAll('button')).toHaveLength(1)
+  })
+
+  it('shows the distance + Next in the action bar after a reveal', () => {
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history: [],
+      streak: { current: 0, best: 0, lastPlayedDateKey: null },
+      current: {
+        dateKey: '2026-10-29',
+        towns,
+        roundIndex: 0,
+        results: [
+          {
+            town: towns[0],
+            guess: { lat: 42, lng: -84 },
+            distanceMeters: 40_000,
+            score: 96,
+          },
+        ],
+        phase: 'revealed',
+      },
+    })
+    const { container } = render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+      />,
+    )
+    const actions = container.querySelector(
+      'section.play > .play__actions',
+    ) as HTMLElement
+    expect(actions.textContent).toContain('25 mi')
+    expect(actions.textContent).toContain('96')
+    expect(actions.querySelector('button')?.textContent).toBe('Next round')
+  })
+})

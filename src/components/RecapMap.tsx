@@ -14,7 +14,7 @@ import { useEffect, useRef } from 'react'
 import L from 'leaflet'
 import type { RoundResult } from '../types'
 import { log } from '../lib/log'
-import { padBounds } from '../lib/mapBounds'
+import { padBounds, MAX_BOUNDS_VISCOSITY } from '../lib/mapBounds'
 import { makeTileLayer, MAX_ZOOM } from '../lib/tiles'
 import { DEFAULT_BASEMAP, type Basemap } from '../lib/basemap'
 import { makeStateOutlines, STATES_PANE } from '../lib/states'
@@ -75,7 +75,7 @@ export function RecapMap({
     if (!containerRef.current || mapRef.current) return
     const map = L.map(containerRef.current, {
       maxBounds: padBounds(bounds),
-      maxBoundsViscosity: 1,
+      maxBoundsViscosity: MAX_BOUNDS_VISCOSITY,
       zoomControl: true,
     })
     attachTiles(map, basemapRef.current)

@@ -37,6 +37,25 @@ the round (`RoundResult.hinted`) on the reveal and the results row, and the
 share card gains a "💡 N hints" line. The "is my town in the game?" search is offered
 only after the day is finished — mid-round it would answer the round.
 
+**Phone layout (≤600px): the map is the screen.** Player feedback (2026-11-04)
+was that the map was too small and hard to move around: it was sized as the
+viewport minus ~390px of header, prompt and button, which left the lower 48 in
+a ~270px box. Now, while a round is open, `<main>` carries `is-playing`, the
+header slims to the brand line (tagline and links hidden), `section.play`
+fills the rest of the viewport (`100dvh`), the map fills `.play`, and the
+prompt (`.play__prompt`: round, tier, score, question, hint) and the action
+bar (`.play__actions`: Submit, or distance + Next after the reveal) float over
+its top and bottom edges as translucent cards — "tap the map → Submit" still
+fits on one screen, and the map gets ~85% of it. The basemap button moves to
+the bottom-left above the attribution; Leaflet's +/− control is hidden
+(pinch zooms). Because the cards cover part of the map, the reveal fit is
+padded by how far they reach into it (`coverInsets` in `src/lib/mapBounds.ts`,
+measured from the DOM at fit time via `MapGuess.viewInsets`), so both pins
+land in the visible band. On wider screens nothing overlaps and the prompt,
+map and action bar simply stack in the 720px column. The results screen gets
+the full header back. All of this is CSS in `src/index.css` over a DOM shape
+pinned by `Game.render.test.tsx`.
+
 ## Daily selection (`src/lib/daily.ts`)
 
 - **Seed:** `usa:<YYYY-MM-DD>`. The date is the **player's local calendar day**
@@ -101,6 +120,9 @@ lights of the same area.
 to ~1 km, lower 48 + DC, ~120 KB) drawn in their own pane under the markers.
 The map is locked to `REGION.bounds` (lower 48 + slack) via `maxBounds` padded
 by `MAX_BOUNDS_PAD` (0.05) with min zoom = fit-to-bounds and **max zoom 10**.
+The edge is elastic, not a wall: `maxBoundsViscosity` is `MAX_BOUNDS_VISCOSITY`
+(0.6, `src/lib/mapBounds.ts`) so a drag near a coast gives and springs back
+instead of stopping dead — at 1.0 the phone map felt "hard to move around".
 Alaska/Hawaii are out of play for now (BACKLOG). (History: CARTO needs a key
 now; Esri Light Gray Canvas was the interim basemap.)
 

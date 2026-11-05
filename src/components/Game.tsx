@@ -13,7 +13,7 @@
  * finished game stays in `current` on purpose (see storage.ts).
  */
 
-import { useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import type { GameState, Guess, Town, RoundResult } from '../types'
 import { MapGuess } from './MapGuess'
 import { DEFAULT_BASEMAP, type Basemap } from '../lib/basemap'
@@ -34,6 +34,7 @@ import { schoolsLine, promptSchool } from '../lib/schools'
 import { revealTag } from '../lib/easterEgg'
 import { hintRegion, hintText } from '../lib/hintRegions'
 import { tierLabel } from '../lib/tiers'
+import { coverInsets } from '../lib/mapBounds'
 
 export interface GameProps {
   /** Storage namespace — the official daily or an isolated dev mode (mode.ts). */
@@ -207,6 +208,21 @@ export function Game({
     [revealed, lastResult],
   )
 
+  // The prompt card and the action bar float OVER the map on phones; the
+  // reveal fit needs to know how much of the map they hide (0 on desktop,
+  // where they stack). Measured lazily at fit time, after the commit.
+  const promptRef = useRef<HTMLDivElement | null>(null)
+  const mapWrapRef = useRef<HTMLDivElement | null>(null)
+  const actionsRef = useRef<HTMLDivElement | null>(null)
+  function viewInsets() {
+    const wrap = mapWrapRef.current
+    if (!wrap) return { top: 0, bottom: 0 }
+    const covers = [promptRef.current, actionsRef.current]
+      .filter((el): el is HTMLDivElement => el != null)
+      .map((el) => el.getBoundingClientRect())
+    return coverInsets(wrap.getBoundingClientRect(), covers)
+  }
+
   if (game.phase === 'finished') {
     return (
       <Results
@@ -224,71 +240,67 @@ export function Game({
   }
 
   return (
-    <section style={{ padding: 16, maxWidth: 720, margin: '0 auto' }}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'baseline',
-        }}
-      >
-        <span style={{ opacity: 0.7 }}>
-          Round {game.roundIndex + 1} of {game.towns.length}{' '}
-          {/* Tier up front sets expectations; it says nothing about the town. */}
-          <span style={tierBadge}>{tierLabel(currentTown.difficulty)}</span>
-        </span>
-        <span style={{ opacity: 0.7 }}>
-          Score {total.toLocaleString('en-US')}
-        </span>
-      </div>
+    // `.play` / `.play__prompt` / `.play__actions`: on phones the stylesheet
+    // (index.css) makes the map fill the screen and floats these two bars
+    // over it; on wider screens they simply stack. Structure pinned by
+    // Game.render.test.tsx.
+    <section className="play">
+      <div className="play__prompt" ref={promptRef}>
+        <div className="play__round">
+          <span>
+            Round {game.roundIndex + 1} of {game.towns.length}{' '}
+            {/* Tier up front sets expectations; it says nothing about the town. */}
+            <span style={tierBadge}>{tierLabel(currentTown.difficulty)}</span>
+          </span>
+          <span>Score {total.toLocaleString('en-US')}</span>
+        </div>
 
-      {/* The prompt is the SCHOOL; the town is the answer and is withheld until
+        {/* The prompt is the SCHOOL; the town is the answer and is withheld until
           the guess is in (owner rule: "ask where Texas Tech is, then tell me
           it's Lubbock"). */}
-      {revealed ? (
-        <>
-          <h2 style={{ margin: '8px 0 2px' }}>
-            {currentTown.name}, {currentTown.state}
-            {revealTag(currentTown) && (
-              // Only after the reveal — never a hint. See lib/easterEgg.ts.
-              <span style={{ marginLeft: 8, fontSize: 16, color: '#ffcb05' }}>
-                {revealTag(currentTown)}
-              </span>
-            )}
-          </h2>
-          <p style={{ marginTop: 0, opacity: 0.8 }}>
-            {schoolsLine(currentTown.schools)}
-          </p>
-        </>
-      ) : (
-        <>
-          <h2 style={{ margin: '8px 0 2px' }}>
-            Where is {promptSchool(currentTown)}?
-          </h2>
-          <p style={{ marginTop: 0, opacity: 0.8 }}>
-            Pin the town it calls home.
-            {/* Hint: the state is withheld by design (PLAN §Game loop); the
+        {revealed ? (
+          <>
+            <h2 className="play__question">
+              {currentTown.name}, {currentTown.state}
+              {revealTag(currentTown) && (
+                // Only after the reveal — never a hint. See lib/easterEgg.ts.
+                <span style={{ marginLeft: 8, fontSize: 16, color: '#ffcb05' }}>
+                  {revealTag(currentTown)}
+                </span>
+              )}
+            </h2>
+            <p className="play__sub">{schoolsLine(currentTown.schools)}</p>
+          </>
+        ) : (
+          <>
+            <h2 className="play__question">
+              Where is {promptSchool(currentTown)}?
+            </h2>
+            <p className="play__sub">
+              Pin the town it calls home.
+              {/* Hint: the state is withheld by design (PLAN §Game loop); the
                 player can buy the REGION for HINT_PENALTY points this round. */}{' '}
-            {game.hintUsed ? (
-              <span style={{ color: '#ffcb05' }}>
-                💡 It’s in {hintText(currentTown.stateCode)} · −{HINT_PENALTY}{' '}
-                pts
-              </span>
-            ) : (
-              <button type="button" onClick={revealHint} style={hintButton}>
-                💡 Reveal the region (−{HINT_PENALTY} pts)
-              </button>
-            )}
-          </p>
-        </>
-      )}
-      <p style={{ marginTop: 0, fontSize: 14, opacity: 0.6 }}>
-        {revealed
-          ? 'The green marker is the real town.'
-          : 'Tap the map where you think it is, then submit.'}
-      </p>
+              {game.hintUsed ? (
+                <span style={{ color: '#ffcb05' }}>
+                  💡 It’s in {hintText(currentTown.stateCode)} · −{HINT_PENALTY}{' '}
+                  pts
+                </span>
+              ) : (
+                <button type="button" onClick={revealHint} style={hintButton}>
+                  💡 Reveal the region (−{HINT_PENALTY} pts)
+                </button>
+              )}
+            </p>
+          </>
+        )}
+        <p className="play__help">
+          {revealed
+            ? 'The green marker is the real town.'
+            : 'Tap the map where you think it is, then submit.'}
+        </p>
+      </div>
 
-      <div className="map-wrap">
+      <div className="map-wrap" ref={mapWrapRef}>
         <MapGuess
           bounds={bounds}
           guess={guess}
@@ -297,6 +309,7 @@ export function Game({
           resetViewKey={game.roundIndex}
           reveal={reveal}
           basemap={basemap}
+          viewInsets={viewInsets}
         />
         {onBasemapChange && (
           <BasemapToggle basemap={basemap} onChange={onBasemapChange} />
@@ -304,8 +317,8 @@ export function Game({
       </div>
 
       {revealed && lastResult ? (
-        <div style={{ marginTop: 12 }}>
-          <p style={{ margin: '0 0 8px' }}>
+        <div className="play__actions" ref={actionsRef}>
+          <p className="play__result">
             <strong>{formatDistance(lastResult.distanceMeters)}</strong> away ·{' '}
             <strong>{lastResult.score.toLocaleString('en-US')}</strong> pts
             {lastResult.hinted && (
@@ -320,7 +333,7 @@ export function Game({
           </button>
         </div>
       ) : (
-        <div style={{ marginTop: 12 }}>
+        <div className="play__actions" ref={actionsRef}>
           <button
             onClick={submitGuess}
             disabled={!guess}
