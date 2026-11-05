@@ -9,8 +9,8 @@
  * place when the `basemap` prop changes), with state outlines from
  * src/lib/states.ts drawn in their own pane.
  *
- * The map is locked NEAR `bounds` (maxBounds + viscosity) so players can't pan
- * off into the ocean. The lock box is padded (see padBounds): with maxBounds
+ * The map is locked NEAR `bounds` (maxBounds + an elastic viscosity, see
+ * MAX_BOUNDS_VISCOSITY) so players can't pan off into the ocean. The lock box is padded (see padBounds): with maxBounds
  * flush against the play area, zoom snapping could leave an axis unpannable
  * and a coastal town couldn't be centred. Min zoom still locks to the UNPADDED
  * bounds so players can't zoom out past the country; max zoom is capped by the
@@ -24,7 +24,7 @@ import { useEffect, useRef } from 'react'
 import L from 'leaflet'
 import type { Guess, Town } from '../types'
 import { log } from '../lib/log'
-import { padBounds } from '../lib/mapBounds'
+import { padBounds, MAX_BOUNDS_VISCOSITY } from '../lib/mapBounds'
 import { makeTileLayer, MAX_ZOOM } from '../lib/tiles'
 import { DEFAULT_BASEMAP, type Basemap } from '../lib/basemap'
 import { makeStateOutlines, STATES_PANE } from '../lib/states'
@@ -43,6 +43,11 @@ export interface MapGuessProps {
   resetViewKey?: number
   /** Imagery to show; defaults to DEFAULT_BASEMAP (satellite). */
   basemap?: Basemap
+  /** Pixels of the map hidden under overlays at its top / bottom edge (the
+   *  phone layout floats the prompt and the action bar over it). Read when a
+   *  reveal is framed so both pins land in the visible part. See
+   *  mapBounds.coverInsets. */
+  viewInsets?: () => { top: number; bottom: number }
 }
 
 export function MapGuess({
@@ -53,6 +58,7 @@ export function MapGuess({
   locked,
   resetViewKey,
   basemap = DEFAULT_BASEMAP,
+  viewInsets,
 }: MapGuessProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const mapRef = useRef<L.Map | null>(null)
@@ -69,8 +75,10 @@ export function MapGuess({
   // react-hooks/refs rule is staged to `warn` for exactly this pattern).
   const onGuessRef = useRef(onGuessChange)
   const lockedRef = useRef(locked)
+  const viewInsetsRef = useRef(viewInsets)
   onGuessRef.current = onGuessChange
   lockedRef.current = locked
+  viewInsetsRef.current = viewInsets
 
   /** Build + add the tile layer for `b`, remembering which basemap it is. */
   function attachTiles(map: L.Map, b: Basemap) {
@@ -86,7 +94,7 @@ export function MapGuess({
     if (!containerRef.current || mapRef.current) return
     const map = L.map(containerRef.current, {
       maxBounds: padBounds(bounds),
-      maxBoundsViscosity: 1,
+      maxBoundsViscosity: MAX_BOUNDS_VISCOSITY,
       zoomControl: true,
     })
     attachTiles(map, basemapRef.current)
@@ -201,7 +209,9 @@ export function MapGuess({
       }).addTo(map)
     }
 
-    // Frame the guess pin + truth marker (+ line) so nothing is clipped.
+    // Frame the guess pin + truth marker (+ line) so nothing is clipped —
+    // inside the part of the map not hidden under the floating cards.
+    const insets = viewInsetsRef.current?.() ?? { top: 0, bottom: 0 }
     const candidates: (L.Layer | null)[] = [
       guess ? L.marker([guess.lat, guess.lng]) : null,
       truthMarkerRef.current,
@@ -210,7 +220,11 @@ export function MapGuess({
     const framed = L.featureGroup(
       candidates.filter((l): l is L.Layer => l != null),
     )
-    map.fitBounds(framed.getBounds().pad(0.3), { maxZoom: MAX_ZOOM })
+    map.fitBounds(framed.getBounds().pad(0.3), {
+      maxZoom: MAX_ZOOM,
+      paddingTopLeft: [0, insets.top],
+      paddingBottomRight: [0, insets.bottom],
+    })
   }, [reveal, guess])
 
   // Re-frame to the full play area at the start of each new round.

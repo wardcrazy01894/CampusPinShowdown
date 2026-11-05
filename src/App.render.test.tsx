@@ -207,3 +207,60 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     await waitFor(() => expect(credit()).toContain('NASA'))
   })
 })
+
+describe('App — flags play mode on <main> so phones can slim the header', () => {
+  it('marks main `is-playing` while a round is open, and not once finished', async () => {
+    const { selectDailyTowns, getDateKey } = await import('./lib/daily')
+    const { saveState, STORAGE_VERSION } = await import('./lib/storage')
+    const { unmount } = render(<App />)
+    await screen.findByText(/Round 1 of 5/)
+    expect(screen.getByRole('main').classList.contains('is-playing')).toBe(true)
+    unmount()
+    cleanup()
+    const today = getDateKey(new Date())
+    const towns = selectDailyTowns(FILE.towns, `usa:${today}`)
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history: [],
+      streak: { current: 1, best: 1, lastPlayedDateKey: today },
+      current: {
+        dateKey: today,
+        towns,
+        roundIndex: 4,
+        // Modest scores: a strong finish fires confetti, whose animation
+        // frame outlives the test and blows up on jsdom's canvas-less
+        // context (CI caught exactly that with 5 × 100 here).
+        results: towns.map((t) => ({
+          town: t,
+          guess: { lat: t.lat + 3, lng: t.lng },
+          distanceMeters: 330_000,
+          score: 42,
+        })),
+        phase: 'finished',
+      },
+    })
+    render(<App />)
+    await screen.findByText(/Done for today!/)
+    expect(screen.getByRole('main').classList.contains('is-playing')).toBe(
+      false,
+    )
+  })
+})
+
+describe('App — the bug report stays reachable while the phone header is slim', () => {
+  // On phones `is-playing` hides the header links (and with them the worded
+  // "report a bug" link). A player with a broken round must still be able to
+  // report it, so the header also carries a 🐛 icon button that opens the
+  // same form (CSS shows it only on phones during play).
+  it('has an icon button in the header that opens the bug report', async () => {
+    render(<App />)
+    await screen.findByText(/Round 1 of 5/)
+    const icon = screen.getByRole('button', { name: 'Report a bug' })
+    expect(icon.closest('.site-header__inner')).toBeTruthy()
+    expect(icon.classList.contains('icon-button--bug')).toBe(true)
+    fireEvent.click(icon)
+    expect(
+      screen.getByRole('heading', { level: 2, name: '🐛 Report a bug' }),
+    ).toBeTruthy()
+  })
+})

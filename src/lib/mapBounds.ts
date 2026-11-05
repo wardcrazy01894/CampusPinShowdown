@@ -2,8 +2,8 @@
  * Map-bounds helpers (pure — no Leaflet/DOM so they're unit-testable).
  *
  * Why padding exists (inherited from KnowYourCity): MapGuess locks the map with `maxBounds` +
- * `maxBoundsViscosity: 1`. With maxBounds set to EXACTLY the play bounds, the
- * hard wall sits flush against playable towns: integer zoom snapping can
+ * `maxBoundsViscosity` (MAX_BOUNDS_VISCOSITY below). With maxBounds set to
+ * EXACTLY the play bounds, the edge sits flush against playable towns: integer zoom snapping can
  * leave a whole axis unpannable just above min zoom, and a location on the
  * bounds edge can never be panned toward the screen center. Padding the lock
  * box (but NOT the min-zoom fit) keeps players on the USA while giving the
@@ -21,6 +21,16 @@ type LatLngBoundsTuple = [[number, number], [number, number]]
  */
 export const MAX_BOUNDS_PAD = 0.05
 
+/**
+ * How hard the padded `maxBounds` edge pushes back on a drag (Leaflet's
+ * `maxBoundsViscosity`, 0–1). It was 1.0 — a rigid wall — and on a phone,
+ * where the whole country fits in a few hundred pixels, every pan ran into
+ * it and "the map is hard to move around". 0.6 keeps the map on the USA but
+ * lets the edge give and spring back, so a drag near a coast never just
+ * stops dead.
+ */
+export const MAX_BOUNDS_VISCOSITY = 0.6
+
 /** Expand a [[south, west], [north, east]] box by `ratio` of each axis extent
  *  on every side (mirrors Leaflet's `LatLngBounds.pad`). */
 export function padBounds(
@@ -34,4 +44,41 @@ export function padBounds(
     [south - latPad, west - lngPad],
     [north + latPad, east + lngPad],
   ]
+}
+
+/** The four edges of a box in page pixels (a `DOMRect` is one). */
+export interface Rect {
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+/**
+ * How far elements floating over the map's top and bottom edges reach into
+ * it, in pixels — the phone play layout puts the prompt card and the action
+ * bar OVER the map (index.css `.play__prompt` / `.play__actions`), and the
+ * reveal must frame the pins in the part that is actually visible. On wide
+ * screens the cards stack beside the map, nothing overlaps and both insets
+ * are 0, so the fit is unchanged. A cover is counted against the edge its
+ * centre is nearer to; covers beside the map (no horizontal overlap) are
+ * ignored.
+ */
+export function coverInsets(
+  map: Rect,
+  covers: Rect[],
+): { top: number; bottom: number } {
+  let top = 0
+  let bottom = 0
+  const mid = (map.top + map.bottom) / 2
+  for (const c of covers) {
+    if (c.right <= map.left || c.left >= map.right) continue
+    if (c.bottom <= map.top || c.top >= map.bottom) continue
+    if ((c.top + c.bottom) / 2 < mid) {
+      top = Math.max(top, c.bottom - map.top)
+    } else {
+      bottom = Math.max(bottom, map.bottom - c.top)
+    }
+  }
+  return { top, bottom }
 }

@@ -192,7 +192,9 @@ export function App() {
   if (!file || !today) return <main style={{ padding: 24 }}>Loading…</main>
 
   return (
-    <main>
+    // `is-playing`: on phones the header slims down and the play map takes
+    // the screen (index.css); the results screen gets the full header back.
+    <main className={finished ? undefined : 'is-playing'}>
       {/* Overlay, not a route: the game (and any unsubmitted pin) stays mounted. */}
       {reporting !== null && (
         <div style={overlay}>
@@ -257,14 +259,26 @@ export function App() {
               </div>
             </div>
           </div>
-          <button
-            onClick={toggleMute}
-            aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
-            title={muted ? 'Unmute sounds' : 'Mute sounds'}
-            className="icon-button"
-          >
-            {muted ? '🔇' : '🔊'}
-          </button>
+          <div className="header-buttons">
+            {/* Phones hide the header links during play (index.css), so the
+                bug report keeps a seat here; CSS shows this only then. */}
+            <button
+              onClick={() => setReporting('')}
+              aria-label="Report a bug"
+              title="Report a bug"
+              className="icon-button icon-button--bug"
+            >
+              🐛
+            </button>
+            <button
+              onClick={toggleMute}
+              aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
+              title={muted ? 'Unmute sounds' : 'Mute sounds'}
+              className="icon-button"
+            >
+              {muted ? '🔇' : '🔊'}
+            </button>
+          </div>
         </div>
       </header>
       <Game
