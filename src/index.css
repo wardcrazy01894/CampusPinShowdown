@@ -129,10 +129,12 @@ body,
     z-index: 1; /* above .map-wrap (the map's own z-indexes are isolated) */
     padding: 8px 12px;
     border-radius: 12px;
-    background: rgba(15, 23, 32, 0.82);
+    background: rgba(15, 23, 32, 0.88);
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(6px);
+    /* No backdrop-filter: blurring moving tiles under two cards on every
+       frame of a pan is a real GPU cost on phones and made the map stutter
+       (feedback on #24). A slightly more opaque card reads just as well. */
   }
   .play__prompt {
     top: 8px;
@@ -220,7 +222,7 @@ body,
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(4px);
+  /* No backdrop-filter — see .play__prompt. */
 }
 .basemap-toggle:hover,
 .basemap-toggle:focus-visible {

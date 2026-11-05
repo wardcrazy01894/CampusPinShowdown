@@ -14,7 +14,8 @@ import { useEffect, useRef } from 'react'
 import L from 'leaflet'
 import type { RoundResult } from '../types'
 import { log } from '../lib/log'
-import { padBounds, MAX_BOUNDS_VISCOSITY } from '../lib/mapBounds'
+import { MAX_BOUNDS_VISCOSITY } from '../lib/mapBounds'
+import { lockMapToBounds } from '../lib/lockBounds'
 import { makeTileLayer, MAX_ZOOM } from '../lib/tiles'
 import { DEFAULT_BASEMAP, type Basemap } from '../lib/basemap'
 import { makeStateOutlines, STATES_PANE } from '../lib/states'
@@ -74,7 +75,7 @@ export function RecapMap({
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
     const map = L.map(containerRef.current, {
-      maxBounds: padBounds(bounds),
+      // maxBounds itself is set (and re-fitted per zoom) by lockMapToBounds.
       maxBoundsViscosity: MAX_BOUNDS_VISCOSITY,
       zoomControl: true,
     })
@@ -91,12 +92,11 @@ export function RecapMap({
         }),
       )
     map.fitBounds(bounds)
-    const lockMinZoom = () => map.setMinZoom(map.getBoundsZoom(bounds))
-    lockMinZoom()
-    map.on('resize', lockMinZoom)
+    const unlock = lockMapToBounds(map, bounds)
     mapRef.current = map
     log.debug('RecapMap', 'map initialized')
     return () => {
+      unlock()
       map.remove()
       mapRef.current = null
       tilesRef.current = null

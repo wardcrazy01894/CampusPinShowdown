@@ -122,11 +122,20 @@ lights of the same area.
 **State outlines** are a bundled vector layer
 (`src/data/us-states.json`: Census 1:20m boundaries, public domain, simplified
 to ~1 km, lower 48 + DC, ~120 KB) drawn in their own pane under the markers.
-The map is locked to `REGION.bounds` (lower 48 + slack) via `maxBounds` padded
-by `MAX_BOUNDS_PAD` (0.05) with min zoom = fit-to-bounds and **max zoom 10**.
-The edge is elastic, not a wall: `maxBoundsViscosity` is `MAX_BOUNDS_VISCOSITY`
-(0.6, `src/lib/mapBounds.ts`) so a drag near a coast gives and springs back
-instead of stopping dead — at 1.0 the phone map felt "hard to move around".
+The map is locked to `REGION.bounds` (lower 48 + slack) by `lockMapToBounds`
+(`src/lib/lockBounds.ts`, shared with the recap map): min zoom = fit to the
+UNPADDED bounds, **max zoom 10**, and `maxBounds` = the bounds padded by
+`MAX_BOUNDS_PAD` (0.15 ≈ 3.7° lat / 8.8° lng per side, enough to centre any
+coastal town at any zoom) with a **rigid** edge (`MAX_BOUNDS_VISCOSITY` = 1:
+#24 tried 0.6 and the overshoot-then-animated-snap-back read as "jittery").
+**No spring-back, ever:** Leaflet only clamps a drag when the lock box is at
+least the viewport's size; where it is smaller (a portrait phone at the
+widest zoom has sky above and below the country) it lets the box slide inside
+the viewport and then animates it back to centre on release — the "jittery
+scroll" players felt. So the lock box is grown to the viewport on any such
+axis (`expandToViewport`, re-fitted on every `zoomend`/`resize`), leaving
+nothing to slide. The floating phone cards carry no `backdrop-filter`:
+blurring moving tiles on every frame of a pan is a real GPU cost on phones.
 Alaska/Hawaii are out of play for now (BACKLOG). (History: CARTO needs a key
 now; Esri Light Gray Canvas was the interim basemap.)
 
