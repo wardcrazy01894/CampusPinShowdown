@@ -2,8 +2,8 @@
  * Map-bounds helpers (pure — no Leaflet/DOM so they're unit-testable).
  *
  * Why padding exists (inherited from KnowYourCity): MapGuess locks the map with `maxBounds` +
- * `maxBoundsViscosity: 1`. With maxBounds set to EXACTLY the play bounds, the
- * hard wall sits flush against playable towns: integer zoom snapping can
+ * `maxBoundsViscosity` (MAX_BOUNDS_VISCOSITY below). With maxBounds set to
+ * EXACTLY the play bounds, the edge sits flush against playable towns: integer zoom snapping can
  * leave a whole axis unpannable just above min zoom, and a location on the
  * bounds edge can never be panned toward the screen center. Padding the lock
  * box (but NOT the min-zoom fit) keeps players on the USA while giving the

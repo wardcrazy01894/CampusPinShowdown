@@ -246,3 +246,21 @@ describe('App — flags play mode on <main> so phones can slim the header', () =
     )
   })
 })
+
+describe('App — the bug report stays reachable while the phone header is slim', () => {
+  // On phones `is-playing` hides the header links (and with them the worded
+  // "report a bug" link). A player with a broken round must still be able to
+  // report it, so the header also carries a 🐛 icon button that opens the
+  // same form (CSS shows it only on phones during play).
+  it('has an icon button in the header that opens the bug report', async () => {
+    render(<App />)
+    await screen.findByText(/Round 1 of 5/)
+    const icon = screen.getByRole('button', { name: 'Report a bug' })
+    expect(icon.closest('.site-header__inner')).toBeTruthy()
+    expect(icon.classList.contains('icon-button--bug')).toBe(true)
+    fireEvent.click(icon)
+    expect(
+      screen.getByRole('heading', { level: 2, name: '🐛 Report a bug' }),
+    ).toBeTruthy()
+  })
+})

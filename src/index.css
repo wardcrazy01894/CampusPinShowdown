@@ -100,6 +100,9 @@ body,
   .is-playing .header-links {
     display: none;
   }
+  .is-playing .icon-button--bug {
+    display: inline-flex;
+  }
   .play {
     position: relative;
     padding: 0;
@@ -329,6 +332,17 @@ body,
 .link-button:focus-visible {
   opacity: 1;
   text-decoration: underline;
+}
+.header-buttons {
+  flex: none;
+  display: flex;
+  gap: 8px;
+}
+/* The 🐛 icon exists for phones during play, where the worded link is hidden
+   (see `.is-playing` below); everywhere else the link in `.header-links`
+   serves, so the icon stays out of the way. */
+.icon-button--bug {
+  display: none;
 }
 .icon-button {
   flex: none;

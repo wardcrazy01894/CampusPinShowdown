@@ -259,14 +259,26 @@ export function App() {
               </div>
             </div>
           </div>
-          <button
-            onClick={toggleMute}
-            aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
-            title={muted ? 'Unmute sounds' : 'Mute sounds'}
-            className="icon-button"
-          >
-            {muted ? '🔇' : '🔊'}
-          </button>
+          <div className="header-buttons">
+            {/* Phones hide the header links during play (index.css), so the
+                bug report keeps a seat here; CSS shows this only then. */}
+            <button
+              onClick={() => setReporting('')}
+              aria-label="Report a bug"
+              title="Report a bug"
+              className="icon-button icon-button--bug"
+            >
+              🐛
+            </button>
+            <button
+              onClick={toggleMute}
+              aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
+              title={muted ? 'Unmute sounds' : 'Mute sounds'}
+              className="icon-button"
+            >
+              {muted ? '🔇' : '🔊'}
+            </button>
+          </div>
         </div>
       </header>
       <Game

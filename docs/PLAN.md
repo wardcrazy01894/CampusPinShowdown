@@ -41,7 +41,8 @@ only after the day is finished — mid-round it would answer the round.
 was that the map was too small and hard to move around: it was sized as the
 viewport minus ~390px of header, prompt and button, which left the lower 48 in
 a ~270px box. Now, while a round is open, `<main>` carries `is-playing`, the
-header slims to the brand line (tagline and links hidden), `section.play`
+header slims to the brand line (tagline, mode chip and links hidden; a 🐛
+icon button next to the mute button keeps the bug report reachable), `section.play`
 fills the rest of the viewport (`100dvh`), the map fills `.play`, and the
 prompt (`.play__prompt`: round, tier, score, question, hint) and the action
 bar (`.play__actions`: Submit, or distance + Next after the reveal) float over
@@ -51,7 +52,10 @@ the bottom-left above the attribution; Leaflet's +/− control is hidden
 (pinch zooms). Because the cards cover part of the map, the reveal fit is
 padded by how far they reach into it (`coverInsets` in `src/lib/mapBounds.ts`,
 measured from the DOM at fit time via `MapGuess.viewInsets`), so both pins
-land in the visible band. On wider screens nothing overlaps and the prompt,
+land in the visible band — except when the fit is already at min zoom (guess
+and truth far apart, or a coastal town on a narrow phone): `maxBounds` then
+clamps the centre and a pin can sit under a card; accepted, the cards are
+translucent and the map pans. On wider screens nothing overlaps and the prompt,
 map and action bar simply stack in the 720px column. The results screen gets
 the full header back. All of this is CSS in `src/index.css` over a DOM shape
 pinned by `Game.render.test.tsx`.
