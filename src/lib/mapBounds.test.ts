@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 describe('coverInsets', () => {
   const map = { top: 100, bottom: 700, left: 0, right: 390 }
-  it('is zero when nothing overlaps the map (desktop: cards stack above/below)', async () => {
+  it('is zero when nothing overlaps the map (cards stacked above/below)', async () => {
     const { coverInsets } = await import('./mapBounds')
     expect(
       coverInsets(map, [

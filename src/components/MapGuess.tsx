@@ -43,7 +43,7 @@ export interface MapGuessProps {
   /** Imagery to show; defaults to DEFAULT_BASEMAP (satellite). */
   basemap?: Basemap
   /** Pixels of the map hidden under overlays at its top / bottom edge (the
-   *  phone layout floats the prompt and the action bar over it). Read when a
+   *  play layout floats the prompt and the action bar over it). Read when a
    *  reveal is framed so both pins land in the visible part. See
    *  mapBounds.coverInsets. */
   viewInsets?: () => { top: number; bottom: number }

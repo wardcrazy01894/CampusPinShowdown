@@ -140,22 +140,23 @@ body,
 }
 /* Leaflet's attribution (EOX asks for it) lifted above the action bar; the
    +/− control moved from under the prompt card to the bottom-left, above
-   the attribution. */
+   the attribution. The ~200-character EOX credit wraps to up to three 13px
+   lines below ~800px wide, so the controls sit 124px up to stay clear. */
 .play .leaflet-bottom {
   bottom: 68px;
 }
 .play .leaflet-top.leaflet-left {
   top: auto;
-  bottom: 104px;
+  bottom: 124px;
 }
 .play .leaflet-control-attribution {
-  font-size: 10px; /* the EOX credit wraps to two lines at phone width */
+  font-size: 10px;
 }
 /* The basemap button sits bottom-right above the attribution, clear of the
    prompt card and of the +/− control. */
 .play .basemap-toggle {
   top: auto;
-  bottom: 104px;
+  bottom: 124px;
 }
 
 @media (max-width: 600px) {

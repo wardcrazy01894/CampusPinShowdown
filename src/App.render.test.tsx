@@ -194,7 +194,9 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     expect(screen.queryByRole('button', { name: /night lights/i })).toBeNull()
     await waitFor(() => expect(credit()).toContain('NASA'))
     expect(localStorage.getItem('cps:basemap')).toBe('night')
-    // The footer credits both providers (licence: legible, nearby).
+    // The footer repeats both credits. It is in the DOM mid-round but hidden
+    // by CSS (the licence-bearing credit is the map's attribution control,
+    // asserted above); it shows on the results screen.
     expect(document.querySelector('footer')?.textContent).toContain(
       'EOX IT Services GmbH',
     )

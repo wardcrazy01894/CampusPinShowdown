@@ -377,9 +377,9 @@ describe('Game — reports its phase to the parent', () => {
   })
 })
 
-describe('Game — play layout (phone: map fills the screen, chrome floats)', () => {
-  // On phones the CSS turns `section.play` into a full-height box with the
-  // map underneath and the prompt / action bars floating over it. That only
+describe('Game — play layout (map fills the screen, chrome floats)', () => {
+  // The CSS turns `section.play` into a full-height box with the map
+  // underneath and the prompt / action bars floating over it. That only
   // works if the DOM has this exact shape, so pin it here (jsdom has no
   // layout — this is the structure the stylesheet depends on).
   it('puts the prompt and the actions in their own bars beside the map', () => {

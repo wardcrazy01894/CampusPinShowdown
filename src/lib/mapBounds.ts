@@ -15,11 +15,11 @@ export interface Rect {
 
 /**
  * How far elements floating over the map's top and bottom edges reach into
- * it, in pixels — the phone play layout puts the prompt card and the action
- * bar OVER the map (index.css `.play__prompt` / `.play__actions`), and the
- * reveal must frame the pins in the part that is actually visible. On wide
- * screens the cards stack beside the map, nothing overlaps and both insets
- * are 0, so the fit is unchanged. A cover is counted against the edge its
+ * it, in pixels — the play layout puts the prompt card and the action bar
+ * OVER the map (index.css `.play__prompt` / `.play__actions`), and the
+ * reveal must frame the pins in the part that is actually visible. If a
+ * layout ever stacks them beside the map instead, nothing overlaps and both
+ * insets are 0, so the fit is unchanged. A cover is counted against the edge its
  * centre is nearer to; covers beside the map (no horizontal overlap) are
  * ignored.
  */

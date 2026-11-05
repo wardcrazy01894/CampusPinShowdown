@@ -32,9 +32,16 @@ export function lockMapToBounds(
   const apply = () => {
     // getBoundsZoom clamps to the CURRENT min zoom, so with the old lock in
     // place a bigger viewport (phone rotated to landscape) could never lower
-    // it. Clear the lock first so the fit is computed from scratch.
+    // it. Lift the lock while computing the fit, then set it only if it
+    // changed (setMinZoom fires events, and zooms the map in if it is below
+    // the new floor — e.g. a phone URL bar hiding while at the widest view
+    // can tip the fit over an integer step; rare, and the only time this
+    // map moves by itself).
+    const current = map.options.minZoom
     map.options.minZoom = undefined
-    map.setMinZoom(map.getBoundsZoom(bounds))
+    const next = map.getBoundsZoom(bounds)
+    map.options.minZoom = current
+    if (current !== next) map.setMinZoom(next)
   }
   apply()
   map.on('resize', apply)
