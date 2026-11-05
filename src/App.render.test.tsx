@@ -227,11 +227,14 @@ describe('App — flags play mode on <main> so phones can slim the header', () =
         dateKey: today,
         towns,
         roundIndex: 4,
+        // Modest scores: a strong finish fires confetti, whose animation
+        // frame outlives the test and blows up on jsdom's canvas-less
+        // context (CI caught exactly that with 5 × 100 here).
         results: towns.map((t) => ({
           town: t,
-          guess: { lat: t.lat, lng: t.lng },
-          distanceMeters: 0,
-          score: 100,
+          guess: { lat: t.lat + 3, lng: t.lng },
+          distanceMeters: 330_000,
+          score: 42,
         })),
         phase: 'finished',
       },
