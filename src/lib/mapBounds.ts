@@ -16,20 +16,24 @@ type LatLngBoundsTuple = [[number, number], [number, number]]
  * How much slack MapGuess gives `maxBounds` around the play area, per side, as
  * a fraction of each axis. KnowYourCity uses 0.3 at city scale; on the lower-48
  * box that would be ~7.5° of latitude / ~17.6° of longitude per side (deep into
- * Mexico, Canada and open ocean). 0.05 ≈ 1.3° / 3° — enough to centre a coastal
- * town, not enough to lose the country.
+ * Mexico, Canada and open ocean). It was 0.05 (≈1.3° / 3°), which with a rigid
+ * edge (MAX_BOUNDS_VISCOSITY) left a phone at zoom 7 unable to centre a coastal
+ * town — the drag just stopped with Miami in the bottom third. 0.15 ≈ 3.7° /
+ * 8.8°: room to centre any town at any zoom, still nowhere near losing the
+ * country (the widest view is fit to the UNPADDED box regardless).
  */
-export const MAX_BOUNDS_PAD = 0.05
+export const MAX_BOUNDS_PAD = 0.15
 
 /**
  * How hard the padded `maxBounds` edge pushes back on a drag (Leaflet's
- * `maxBoundsViscosity`, 0–1). It was 1.0 — a rigid wall — and on a phone,
- * where the whole country fits in a few hundred pixels, every pan ran into
- * it and "the map is hard to move around". 0.6 keeps the map on the USA but
- * lets the edge give and spring back, so a drag near a coast never just
- * stops dead.
+ * `maxBoundsViscosity`, 0–1). Rigid (1) on purpose. #24 tried 0.6 for a
+ * rubber-band edge and it felt "jittery" on phones: in portrait at the widest
+ * zoom the viewport is TALLER than the bounds box, so Leaflet's viscous clamp
+ * pulls every drag toward two conflicting vertical limits on each frame and
+ * then animates a snap-back on release. Clamping outright has no such
+ * conflict. Freedom to move around comes from MAX_BOUNDS_PAD instead.
  */
-export const MAX_BOUNDS_VISCOSITY = 0.6
+export const MAX_BOUNDS_VISCOSITY = 1
 
 /** Expand a [[south, west], [north, east]] box by `ratio` of each axis extent
  *  on every side (mirrors Leaflet's `LatLngBounds.pad`). */

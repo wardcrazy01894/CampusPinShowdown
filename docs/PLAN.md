@@ -123,10 +123,15 @@ lights of the same area.
 (`src/data/us-states.json`: Census 1:20m boundaries, public domain, simplified
 to ~1 km, lower 48 + DC, ~120 KB) drawn in their own pane under the markers.
 The map is locked to `REGION.bounds` (lower 48 + slack) via `maxBounds` padded
-by `MAX_BOUNDS_PAD` (0.05) with min zoom = fit-to-bounds and **max zoom 10**.
-The edge is elastic, not a wall: `maxBoundsViscosity` is `MAX_BOUNDS_VISCOSITY`
-(0.6, `src/lib/mapBounds.ts`) so a drag near a coast gives and springs back
-instead of stopping dead — at 1.0 the phone map felt "hard to move around".
+by `MAX_BOUNDS_PAD` (0.15 ≈ 3.7° lat / 8.8° lng per side) with min zoom =
+fit-to-the-UNPADDED-bounds and **max zoom 10**. The edge is **rigid**
+(`MAX_BOUNDS_VISCOSITY` = 1, `src/lib/mapBounds.ts`): #24 tried an elastic 0.6
+and it jittered on phones — in portrait at the widest zoom the viewport is
+taller than the bounds box, and Leaflet's partial-viscosity clamp fights two
+conflicting vertical limits every frame, then snaps back on release. The pad
+is what gives room to move: it lets any coastal town be centred at any zoom.
+The floating phone cards carry no `backdrop-filter` for the same reason —
+blurring moving tiles on every frame stuttered the pan.
 Alaska/Hawaii are out of play for now (BACKLOG). (History: CARTO needs a key
 now; Esri Light Gray Canvas was the interim basemap.)
 

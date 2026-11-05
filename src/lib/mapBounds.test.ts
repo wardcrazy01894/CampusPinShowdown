@@ -36,24 +36,28 @@ describe('padBounds', () => {
       [27, -84],
       [28, -82],
     ])
-    // The default pad must actually widen the box (the whole point of padding).
-    expect(MAX_BOUNDS_PAD).toBeGreaterThan(0)
-    // …but stay continent-appropriate: on the lower-48 box (~25° × ~59°) more
-    // than ~0.1 per side would let players pan deep into Mexico/Canada/ocean.
-    expect(MAX_BOUNDS_PAD).toBeLessThanOrEqual(0.1)
+    // The pad must leave room to CENTRE a coastal town while zoomed in: with
+    // a rigid edge (see MAX_BOUNDS_VISCOSITY) the pad is the only slack there
+    // is, and below ~0.15 (≈3.7° lat / ≈9° lng on the lower-48 box) a phone
+    // at zoom 7 cannot bring Miami or Seattle to the middle of the screen.
+    expect(MAX_BOUNDS_PAD).toBeGreaterThanOrEqual(0.15)
+    // …but stay continent-appropriate: much more than ~0.25 per side would let
+    // players pan deep into Mexico/Canada/open ocean.
+    expect(MAX_BOUNDS_PAD).toBeLessThanOrEqual(0.25)
     expect(padded[0][0]).toBeLessThan(27)
     expect(padded[1][0]).toBeGreaterThan(28)
   })
 })
 
 describe('MAX_BOUNDS_VISCOSITY', () => {
-  it('is elastic: the edge resists a drag but is not a hard wall', async () => {
+  it('is rigid: a partial viscosity jitters on phones', async () => {
     const { MAX_BOUNDS_VISCOSITY } = await import('./mapBounds')
-    // 1 = rigid wall (the pan just stops — "hard to move around" on a phone);
-    // 0 = no resistance at all (the map drifts off into the ocean and snaps
-    // back). Anything strictly between gives a rubber-band edge.
-    expect(MAX_BOUNDS_VISCOSITY).toBeGreaterThan(0)
-    expect(MAX_BOUNDS_VISCOSITY).toBeLessThan(1)
+    // Shipped 0.6 once (#24) for a rubber-band edge; on a portrait phone at
+    // the widest zoom the viewport is TALLER than the bounds box, so Leaflet's
+    // viscous clamp pulls every drag toward two conflicting vertical limits
+    // and then snaps back on release — "jittery". Only 1 (clamp outright) is
+    // free of that; the slack for moving around comes from MAX_BOUNDS_PAD.
+    expect(MAX_BOUNDS_VISCOSITY).toBe(1)
   })
 })
 
