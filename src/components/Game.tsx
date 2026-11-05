@@ -208,9 +208,9 @@ export function Game({
     [revealed, lastResult],
   )
 
-  // The prompt card and the action bar float OVER the map on phones; the
-  // reveal fit needs to know how much of the map they hide (0 on desktop,
-  // where they stack). Measured lazily at fit time, after the commit.
+  // The prompt card and the action bar float OVER the map; the reveal fit
+  // needs to know how much of the map they hide. Measured lazily at fit
+  // time, after the commit (0 if a layout ever stacks them instead).
   const promptRef = useRef<HTMLDivElement | null>(null)
   const mapWrapRef = useRef<HTMLDivElement | null>(null)
   const actionsRef = useRef<HTMLDivElement | null>(null)
@@ -240,10 +240,9 @@ export function Game({
   }
 
   return (
-    // `.play` / `.play__prompt` / `.play__actions`: on phones the stylesheet
-    // (index.css) makes the map fill the screen and floats these two bars
-    // over it; on wider screens they simply stack. Structure pinned by
-    // Game.render.test.tsx.
+    // `.play` / `.play__prompt` / `.play__actions`: the stylesheet (index.css)
+    // makes the map fill the screen below the header and floats these two
+    // bars over it, at every width. Structure pinned by Game.render.test.tsx.
     <section className="play">
       <div className="play__prompt" ref={promptRef}>
         <div className="play__round">

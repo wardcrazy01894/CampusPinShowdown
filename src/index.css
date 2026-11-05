@@ -44,151 +44,142 @@ body,
   border-radius: 10px;
 }
 
-/* ---- Play screen (Game.tsx) ------------------------------------------ */
+/* ---- Play screen (Game.tsx): THE MAP IS THE SCREEN ------------------- */
 
-/* Wide screens: the prompt, the map and the action bar simply stack in the
-   720px column. */
+/* Feedback (2026-11-04, phone): "the map is a little hard to move around and
+   there is too much other stuff on the screen so the map area is too small";
+   then (2026-11-05, laptop): make it a bunch of the screen there too.
+
+   While a round is open `<main>` carries `is-playing` and becomes a
+   viewport-tall column: header, then `.play` taking all the rest. The map
+   fills `.play`; the prompt card and the action bar float over its top and
+   bottom edges as translucent cards. The footer is hidden during play (the
+   imagery credits are on the map's own attribution control) and returns on
+   the results screen. `vh` first as a fallback for browsers without `dvh`
+   (iOS toolbars). */
+.is-playing {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+}
+.is-playing > .site-header {
+  flex: none;
+}
+.is-playing > footer {
+  display: none;
+}
 .play {
-  padding: 16px;
-  max-width: 720px;
-  margin: 0 auto;
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 420px; /* shorter windows scroll rather than squash the map */
+  overflow: hidden;
+}
+/* Must come AFTER the base .map-container rule: same specificity, so source
+   order decides. */
+.play .map-wrap,
+.play .map-container {
+  position: absolute;
+  inset: 0;
+  height: auto;
+  min-height: 0;
+}
+.play__prompt,
+.play__actions {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  max-width: 640px;
+  margin: 0 auto; /* centred once the viewport is wider than max-width */
+  z-index: 1; /* above .map-wrap (the map's own z-indexes are isolated) */
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(15, 23, 32, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  /* No backdrop-filter: blurring moving tiles under two cards on every frame
+     of a pan is a real GPU cost on phones and made the map stutter. */
+}
+.play__prompt {
+  top: 8px;
 }
 .play__round {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   opacity: 0.7;
+  font-size: 13px;
 }
 .play__question {
-  margin: 8px 0 2px;
+  margin: 4px 0 2px;
+  font-size: 17px;
+  line-height: 1.25;
 }
 .play__sub {
   margin: 0;
   opacity: 0.8;
-}
-.play__help {
-  margin: 0 0 8px;
   font-size: 14px;
-  opacity: 0.6;
+}
+/* The map itself says "tap here"; the line only cost height. */
+.play__help {
+  display: none;
 }
 .play__actions {
-  margin-top: 12px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.play__actions > button {
+  flex: none;
 }
 .play__result {
-  margin: 0 0 8px;
+  margin: 0;
+  font-size: 15px;
+}
+/* Leaflet's attribution (EOX asks for it) lifted above the action bar; the
+   +/− control moved from under the prompt card to the bottom-left, above
+   the attribution. The ~200-character EOX credit wraps to up to three 13px
+   lines below ~800px wide, so the controls sit 124px up to stay clear. */
+.play .leaflet-bottom {
+  bottom: 68px;
+}
+.play .leaflet-top.leaflet-left {
+  top: auto;
+  bottom: 124px;
+}
+.play .leaflet-control-attribution {
+  font-size: 10px;
+}
+/* The basemap button sits bottom-right above the attribution, clear of the
+   prompt card and of the +/− control. */
+.play .basemap-toggle {
+  top: auto;
+  bottom: 124px;
 }
 
-/* Phones: the MAP IS THE SCREEN. Feedback (2026-11-04): "the map is a little
-   hard to move around and there is too much other stuff on the screen so the
-   map area is too small". The old layout sized the map as the viewport minus
-   ~390px of header + prompt + button, which left the whole lower 48 in a
-   ~270px box on an iPhone (about 40% of the screen).
-
-   Now `.play` is a full-height box below a slimmed header (`main.is-playing`
-   hides the tagline and links), the map fills it, and the prompt and the
-   action bar float over the top and bottom edges as translucent cards. "Tap
-   the map → Submit" still fits on one screen because Submit floats; the map
-   gets ~85% of the screen instead. `vh` first as a fallback for browsers
-   without `dvh` (iOS toolbars). */
 @media (max-width: 600px) {
-  :root {
-    /* Height of the slimmed header (padding + brand mark). Re-measure if the
-       header changes; being a few px off only nudges the footer. */
-    --slim-header: 60px;
-  }
   .is-playing .tagline,
   .is-playing .header-links {
     display: none;
   }
-  .is-playing .icon-button--bug {
+  .is-playing .icon-button.icon-button--bug {
     display: inline-flex;
   }
-  .play {
-    position: relative;
-    padding: 0;
-    max-width: none;
-    height: calc(100vh - var(--slim-header));
-    height: calc(100dvh - var(--slim-header));
-    min-height: 420px;
+  /* Title + logo beside the 🐛 + 🔊 buttons: tighter so it fits at 360px,
+     and clipped with an ellipsis rather than overlapping on anything narrower. */
+  .brand {
+    gap: 8px;
+  }
+  .brand__title {
+    font-size: 18px;
     overflow: hidden;
+    text-overflow: ellipsis;
   }
-  /* Must come AFTER the base .map-container rule: same specificity, so
-     source order decides. */
-  .play .map-wrap,
-  .play .map-container {
-    position: absolute;
-    inset: 0;
-    height: auto;
-    min-height: 0;
-  }
-  .play__prompt,
-  .play__actions {
-    position: absolute;
-    left: 8px;
-    right: 8px;
-    z-index: 1; /* above .map-wrap (the map's own z-indexes are isolated) */
-    padding: 8px 12px;
-    border-radius: 12px;
-    background: rgba(15, 23, 32, 0.88);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
-    /* No backdrop-filter: blurring moving tiles under two cards on every
-       frame of a pan is a real GPU cost on phones and made the map stutter
-       (feedback on #24). A slightly more opaque card reads just as well. */
-  }
-  .play__prompt {
-    top: 8px;
-    margin: 0;
-  }
-  .play__round {
-    font-size: 13px;
-  }
-  .play__question {
-    margin: 4px 0 2px;
-    font-size: 17px;
-    line-height: 1.25;
-  }
-  .play__sub {
-    font-size: 14px;
-  }
-  /* The map itself says "tap here"; the line only cost height. */
-  .play__help {
-    display: none;
-  }
-  .play__actions {
-    bottom: 12px;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .play__actions > button {
-    flex: none;
-  }
-  .play__result {
-    margin: 0;
-    font-size: 15px;
-  }
-  /* Pinch zooms; the +/− buttons would sit under the prompt card. Keep
-     Leaflet's attribution (EOX asks for it) but lift it above the action bar. */
+  /* Pinch zooms; the buttons only take map area. */
   .play .leaflet-control-zoom {
     display: none;
-  }
-  .play .leaflet-bottom {
-    bottom: 68px;
-  }
-  .play .leaflet-control-attribution {
-    font-size: 10px; /* the EOX credit wraps to two lines at phone width */
-  }
-  /* The basemap button moves to the bottom-left, above the attribution
-     (two lines at this width) and the action bar, clear of the prompt card. */
-  .play .basemap-toggle {
-    top: auto;
-    right: auto;
-    bottom: 104px;
-    left: 10px;
-    padding: 10px 14px;
   }
   .map-container.recap-map {
     height: 42vh;
@@ -292,6 +283,7 @@ body,
   font-weight: 800;
   letter-spacing: -0.01em;
   line-height: 1.15;
+  white-space: nowrap; /* one line next to two icon buttons on a phone */
 }
 .tagline {
   margin-top: 4px;
@@ -343,8 +335,8 @@ body,
 /* The 🐛 icon exists for phones during play, where the worded link is hidden
    (see `.is-playing` below); everywhere else the link in `.header-links`
    serves, so the icon stays out of the way. */
-.icon-button--bug {
-  display: none;
+.icon-button.icon-button--bug {
+  display: none; /* two classes: beats .icon-button's display below */
 }
 .icon-button {
   flex: none;

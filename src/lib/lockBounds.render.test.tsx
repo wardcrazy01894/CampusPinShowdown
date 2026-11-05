@@ -2,49 +2,54 @@
 import { describe, it, expect, afterEach } from 'vitest'
 import L from 'leaflet'
 import { lockMapToBounds } from './lockBounds'
-import { padBounds } from './mapBounds'
 import { REGION } from './region'
 
 /**
- * Structural net for lockMapToBounds in jsdom (no layout: the container is
- * 0×0, which exercises the "no size → plain padded lock" guard).
+ * Structural net for lockMapToBounds in jsdom (no layout; the container is
+ * 0×0, which is fine for everything asserted here).
+ *
+ * Owner's call (2026-11-05): the map must NEVER move on its own — no
+ * maxBounds, no clamp, no recentre on zoom. Only the widest view is locked.
  */
 
 let map: L.Map | null = null
-/** The live lock box; setMaxBounds always stores a LatLngBounds instance. */
-const lock = (m: L.Map) => m.options.maxBounds as L.LatLngBounds
 afterEach(() => {
   map?.remove()
   map = null
 })
 
 describe('lockMapToBounds', () => {
-  it('locks maxBounds to the padded play area when the container has no size', () => {
+  it('locks min zoom to the whole-country fit and sets NO maxBounds', () => {
     map = L.map(document.createElement('div'))
     map.fitBounds(REGION.bounds)
     lockMapToBounds(map, REGION.bounds)
-    const expected = L.latLngBounds(padBounds(REGION.bounds))
-    expect(lock(map).equals(expected)).toBe(true)
     expect(map.getMinZoom()).toBe(map.getBoundsZoom(REGION.bounds))
+    expect(map.options.maxBounds).toBeUndefined()
+    map.fire('zoomend')
+    map.fire('moveend')
+    expect(map.options.maxBounds).toBeUndefined()
   })
 
-  it('stops listening once unsubscribed', () => {
+  it('turns off the zoom-limit bounce so a pinch past min zoom cannot spring back', () => {
+    map = L.map(document.createElement('div'))
+    expect(map.options.bounceAtZoomLimits).toBe(true) // Leaflet default
+    map.fitBounds(REGION.bounds)
+    lockMapToBounds(map, REGION.bounds)
+    expect(map.options.bounceAtZoomLimits).toBe(false)
+  })
+
+  it('re-locks min zoom on resize until unsubscribed', () => {
     map = L.map(document.createElement('div'))
     map.fitBounds(REGION.bounds)
     const unlock = lockMapToBounds(map, REGION.bounds)
-    map.setMaxBounds([
-      [0, 0],
-      [1, 1],
-    ])
-    // Still subscribed: a resize re-applies the lock over the bogus box.
+    const locked = map.getMinZoom()
+    const bogus = locked + 3
+    map.setMinZoom(bogus)
     map.fire('resize')
-    expect(lock(map).getNorth()).toBeGreaterThan(1)
+    expect(map.getMinZoom()).toBe(locked)
     unlock()
-    map.setMaxBounds([
-      [0, 0],
-      [1, 1],
-    ])
+    map.setMinZoom(bogus)
     map.fire('resize')
-    expect(lock(map).getNorth()).toBe(1)
+    expect(map.getMinZoom()).toBe(bogus)
   })
 })

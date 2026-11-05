@@ -1,23 +1,26 @@
 /**
- * lockMapToBounds — keep a Leaflet map on the play area, with no spring-back.
+ * lockMapToBounds — lock a Leaflet map's WIDEST view to the play area, and
+ * nothing else. Shared by the play map (MapGuess) and the recap map (RecapMap).
  *
- * Shared by the play map (MapGuess) and the results recap map (RecapMap).
- * Three things, re-applied on every `zoomend` and `resize`:
+ * Owner's call (2026-11-05, after two rounds of phone feedback): the map must
+ * never move on its own. So:
  *
- *   1. min zoom = the fit of the UNPADDED play bounds, so the widest view is
- *      "the whole country" and the player can't zoom out past it;
- *   2. maxBounds = the play bounds padded by MAX_BOUNDS_PAD, so a coastal
- *      town can be centred at any zoom;
- *   3. …grown to at least the viewport's size on any axis where it is
- *      smaller at the current zoom (expandToViewport), so Leaflet clamps the
- *      drag outright instead of letting the country slide and then animating
- *      it back to centre on release. See mapBounds.ts for the why.
+ *   - min zoom = the fit of the play bounds (re-locked on resize), so the
+ *     player can't zoom out past "the whole country";
+ *   - `bounceAtZoomLimits` off: a pinch past min zoom just stops there instead
+ *     of overshooting and springing back (Leaflet's default), which read as
+ *     "it recentres when I zoom";
+ *   - NO `maxBounds`. Every bounds scheme we tried moved the map by itself:
+ *     a box smaller than the viewport slides and snaps back to centre, a
+ *     viscous edge overshoots and springs back, and a box re-fitted per zoom
+ *     pans the view back inside after each zoom. With no box the map goes
+ *     exactly where the finger puts it. The player CAN drag the country off
+ *     the screen; they drag it back.
  *
  * Call after the map has a view (after fitBounds). Returns an unsubscribe.
  */
 
-import L from 'leaflet'
-import { expandToViewport, padBounds } from './mapBounds'
+import type L from 'leaflet'
 
 type LatLngBoundsTuple = [[number, number], [number, number]]
 
@@ -25,34 +28,24 @@ export function lockMapToBounds(
   map: L.Map,
   bounds: LatLngBoundsTuple,
 ): () => void {
-  const play = L.latLngBounds(bounds)
-  const padded = L.latLngBounds(padBounds(bounds))
+  map.options.bounceAtZoomLimits = false
   const apply = () => {
-    map.setMinZoom(map.getBoundsZoom(play))
-    const zoom = map.getZoom()
-    const size = map.getSize()
-    // No view yet, or a 0×0 container (jsdom / display:none): nothing to fit
-    // the box to — keep the plain padded lock.
-    if (!Number.isFinite(zoom) || size.x <= 0 || size.y <= 0) {
-      map.setMaxBounds(padded)
-      return
-    }
-    const nw = map.project(padded.getNorthWest(), zoom)
-    const se = map.project(padded.getSouthEast(), zoom)
-    const grown = expandToViewport(
-      { min: { x: nw.x, y: nw.y }, max: { x: se.x, y: se.y } },
-      size,
-    )
-    map.setMaxBounds(
-      L.latLngBounds(
-        map.unproject(L.point(grown.min), zoom),
-        map.unproject(L.point(grown.max), zoom),
-      ),
-    )
+    // getBoundsZoom clamps to the CURRENT min zoom, so with the old lock in
+    // place a bigger viewport (phone rotated to landscape) could never lower
+    // it. Lift the lock while computing the fit, then set it only if it
+    // changed (setMinZoom fires events, and zooms the map in if it is below
+    // the new floor — e.g. a phone URL bar hiding while at the widest view
+    // can tip the fit over an integer step; rare, and the only time this
+    // map moves by itself).
+    const current = map.options.minZoom
+    map.options.minZoom = undefined
+    const next = map.getBoundsZoom(bounds)
+    map.options.minZoom = current
+    if (current !== next) map.setMinZoom(next)
   }
   apply()
-  map.on('zoomend resize', apply)
+  map.on('resize', apply)
   return () => {
-    map.off('zoomend resize', apply)
+    map.off('resize', apply)
   }
 }
