@@ -25,13 +25,13 @@ type LatLngBoundsTuple = [[number, number], [number, number]]
 export const MAX_BOUNDS_PAD = 0.15
 
 /**
- * How hard the padded `maxBounds` edge pushes back on a drag (Leaflet's
- * `maxBoundsViscosity`, 0–1). Rigid (1) on purpose. #24 tried 0.6 for a
- * rubber-band edge and it felt "jittery" on phones: in portrait at the widest
- * zoom the viewport is TALLER than the bounds box, so Leaflet's viscous clamp
- * pulls every drag toward two conflicting vertical limits on each frame and
- * then animates a snap-back on release. Clamping outright has no such
- * conflict. Freedom to move around comes from MAX_BOUNDS_PAD instead.
+ * How hard the `maxBounds` edge pushes back on a drag (Leaflet's
+ * `maxBoundsViscosity`, 0–1). Rigid (1) on purpose: anything less lets the
+ * drag overshoot the edge by (1 − v) of the excess and Leaflet then animates
+ * a pan back inside on release (`_panInsideMaxBounds` on `moveend`) — #24
+ * shipped 0.6 and that spring-back read as "jittery". With 1 the drag simply
+ * stops at the edge. Freedom to move around comes from MAX_BOUNDS_PAD; the
+ * absence of ANY snap-back comes from expandToViewport (below).
  */
 export const MAX_BOUNDS_VISCOSITY = 1
 
@@ -85,4 +85,43 @@ export function coverInsets(
     }
   }
   return { top, bottom }
+}
+
+/** A pixel box, `min` top-left and `max` bottom-right (Leaflet's `Bounds`). */
+export interface PixelBox {
+  min: { x: number; y: number }
+  max: { x: number; y: number }
+}
+
+/**
+ * Grow `box` to at least `viewport` size on each axis, centred, leaving an
+ * axis that is already big enough untouched.
+ *
+ * Why: Leaflet's `maxBounds` only CLAMPS a drag when the lock box is at
+ * least as big as the viewport on that axis. When the box is SMALLER — a
+ * portrait phone at the widest zoom shows the lower 48 fitted to the width,
+ * leaving sky above and below — the drag limit becomes "keep the whole box
+ * inside the viewport", so the country slides up and down under the finger
+ * and then animates back to centre on release (`_panInsideMaxBounds`). That
+ * spring-back is the "jittery scroll" players reported. A lock box exactly
+ * the viewport's size on that axis has no room to slide and nothing to snap
+ * back. Recomputed per zoom and on resize (lockBounds.ts) because the box's
+ * pixel size changes with zoom.
+ */
+export function expandToViewport(
+  box: PixelBox,
+  viewport: { x: number; y: number },
+): PixelBox {
+  const out: PixelBox = {
+    min: { x: box.min.x, y: box.min.y },
+    max: { x: box.max.x, y: box.max.y },
+  }
+  for (const axis of ['x', 'y'] as const) {
+    const size = box.max[axis] - box.min[axis]
+    const short = viewport[axis] - size
+    if (short <= 0) continue
+    out.min[axis] = box.min[axis] - short / 2
+    out.max[axis] = box.max[axis] + short / 2
+  }
+  return out
 }

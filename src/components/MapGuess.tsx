@@ -9,12 +9,13 @@
  * place when the `basemap` prop changes), with state outlines from
  * src/lib/states.ts drawn in their own pane.
  *
- * The map is locked NEAR `bounds` (maxBounds + an elastic viscosity, see
- * MAX_BOUNDS_VISCOSITY) so players can't pan off into the ocean. The lock box is padded (see padBounds): with maxBounds
- * flush against the play area, zoom snapping could leave an axis unpannable
- * and a coastal town couldn't be centred. Min zoom still locks to the UNPADDED
- * bounds so players can't zoom out past the country; max zoom is capped by the
- * tile layer (MAX_ZOOM) so street-level detail never gives a town away.
+ * The map is locked to `bounds` by lockMapToBounds (src/lib/lockBounds.ts):
+ * a rigid maxBounds edge (MAX_BOUNDS_VISCOSITY) around the play area padded
+ * by MAX_BOUNDS_PAD so a coastal town can be centred, grown to the viewport
+ * on any axis where it is smaller so a drag clamps instead of springing back.
+ * Min zoom locks to the UNPADDED bounds so players can't zoom out past the
+ * country; max zoom is capped by the tile layer (MAX_ZOOM) so street-level
+ * detail never gives a town away.
  *
  * Anti-cheat note: answers live in the bundled JSON and are readable via
  * devtools. For a friends game that's acceptable and intentional.
@@ -24,7 +25,8 @@ import { useEffect, useRef } from 'react'
 import L from 'leaflet'
 import type { Guess, Town } from '../types'
 import { log } from '../lib/log'
-import { padBounds, MAX_BOUNDS_VISCOSITY } from '../lib/mapBounds'
+import { MAX_BOUNDS_VISCOSITY } from '../lib/mapBounds'
+import { lockMapToBounds } from '../lib/lockBounds'
 import { makeTileLayer, MAX_ZOOM } from '../lib/tiles'
 import { DEFAULT_BASEMAP, type Basemap } from '../lib/basemap'
 import { makeStateOutlines, STATES_PANE } from '../lib/states'
@@ -93,7 +95,7 @@ export function MapGuess({
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
     const map = L.map(containerRef.current, {
-      maxBounds: padBounds(bounds),
+      // maxBounds itself is set (and re-fitted per zoom) by lockMapToBounds.
       maxBoundsViscosity: MAX_BOUNDS_VISCOSITY,
       zoomControl: true,
     })
@@ -114,12 +116,9 @@ export function MapGuess({
         }),
       )
     map.fitBounds(bounds)
-    // The initial fit-to-bounds is the WIDEST allowed view — lock minZoom to it
-    // so players can't zoom out past the country. (Recompute on resize so the
-    // floor stays correct across viewport sizes.)
-    const lockMinZoom = () => map.setMinZoom(map.getBoundsZoom(bounds))
-    lockMinZoom()
-    map.on('resize', lockMinZoom)
+    // Min zoom = this widest view; maxBounds = padded play area, grown to the
+    // viewport where it is smaller so a drag never springs back (lockBounds).
+    const unlock = lockMapToBounds(map, bounds)
     map.on('click', (e: L.LeafletMouseEvent) => {
       if (lockedRef.current) return
       log.debug('MapGuess', 'guess placed', {
@@ -131,6 +130,7 @@ export function MapGuess({
     mapRef.current = map
     log.debug('MapGuess', 'map initialized')
     return () => {
+      unlock()
       map.remove()
       mapRef.current = null
       tilesRef.current = null
