@@ -37,28 +37,28 @@ the round (`RoundResult.hinted`) on the reveal and the results row, and the
 share card gains a "💡 N hints" line. The "is my town in the game?" search is offered
 only after the day is finished — mid-round it would answer the round.
 
-**Phone layout (≤600px): the map is the screen.** Player feedback (2026-11-04)
-was that the map was too small and hard to move around: it was sized as the
-viewport minus ~390px of header, prompt and button, which left the lower 48 in
-a ~270px box. Now, while a round is open, `<main>` carries `is-playing`, the
-header slims to the brand line (tagline, mode chip and links hidden; a 🐛
-icon button next to the mute button keeps the bug report reachable), `section.play`
-fills the rest of the viewport (`100dvh`), the map fills `.play`, and the
-prompt (`.play__prompt`: round, tier, score, question, hint) and the action
-bar (`.play__actions`: Submit, or distance + Next after the reveal) float over
-its top and bottom edges as translucent cards — "tap the map → Submit" still
-fits on one screen, and the map gets ~85% of it. The basemap button moves to
-the bottom-left above the attribution; Leaflet's +/− control is hidden
-(pinch zooms). Because the cards cover part of the map, the reveal fit is
-padded by how far they reach into it (`coverInsets` in `src/lib/mapBounds.ts`,
-measured from the DOM at fit time via `MapGuess.viewInsets`), so both pins
-land in the visible band — except when the fit is already at min zoom (guess
-and truth far apart, or a coastal town on a narrow phone): `maxBounds` then
-clamps the centre and a pin can sit under a card; accepted, the cards are
-translucent and the map pans. On wider screens nothing overlaps and the prompt,
-map and action bar simply stack in the 720px column. The results screen gets
-the full header back. All of this is CSS in `src/index.css` over a DOM shape
-pinned by `Game.render.test.tsx`.
+**The map is the screen (every width).** Player feedback (2026-11-04) was
+that the map was too small and hard to move around: on a phone it was the
+viewport minus ~390px of header, prompt and button, ~270px for the lower 48.
+Now, while a round is open, `<main>` carries `is-playing` and is a
+viewport-tall column: the header, then `section.play` taking all the rest;
+the map fills `.play`, and the prompt (`.play__prompt`: round, tier, score,
+question, hint) and the action bar (`.play__actions`: Submit, or distance +
+Next after the reveal) float over its top and bottom edges as translucent
+cards (max 640px wide, centred on wide screens). The footer is hidden during
+play (the imagery credits stay on the map's attribution control) and returns
+on the results screen. Leaflet's +/− control and the basemap button sit
+bottom-left / bottom-right above the attribution. On phones (≤600px) the
+header additionally slims to the brand line (tagline, mode chip and links
+hidden; a 🐛 icon button next to the mute button keeps the bug report
+reachable) and the +/− control is hidden (pinch zooms). Because the cards
+cover part of the map, the reveal fit is padded by how far they reach into it
+(`coverInsets` in `src/lib/mapBounds.ts`, measured from the DOM at fit time
+via `MapGuess.viewInsets`), so both pins land in the visible band — except
+when the fit is already at min zoom (guess and truth far apart), where a pin
+can sit under a card; accepted, the cards are translucent and the map pans.
+All of this is CSS in `src/index.css` over a DOM shape pinned by
+`Game.render.test.tsx`.
 
 ## Daily selection (`src/lib/daily.ts`)
 
@@ -122,22 +122,19 @@ lights of the same area.
 **State outlines** are a bundled vector layer
 (`src/data/us-states.json`: Census 1:20m boundaries, public domain, simplified
 to ~1 km, lower 48 + DC, ~120 KB) drawn in their own pane under the markers.
-The map is locked to `REGION.bounds` (lower 48 + slack) by `lockMapToBounds`
-(`src/lib/lockBounds.ts`, shared with the recap map): min zoom = fit to the
-UNPADDED bounds, **max zoom 10**, and `maxBounds` = the bounds padded by
-`MAX_BOUNDS_PAD` (0.15 ≈ 3.7° lat / 8.8° lng per side, enough to centre any
-coastal town at any zoom) with a **rigid** edge (`MAX_BOUNDS_VISCOSITY` = 1:
-#24 tried 0.6 and the overshoot-then-animated-snap-back read as "jittery").
-**No spring-back, ever:** Leaflet only clamps a drag when the lock box is at
-least the viewport's size; where it is smaller (a portrait phone at the
-widest zoom has sky above and below the country) it lets the box slide inside
-the viewport and then animates it back to centre on release — the "jittery
-scroll" players felt. So the lock box is grown to the viewport on any such
-axis (`expandToViewport`, re-fitted on every `zoomend`/`resize`), leaving
-nothing to slide. The floating phone cards carry no `backdrop-filter`:
-blurring moving tiles on every frame of a pan is a real GPU cost on phones.
-Alaska/Hawaii are out of play for now (BACKLOG). (History: CARTO needs a key
-now; Esri Light Gray Canvas was the interim basemap.)
+Only the **widest view** is locked (`lockMapToBounds`, `src/lib/lockBounds.ts`,
+shared with the recap map): min zoom = the fit of `REGION.bounds` (re-locked
+on resize), **max zoom 10**, and Leaflet's `bounceAtZoomLimits` off so a pinch
+past min zoom stops there instead of overshooting and springing back. There is
+**no `maxBounds`** — the owner's call after two rounds of phone feedback: the
+map must never move by itself. Every bounds scheme did (#24: a viscous edge
+overshot and sprang back; #25: a box smaller than the portrait viewport slid
+and recentred, and a box re-fitted per zoom panned the view back inside after
+each zoom). The player can drag the country off the screen and drags it back.
+The floating cards carry no `backdrop-filter`: blurring moving tiles on every
+frame of a pan is a real GPU cost on phones. Alaska/Hawaii are out of play
+for now (BACKLOG). (History: CARTO needs a key now; Esri Light Gray Canvas
+was the interim basemap.)
 
 ## Modes, storage, rollover (`mode.ts`, `storage.ts`, `version.ts`)
 

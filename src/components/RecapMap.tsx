@@ -14,7 +14,6 @@ import { useEffect, useRef } from 'react'
 import L from 'leaflet'
 import type { RoundResult } from '../types'
 import { log } from '../lib/log'
-import { MAX_BOUNDS_VISCOSITY } from '../lib/mapBounds'
 import { lockMapToBounds } from '../lib/lockBounds'
 import { makeTileLayer, MAX_ZOOM } from '../lib/tiles'
 import { DEFAULT_BASEMAP, type Basemap } from '../lib/basemap'
@@ -74,11 +73,9 @@ export function RecapMap({
   // Create the map once.
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
-    const map = L.map(containerRef.current, {
-      // maxBounds itself is set (and re-fitted per zoom) by lockMapToBounds.
-      maxBoundsViscosity: MAX_BOUNDS_VISCOSITY,
-      zoomControl: true,
-    })
+    // No maxBounds, on purpose: the map must never move by itself (see
+    // lockBounds.ts). Only the widest zoom is locked, below.
+    const map = L.map(containerRef.current, { zoomControl: true })
     attachTiles(map, basemapRef.current)
     map.createPane(STATES_PANE).style.zIndex = '350'
     void makeStateOutlines()

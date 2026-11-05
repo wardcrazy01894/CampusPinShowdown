@@ -9,13 +9,11 @@
  * place when the `basemap` prop changes), with state outlines from
  * src/lib/states.ts drawn in their own pane.
  *
- * The map is locked to `bounds` by lockMapToBounds (src/lib/lockBounds.ts):
- * a rigid maxBounds edge (MAX_BOUNDS_VISCOSITY) around the play area padded
- * by MAX_BOUNDS_PAD so a coastal town can be centred, grown to the viewport
- * on any axis where it is smaller so a drag clamps instead of springing back.
- * Min zoom locks to the UNPADDED bounds so players can't zoom out past the
- * country; max zoom is capped by the tile layer (MAX_ZOOM) so street-level
- * detail never gives a town away.
+ * The WIDEST view is locked to `bounds` by lockMapToBounds (src/lib/
+ * lockBounds.ts): min zoom = the whole-country fit, no zoom bounce — and no
+ * maxBounds, so the map never moves by itself (owner's call; a bounds box of
+ * any kind slid, sprang or recentred the view on phones). Max zoom is capped
+ * by the tile layer (MAX_ZOOM) so street-level detail never gives a town away.
  *
  * Anti-cheat note: answers live in the bundled JSON and are readable via
  * devtools. For a friends game that's acceptable and intentional.
@@ -25,7 +23,6 @@ import { useEffect, useRef } from 'react'
 import L from 'leaflet'
 import type { Guess, Town } from '../types'
 import { log } from '../lib/log'
-import { MAX_BOUNDS_VISCOSITY } from '../lib/mapBounds'
 import { lockMapToBounds } from '../lib/lockBounds'
 import { makeTileLayer, MAX_ZOOM } from '../lib/tiles'
 import { DEFAULT_BASEMAP, type Basemap } from '../lib/basemap'
@@ -94,11 +91,9 @@ export function MapGuess({
   // Create the map once.
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
-    const map = L.map(containerRef.current, {
-      // maxBounds itself is set (and re-fitted per zoom) by lockMapToBounds.
-      maxBoundsViscosity: MAX_BOUNDS_VISCOSITY,
-      zoomControl: true,
-    })
+    // No maxBounds, on purpose: the map must never move by itself (see
+    // lockBounds.ts). Only the widest zoom is locked, below.
+    const map = L.map(containerRef.current, { zoomControl: true })
     attachTiles(map, basemapRef.current)
     // State outlines over the night imagery, in their own pane BELOW the
     // default overlay pane (z 400) so markers and the reveal line stay on top.
@@ -116,8 +111,7 @@ export function MapGuess({
         }),
       )
     map.fitBounds(bounds)
-    // Min zoom = this widest view; maxBounds = padded play area, grown to the
-    // viewport where it is smaller so a drag never springs back (lockBounds).
+    // Min zoom = this widest view (re-locked on resize); no zoom bounce.
     const unlock = lockMapToBounds(map, bounds)
     map.on('click', (e: L.LeafletMouseEvent) => {
       if (lockedRef.current) return
