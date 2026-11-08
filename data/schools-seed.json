@@ -37,7 +37,7 @@
   },
   {
     "school": "Arkansas Tech University",
-    "funFact": "Founded in 1909 as an agricultural school, Arkansas Tech's mascot is Jerry the Bulldog, a line of live bulldogs that has patrolled Russellville since the 1930s."
+    "funFact": "Founded in 1909 as an agricultural school. The teams are the Wonder Boys and Golden Suns, but the mascot is Jerry the Bulldog, a line of live bulldogs on campus since the 1930s."
   },
   {
     "school": "Auburn University",
@@ -49,7 +49,7 @@
   },
   {
     "school": "Austin College",
-    "funFact": "Chartered in 1849, Austin College is the oldest college in Texas still operating under its original charter, and it is in Sherman, not Austin."
+    "funFact": "Austin College was chartered in 1849 and still operates under its original name and charter, one of the oldest colleges in Texas. It is in Sherman, not Austin."
   },
   {
     "school": "Ball State University",
@@ -121,7 +121,7 @@
   },
   {
     "school": "Cal Poly Humboldt",
-    "funFact": "Surrounded by redwoods on California's north coast, the campus is a few miles from Arcata's Community Forest and was the state's first campus with its own forestry program."
+    "funFact": "The campus sits among the redwoods on California's north coast, a few miles from Arcata's Community Forest and Humboldt Bay, and is a hub for forestry and marine science."
   },
   {
     "school": "Cal Poly San Luis Obispo",
@@ -209,7 +209,7 @@
   },
   {
     "school": "Cornell University",
-    "funFact": "Cornell was the first university to teach veterinary medicine and awarded the first degree in electrical engineering. Its campus straddles two gorges above Cayuga Lake."
+    "funFact": "Cornell was the first U.S. university to teach veterinary medicine and among the first to award a degree in electrical engineering. Its campus straddles two gorges above Cayuga Lake."
   },
   {
     "school": "Creighton University",
@@ -273,7 +273,7 @@
   },
   {
     "school": "Eastern Michigan University",
-    "funFact": "Founded in 1849 as Michigan State Normal School, the first teacher-training college west of New York. The Water Tower in Ypsilanti is a local landmark."
+    "funFact": "Founded in 1849 as Michigan State Normal School, one of the first teacher-training colleges in the Midwest. The Water Tower in Ypsilanti is a local landmark."
   },
   {
     "school": "Eastern Washington University",
@@ -502,7 +502,7 @@
   },
   {
     "school": "Lehigh University",
-    "funFact": "Lehigh's hilly campus climbs South Mountain above the old Bethlehem Steel plant, whose founder, Asa Packer, endowed the university in 1865."
+    "funFact": "Lehigh's hilly campus climbs South Mountain above the former Bethlehem Steel works. Asa Packer, the railroad magnate behind the Lehigh Valley Railroad, founded the university in 1865."
   },
   {
     "school": "Liberty University",
@@ -546,7 +546,7 @@
   },
   {
     "school": "Michigan State University",
-    "funFact": "The first land-grant university in the nation (1855) and the model for the Morrill Act, MSU has a campus arboretum of more than 20,000 trees along the Red Cedar River."
+    "funFact": "Founded in 1855, MSU was the pioneer land-grant college and the model for the 1862 Morrill Act. Its campus arboretum has more than 20,000 trees along the Red Cedar River."
   },
   {
     "school": "Michigan Technological University",
@@ -590,7 +590,7 @@
   },
   {
     "school": "Morehead State University",
-    "funFact": "Morehead State builds and operates satellites: its 21-meter Space Tracking Antenna in the Kentucky hills is part of NASA's Deep Space Network."
+    "funFact": "Morehead State builds and operates small satellites, and its 21-meter antenna in the Kentucky hills became an official NASA Deep Space Network station (DSS-17) in 2021."
   },
   {
     "school": "Mount St. Mary's University",
@@ -602,7 +602,7 @@
   },
   {
     "school": "New Mexico Institute of Mining and Technology",
-    "funFact": "New Mexico Tech runs the Very Large Array radio telescope's science center and an explosives research range; the campus golf course is known for antelope wandering the fairways."
+    "funFact": "New Mexico Tech's campus hosts the National Radio Astronomy Observatory's operations center for the Very Large Array, plus an explosives research range; antelope wander its golf course."
   },
   {
     "school": "New Mexico State University",
@@ -642,11 +642,11 @@
   },
   {
     "school": "Northwestern State University",
-    "funFact": "Natchitoches, the oldest permanent settlement in the Louisiana Purchase, hosted the filming of 'Steel Magnolias.' NSU is Louisiana's oldest public college campus still in use."
+    "funFact": "Natchitoches, the oldest permanent settlement in the Louisiana Purchase, hosted the filming of 'Steel Magnolias.' NSU, founded in 1884, is one of Louisiana's oldest public universities."
   },
   {
     "school": "Northwestern University",
-    "funFact": "Northwestern was the Big Ten's only private school for a century, until USC joined in 2024. Its campus sits on Lake Michigan, partly on land the university filled in during the 1960s."
+    "funFact": "Northwestern was the Big Ten's only private school from 1946, when Chicago left, until USC joined in 2024. Its campus sits on Lake Michigan, partly on land the university filled in during the 1960s."
   },
   {
     "school": "Norwich University",
@@ -726,11 +726,11 @@
   },
   {
     "school": "Rensselaer Polytechnic Institute",
-    "funFact": "Founded in 1824, RPI is the oldest technological university in the English-speaking world. The Ferris wheel and the first Erie Canal engineers came from its graduates."
+    "funFact": "Founded in 1824, RPI is the oldest technological university in the English-speaking world. George Ferris, inventor of the Ferris wheel, graduated in 1881."
   },
   {
     "school": "Ripon College",
-    "funFact": "Ripon is where the Republican Party was founded at a schoolhouse meeting in 1854. Spencer Tracy graduated here, and Harrison Ford studied philosophy at Ripon before leaving for Hollywood.",
+    "funFact": "Ripon is where the Republican Party was founded at a schoolhouse meeting in 1854. Spencer Tracy and Harrison Ford both studied here before leaving for acting careers.",
     "wikipedia": "Ripon College (Wisconsin)"
   },
   {
@@ -816,7 +816,7 @@
   },
   {
     "school": "Southwestern University",
-    "funFact": "Chartered in 1840, Southwestern is the oldest university in Texas, and Georgetown's Red Poppy Festival fills the town square each spring."
+    "funFact": "Southwestern traces its roots to 1840, earlier than any other Texas university, and Georgetown's Red Poppy Festival fills the town square each spring."
   },
   {
     "school": "St. Cloud State University",
@@ -848,7 +848,7 @@
   },
   {
     "school": "Talladega College",
-    "funFact": "Alabama's oldest private HBCU (1867), Talladega houses the Amistad Murals by Hale Woodruff, and its Marching Tornadoes played Trump's 2017 inaugural parade."
+    "funFact": "Alabama's oldest private HBCU (1867), Talladega houses the Amistad Murals by Hale Woodruff, which have toured major American museums."
   },
   {
     "school": "Tarleton State University",
@@ -920,7 +920,7 @@
   },
   {
     "school": "United States Merchant Marine Academy",
-    "funFact": "Kings Point midshipmen spend a year at sea aboard working merchant ships, and it is the only service academy whose students can be called to serve in wartime while still enrolled."
+    "funFact": "Kings Point midshipmen spend about a year at sea aboard working merchant ships, and graduates leave as licensed merchant mariners as well as commissioned officers."
   },
   {
     "school": "United States Military Academy",
@@ -1004,7 +1004,8 @@
   },
   {
     "school": "University of Delaware",
-    "funFact": "UD invented study abroad: a professor took eight students to France in 1923 for the first American junior year abroad. Joe Biden graduated here in 1965."
+    "funFact": "UD invented study abroad: a professor took eight students to France in 1923 for the first American junior year abroad. Joe Biden graduated here in 1965.",
+    "type": "Public"
   },
   {
     "school": "University of Florida",
@@ -1060,7 +1061,7 @@
   },
   {
     "school": "University of Memphis",
-    "funFact": "Memphis's Tigers play in FedExForum and have a live Bengal tiger mascot named TOM. The campus is a few miles from Graceland and Beale Street."
+    "funFact": "Memphis's Tigers play in FedExForum, and for decades a live Bengal tiger named TOM served as mascot. The campus is a few miles from Graceland and Beale Street."
   },
   {
     "school": "University of Miami",
@@ -1100,7 +1101,7 @@
   },
   {
     "school": "University of Nevada, Reno",
-    "funFact": "Nevada's quad, modeled on Jefferson's Lawn at UVA, is a National Historic Landmark. Colin Kaepernick set the FBS record for career rushing yards by a quarterback here."
+    "funFact": "Nevada's quad was modeled on Jefferson's Lawn at UVA and is on the National Register of Historic Places. Colin Kaepernick set the FBS record for career rushing yards by a quarterback here."
   },
   {
     "school": "University of New Hampshire",
@@ -1257,7 +1258,7 @@
   },
   {
     "school": "Utah State University",
-    "funFact": "Aggie Ice Cream has been made on campus since 1888, and a kiss on the 'A' atop Old Main under a full moon makes you a True Aggie."
+    "funFact": "Aggie Ice Cream has been made on campus for more than a century, and a kiss on the 'A' atop Old Main under a full moon makes you a True Aggie."
   },
   {
     "school": "Valdosta State University",

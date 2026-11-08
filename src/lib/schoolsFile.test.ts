@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync, existsSync } from 'node:fs'
 import { promptSchool } from './schools'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment -- plain .mjs module, no types
+// @ts-ignore
+import { ALUMNI_BLOCKLIST } from '../../scripts/build-schools-lib.mjs'
 import type { TownsFile, SchoolsFile, SchoolFacts } from '../types'
 
 /**
@@ -76,6 +79,47 @@ describe('public/schools.json', () => {
       if (s.alumni) {
         expect(s.alumni.length, s.school).toBeLessThanOrEqual(5)
         for (const a of s.alumni) expect(a, s.school).toMatch(/\S/)
+      }
+    }
+  })
+
+  it('athletics, nickname and mascot are short, recognisable values (a parser miss would show here)', () => {
+    for (const s of file!.schools) {
+      if (s.division)
+        expect(s.division, s.school).toMatch(
+          /^(NCAA Division (I|II|III)( FBS| FCS)?|NAIA|NJCAA|USCAA|NCCAA)$/,
+        )
+      if (s.conference) {
+        expect(
+          s.conference.length,
+          `${s.school}: ${s.conference}`,
+        ).toBeLessThanOrEqual(40)
+        expect(s.conference, s.school).not.toMatch(/^(NCAA|Division)/)
+      }
+      if (s.nickname)
+        expect(
+          s.nickname.length,
+          `${s.school}: ${s.nickname}`,
+        ).toBeLessThanOrEqual(40)
+      if (s.mascot)
+        expect(s.mascot.length, `${s.school}: ${s.mascot}`).toBeLessThanOrEqual(
+          60,
+        )
+    }
+  })
+
+  it('alumni entries are short "Name (role)" strings and never blocklisted people', () => {
+    for (const s of file!.schools) {
+      for (const a of s.alumni ?? []) {
+        expect(a.length, `${s.school}: ${a}`).toBeLessThanOrEqual(90)
+        const role = a.match(/\(([^)]*)\)$/)?.[1]
+        if (role)
+          expect(role.length, `${s.school}: ${a}`).toBeLessThanOrEqual(40)
+        const name = a.replace(/\s*\([^)]*\)$/, '')
+        expect(ALUMNI_BLOCKLIST.has(name), `${s.school}: ${a}`).toBe(false)
+        expect(a, `${s.school}: ${a}`).not.toMatch(
+          /serial killer|murder|sex offender/i,
+        )
       }
     }
   })

@@ -58,7 +58,8 @@ export function findSchoolFacts(
   file: SchoolsFile | null | undefined,
   school: string,
 ): SchoolFacts | undefined {
-  return file?.schools.find((s) => s.school === school)
+  // `s?.`: a hand-edited file with a stray null must not take the reveal down.
+  return file?.schools.find((s) => s?.school === school)
 }
 
 const n = (x: number) => x.toLocaleString('en-US')

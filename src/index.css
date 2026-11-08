@@ -396,10 +396,24 @@ body,
   color: inherit;
 }
 /* The prompt card can now outgrow a short phone screen; let it scroll rather
-   than push the action bar off the map. */
+   than push the action bar off the map. dvh: iOS Safari's vh includes the
+   collapsed URL bar. */
 .play__prompt {
   max-height: 60vh;
+  max-height: min(60vh, 60dvh);
   overflow-y: auto;
+}
+@media (max-width: 600px) {
+  .play__prompt {
+    max-height: 50vh;
+    max-height: min(50vh, 50dvh);
+  }
+  .school-card {
+    font-size: 12px;
+  }
+  .school-card__fact {
+    font-size: 13px;
+  }
 }
 /* Results: the About toggle sits under its row, in the row's left gutter. */
 .results__about {

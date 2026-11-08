@@ -164,6 +164,7 @@ data/schools-seed.json  ──  npm run build-schools  ──▶  public/schools
   "funFact": "The Big House is …", // required, 20–320 chars, 1–2 sentences, our own words
   "wikipedia": "Ripon College (Wisconsin)", // OPTIONAL: article title when search picks wrong
   "alumni": ["Name (role)", "…"], // OPTIONAL: replaces the Wikidata list
+  "type": "Public", // OPTIONAL: when the infobox says both (Delaware: "private, state-assisted")
 }
 ```
 
@@ -185,7 +186,16 @@ the writing is done).
 | `ranking`                                             | `Infobox US university ranking`: `USNWR_NU` → else `_LA` → `_RU` → `_RC` → `_REG` (one regional rank, list unnamed; the card says "#3 in its region") |
 | `alumni`                                              | Wikidata: humans "educated at" (P69) the article's item, ranked by number of Wikipedia sitelinks, top 5 — a fame proxy, not an editorial list         |
 
-Everything but `school`, `wikipedia` and `funFact` is optional; the card
+Cleanup rules (all in `build-schools-lib.mjs`, unit-tested): the division is
+_recognised_ (`NCAA Division I/II/III` ± `FBS`/`FCS`, `NAIA`…) rather than
+copied, and the conference is the first item after it, ≤ 40 chars; the
+nickname is one short team name ("Bulldogs and Lady Bulldogs" → "Bulldogs");
+the mascot is at most two names without parentheticals, ≤ 60 chars; alumni
+roles lose demonyms, ordinals, "who …" clauses and date ranges and are capped
+at ~40 chars; and a small **blocklist** (`ALUMNI_BLOCKLIST` + description
+keywords such as "serial killer", "sex offender", "spy") keeps people a
+school would not want beside its name off the card, however many Wikipedias
+cover them. Everything but `school`, `wikipedia` and `funFact` is optional; the card
 omits what is missing. Coverage today: **COVERAGE**. The ranking edition
 (`rankingEdition`, 2026) is a constant in the build script — bump it when
 Wikipedia's ranking template moves to a new U.S. News edition.
@@ -217,8 +227,7 @@ Wikipedia's ranking template moves to a new U.S. News edition.
 ### Guard test (`src/lib/schoolsFile.test.ts`)
 
 Envelope, exactly one sorted row per prompt school, fun-fact length,
-plausible numbers (founded 1600–2026, undergrad 100–200k, rank 1–500 on a
-known list), no leftover wikitext markup, and minimum coverage per field
+plausible numbers (founded 1600–2026, undergrad 100–200k, rank 1–500 on a known list), division/conference/nickname/mascot shape and length, alumni role length and no blocklisted names, no leftover wikitext markup, and minimum coverage per field
 (an enrollment figure > 95 %, undergrad > 75 %, division > 90 %, founded > 95 %, alumni > 80 %, mascot > 70 %) so
 a parser regression cannot ship a card full of blanks.
 

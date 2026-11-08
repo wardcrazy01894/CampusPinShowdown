@@ -181,12 +181,34 @@ export function parseCount(raw) {
 export function parseAthletics(raw) {
   const s = plain(raw)
   if (!s) return null
-  const first = s.split(/\s*,\s*(?=NCAA|NAIA|NJCAA|USCAA|NCCAA)/i)[0].trim()
-  const parts = first.split(/\s+[–—-]\s+|\s+·\s+/)
-  const division = parts[0].trim()
-  // "Big Ten, CWPA" (an hlist of several conferences) → the primary one.
-  const conference =
-    parts.slice(1).join(' – ').split(',')[0].trim() || undefined
+  // The division is recognised, never copied: infobox lines come in every
+  // shape ("NCAA Division I FBS –, CUSA", "NCAA Division I FCSIvy League",
+  // "National Collegiate Athletic Association, Division III, …",
+  // "NCAA:, Division II: GLIAC", "NCAA Division I (FCS) Patriot League").
+  const m = s.match(
+    /(?:NCAA|National Collegiate Athletic Association)?[\s:,]*Division\s+(I{1,3})(?!I)\s*(?:\(\s*(FBS|FCS)\s*\)|(FBS|FCS))?|\b(NAIA|NJCAA|USCAA|NCCAA)\b/i,
+  )
+  if (!m) return null
+  const division = m[4]
+    ? m[4].toUpperCase()
+    : `NCAA Division ${m[1].toUpperCase()}${m[2] || m[3] ? ' ' + (m[2] || m[3]).toUpperCase() : ''}`
+  // The conference is the first thing after the division, up to the next
+  // list separator; never another "Division …" entry, never a bare "NCAA".
+  const rest = s.slice(m.index + m[0].length).replace(/^[\s–—\-:,·]+/, '')
+  let conference = rest.split(/\s*[,;·–—]\s*|\s+-\s+|\s*:\s*/)[0].trim()
+  conference = conference.replace(/\s*\([^)]*\)\s*/g, ' ').trim()
+  // "Patriot League CWPA" (no separator at all) → keep through the first
+  // conference-ish noun.
+  const noun = conference.match(
+    /^(.*?\b(?:Conference|League|Association|Athletic|Athletics)\b)/i,
+  )
+  if (noun && noun[1].length < conference.length) conference = noun[1].trim()
+  if (
+    !conference ||
+    /^(NCAA|Division\b.*)$/i.test(conference) ||
+    conference.length > 40
+  )
+    conference = undefined
   return { division, conference }
 }
 
@@ -234,9 +256,15 @@ export function athleticsParam(p) {
 export function parseType(raw) {
   const s = plain(raw).toLowerCase()
   if (!s) return undefined
-  if (/private/.test(s)) return 'Private'
-  if (/public|state|federal|military academy|service academy/.test(s))
-    return 'Public'
+  const priv = /private/.test(s)
+  const pub = /public|federal|\bstate\b|military academy|service academy/.test(
+    s,
+  )
+  // Both words ("private, state-assisted", Delaware) → unknown; the seed can
+  // pin a `type` override.
+  if (priv && pub) return undefined
+  if (priv) return 'Private'
+  if (pub) return 'Public'
   return undefined
 }
 
@@ -275,6 +303,7 @@ export function parseAlumni(bindings, n = 5) {
     const name = b.pLabel?.value?.trim()
     if (!name || /^Q\d+$/.test(name) || seen.has(name)) continue
     seen.add(name)
+    if (isBlockedAlumnus(name, b.descr?.value)) continue
     const role = shortRole(b.descr?.value)
     out.push(role ? `${name} (${role})` : name)
     if (out.length >= n) break
@@ -282,24 +311,75 @@ export function parseAlumni(bindings, n = 5) {
   return out
 }
 
+/**
+ * Alumni never shown, whatever their sitelinks count: a casual game should
+ * not put a school next to a serial killer. Names (exact Wikidata labels)
+ * plus description keywords.
+ */
+export const ALUMNI_BLOCKLIST = new Set([
+  'Ted Bundy',
+  'Jeffrey Dahmer',
+  'Harvey Weinstein',
+  'George Floyd',
+  'Matthew Shepard',
+  'George Jung',
+  'Robert Hanssen',
+  'Anwar al-Awlaki',
+  'Omarosa Manigault Newman',
+])
+const BLOCKED_ROLE =
+  /serial killer|murder|sex offender|sexual|killed|terroris|extremist|\bspy\b|criminal|convicted|rapist|drug (?:lord|trafficker|smuggler)|fraudster|assassin|shooter|cult leader|war criminal|neo-nazi|white supremacist/i
+
+export function isBlockedAlumnus(name, descr) {
+  return ALUMNI_BLOCKLIST.has(name) || BLOCKED_ROLE.test(descr ?? '')
+}
+
+const ROLE_MAX = 40
+/** Capitalised demonyms ("Turkish", "Mexican", "Jewish-American", "Iraqi"),
+ *  optionally joined by "and"/"or", at the start of a description. */
+const DEMONYM =
+  /^(?:(?:[A-Z][a-z]+-)?[A-Z][a-z]+(?:ian|ean|ish|ese|an|i|ch|ic)\b(?:\s+(?:and|or))?\s*)+/
+
 function shortRole(descr) {
   if (!descr) return ''
   let s = descr
     .replace(/\s*\((?:born|died|b\.|d\.|c\.|\d)[^)]*\)\s*/g, ' ')
     .replace(/\s*\[[^\]]*\]\s*/g, ' ')
     .replace(/\s*[;&]\s.*$/, '')
-    .replace(/\s*,?\s*(?:Professor|professor|(?<!co-)founder|CEO) .*$/, '')
+    .replace(/,?\s+who\s.*$/, '')
     .replace(
-      /^\s*(?:\d+(?:st|nd|rd|th)[- ]century\s+)?(?:American|U\.S\.|US|United States)\s+/i,
+      /\s*\(?\b(?:from|since|in)\s+\d{4}(?:\s*(?:to|–|-)\s*(?:\d{4}|present))?\)?/g,
       '',
     )
+    .replace(/\s*,?\s*(?:Professor|professor|(?<!co-)founder|CEO) .*$/, '')
+    .replace(/^\s*(?:\d+(?:st|nd|rd|th)[- ]century\s+)?/, '')
+    .replace(/\b\d+(?:st|nd|rd|th)\s+/g, '')
+    .replace(
+      /^\s*(?:the\s+)?(?:and\s+)?(?:current|incumbent|former|retired)\s+/i,
+      '',
+    )
+    .replace(/^\s*(?:the|a|an)\s+/i, '')
+    .replace(/^\s*(?:former|retired|late)\s+/i, '')
+    .replace(/^\s*(?:U\.S\.|US|United States)\s+/, '')
+    .replace(DEMONYM, '')
+    .replace(/^\s*(?:former|retired)\s+/i, '')
     .replace(/\s+/g, ' ')
     .trim()
   const parts = s.split(/\s*,\s*/).filter(Boolean)
   s = parts.slice(0, 2).join(', ')
-  if (parts.length === 1)
-    s = s.replace(/^(.*?)\s+and\s+(\S+(?: \S+)?)$/, '$1 and $2')
-  return s.replace(/[.\s]+$/, '')
+  if (s.length > ROLE_MAX) s = parts[0]
+  if (s.length > ROLE_MAX) s = s.split(/\s+and\s+/)[0]
+  if (s.length > ROLE_MAX) {
+    s = s.slice(0, ROLE_MAX)
+    s = s.slice(0, s.lastIndexOf(' ')) || s
+  }
+  s = s
+    .replace(/[.,\s]+$/, '')
+    // A cut can leave a dangling function word ("…Senate from").
+    .replace(/\s+(?:from|of|and|in|for|the|a|an|to|at|by|with)$/i, '')
+    .trim()
+  // Nothing informative left ("the", "9th") → no role at all.
+  return /^(?:the|a|an|\d+(?:st|nd|rd|th)?)$/i.test(s) || s.length < 3 ? '' : s
 }
 
 /**
@@ -322,12 +402,14 @@ export function toSchoolFacts(seed, title, wikitext, alumni) {
   // "23,150 students" when the split is unknown.
   const total = parseCount(p.get('students') ?? p.get('enrollment'))
   const ath = parseAthletics(athleticsParam(p))
-  const nickname = plain(
-    p.get('athletics_nickname') ??
-      p.get('sports_nickname') ??
-      p.get('nickname'),
+  const nickname = cleanNickname(
+    plain(
+      p.get('athletics_nickname') ??
+        p.get('sports_nickname') ??
+        p.get('nickname'),
+    ),
   )
-  const mascot = plain(p.get('mascot') ?? p.get('mascots'))
+  const mascot = cleanMascot(plain(p.get('mascot') ?? p.get('mascots')))
   const row = {
     school: seed.school,
     wikipedia: title,
@@ -336,7 +418,7 @@ export function toSchoolFacts(seed, title, wikitext, alumni) {
   const put = (k, v) => {
     if (v !== undefined && v !== null && v !== '') row[k] = v
   }
-  put('type', parseType(p.get('type')))
+  put('type', seed.type ?? parseType(p.get('type')))
   put('founded', parseYear(p.get('established') ?? p.get('founded')))
   put('undergrad', under?.value)
   put('postgrad', post?.value)
@@ -350,6 +432,31 @@ export function toSchoolFacts(seed, title, wikitext, alumni) {
   const al = seed.alumni ?? alumni
   if (al && al.length) row.alumni = al
   return row
+}
+
+/** "Penn State: Nittany Lions, Lady Lions, …" → "Nittany Lions";
+ *  "Bulldogs and Lady Bulldogs" → "Bulldogs". Empty when nothing sane remains. */
+export function cleanNickname(s) {
+  let n = (s || '')
+    .replace(/^[^:,]{0,40}:\s*/, '')
+    .split(/\s*[,;·]\s*/)[0]
+    .replace(/\s+(?:and|&)\s+(?:the\s+)?Lady\s.*$/i, '')
+    .replace(/\s*\([^)]*\)\s*/g, ' ')
+    .trim()
+  return n.length > 0 && n.length <= 40 ? n : ''
+}
+
+/** "Judge Indy and Judge Belle (live bears), Bruiser and Marigold (costumed)"
+ *  → "Judge Indy and Judge Belle, Bruiser and Marigold"; at most two items,
+ *  parentheticals dropped, capped at 60 characters. */
+export function cleanMascot(s) {
+  const items = (s || '')
+    .split(/\s*[,;·]\s*/)
+    .map((x) => x.replace(/\s*\([^)]*\)\s*/g, ' ').trim())
+    .filter((x) => x && !/^(none|no mascot|n\/a)$/i.test(x))
+  let m = items.slice(0, 2).join(', ')
+  if (m.length > 60) m = items[0]
+  return m.length > 0 && m.length <= 60 ? m : ''
 }
 
 const FUN_FACT_MIN = 20
@@ -385,6 +492,8 @@ export function validateSchoolSeed(seed, wanted) {
       (!Array.isArray(e.alumni) || e.alumni.some((a) => typeof a !== 'string'))
     )
       problems.push(`"${e.school}": alumni must be a list of strings`)
+    if (e.type !== undefined && !['Public', 'Private'].includes(e.type))
+      problems.push(`"${e.school}": type must be Public or Private`)
   }
   for (const w of wanted)
     if (!seen.has(w)) problems.push(`"${w}" is missing from the seed`)

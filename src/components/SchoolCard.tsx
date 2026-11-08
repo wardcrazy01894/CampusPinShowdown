@@ -70,7 +70,8 @@ export function SchoolCard({ school }: SchoolCardProps) {
           rel="noopener noreferrer"
         >
           Wikipedia
-        </a>
+        </a>{' '}
+        (CC BY-SA 4.0)
       </p>
     </aside>
   )

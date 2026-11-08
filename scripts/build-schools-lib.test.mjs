@@ -11,6 +11,9 @@ import {
   parseAlumni,
   alumniQuery,
   athleticsParam,
+  isBlockedAlumnus,
+  cleanNickname,
+  cleanMascot,
   toSchoolFacts,
   validateSchoolSeed,
   sortFacts,
@@ -155,11 +158,45 @@ describe('parseAthletics', () => {
       ),
     ).toEqual({ division: 'NCAA Division I FBS', conference: 'Big Ten' })
   })
-  it('returns a division alone when no conference is given, null when empty', () => {
-    expect(parseAthletics('[[NCAA Division I FBS]] independent')).toEqual({
-      division: 'NCAA Division I FBS independent',
-      conference: undefined,
-    })
+  it('recognises the division instead of copying the line, whatever the separators', () => {
+    const cases = [
+      [
+        '[[NCAA Division I FBS]] –, [[CUSA]], ESCHL',
+        'NCAA Division I FBS',
+        'CUSA',
+      ],
+      [
+        '[[NCAA Division I FCS]][[Ivy League]], ECAC Hockey',
+        'NCAA Division I FCS',
+        'Ivy League',
+      ],
+      [
+        '[[National Collegiate Athletic Association]], [[Division III]], [[American Rivers Conference]]',
+        'NCAA Division III',
+        'American Rivers Conference',
+      ],
+      [
+        'NCAA:, Division II: GLIAC, Division I: CCHA',
+        'NCAA Division II',
+        'GLIAC',
+      ],
+      [
+        'NCAA Division I (FCS) Patriot League CWPA',
+        'NCAA Division I FCS',
+        'Patriot League',
+      ],
+      ['[[NCAA Division III]][[WIAC]]', 'NCAA Division III', 'WIAC'],
+      [
+        '[[NCAA Division I FBS]] independent',
+        'NCAA Division I FBS',
+        'independent',
+      ],
+    ]
+    for (const [raw, division, conference] of cases)
+      expect(parseAthletics(raw), raw).toEqual({ division, conference })
+  })
+  it('returns null when there is no recognisable division', () => {
+    expect(parseAthletics('20 varsity teams')).toBeNull()
     expect(parseAthletics(undefined)).toBeNull()
   })
 })
@@ -253,6 +290,13 @@ describe('parseType / parseYear', () => {
       'Private',
     )
     expect(parseType('[[Federal service academy]]')).toBe('Public')
+    // Both words (Delaware: "private, state-assisted") → unknown; the seed decides.
+    expect(
+      parseType('[[Private university|Private]] state-assisted'),
+    ).toBeUndefined()
+    expect(parseType('[[Public university|Public]] state-related')).toBe(
+      'Public',
+    )
     expect(parseType(undefined)).toBeUndefined()
   })
   it('finds the founding year', () => {
@@ -325,6 +369,84 @@ describe('alumni', () => {
   })
 })
 
+describe('alumni hygiene', () => {
+  it('drops blocklisted names and descriptions a school would not want next to its name', () => {
+    const b = (name, descr) => ({
+      pLabel: { value: name },
+      n: { value: '50' },
+      descr: { value: descr },
+    })
+    expect(
+      parseAlumni([
+        b('Ted Bundy', 'American serial killer (1946–1989)'),
+        b('Some Spy', 'American FBI agent and spy for the Soviet Union'),
+        b('Fine Person', 'American actress'),
+      ]),
+    ).toEqual(['Fine Person (actress)'])
+    expect(isBlockedAlumnus('Jeffrey Dahmer', '')).toBe(true)
+    expect(isBlockedAlumnus('Anyone', 'American politician')).toBe(false)
+  })
+  it('trims roles: demonyms, ordinals, "who …", date ranges, and caps at ~40 chars', () => {
+    const r = (d) =>
+      parseAlumni([
+        { pLabel: { value: 'X' }, n: { value: '9' }, descr: { value: d } },
+      ])[0]
+    expect(
+      r(
+        'Turkish politician, who has been the first female and 22nd prime minister of the country',
+      ),
+    ).toBe('X (politician)')
+    expect(
+      r(
+        '55th Governor of New Jersey and former U.S. Attorney for the District of New Jersey',
+      ),
+    ).toBe('X (Governor of New Jersey)')
+    expect(
+      r('educator and First Lady of the United States from 2021 to 2025'),
+    ).toBe('X (educator)')
+    expect(r('Mexican writer, poet and diplomat (1914–1998)')).toBe(
+      'X (writer, poet and diplomat)',
+    )
+    expect(r('Jewish-American inventor of polio vaccine')).toBe(
+      'X (inventor of polio vaccine)',
+    )
+    expect(r('President of Ireland')).toBe('X (President of Ireland)')
+    expect(r('Italian American scholar, teacher and activist')).toBe(
+      'X (scholar, teacher and activist)',
+    )
+    expect(r('the 9th President of Somalia from 2017 to 2022')).toBe(
+      'X (President of Somalia)',
+    )
+    expect(r('member of the United States Senate from Maine (1897–1995)')).toBe(
+      'X (member of the United States Senate)',
+    )
+    expect(r('the')).toBe('X')
+    expect(
+      r('the 10th and current president of the Federal Republic of Somalia'),
+    ).toBe('X (president of the Federal Republic)')
+  })
+})
+
+describe('cleanNickname / cleanMascot', () => {
+  it('keeps one short team name and at most two mascots, no parentheticals', () => {
+    expect(
+      cleanNickname('Penn State: Nittany Lions, Lady Lions, Behrend Lions'),
+    ).toBe('Nittany Lions')
+    expect(cleanNickname('Bulldogs and Lady Bulldogs')).toBe('Bulldogs')
+    expect(cleanNickname('Red Raiders')).toBe('Red Raiders')
+    expect(cleanNickname('')).toBe('')
+    expect(
+      cleanMascot(
+        'Judge Indy and Judge Belle (live bears), Bruiser and Marigold (costumed)',
+      ),
+    ).toBe('Judge Indy and Judge Belle, Bruiser and Marigold')
+    expect(cleanMascot('Antioch Free Radicals (historical)')).toBe(
+      'Antioch Free Radicals',
+    )
+    expect(cleanMascot('None')).toBe('')
+  })
+})
+
 describe('toSchoolFacts', () => {
   it('assembles a row from seed + wikitext + alumni, omitting unknown fields', () => {
     const row = toSchoolFacts(
@@ -363,9 +485,9 @@ describe('toSchoolFacts', () => {
     expect(row.division).toBe('NCAA Division II')
     expect(row.conference).toBe('Peach Belt Conference')
   })
-  it('lets the seed override alumni and fills nothing it cannot read', () => {
+  it('lets the seed override alumni and type, and fills nothing it cannot read', () => {
     const row = toSchoolFacts(
-      { school: 'X', funFact: 'f', alumni: ['Someone (poet)'] },
+      { school: 'X', funFact: 'f', alumni: ['Someone (poet)'], type: 'Public' },
       'X (university)',
       '{{Infobox university\n| name = X\n}}',
       ['Ignored'],
@@ -374,6 +496,7 @@ describe('toSchoolFacts', () => {
       school: 'X',
       wikipedia: 'X (university)',
       funFact: 'f',
+      type: 'Public',
       alumni: ['Someone (poet)'],
     })
   })
@@ -415,7 +538,7 @@ describe('validateSchoolSeed', () => {
           school: 'Nowhere U',
           funFact: 'Another fact that is long enough too.',
         },
-        { school: 'Z', funFact: 'x'.repeat(400) },
+        { school: 'Z', funFact: 'x'.repeat(400), type: 'Charter' },
       ],
       wanted,
     )
@@ -434,6 +557,7 @@ describe('validateSchoolSeed', () => {
     expect(
       problems.some((p) => p.includes('funFact') && p.includes('long')),
     ).toBe(true)
+    expect(problems.some((p) => p.includes('type must be'))).toBe(true)
   })
 })
 
