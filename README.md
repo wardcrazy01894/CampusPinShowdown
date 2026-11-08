@@ -16,26 +16,27 @@ React · TypeScript · Vite · Leaflet &nbsp;·&nbsp; 349 towns &nbsp;·&nbsp; $
 ---
 
 Every day, **everyone gets the same 5 college towns**. You're asked where a
-school is (_Where is Texas Tech University?_), you drop a pin on a satellite
-map of the United States, and only then do you learn the town (_Lubbock,
-Texas_) and how close you got. Share your result Wordle-style and keep your
+school is (_Where is the University of Michigan?_), you drop a pin on a
+satellite map of the United States, and only then do you learn the town (_Ann
+Arbor, Michigan_) and how close you got. Share your result Wordle-style and keep your
 streak alive.
 
 ## ✨ Features
 
-|     |                                  |                                                                                                                                                                 |
-| --- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 🛰️  | **Satellite, or Earth at night** | Sentinel-2 satellite imagery with state outlines, no labels. One tap on the map switches to NASA's night lights — the city glow _is_ a hint — at the same zoom. |
-| 🎓  | **349 college towns**            | Hand-curated in three tiers (69 easy · 86 medium · 194 hard), lower 48 only for now. Flagships, HBCUs, service academies, D-III.                                |
-| 📈  | **Difficulty ramp**              | Each day is easy → easy → medium → medium → hard, never two towns from the same state.                                                                          |
-| 💡  | **Hint mode**                    | Buy the region (3–6 neighbouring states) for −25 points on that round; hints show on the share card.                                                            |
-| 🏆  | **Anonymous daily leaderboard**  | "You placed 3rd of 47 today", a top-100 board and a server-side streak. No accounts, no names.                                                                  |
-| 🔥  | **Streaks & lifetime stats**     | Per-tier averages, a Wordle-style share card with the puzzle number, and a day recap map.                                                                       |
-| 🔊  | **Sound & celebration**          | A triumphant arpeggio for a perfect 100 down to a womp-womp for a miss; confetti + a crowd cheer for a strong day. 🔊/🔇 to mute.                               |
-| 🐛  | **In-app bug reports**           | Type what went wrong and send; it lands as a GitHub issue without leaving the site.                                                                             |
-| 🔎  | **"Is my town in the game?"**    | After today's puzzle, search by town, state or school; request a missing one with one click.                                                                    |
-| 🔁  | **No server needed to play**     | "Same 5 for everyone" is computed from the date (a per-town hash), so adding a town never re-rolls today's puzzle.                                              |
-| 💸  | **$0 hosting**                   | Free NASA tiles, free OpenStreetMap geocoding, no API keys; the only backend is two free-tier Cloudflare Workers.                                               |
+|     |                                  |                                                                                                                                                                                            |
+| --- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 🛰️  | **Satellite, or Earth at night** | Sentinel-2 satellite imagery with state outlines, no labels. One tap on the map switches to NASA's night lights — the city glow _is_ a hint — at the same zoom.                            |
+| 🎓  | **349 college towns**            | Hand-curated in three tiers (69 easy · 86 medium · 194 hard), lower 48 only for now. Flagships, HBCUs, service academies, D-III.                                                           |
+| ✨  | **About the school**             | After every guess: a fun fact, enrollment, mascot, conference and division, U.S. News rank and notable alumni, with a Wikipedia credit. Tap "About …" on any results row to read it again. |
+| 📈  | **Difficulty ramp**              | Each day is easy → easy → medium → medium → hard, never two towns from the same state.                                                                                                     |
+| 💡  | **Hint mode**                    | Buy the region (3–6 neighbouring states) for −25 points on that round; hints show on the share card.                                                                                       |
+| 🏆  | **Anonymous daily leaderboard**  | "You placed 3rd of 47 today", a top-100 board and a server-side streak. No accounts, no names.                                                                                             |
+| 🔥  | **Streaks & lifetime stats**     | Per-tier averages, a Wordle-style share card with the puzzle number, and a day recap map.                                                                                                  |
+| 🔊  | **Sound & celebration**          | A triumphant arpeggio for a perfect 100 down to a womp-womp for a miss; confetti + a crowd cheer for a strong day. 🔊/🔇 to mute.                                                          |
+| 🐛  | **In-app bug reports**           | Type what went wrong and send; it lands as a GitHub issue without leaving the site.                                                                                                        |
+| 🔎  | **"Is my town in the game?"**    | After today's puzzle, search by town, state or school; request a missing one with one click.                                                                                               |
+| 🔁  | **No server needed to play**     | "Same 5 for everyone" is computed from the date (a per-town hash), so adding a town never re-rolls today's puzzle.                                                                         |
+| 💸  | **$0 hosting**                   | Free NASA tiles, free OpenStreetMap geocoding, no API keys; the only backend is two free-tier Cloudflare Workers.                                                                          |
 
 > **Status:** **live** at <https://campuspinshowdown.com/> — auto-deploys on
 > every merge to `main` (runbook: [`docs/OPERATIONS.md`](docs/OPERATIONS.md)).
@@ -51,7 +52,7 @@ streak alive.
    county scale). Stuck? **💡 Reveal the region** (a few neighbouring
    states) for −25 points on that round; the share card notes how many hints
    you took.
-3. **Submit** → the town is revealed (_Lubbock, Texas_) with your distance
+3. **Submit** → the town is revealed (_Ann Arbor, Michigan_) with your distance
    (miles) and score. 100 points within ~15 miles, then an exponential
    falloff: right metro = 🟩, right state = 🟨/🟧, wrong region = ⬛. A
    perfect 100 gets the day's special emoji (💯, 🏆, 〽️, 🎯, ⭐ or 🥇 — it
@@ -102,25 +103,26 @@ That is exactly what CI gates on. Everything lands via a PR; `main` is
 protected. See [`CLAUDE.md`](CLAUDE.md) for the working agreement (PR-only
 `main`, TDD, docs-in-the-same-PR, adversarial review before merge).
 
-| Command                                                   | What it does                                                                     |
-| --------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `npm run dev`                                             | Vite dev server with hot reload                                                  |
-| `npm test`                                                | Vitest (pure logic in Node, components in jsdom)                                 |
-| `npm run typecheck` / `lint` / `format` / `format:check`  | tsc (app + worker), eslint, prettier                                             |
-| `npm run build`                                           | Typecheck + production bundle in `dist/`                                         |
-| `npm run build-towns`                                     | Geocode `data/towns-seed.json` → `public/towns.json` (Nominatim, cached, no key) |
-| `npm run og-image`                                        | Re-render `public/og-image.png` (the share-unfurl image) after a branding change |
-| `npm run worker:dev` / `worker:migrate` / `worker:deploy` | Leaderboard worker + its D1 database ([`worker/README.md`](worker/README.md))    |
-| `npm run bug:dev` / `bug:deploy`                          | Bug-report worker (needs a `GH_TOKEN` secret in Cloudflare)                      |
+| Command                                                   | What it does                                                                                             |
+| --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `npm run dev`                                             | Vite dev server with hot reload                                                                          |
+| `npm test`                                                | Vitest (pure logic in Node, components in jsdom)                                                         |
+| `npm run typecheck` / `lint` / `format` / `format:check`  | tsc (app + worker), eslint, prettier                                                                     |
+| `npm run build`                                           | Typecheck + production bundle in `dist/`                                                                 |
+| `npm run build-towns`                                     | Geocode `data/towns-seed.json` → `public/towns.json` (Nominatim, cached, no key)                         |
+| `npm run build-schools`                                   | `data/schools-seed.json` + Wikipedia/Wikidata → `public/schools.json` (cached; `-- --dry-run` to review) |
+| `npm run og-image`                                        | Re-render `public/og-image.png` (the share-unfurl image) after a branding change                         |
+| `npm run worker:dev` / `worker:migrate` / `worker:deploy` | Leaderboard worker + its D1 database ([`worker/README.md`](worker/README.md))                            |
+| `npm run bug:dev` / `bug:deploy`                          | Bug-report worker (needs a `GH_TOKEN` secret in Cloudflare)                                              |
 
 ### 🗂️ Repo map
 
 ```
 src/lib/          pure game logic (daily selection, scoring, hints, stats, storage…) + tests
 src/components/   thin React/Leaflet shells (Game, MapGuess, Results, RecapMap, Leaderboard…)
-data/             towns-seed.json (curated) · census-pins.json (independent cross-check)
-public/           towns.json (generated) · og-image.png · CNAME
-scripts/          build-towns · build-census-pins · og-image
+data/             towns-seed.json · schools-seed.json (curated) · census-pins.json (cross-check)
+public/           towns.json · schools.json (generated) · og-image.png · CNAME
+scripts/          build-towns · build-schools · build-census-pins · og-image
 worker/           cps-leaderboard + cps-bug Cloudflare Workers, D1 migrations
 docs/             PLAN (mechanics) · DATA (dataset) · OPERATIONS (hosting runbook)
 ```
@@ -131,8 +133,14 @@ Towns are curated in [`data/towns-seed.json`](data/towns-seed.json) and
 geocoded into `public/towns.json` by `npm run build-towns` (OpenStreetMap
 Nominatim, cached, no key). Every pin is cross-checked against the US Census
 Gazetteer, in the build and again in CI, so a mis-geocoded town can't ship.
-Schema, tiers and the add-a-town recipe: [`docs/DATA.md`](docs/DATA.md).
-Mechanics and scoring: [`docs/PLAN.md`](docs/PLAN.md).
+The school card shown after each guess comes from `public/schools.json`:
+a hand-written fun fact per school in
+[`data/schools-seed.json`](data/schools-seed.json), with the stats (enrollment,
+mascot, athletics, U.S. News rank) read from each school's Wikipedia infobox
+and the alumni from Wikidata by `npm run build-schools` (cached, no key).
+Schema, tiers and the add-a-town / add-a-school recipes:
+[`docs/DATA.md`](docs/DATA.md). Mechanics and scoring:
+[`docs/PLAN.md`](docs/PLAN.md).
 
 ## ☁️ Hosting & deploy
 
@@ -158,6 +166,9 @@ Runbook, custom-domain notes, repo Variables and the first-run Pages gotcha:
   Services GmbH, contains modified Copernicus Sentinel data (CC BY-NC-SA 4.0).
 - Town coordinates: © OpenStreetMap contributors (ODbL), via Nominatim.
 - State outlines and Census pins: US Census Bureau (public domain).
+- School stats: [Wikipedia](https://en.wikipedia.org) (CC BY-SA 4.0) and
+  [Wikidata](https://www.wikidata.org) (CC0); rankings are U.S. News & World
+  Report's as recorded on Wikipedia. Fun facts are our own.
 - Cheer clip: CC0 / public domain, BigSoundBank.
 
 ---

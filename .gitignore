@@ -27,3 +27,7 @@ data/.nominatim-cache.json
 # Wrangler local secrets for `wrangler dev` (GH_TOKEN etc.). Never commit.
 worker/.dev.vars
 .dev.vars
+
+# Wikipedia/Wikidata cache for scripts/build-schools.mjs. The committed
+# artifact is public/schools.json, not this.
+data/.wikipedia-cache.json

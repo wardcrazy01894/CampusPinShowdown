@@ -19,6 +19,7 @@ import { MapGuess } from './MapGuess'
 import { DEFAULT_BASEMAP, type Basemap } from '../lib/basemap'
 import { BasemapToggle } from './BasemapToggle'
 import { Results } from './Results'
+import { SchoolCard } from './SchoolCard'
 import {
   scoreGuess,
   formatDistance,
@@ -255,8 +256,8 @@ export function Game({
         </div>
 
         {/* The prompt is the SCHOOL; the town is the answer and is withheld until
-          the guess is in (owner rule: "ask where Texas Tech is, then tell me
-          it's Lubbock"). */}
+          the guess is in (owner rule: "ask where Michigan is, then tell me
+          it's Ann Arbor"). */}
         {revealed ? (
           <>
             <h2 className="play__question">
@@ -269,6 +270,9 @@ export function Game({
               )}
             </h2>
             <p className="play__sub">{schoolsLine(currentTown.schools)}</p>
+            {/* Fun fact + stats for the school just asked about. Only after the
+              reveal: the fact names the town. Fetched lazily on first use. */}
+            <SchoolCard school={promptSchool(currentTown)} />
           </>
         ) : (
           <>

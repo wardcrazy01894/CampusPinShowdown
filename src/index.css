@@ -358,3 +358,62 @@ body,
 .icon-button:focus-visible {
   background: rgba(255, 255, 255, 0.1);
 }
+
+/* ── School card (SchoolCard.tsx) ──────────────────────────────────────────
+   Shown after a guess inside the floating prompt card and, collapsed behind
+   an "About …" toggle, under each results row. Dense on purpose: on a phone
+   the prompt card floats over the map, so every line here is map it hides. */
+.school-card {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.school-card__fact {
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+.school-card__stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  opacity: 0.85;
+}
+.school-card__alumni {
+  margin: 6px 0 0;
+  opacity: 0.85;
+}
+.school-card__credit {
+  margin: 4px 0 0;
+  font-size: 11px;
+  opacity: 0.5;
+}
+.school-card__credit a {
+  color: inherit;
+}
+/* The prompt card can now outgrow a short phone screen; let it scroll rather
+   than push the action bar off the map. */
+.play__prompt {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+/* Results: the About toggle sits under its row, in the row's left gutter. */
+.results__about {
+  margin: -2px 0 0 34px;
+  background: transparent;
+  border: none;
+  padding: 2px 0;
+  font: inherit;
+  font-size: 13px;
+  color: #7fb2ff;
+  cursor: pointer;
+}
+.results__about + .school-card {
+  margin: 4px 0 10px 34px;
+  border-top: none;
+  padding-top: 0;
+}

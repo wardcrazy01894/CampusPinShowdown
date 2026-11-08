@@ -1,7 +1,7 @@
 /**
- * Round-prompt phrasing. The PROMPT names the school ("Where is Texas Tech
- * University?"); the TOWN is the answer and appears only after the guess
- * ("Lubbock, Texas — home of Texas Tech University"). Pure; unit-tested.
+ * Round-prompt phrasing. The PROMPT names the school ("Where is University of
+ * Michigan?"); the TOWN is the answer and appears only after the guess
+ * ("Ann Arbor, Michigan — home of University of Michigan"). Pure; unit-tested.
  */
 
 const fold = (s: string) =>

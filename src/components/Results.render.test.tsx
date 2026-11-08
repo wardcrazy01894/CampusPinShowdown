@@ -1,6 +1,13 @@
 // @vitest-environment jsdom
-import { describe, it, expect, afterEach } from 'vitest'
-import { render, cleanup, screen, fireEvent } from '@testing-library/react'
+import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest'
+import {
+  render,
+  cleanup,
+  screen,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react'
+import { resetSchoolFactsCache } from '../lib/schoolFacts'
 import { Results } from './Results'
 import { REGION } from '../lib/region'
 import { saveState, STORAGE_VERSION } from '../lib/storage'
@@ -161,5 +168,51 @@ describe('Results', () => {
       />,
     )
     expect(screen.queryByRole('button', { name: /Play today/ })).toBeNull()
+  })
+})
+
+describe('Results — school cards', () => {
+  const file = {
+    version: 1,
+    generated: '2026-11-08',
+    attribution: 'Wikipedia',
+    rankingEdition: 2026,
+    schools: [
+      { school: 'U', wikipedia: 'U', funFact: 'U is a fine school indeed.' },
+    ],
+  }
+  beforeEach(() => resetSchoolFactsCache())
+  afterEach(() => vi.unstubAllGlobals())
+
+  it('offers an "About <school>" toggle under each row that opens the card', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({ ok: true, json: async () => file })),
+    )
+    render(
+      <Results
+        dateKey="2026-10-30"
+        bounds={REGION.bounds}
+        results={results}
+        totalScore={253}
+        lineup="abc123"
+        streak={{ current: 2, best: 9 }}
+        official={false}
+      />,
+    )
+    const toggles = screen.getAllByRole('button', { name: /About U/ })
+    expect(toggles).toHaveLength(5)
+    expect(toggles[0].getAttribute('aria-expanded')).toBe('false')
+    expect(screen.queryByText(/fine school/)).toBeNull()
+    fireEvent.click(toggles[0])
+    expect(toggles[0].getAttribute('aria-expanded')).toBe('true')
+    await waitFor(() =>
+      expect(screen.getAllByText(/fine school/)).toHaveLength(1),
+    )
+    // The toggle is not nested inside the row button (invalid HTML, and a
+    // tap would also zoom the map).
+    expect(toggles[0].closest('li')!.querySelector('button button')).toBeNull()
+    fireEvent.click(toggles[0])
+    expect(screen.queryByText(/fine school/)).toBeNull()
   })
 })

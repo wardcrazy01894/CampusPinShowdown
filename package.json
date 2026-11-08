@@ -23,7 +23,8 @@
     "worker:deploy": "wrangler deploy -c worker/wrangler.toml",
     "worker:migrate": "wrangler d1 migrations apply cps-leaderboard --remote -c worker/wrangler.toml",
     "worker:migrate:local": "wrangler d1 migrations apply cps-leaderboard --local -c worker/wrangler.toml",
-    "build-towns": "node scripts/build-towns.mjs"
+    "build-towns": "node scripts/build-towns.mjs",
+    "build-schools": "node scripts/build-schools.mjs"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",

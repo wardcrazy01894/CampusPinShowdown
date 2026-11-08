@@ -109,3 +109,51 @@ export interface DayRecord {
    */
   lineup?: string
 }
+
+/**
+ * The "about this school" card shown after a guess — one row of
+ * public/schools.json, keyed by the round's PROMPT school (schools.ts:
+ * promptSchool). Built by scripts/build-schools.mjs from the hand-written
+ * data/schools-seed.json (funFact, overrides) plus Wikipedia/Wikidata; every
+ * stat is optional because the article may not carry it, and the card simply
+ * omits what is missing. See docs/DATA.md §School facts.
+ */
+export interface SchoolFacts {
+  /** Exact prompt-school name, e.g. "University of Michigan". */
+  school: string
+  /** English Wikipedia article title the stats came from (also the credit link). */
+  wikipedia: string
+  /** Hand-written, 1–2 sentences, shown after the guess. */
+  funFact: string
+  type?: 'Public' | 'Private'
+  founded?: number
+  undergrad?: number
+  postgrad?: number
+  /** Total enrollment — shown only when the undergrad/grad split is unknown. */
+  students?: number
+  /** Term the enrollment figures are for, e.g. "fall 2025". */
+  enrollmentAsOf?: string
+  mascot?: string
+  /** Athletic team name, e.g. "Red Raiders". */
+  nickname?: string
+  /** e.g. "NCAA Division I FBS", "NCAA Division III", "NAIA". */
+  division?: string
+  /** Primary athletic conference, e.g. "Big 12". */
+  conference?: string
+  /** U.S. News rank on one of its lists (National Universities, National
+   *  Liberal Arts Colleges, Regional Universities, Regional Colleges). */
+  ranking?: { list: string; rank: number }
+  /** "Name (short role)", most widely known first, at most five. */
+  alumni?: string[]
+}
+
+/** The bundled school-facts file (public/schools.json). */
+export interface SchoolsFile {
+  version: number
+  /** Build date, YYYY-MM-DD. */
+  generated: string
+  attribution: string
+  /** U.S. News Best Colleges edition the ranks refer to, e.g. 2026. */
+  rankingEdition: number
+  schools: SchoolFacts[]
+}

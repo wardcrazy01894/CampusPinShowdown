@@ -20,7 +20,8 @@ import { isCelebrateTest } from '../lib/devmode'
 import { fireConfetti } from '../lib/confetti'
 import { playCheer } from '../lib/sound'
 import { tierLabel } from '../lib/tiers'
-import { schoolsLine } from '../lib/schools'
+import { schoolsLine, promptSchool } from '../lib/schools'
+import { SchoolCard } from './SchoolCard'
 import { RecapMap } from './RecapMap'
 import { DEFAULT_BASEMAP, type Basemap } from '../lib/basemap'
 import { BasemapToggle } from './BasemapToggle'
@@ -137,6 +138,10 @@ export function Results({
   // Which round the recap map frames; null = the whole day. Tapping a row
   // toggles it.
   const [focus, setFocus] = useState<number | null>(null)
+  // Which row's school card is open (one at a time; tapping a row's
+  // "About …" toggles it). Separate from `focus` so reading about a school
+  // never moves the map.
+  const [about, setAbout] = useState<number | null>(null)
   const mapWrapRef = useRef<HTMLDivElement | null>(null)
   function focusRound(i: number) {
     const next = focus === i ? null : i
@@ -323,6 +328,18 @@ export function Results({
                   </span>
                 </span>
               </button>
+              {/* A sibling of the row button, not a child: nested buttons are
+                invalid HTML, and the row itself zooms the recap map. */}
+              <button
+                type="button"
+                className="results__about"
+                aria-expanded={about === i}
+                onClick={() => setAbout(about === i ? null : i)}
+              >
+                <span aria-hidden="true">ℹ️ </span>
+                About {promptSchool(r.town)} {about === i ? '▴' : '▾'}
+              </button>
+              {about === i && <SchoolCard school={promptSchool(r.town)} />}
             </li>
           )
         })}

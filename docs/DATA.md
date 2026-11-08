@@ -144,6 +144,92 @@ a full, five-different-states lineup.
 5. Because selection is per-town-ranked (`docs/PLAN.md`), adding a town leaves
    existing days' lineups alone except where the new town out-ranks a pick.
 
+## School facts (`public/schools.json`)
+
+The "about this school" card shown after a guess (PLAN §Game loop) reads one
+row per **prompt school** (`promptSchool`, above — one row per town today,
+**N** rows). Like the towns, it is **generated** — never edit it by hand.
+
+```
+data/schools-seed.json  ──  npm run build-schools  ──▶  public/schools.json
+ (hand-written: funFact,     (Wikipedia infobox +         (sorted by school,
+  optional overrides)         Wikidata alumni, cached)     unknown fields omitted)
+```
+
+### Seed schema (`data/schools-seed.json`)
+
+```jsonc
+{
+  "school": "University of Michigan", // must equal a town's prompt school
+  "funFact": "The Big House is …", // required, 20–320 chars, 1–2 sentences, our own words
+  "wikipedia": "Ripon College (Wisconsin)", // OPTIONAL: article title when search picks wrong
+  "alumni": ["Name (role)", "…"], // OPTIONAL: replaces the Wikidata list
+}
+```
+
+The build validates the seed first: every prompt school present exactly
+once, no stray entries, every `funFact` in range. A missing fact fails the
+build (in `--dry-run` it only warns, so the network passes can run before
+the writing is done).
+
+### What each row carries (`SchoolFacts`, `src/types.ts`)
+
+| field                                                 | source                                                                                                                                                |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `funFact`                                             | seed (hand-written)                                                                                                                                   |
+| `wikipedia`                                           | resolved article title (seed override → else top Wikipedia search hit)                                                                                |
+| `type`, `founded`                                     | `Infobox university`: `type` → Public/Private, `established` → year                                                                                   |
+| `undergrad`, `postgrad`, `students`, `enrollmentAsOf` | infobox `undergrad` / `postgrad`, or the total `students` when only that is given — first number, "(fall 2025)" term                                  |
+| `mascot`, `nickname`                                  | infobox `mascot`, `athletics_nickname` / `nickname`                                                                                                   |
+| `division`, `conference`                              | infobox `sporting_affiliations` "NCAA Division I FBS – Big 12" (or an `affiliations` line that names the NCAA/NAIA), first entry                      |
+| `ranking`                                             | `Infobox US university ranking`: `USNWR_NU` → else `_LA` → `_RU` → `_RC` → `_REG` (one regional rank, list unnamed; the card says "#3 in its region") |
+| `alumni`                                              | Wikidata: humans "educated at" (P69) the article's item, ranked by number of Wikipedia sitelinks, top 5 — a fame proxy, not an editorial list         |
+
+Everything but `school`, `wikipedia` and `funFact` is optional; the card
+omits what is missing. Coverage today: **COVERAGE**. The ranking edition
+(`rankingEdition`, 2026) is a constant in the build script — bump it when
+Wikipedia's ranking template moves to a new U.S. News edition.
+
+### Fetching (`scripts/build-schools.mjs`)
+
+- English Wikipedia API (`action=query`, revisions + pageprops, following
+  redirects) with the same identifying `User-Agent` as the geocoder, ~150 ms
+  between calls. Titles are resolved with `list=search`; the dry run prints
+  every `name → title` and flags the ones that differ (`← CHECK`) — review
+  them and pin a `wikipedia` override where search picked a city, a
+  disambiguation page or the wrong school.
+- Wikidata SPARQL for alumni, ~1 s between queries. The public endpoint times
+  out on schools with tens of thousands of alumni items, so the query is
+  retried with a higher sitelinks floor (25 → 60 → 120) and gives up to an
+  empty list (warned, not fatal); a thin result (< 3 names) is retried with
+  lower floors (8 → 3) so small colleges still get their best-known alumni.
+- Everything is cached in `data/.wikipedia-cache.json` (gitignored); delete
+  a key (`search|…`, `article|…`, `alumni|Q…`) to refresh it. A full cold run
+  takes ~25 minutes, almost all of it SPARQL.
+- Wikitext parsing (`build-schools-lib.mjs`, unit-tested): brace-matched
+  template extraction, top-level parameter split, and a small `plain()` that
+  strips refs/links/comments and renders list/date templates. Anything it
+  cannot read is left undefined.
+- Licensing: Wikipedia text is CC BY-SA 4.0 and Wikidata is CC0; the card
+  links the article, and the file's `attribution` string says so. Fun facts
+  are ours.
+
+### Guard test (`src/lib/schoolsFile.test.ts`)
+
+Envelope, exactly one sorted row per prompt school, fun-fact length,
+plausible numbers (founded 1600–2026, undergrad 100–200k, rank 1–500 on a
+known list), no leftover wikitext markup, and minimum coverage per field
+(an enrollment figure > 95 %, undergrad > 75 %, division > 90 %, founded > 95 %, alumni > 80 %, mascot > 70 %) so
+a parser regression cannot ship a card full of blanks.
+
+### Adding a school
+
+Adding a town (above) adds a prompt school; the guard test and the build
+then fail until `data/schools-seed.json` has its entry. Write the fun fact,
+run `npm run build-schools -- --dry-run` to check the article match, add a
+`wikipedia` override if needed, then `npm run build-schools`. Changing a
+town's `prompt` or `schools` can change its prompt school — same drill.
+
 ## State outlines (`src/data/us-states.json`)
 
 Not a town dataset, but data all the same: the Census Bureau's 1:20m
