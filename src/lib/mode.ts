@@ -10,7 +10,7 @@
  * an in-progress daily.
  */
 
-import { getDateKey, isValidDateKey } from './daily'
+import { getDateKey, isValidDateKey, dateSeed, addDays } from './daily'
 import { shouldShuffle } from './devmode'
 import { shouldDeferReload } from './version'
 import { REGION } from './region'
@@ -20,10 +20,19 @@ import type { GameState } from '../types'
  *  the two can't drift. */
 export const SHUFFLE_SUFFIX = '__shuffle'
 
+/** How far ahead of today a `?date=` override may reach (see resolveMode). */
+export const DATE_OVERRIDE_HORIZON_DAYS = 365
+
 export interface Mode {
   dateKey: string
   /** Seed for selectDailyTowns — region + date (or a per-load random for shuffle). */
   selectionSeed: string
+  /**
+   * True when the lineup is a calendar day's (official or ?date=) and so
+   * goes through the recency cooldown (daily.ts:dailyLineup, keyed by
+   * `dateKey`). False for ?shuffle, whose per-load seed has no history.
+   */
+  cooldown: boolean
   /** Short human label for the header ("2026-10-29", "shuffle", "… (override)"). */
   label: string
   /** True ONLY for the real daily challenge (today's date-seeded 5). */
@@ -49,24 +58,34 @@ export function resolveMode(
       selectionSeed: `${REGION.id}:shuffle-${shuffleSeed}`,
       label: 'shuffle — random 5 (refresh for a new set)',
       official: false,
+      cooldown: false,
       storageId: `${REGION.id}${SHUFFLE_SUFFIX}`,
     }
   }
   const param = new URLSearchParams(search).get('date')
-  if (param && isValidDateKey(param)) {
+  // A ?date= more than a year ahead is ignored: the cooldown walk
+  // (daily.ts:dailyLineup) is sequential, and 2099 would mean ~26k days of
+  // synchronous work on the render thread. The past is unbounded.
+  if (
+    param &&
+    isValidDateKey(param) &&
+    param <= addDays(today, DATE_OVERRIDE_HORIZON_DAYS)
+  ) {
     return {
       dateKey: param,
-      selectionSeed: `${REGION.id}:${param}`,
+      selectionSeed: dateSeed(REGION.id, param),
       label: `${param} (override)`,
       official: false,
+      cooldown: true,
       storageId: `${REGION.id}__date`,
     }
   }
   return {
     dateKey: today,
-    selectionSeed: `${REGION.id}:${today}`,
+    selectionSeed: dateSeed(REGION.id, today),
     label: today,
     official: true,
+    cooldown: true,
     storageId: REGION.id,
   }
 }

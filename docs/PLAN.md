@@ -89,8 +89,31 @@ All of this is CSS in `src/index.css` over a DOM shape pinned by
   fresh-state preference can let a lower-ranked town in an unused state win a
   slot, so a new town in a new state changes slightly more days (~1 in 7 on the
   fixture) than one in an existing state.
+- **Recency cooldown (from 2026-11-10):** a town that appeared in any of the
+  previous **14** daily lineups is not eligible (`COOLDOWN_DAYS`,
+  `dailyLineup`). Independent per-day draws repeated towns fast — five
+  repeats in the first eleven days, Norman two days running, birthday math
+  on a 69-town easy tier. `dailyLineup` walks the days in order from 14 days
+  before the switch-on date (those use the legacy selection and seed the
+  history), excluding the last 14 lineups' towns, so it stays a pure function
+  of (dataset, date) with no storage, and puzzles #1–#12 keep the lineups
+  people played. Excluded towns return only as a last resort when a tier is
+  exhausted (tiny datasets). The walk is memoised per dataset array; three
+  years cost ~150 ms. `?shuffle` has no history and skips it (`Mode.cooldown`),
+  and a `?date=` more than a year ahead is ignored so a hand-typed 2099
+  cannot freeze the page walking 26k days (`DATE_OVERRIDE_HORIZON_DAYS`).
+  **Trade-off, measured over 730 simulated days:** the stability property
+  above weakens slightly — with the cooldown a dataset change can ripple into
+  the following days' lineups. At 14 days, adding a town changed _today's_
+  lineup in 2 of 30 trials (1 of 30 without) and ~1.4 of the next 30 days
+  (0.7 without); at 21 days it was 10 of 30, at 28 days 16 of 30, which is
+  why the window is two weeks. Excluding the previous days' _raw_ (no-cooldown)
+  picks instead would keep full stability but barely helps (813 repeats in
+  two years at 21 days vs 0).
 - **Golden tests** pin the hash, the rank format, and a fixture lineup. Changing
   any of them re-rolls every past and future puzzle — do it deliberately.
+  `src/lib/towns.test.ts` additionally walks three years of real lineups and
+  asserts no town returns within 14 days, every day full and state-diverse.
 - **Puzzle number:** days since `EPOCH_DATE_KEY` (2026-10-29), 1-based, UTC math.
 
 ## Scoring (`src/lib/scoring.ts`)

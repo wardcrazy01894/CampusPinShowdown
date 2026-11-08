@@ -26,6 +26,19 @@
  * puzzle under players mid-game on every data deploy (the resume logic then
  * restarts them on the new lineup — see resume.ts). A guard test pins this
  * property. See docs/PLAN.md.
+ *
+ * ── Recency cooldown (read this) ─────────────────────────────────────────────
+ * Independent per-day draws repeat towns fast (five repeats in the first
+ * eleven days, Norman two days running — birthday math on a 69-town easy
+ * tier). From COOLDOWN_FROM_DATE_KEY on, `dailyLineup` walks the days in
+ * order and excludes every town that appeared in the previous COOLDOWN_DAYS
+ * lineups. Deterministic, no storage, same for everyone; the walk starts
+ * COOLDOWN_DAYS before the switch-on date so the legacy puzzles just before
+ * it count too, and the already-played days keep their lineups exactly. The
+ * price (measured, docs/PLAN.md): a dataset change can now ripple into the
+ * next few days' lineups as well — still rare at 14 days (today's lineup
+ * changed in 2 of 30 simulated additions vs 1 of 30 without the cooldown),
+ * which is why the window is 14 and not 21 or 28.
  */
 
 import type { Difficulty, Town } from '../types'
@@ -51,6 +64,29 @@ export const DIFFICULTY_PLAN: Difficulty[] = [
  * `puzzleNumber('2026-10-29') === 1`.
  */
 export const EPOCH_DATE_KEY = '2026-10-29'
+
+/** A town that appeared in the last N daily lineups is not eligible today. */
+export const COOLDOWN_DAYS = 14
+
+/**
+ * First day the cooldown applies. Days before it keep the legacy
+ * memoryless selection, so no puzzle anyone has already played is re-rolled
+ * by the switch (puzzles #1–#12 were played without it).
+ */
+export const COOLDOWN_FROM_DATE_KEY = '2026-11-10'
+
+/** `dateKey` shifted by `n` calendar days, in UTC so DST can't skip or repeat a day. */
+export function addDays(dateKey: string, n: number): string {
+  return new Date(Date.parse(dateKey + 'T00:00:00Z') + n * 86_400_000)
+    .toISOString()
+    .slice(0, 10)
+}
+
+/** The selection seed for a region's calendar day — the one format mode.ts
+ *  and dailyLineup must agree on: "usa:2026-10-29". */
+export function dateSeed(regionId: string, dateKey: string): string {
+  return `${regionId}:${dateKey}`
+}
 
 /**
  * Returns the calendar day as "YYYY-MM-DD" — in `timeZone` when given,
@@ -128,6 +164,9 @@ export function hashStringToSeed(str: string): number {
  *  - Each slot takes the best-ranked town of its difficulty whose state is not
  *    yet in today's lineup; then any of its difficulty; then any town at all —
  *    so a full set is always returned.
+ *  - `exclude` (the recency cooldown, see dailyLineup) removes towns from
+ *    consideration; they come back only as the very last resort, when nothing
+ *    else is left (tiny datasets, dev fixtures).
  *
  * @throws if the dataset has fewer than `count` towns, or `count` exceeds the plan.
  */
@@ -135,6 +174,7 @@ export function selectDailyTowns(
   all: Town[],
   seed: string,
   count: number = ROUNDS_PER_DAY,
+  exclude: ReadonlySet<string> = new Set(),
 ): Town[] {
   if (count > DIFFICULTY_PLAN.length) {
     throw new Error(
@@ -152,7 +192,66 @@ export function selectDailyTowns(
       rank.get(a.id)! - rank.get(b.id)! ||
       (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
   )
-  return fillByDifficulty(pool, count)
+  return fillByDifficulty(pool, count, exclude)
+}
+
+/**
+ * The lineup for a region's calendar day WITH the recency cooldown: from
+ * COOLDOWN_FROM_DATE_KEY on, towns picked in the previous COOLDOWN_DAYS days
+ * are excluded. Computed by walking day by day from COOLDOWN_DAYS before the
+ * switch-on date (those days use the legacy selection and seed the history),
+ * so it is a pure function of (dataset, dateKey) — no storage, identical in
+ * every browser. Days before the switch-on date return the legacy selection
+ * unchanged. Cost is linear in the days since 2026-10-27 (~350 hashes and one
+ * sort per day, ~0.15 ms); the walk is memoised per dataset array so a second
+ * call (midnight rollover, tests) only extends it.
+ */
+export function dailyLineup(
+  all: Town[],
+  regionId: string,
+  dateKey: string,
+  count: number = ROUNDS_PER_DAY,
+): Town[] {
+  if (dateKey < COOLDOWN_FROM_DATE_KEY)
+    return selectDailyTowns(all, dateSeed(regionId, dateKey), count)
+  const walk = walkFor(all, regionId, count)
+  const start = addDays(COOLDOWN_FROM_DATE_KEY, -COOLDOWN_DAYS)
+  const index = Math.round(
+    (Date.parse(dateKey + 'T00:00:00Z') - Date.parse(start + 'T00:00:00Z')) /
+      86_400_000,
+  )
+  while (walk.history.length <= index) {
+    const i = walk.history.length
+    const d = addDays(start, i)
+    const exclude =
+      i < COOLDOWN_DAYS
+        ? new Set<string>() // legacy days: seed the history, no cooldown
+        : new Set(
+            walk.history
+              .slice(-COOLDOWN_DAYS)
+              .flatMap((day) => day.map((t) => t.id)),
+          )
+    walk.history.push(
+      selectDailyTowns(all, dateSeed(regionId, d), count, exclude),
+    )
+  }
+  return walk.history[index]
+}
+
+interface Walk {
+  regionId: string
+  count: number
+  /** Lineups from COOLDOWN_DAYS before COOLDOWN_FROM_DATE_KEY, one per day. */
+  history: Town[][]
+}
+/** One walk per dataset array (identity): a fresh towns.json fetch starts over. */
+const walks = new WeakMap<Town[], Walk[]>()
+function walkFor(all: Town[], regionId: string, count: number): Walk {
+  let list = walks.get(all)
+  if (!list) walks.set(all, (list = []))
+  let w = list.find((x) => x.regionId === regionId && x.count === count)
+  if (!w) list.push((w = { regionId, count, history: [] }))
+  return w
 }
 
 /** A town's position in the day's ordering. Pure; independent of every other town. */
@@ -160,12 +259,16 @@ export function dayRank(seed: string, townId: string): number {
   return hashStringToSeed(`${seed}|${townId}`)
 }
 
-function fillByDifficulty(pool: Town[], count: number): Town[] {
+function fillByDifficulty(
+  pool: Town[],
+  count: number,
+  exclude: ReadonlySet<string>,
+): Town[] {
   const plan = DIFFICULTY_PLAN.slice(0, count)
   const used = new Set<string>()
   const usedStates = new Set<string>()
   const chosen: Town[] = []
-  const free = (t: Town) => !used.has(t.id)
+  const free = (t: Town) => !used.has(t.id) && !exclude.has(t.id)
   const freshState = (t: Town) => !usedStates.has(t.stateCode)
 
   for (const difficulty of plan) {
@@ -176,7 +279,9 @@ function fillByDifficulty(pool: Town[], count: number): Town[] {
       ofDifficulty.find(freshState) ??
       ofDifficulty[0] ??
       pool.find((t) => free(t) && freshState(t)) ??
-      pool.find(free)
+      pool.find(free) ??
+      // Last resort: everything eligible is on cooldown (tiny pools only).
+      pool.find((t) => !used.has(t.id))
     if (!pick) {
       throw new Error(`Could not fill ${count} rounds from ${pool.length}.`)
     }

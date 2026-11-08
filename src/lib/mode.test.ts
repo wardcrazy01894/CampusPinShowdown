@@ -86,3 +86,29 @@ describe('resolveSessionMode — midnight rollover freeze', () => {
     expect(resolveSessionMode(before, shuffle, () => game())).toBe(shuffle)
   })
 })
+
+describe('resolveMode — cooldown flag', () => {
+  it('is on for the official daily and a ?date= override, off for ?shuffle', () => {
+    const now = new Date('2026-11-12T12:00:00Z')
+    expect(resolveMode('', now, 'x', 'UTC').cooldown).toBe(true)
+    expect(resolveMode('?date=2026-11-01', now, 'x', 'UTC').cooldown).toBe(true)
+    expect(resolveMode('?shuffle', now, 'x', 'UTC').cooldown).toBe(false)
+  })
+})
+
+describe('resolveMode — ?date= horizon', () => {
+  it('ignores a ?date= more than a year ahead (the cooldown walk would freeze the page), keeping the official daily', () => {
+    const now = new Date('2026-11-12T12:00:00Z')
+    expect(resolveMode('?date=2027-11-12', now, 'x', 'UTC').dateKey).toBe(
+      '2027-11-12',
+    )
+    const far = resolveMode('?date=2027-11-13', now, 'x', 'UTC')
+    expect(far.official).toBe(true)
+    expect(far.dateKey).toBe('2026-11-12')
+    expect(resolveMode('?date=2099-01-01', now, 'x', 'UTC').official).toBe(true)
+    // The past is unbounded (replays, dev checks).
+    expect(resolveMode('?date=2020-01-01', now, 'x', 'UTC').dateKey).toBe(
+      '2020-01-01',
+    )
+  })
+})

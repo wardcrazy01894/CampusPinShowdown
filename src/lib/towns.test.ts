@@ -2,7 +2,14 @@ import { describe, it, expect } from 'vitest'
 import { promptSchool } from './schools'
 import { readFileSync } from 'node:fs'
 import { REGION, inRegion } from './region'
-import { ROUNDS_PER_DAY, selectDailyTowns } from './daily'
+import {
+  ROUNDS_PER_DAY,
+  selectDailyTowns,
+  dailyLineup,
+  addDays,
+  COOLDOWN_DAYS,
+  COOLDOWN_FROM_DATE_KEY,
+} from './daily'
 import { haversineMeters } from './scoring'
 import type { TownsFile, Town } from '../types'
 
@@ -148,6 +155,50 @@ describe('public/towns.json', () => {
     const asks = (id: string) => promptSchool(towns.find((t) => t.id === id)!)
     expect(asks('memphis-tn')).toBe('University of Memphis')
     expect(asks('fayetteville-nc')).toBe('Fayetteville State University')
+  })
+
+  it('COOLDOWN: from 2026-11-10 no town returns within 14 days, every lineup full and state-diverse, for three years', () => {
+    const last = new Map<string, number>()
+    const start = addDays(COOLDOWN_FROM_DATE_KEY, -COOLDOWN_DAYS)
+    const t0 = Date.now()
+    for (let i = 0; i < COOLDOWN_DAYS + 3 * 365; i++) {
+      const d = addDays(start, i)
+      const picks = dailyLineup(towns, REGION.id, d)
+      expect(picks, d).toHaveLength(ROUNDS_PER_DAY)
+      expect(new Set(picks.map((t) => t.stateCode)).size, d).toBe(
+        ROUNDS_PER_DAY,
+      )
+      if (d >= COOLDOWN_FROM_DATE_KEY)
+        for (const t of picks) {
+          const l = last.get(t.id)
+          if (l !== undefined)
+            expect(i - l, `${t.id} on ${d}`).toBeGreaterThan(COOLDOWN_DAYS)
+        }
+      for (const t of picks) last.set(t.id, i)
+    }
+    // Sequential by design (docs/PLAN.md §Daily selection); three years must
+    // stay cheap enough to run on every page load.
+    expect(Date.now() - t0).toBeLessThan(5_000)
+  })
+
+  it('COOLDOWN: every puzzle played before the switch-on date (#1–#12) keeps exactly its legacy lineup', () => {
+    for (let d = '2026-10-29'; d < COOLDOWN_FROM_DATE_KEY; d = addDays(d, 1))
+      expect(
+        dailyLineup(towns, REGION.id, d).map((t) => t.id),
+        d,
+      ).toEqual(selectDailyTowns(towns, `${REGION.id}:${d}`).map((t) => t.id))
+  })
+
+  it('COOLDOWN: the first cooldown day excludes the legacy lineups of the 14 days before it', () => {
+    const legacy = new Set<string>()
+    for (let i = 1; i <= COOLDOWN_DAYS; i++)
+      for (const t of selectDailyTowns(
+        towns,
+        `${REGION.id}:${addDays(COOLDOWN_FROM_DATE_KEY, -i)}`,
+      ))
+        legacy.add(t.id)
+    for (const t of dailyLineup(towns, REGION.id, COOLDOWN_FROM_DATE_KEY))
+      expect(legacy.has(t.id), t.id).toBe(false)
   })
 
   it('selects a full, state-diverse lineup for every day of the first year', () => {
