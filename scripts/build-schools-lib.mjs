@@ -178,37 +178,103 @@ export function parseCount(raw) {
  * { division: 'NCAA Division I FBS', conference: 'Big 12' }. Lists keep the
  * first entry (the primary conference); separators may be –, —, - or ·.
  */
+/**
+ * Wikilinks in an athletics line, resolved so the CONFERENCE reads well:
+ * `[[Sooner Athletic Conference|Sooner]]` → the target (a one-word prefix of
+ * it), `[[Centennial Conference|CC]]` → the target (text too short to mean
+ * anything), `[[Big Ten Conference|Big Ten]]` → "Big Ten" (a multi-word name
+ * in its own right), `[[Southeastern Conference|SEC]]` → "SEC" (a real
+ * acronym), FBS/FCS subdivision links → "FBS"/"FCS".
+ */
+function resolveAthleticsLinks(raw) {
+  return String(raw).replace(
+    /\[\[([^[\]|]*)\|([^[\]]*)\]\]/g,
+    (_, target, text) => {
+      const t = target.trim()
+      const x = text.trim()
+      if (/Football Bowl Subdivision/i.test(t)) return 'FBS'
+      if (/Football Championship Subdivision/i.test(t)) return 'FCS'
+      if (/\b(Conference|League|Association)\b/i.test(t)) {
+        if (x.length < 3) return t
+        const prefix =
+          t.toLowerCase().startsWith(x.toLowerCase()) && x.length < t.length
+        // "Sooner" → "Sooner Athletic Conference", "Old Dominion" → "Old
+        // Dominion Athletic Conference" (else it reads as the university);
+        // but "Big Ten", "Mountain West" are names in their own right.
+        if (prefix && (!/\s/.test(x) || /Athletic|Collegiate/i.test(t)))
+          return t
+      }
+      return x
+    },
+  )
+}
+
+const DIVISION_RE =
+  /(?:NCAA|National Collegiate Athletic Association)?[\s:,]*(?:Division|Div\.?)\s+(I{1,3})(?!I)/i
+const SUBDIVISION_RE = /^[\s–—\-:,·(]*(FBS|FCS)\)?/i
+const CONF_WORD = /\b(?:Conference|League|Association)\b/i
+
+/**
+ * `{ division, conference }` from an infobox athletics line, or null when no
+ * division can be recognised. The division is RECOGNISED (NCAA Division
+ * I/II/III ± FBS/FCS, NAIA…) rather than copied — infobox lines come in every
+ * shape ("NCAA Division I FBS –, CUSA", "NCAA Division I – FCS, ASUN",
+ * "National Collegiate Athletic Association, Division III, …", "NCAA:,
+ * Division II: GLIAC", "Southern Athletic Association, NCAA Division III").
+ * The conference is the first list item after the division (or, failing
+ * that, a conference-named item just before it), 3–40 characters.
+ */
 export function parseAthletics(raw) {
-  const s = plain(raw)
+  if (!raw) return null
+  const s = plain(resolveAthleticsLinks(raw))
   if (!s) return null
-  // The division is recognised, never copied: infobox lines come in every
-  // shape ("NCAA Division I FBS –, CUSA", "NCAA Division I FCSIvy League",
-  // "National Collegiate Athletic Association, Division III, …",
-  // "NCAA:, Division II: GLIAC", "NCAA Division I (FCS) Patriot League").
-  const m = s.match(
-    /(?:NCAA|National Collegiate Athletic Association)?[\s:,]*Division\s+(I{1,3})(?!I)\s*(?:\(\s*(FBS|FCS)\s*\)|(FBS|FCS))?|\b(NAIA|NJCAA|USCAA|NCCAA)\b/i,
-  )
-  if (!m) return null
-  const division = m[4]
-    ? m[4].toUpperCase()
-    : `NCAA Division ${m[1].toUpperCase()}${m[2] || m[3] ? ' ' + (m[2] || m[3]).toUpperCase() : ''}`
-  // The conference is the first thing after the division, up to the next
-  // list separator; never another "Division …" entry, never a bare "NCAA".
-  const rest = s.slice(m.index + m[0].length).replace(/^[\s–—\-:,·]+/, '')
-  let conference = rest.split(/\s*[,;·–—]\s*|\s+-\s+|\s*:\s*/)[0].trim()
-  conference = conference.replace(/\s*\([^)]*\)\s*/g, ' ').trim()
-  // "Patriot League CWPA" (no separator at all) → keep through the first
-  // conference-ish noun.
-  const noun = conference.match(
-    /^(.*?\b(?:Conference|League|Association|Athletic|Athletics)\b)/i,
-  )
-  if (noun && noun[1].length < conference.length) conference = noun[1].trim()
-  if (
-    !conference ||
-    /^(NCAA|Division\b.*)$/i.test(conference) ||
-    conference.length > 40
-  )
-    conference = undefined
+  let division
+  let before
+  let rest
+  const m = s.match(DIVISION_RE)
+  if (m) {
+    division = `NCAA Division ${m[1].toUpperCase()}`
+    before = s.slice(0, m.index)
+    rest = s.slice(m.index + m[0].length)
+    const sub = rest.match(SUBDIVISION_RE)
+    if (sub) {
+      division += ' ' + sub[1].toUpperCase()
+      rest = rest.slice(sub[0].length)
+    }
+  } else {
+    const a = s.match(/\b(NAIA|NJCAA|USCAA|NCCAA)\b/i)
+    if (!a) return null
+    division = a[1].toUpperCase()
+    before = s.slice(0, a.index)
+    rest = s.slice(a.index + a[0].length)
+  }
+  const items = (t) =>
+    t
+      .replace(/\s*\([^)]*\)\s*/g, ' ')
+      .split(/\s*[,;·–—]\s*|\s+-\s+|\s*:\s*/)
+      .map((x) => x.trim().replace(/^[–—\-:,·\s]+|[–—\-:,·\s]+$/g, ''))
+      .filter(Boolean)
+  const candidates = [
+    ...items(rest),
+    ...items(before)
+      .reverse()
+      .filter((x) => CONF_WORD.test(x)),
+  ]
+  let conference
+  for (let c of candidates) {
+    // "Patriot League CWPA" (no separator at all) → stop after the noun,
+    // unless the noun leads ("Conference USA").
+    const noun = c.match(/^(.+?\b(?:Conference|League|Association))\b/i)
+    if (noun && noun[1].length < c.length && /\s/.test(noun[1].trim()))
+      c = noun[1].trim()
+    if (c.length < 3 || c.length > 40) continue
+    if (/^(NCAA|NAIA|Division|Div\.?|FBS|FCS|independent|primary)\b/i.test(c))
+      continue
+    if (/\b(Athletic|Collegiate|and|of|the)$/i.test(c)) continue
+    if (/^(men|women)'s\b/i.test(c)) continue
+    conference = c
+    break
+  }
   return { division, conference }
 }
 
@@ -327,40 +393,60 @@ export const ALUMNI_BLOCKLIST = new Set([
   'Anwar al-Awlaki',
   'Omarosa Manigault Newman',
 ])
-const BLOCKED_ROLE =
-  /serial killer|murder|sex offender|sexual|killed|terroris|extremist|\bspy\b|criminal|convicted|rapist|drug (?:lord|trafficker|smuggler)|fraudster|assassin|shooter|cult leader|war criminal|neo-nazi|white supremacist/i
+export const BLOCKED_ROLE =
+  /serial killer|murder|sex offender|sexual|killed|terroris|extremist|\bspy\b|criminal|convicted|rapist|drug (?:lord|trafficker|smuggler)|fraudster|assassin|shooter|cult leader|war criminal|neo-nazi|white supremacist|pornograph|adult (?:film|movie|video)|\bporn\b|erotic|\b(?:wife|husband|widow|mother|father|son|daughter|brother|sister) of\b/i
 
 export function isBlockedAlumnus(name, descr) {
   return ALUMNI_BLOCKLIST.has(name) || BLOCKED_ROLE.test(descr ?? '')
 }
 
-const ROLE_MAX = 40
-/** Capitalised demonyms ("Turkish", "Mexican", "Jewish-American", "Iraqi"),
- *  optionally joined by "and"/"or", at the start of a description. */
-const DEMONYM =
-  /^(?:(?:[A-Z][a-z]+-)?[A-Z][a-z]+(?:ian|ean|ish|ese|an|i|ch|ic)\b(?:\s+(?:and|or))?\s*)+/
+const ROLE_MAX = 44
 
+/** Capitalised demonyms ("Turkish", "Mexican", "Jewish-American",
+ *  "Canadian-born", "Ukrainian/Canadian", "Iraqi"), optionally joined by
+ *  "and"/"or", at the start of a description. */
+const DEMONYM_WORD =
+  '(?:(?:South|North|New|Central) )?[A-Z][a-z]+(?:ian|ean|ish|ese|an|i|ch|ic|ek)'
+const DEMONYM = new RegExp(
+  `^(?:(?:${DEMONYM_WORD}[-/])*${DEMONYM_WORD}(?:-born)?\\b(?:\\s+(?:and|or)\\b)?\\s*)+`,
+)
+
+/**
+ * The role shown after a name. Trimmed, never truncated mid-phrase: when a
+ * description cannot be brought under ROLE_MAX cleanly, or what is left
+ * looks broken (digits, dangling "of", unbalanced parentheses, a bare
+ * demonym), the role is dropped and the card shows the name alone.
+ */
 function shortRole(descr) {
   if (!descr) return ''
   let s = descr
-    .replace(/\s*\((?:born|died|b\.|d\.|c\.|\d)[^)]*\)\s*/g, ' ')
+    .replace(/\s*\((?:born|died|b\.|d\.|c\.|\d)[^)]*\)?\s*/g, ' ')
     .replace(/\s*\[[^\]]*\]\s*/g, ' ')
     .replace(/\s*[;&]\s.*$/, '')
     .replace(/,?\s+who\s.*$/, '')
+    // "politician from the U.S. state of Maine" → the origin adds nothing here.
+    .replace(/\s+from\s+(?:the\s+)?[A-Z][\w. ]*$/, '')
     .replace(
-      /\s*\(?\b(?:from|since|in)\s+\d{4}(?:\s*(?:to|–|-)\s*(?:\d{4}|present))?\)?/g,
+      /\s*\(?\b(?:from|since|in|form)\s+\d{4}(?:\s*(?:to|–|-)\s*(?:\d{4}|present))?\)?/g,
       '',
     )
     .replace(/\s*,?\s*(?:Professor|professor|(?<!co-)founder|CEO) .*$/, '')
     .replace(/^\s*(?:\d+(?:st|nd|rd|th)[- ]century\s+)?/, '')
-    .replace(/\b\d+(?:st|nd|rd|th)\s+/g, '')
+    .replace(/\b\d+(?:st|nd|rd|th)[-\s]+/g, '')
     .replace(
       /^\s*(?:the\s+)?(?:and\s+)?(?:current|incumbent|former|retired)\s+/i,
       '',
     )
     .replace(/^\s*(?:the|a|an)\s+/i, '')
     .replace(/^\s*(?:former|retired|late)\s+/i, '')
-    .replace(/^\s*(?:U\.S\.|US|United States)\s+/, '')
+    .replace(DEMONYM, '')
+    // Nationality words left mid-phrase ("Nobel Prize-winning American
+    // chemist"), but never one glued by a hyphen or slash (handled above).
+    .replace(
+      /(?<![-/\w])(?:U\.S\.|US|American|Nobel[- ]Prize[- ]winning|Nobel prize winning)\s+/g,
+      '',
+    )
+    .replace(/^\s*(?:and|or)\s+/, '')
     .replace(DEMONYM, '')
     .replace(/^\s*(?:former|retired)\s+/i, '')
     .replace(/\s+/g, ' ')
@@ -369,17 +455,16 @@ function shortRole(descr) {
   s = parts.slice(0, 2).join(', ')
   if (s.length > ROLE_MAX) s = parts[0]
   if (s.length > ROLE_MAX) s = s.split(/\s+and\s+/)[0]
-  if (s.length > ROLE_MAX) {
-    s = s.slice(0, ROLE_MAX)
-    s = s.slice(0, s.lastIndexOf(' ')) || s
-  }
-  s = s
-    .replace(/[.,\s]+$/, '')
-    // A cut can leave a dangling function word ("…Senate from").
-    .replace(/\s+(?:from|of|and|in|for|the|a|an|to|at|by|with)$/i, '')
-    .trim()
-  // Nothing informative left ("the", "9th") → no role at all.
-  return /^(?:the|a|an|\d+(?:st|nd|rd|th)?)$/i.test(s) || s.length < 3 ? '' : s
+  s = s.replace(/[.,\s]+$/, '').trim()
+  if (s.length > ROLE_MAX) return ''
+  if (!/^[A-Za-z]/.test(s)) return ''
+  if (/\d/.test(s)) return ''
+  if ((s.match(/\(/g) || []).length !== (s.match(/\)/g) || []).length) return ''
+  if (/^(?:of|and|or|the|a|an|in|for|to|from|by|with)\b/i.test(s)) return ''
+  if (/\s(?:of|and|or|the|a|an|in|for|to|from|by|with|New|United)$/i.test(s))
+    return ''
+  if (new RegExp(`^(?:South |North |New )?${DEMONYM_WORD}$`).test(s)) return ''
+  return s.length < 3 ? '' : s
 }
 
 /**
@@ -426,8 +511,8 @@ export function toSchoolFacts(seed, title, wikitext, alumni) {
   put('enrollmentAsOf', under?.asOf ?? post?.asOf ?? total?.asOf)
   put('mascot', mascot)
   put('nickname', nickname)
-  put('division', ath?.division)
-  put('conference', ath?.conference)
+  put('division', seed.division ?? ath?.division)
+  put('conference', seed.conference ?? ath?.conference)
   put('ranking', rank ?? undefined)
   const al = seed.alumni ?? alumni
   if (al && al.length) row.alumni = al
@@ -438,10 +523,9 @@ export function toSchoolFacts(seed, title, wikitext, alumni) {
  *  "Bulldogs and Lady Bulldogs" → "Bulldogs". Empty when nothing sane remains. */
 export function cleanNickname(s) {
   let n = (s || '')
-    .replace(/^[^:,]{0,40}:\s*/, '')
-    .split(/\s*[,;·]\s*/)[0]
-    .replace(/\s+(?:and|&)\s+(?:the\s+)?Lady\s.*$/i, '')
     .replace(/\s*\([^)]*\)\s*/g, ' ')
+    .replace(/^[^:,]{0,40}:\s*/, '')
+    .split(/\s*[,;·]\s*|\s+(?:&|and|or)\s+/)[0]
     .trim()
   return n.length > 0 && n.length <= 40 ? n : ''
 }
@@ -451,8 +535,9 @@ export function cleanNickname(s) {
  *  parentheticals dropped, capped at 60 characters. */
 export function cleanMascot(s) {
   const items = (s || '')
+    .replace(/\s*\([^)]*\)\s*/g, ' ')
     .split(/\s*[,;·]\s*/)
-    .map((x) => x.replace(/\s*\([^)]*\)\s*/g, ' ').trim())
+    .map((x) => x.replace(/^\s*live mascots?\s*:\s*/i, '').trim())
     .filter((x) => x && !/^(none|no mascot|n\/a)$/i.test(x))
   let m = items.slice(0, 2).join(', ')
   if (m.length > 60) m = items[0]
@@ -492,6 +577,9 @@ export function validateSchoolSeed(seed, wanted) {
       (!Array.isArray(e.alumni) || e.alumni.some((a) => typeof a !== 'string'))
     )
       problems.push(`"${e.school}": alumni must be a list of strings`)
+    for (const k of ['conference', 'division'])
+      if (e[k] !== undefined && (typeof e[k] !== 'string' || !e[k].trim()))
+        problems.push(`"${e.school}": ${k} override must be a non-empty string`)
     if (e.type !== undefined && !['Public', 'Private'].includes(e.type))
       problems.push(`"${e.school}": type must be Public or Private`)
   }

@@ -165,6 +165,8 @@ data/schools-seed.json  ──  npm run build-schools  ──▶  public/schools
   "wikipedia": "Ripon College (Wisconsin)", // OPTIONAL: article title when search picks wrong
   "alumni": ["Name (role)", "…"], // OPTIONAL: replaces the Wikidata list
   "type": "Public", // OPTIONAL: when the infobox says both (Delaware: "private, state-assisted")
+  "conference": "MAC", // OPTIONAL: when the infobox lists the wrong primary conference
+  "division": "NCAA Division I FBS", // OPTIONAL: same, for the division
 }
 ```
 
@@ -188,14 +190,21 @@ the writing is done).
 
 Cleanup rules (all in `build-schools-lib.mjs`, unit-tested): the division is
 _recognised_ (`NCAA Division I/II/III` ± `FBS`/`FCS`, `NAIA`…) rather than
-copied, and the conference is the first item after it, ≤ 40 chars; the
-nickname is one short team name ("Bulldogs and Lady Bulldogs" → "Bulldogs");
-the mascot is at most two names without parentheticals, ≤ 60 chars; alumni
-roles lose demonyms, ordinals, "who …" clauses and date ranges and are capped
-at ~40 chars; and a small **blocklist** (`ALUMNI_BLOCKLIST` + description
-keywords such as "serial killer", "sex offender", "spy") keeps people a
-school would not want beside its name off the card, however many Wikipedias
-cover them. Everything but `school`, `wikipedia` and `funFact` is optional; the card
+copied; the conference is the first list item after it (or a
+conference-named item just before it), 3–40 chars, with wikilinks resolved
+so a bare link text that merely abbreviates the target reads in full
+(`[[Sooner Athletic Conference|Sooner]]` → "Sooner Athletic Conference",
+`[[Centennial Conference|CC]]` → "Centennial Conference", but `SEC`, `ACC`,
+`WIAC` stay); the nickname is one short team name ("Bulldogs and Lady
+Bulldogs" → "Bulldogs"); the mascot is at most two names without
+parentheticals or "Live mascots:" labels, ≤ 60 chars; alumni roles lose
+demonyms, ordinals, "who …" clauses, date ranges and "from <place>" tails,
+are capped at 44 chars and are **dropped rather than truncated** when they
+cannot be shortened cleanly (digits, dangling "of", unbalanced parentheses);
+and a **blocklist** (`ALUMNI_BLOCKLIST` + `BLOCKED_ROLE` keywords: serial
+killer, sex offender, spy, pornographic/adult film, "wife of" and other
+purely relational descriptions…) keeps people a school would not want
+beside its name off the card, however many Wikipedias cover them. Everything but `school`, `wikipedia` and `funFact` is optional; the card
 omits what is missing. Coverage today: **COVERAGE**. The ranking edition
 (`rankingEdition`, 2026) is a constant in the build script — bump it when
 Wikipedia's ranking template moves to a new U.S. News edition.

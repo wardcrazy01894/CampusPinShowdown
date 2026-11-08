@@ -1,9 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync, existsSync } from 'node:fs'
 import { promptSchool } from './schools'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment -- plain .mjs module, no types
-// @ts-ignore
-import { ALUMNI_BLOCKLIST } from '../../scripts/build-schools-lib.mjs'
+import {
+  ALUMNI_BLOCKLIST,
+  BLOCKED_ROLE,
+  isBlockedAlumnus,
+} from '../../scripts/build-schools-lib.mjs'
 import type { TownsFile, SchoolsFile, SchoolFacts } from '../types'
 
 /**
@@ -90,11 +92,14 @@ describe('public/schools.json', () => {
           /^(NCAA Division (I|II|III)( FBS| FCS)?|NAIA|NJCAA|USCAA|NCCAA)$/,
         )
       if (s.conference) {
-        expect(
-          s.conference.length,
-          `${s.school}: ${s.conference}`,
-        ).toBeLessThanOrEqual(40)
-        expect(s.conference, s.school).not.toMatch(/^(NCAA|Division)/)
+        const c = s.conference
+        expect(c, `${s.school}: ${c}`).toMatch(/^[A-Z0-9][\w .&'’-]{2,39}$/)
+        expect(c, `${s.school}: ${c}`).not.toMatch(
+          /^(NCAA|NAIA|Division|Div|FBS|FCS|Conference|CC|independent)$/i,
+        )
+        expect(c, `${s.school}: ${c}`).not.toMatch(
+          /\b(Athletic|Collegiate|and|of|the)$/,
+        )
       }
       if (s.nickname)
         expect(
@@ -112,14 +117,23 @@ describe('public/schools.json', () => {
     for (const s of file!.schools) {
       for (const a of s.alumni ?? []) {
         expect(a.length, `${s.school}: ${a}`).toBeLessThanOrEqual(90)
-        const role = a.match(/\(([^)]*)\)$/)?.[1]
-        if (role)
-          expect(role.length, `${s.school}: ${a}`).toBeLessThanOrEqual(40)
         const name = a.replace(/\s*\([^)]*\)$/, '')
+        const role = a.match(/\(([^)]*)\)$/)?.[1]
+        expect(name, `${s.school}: ${a}`).toMatch(/^[^()]+$/)
         expect(ALUMNI_BLOCKLIST.has(name), `${s.school}: ${a}`).toBe(false)
-        expect(a, `${s.school}: ${a}`).not.toMatch(
-          /serial killer|murder|sex offender/i,
+        expect(isBlockedAlumnus(name, role ?? ''), `${s.school}: ${a}`).toBe(
+          false,
         )
+        expect(a, `${s.school}: ${a}`).not.toMatch(BLOCKED_ROLE)
+        if (role) {
+          expect(role.length, `${s.school}: ${a}`).toBeLessThanOrEqual(44)
+          // No truncation artefacts: dangling function words, fragments, digits.
+          expect(role, `${s.school}: ${a}`).not.toMatch(
+            /\b(of|the|in|and|or|for|to|from|by|with|New|United)$/,
+          )
+          expect(role, `${s.school}: ${a}`).toMatch(/^[A-Za-z]/)
+          expect(role, `${s.school}: ${a}`).not.toMatch(/\d|\(|\)/)
+        }
       }
     }
   })

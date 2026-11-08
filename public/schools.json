@@ -101,7 +101,7 @@
       "alumni": [
         "Daniel Henney (actor and model)",
         "Gary Peters (politician and naval officer)",
-        "Frank Knox (Secretary of the Navy of the United)"
+        "Frank Knox (Secretary of the Navy of the United States)"
       ]
     },
     {
@@ -115,7 +115,7 @@
       "mascot": "Antioch Free Radicals",
       "alumni": [
         "Leonard Nimoy (actor)",
-        "José Ramos-Horta (and President of East Timor)",
+        "José Ramos-Horta (President of East Timor)",
         "Stephen Jay Gould (biologist and historian of science)",
         "Marcia Cross (actress)",
         "Coretta Scott King (author, activist)"
@@ -140,7 +140,7 @@
       "alumni": [
         "Charlotte Flair (professional wrestler and actress)",
         "Luke Combs (country singer)",
-        "Ted Budd (Senator from North Carolina)"
+        "Ted Budd (United States Senator)"
       ]
     },
     {
@@ -195,7 +195,7 @@
     {
       "school": "Arkansas Tech University",
       "wikipedia": "Arkansas Tech University",
-      "funFact": "Founded in 1909 as an agricultural school. The teams are the Wonder Boys and Golden Suns, but the mascot is Jerry the Bulldog, a line of live bulldogs on campus since the 1930s.",
+      "funFact": "Founded in 1909 as an agricultural school. The teams are the Wonder Boys and Golden Suns, but the mascot is a live bulldog named Jerry, a campus tradition for generations.",
       "type": "Public",
       "founded": 1909,
       "undergrad": 8808,
@@ -207,7 +207,7 @@
       "division": "NCAA Division II",
       "conference": "GAC",
       "alumni": [
-        "Steve Womack (Representative from Arkansas)",
+        "Steve Womack (Representative)",
         "Kevin Hern (politician)",
         "Elizabeth Gracen (actress)",
         "Taelon Peter (basketball player)",
@@ -278,7 +278,7 @@
         "rank": 83
       },
       "alumni": [
-        "Lance Armstrong (cyclist from the United States)",
+        "Lance Armstrong (cyclist)",
         "Henry Winkler (actor)",
         "Stephen Carpenter (guitarist)",
         "Ron Kirk (politician)",
@@ -324,7 +324,7 @@
         "rank": 24
       },
       "alumni": [
-        "Desmond Tutu (South African churchman, politician)",
+        "Desmond Tutu (churchman, politician)",
         "Seamus Heaney (poet, playwright)",
         "Robert F. Kennedy (politician and lawyer)",
         "Anna Kendrick (actress)",
@@ -351,7 +351,7 @@
       },
       "alumni": [
         "Willie Nelson (country musician)",
-        "Rand Paul (Senator from Kentucky)",
+        "Rand Paul (United States Senator)",
         "Brittney Griner (basketball player)",
         "Jeff Dunham (ventriloquist and comedian)",
         "Michael Johnson (sprinter)"
@@ -395,7 +395,7 @@
       "alumni": [
         "John Fenn (analytical chemist)",
         "Muse Watson (actor)",
-        "Juanita M. Kreps (Secretary of Commerce)",
+        "Juanita M. Kreps (United States Secretary of Commerce)",
         "Carter Godwin Woodson (historian, writer)",
         "Mary E. Britton (physician)"
       ]
@@ -429,10 +429,8 @@
       "enrollmentAsOf": "fall 2025",
       "mascot": "Wil D Cat",
       "nickname": "Wildcats",
-      "division": "NCAA Division I FCS",
-      "conference": "SWAC",
       "alumni": [
-        "Eric Cray (track and field athlete)",
+        "Eric Cray (Filipino-American track and field athlete)",
         "Ronnie Ash (hurdler)",
         "Monae' Nichols (athlete)"
       ]
@@ -476,10 +474,10 @@
       "mascot": "Sting the Yellow Jacket",
       "nickname": "Yellow Jackets",
       "division": "NCAA Division II",
-      "conference": "Rocky Mountain",
+      "conference": "Rocky Mountain Athletic Conference",
       "alumni": [
         "Brian Shaw (professional strongman and actor)",
-        "Clint Roberts (from South Dakota)",
+        "Clint Roberts (United States Congressman)",
         "Faith Spotted Eagle (political activist)"
       ]
     },
@@ -496,17 +494,17 @@
       "mascot": "Buster Bronco",
       "nickname": "Broncos",
       "division": "NCAA Division I FBS",
-      "conference": "Pac-12",
+      "conference": "Pac-12 Conference",
       "ranking": {
         "list": "National Universities",
         "rank": 301
       },
       "alumni": [
-        "Tera Patrick (pornographic actress)",
-        "Wesley Moodie (South African tennis player)",
+        "Wesley Moodie (tennis player)",
         "Ralph Torres (politician from Saipan)",
         "Troy Kemp (high jumper)",
-        "Raven Alexis (pornographic actress)"
+        "Orlando Jordan (professional wrestler)",
+        "Larry Williams (singer)"
       ]
     },
     {
@@ -529,7 +527,7 @@
         "Franklin Pierce (president of the United States)",
         "Nathaniel Hawthorne (author)",
         "Zohran Mamdani (mayor of New York City)",
-        "Robert Peary (explorer from the United States)",
+        "Robert Peary (explorer)",
         "Alfred Kinsey (sexologist)"
       ]
     },
@@ -792,7 +790,7 @@
       "alumni": [
         "John Hay (statesman)",
         "Alden W. Clausen (businessman, President of the World Bank)",
-        "Laura Kaeppeler (Miss America 2012)"
+        "Laura Kaeppeler"
       ]
     },
     {
@@ -816,8 +814,8 @@
         "Jeff Daniels (actor, musician and playwright)",
         "Terry O'Quinn (actor)",
         "Chris Kaman (basketball player)",
-        "Brandi Love (pornographic actress)",
-        "Tony Ferguson (mixed martial artist)"
+        "Tony Ferguson (mixed martial artist)",
+        "Dan Majerle (basketball player)"
       ]
     },
     {
@@ -852,7 +850,7 @@
       "division": "NCAA Division II",
       "conference": "GNAC",
       "alumni": [
-        "Jim Mattis (Secretary of Defense)",
+        "Jim Mattis (United States Secretary of Defense)",
         "Craig T. Nelson (actor and comedian)",
         "Brian Thompson (actor)"
       ]
@@ -867,6 +865,7 @@
       "enrollmentAsOf": "fall 2023",
       "mascot": "Colonels",
       "division": "NCAA Division III",
+      "conference": "Southern Athletic Association",
       "ranking": {
         "list": "National Liberal Arts Colleges",
         "rank": 55
@@ -1003,7 +1002,7 @@
       "division": "NCAA Division III",
       "conference": "NESCAC",
       "alumni": [
-        "Annie Proulx (novelist)",
+        "Annie Proulx (novelist, short story and non-fiction author)",
         "Margaret Chase Smith (member of the United States Senate)",
         "Mira Murati (business executive)",
         "Benjamin Franklin Butler (general and politician)",
@@ -1030,7 +1029,7 @@
       "alumni": [
         "John Cassavetes (actor, film director)",
         "Charles Evans Hughes (jurist)",
-        "Oswald Avery (-born American physician)",
+        "Oswald Avery (physician and medical researcher)",
         "Charles Addams (cartoonist)",
         "William P. Rogers (politician)"
       ]
@@ -1039,6 +1038,7 @@
       "school": "College of William & Mary",
       "wikipedia": "College of William & Mary",
       "funFact": "Chartered in 1693, W&M is the second-oldest college in the U.S. and educated Thomas Jefferson, James Monroe, and John Tyler. Phi Beta Kappa was founded here in 1776.",
+      "type": "Public",
       "founded": 1693,
       "undergrad": 7063,
       "postgrad": 2755,
@@ -1053,7 +1053,7 @@
         "rank": 51
       },
       "alumni": [
-        "Thomas Jefferson (Founding Father, U.S. president)",
+        "Thomas Jefferson (Founding Father, president)",
         "James Monroe (president of the United States)",
         "John Tyler (president of the United States)",
         "Glenn Close (actress)",
@@ -1073,7 +1073,7 @@
       "mascot": "Marvin the Miner, Blaster the Burro",
       "nickname": "Orediggers",
       "division": "NCAA Division II",
-      "conference": "Rocky Mountain",
+      "conference": "Rocky Mountain Athletic Conference",
       "alumni": [
         "George Saunders (writer)",
         "Derrick Jensen (ecophilosopher, radical environmentalist)",
@@ -1095,7 +1095,7 @@
       "mascot": "CAM the Ram",
       "nickname": "Rams",
       "division": "NCAA Division I FBS",
-      "conference": "Pac-12",
+      "conference": "Pac-12 Conference",
       "ranking": {
         "list": "National Universities",
         "rank": 148
@@ -1105,7 +1105,7 @@
         "John Amos (actor)",
         "Wang Junxia (long distance runner)",
         "Mary L. Cleave (engineer and NASA astronaut)",
-        "Cory Gardner (Senator from Colorado)"
+        "Cory Gardner (United States Senator)"
       ]
     },
     {
@@ -1264,7 +1264,7 @@
         "Stephen Curry (basketball player)",
         "William Styron (novelist and essayist)",
         "Patricia Cornwell (novelist, journalist)",
-        "Dean Rusk (Secretary of State)"
+        "Dean Rusk (United States Secretary of State)"
       ]
     },
     {
@@ -1295,6 +1295,7 @@
       "school": "Delaware State University",
       "wikipedia": "Delaware State University",
       "funFact": "Founded in 1891, Del State is one of the few HBCUs with a flight school: its aviation program trains pilots at Delaware Airpark near Dover.",
+      "type": "Public",
       "founded": 1891,
       "students": 6990,
       "enrollmentAsOf": "2026",
@@ -1344,7 +1345,7 @@
       "undergrad": 2420,
       "nickname": "Red Devils",
       "division": "NCAA Division III",
-      "conference": "Centennial",
+      "conference": "Centennial Conference",
       "ranking": {
         "list": "National Liberal Arts Colleges",
         "rank": 45
@@ -1425,9 +1426,9 @@
       },
       "alumni": [
         "Sandra Bullock (actress and film producer)",
-        "MrBeast (YouTuber)",
+        "MrBeast (YouTuber, media personality and businessman)",
         "Vince McMahon (professional wrestling promoter)",
-        "Linda McMahon (Secretary of Education)",
+        "Linda McMahon (United States Secretary of Education)",
         "LaShawn Merritt (track and field athlete)"
       ]
     },
@@ -1442,7 +1443,7 @@
       "mascot": "Roary the Tiger",
       "nickname": "Tigers",
       "alumni": [
-        "Ernest McFarland (politician and jurist from Arizona)",
+        "Ernest McFarland (politician and jurist)",
         "Robert S. Kerr (politician)",
         "George Nigh (politician)",
         "Paul Waner (Major League Baseball player, outfielder)",
@@ -1490,8 +1491,8 @@
       },
       "alumni": [
         "Colleen Hoover (author)",
-        "Sam Rayburn (Speaker of the United States House)",
-        "Mike Conaway (Representative from Texas)"
+        "Sam Rayburn",
+        "Mike Conaway (Representative)"
       ]
     },
     {
@@ -1526,14 +1527,14 @@
       "enrollmentAsOf": "fall 2024",
       "mascot": "Colonels",
       "nickname": "Colonels",
-      "division": "NCAA Division I",
-      "conference": "FCS",
+      "division": "NCAA Division I FCS",
+      "conference": "ASUN",
       "ranking": {
         "list": "National Universities",
         "rank": 329
       },
       "alumni": [
-        "Thaksin Shinawatra (Prime Minister of Thailand form 2001)",
+        "Thaksin Shinawatra (Prime Minister of Thailand)",
         "Lee Majors (actor)",
         "J. C. W. Beckham (governor of Kentucky)",
         "Corey Walden (basketball player)",
@@ -1758,7 +1759,6 @@
       },
       "alumni": [
         "Carrot Top (stand-up comedian)",
-        "Mary Carey (pornographic actress)",
         "Steven Swanson (engineer and NASA astronaut)",
         "Phil Zimmermann (creator of Pretty Good Privacy)"
       ]
@@ -1825,7 +1825,7 @@
       "conference": "The MIAA",
       "alumni": [
         "Mickey Spillane (crime novelist)",
-        "Jerry Moran (Senator from Kansas)",
+        "Jerry Moran (United States Senator)",
         "John L. Allen Jr. (journalist and writer)",
         "Sheila Frahm (politician)",
         "Mike McCarthy (football coach)"
@@ -1844,7 +1844,7 @@
       "mascot": "Skyler the Skyhawk",
       "nickname": "Skyhawks",
       "division": "NCAA Division II",
-      "conference": "Rocky Mountain",
+      "conference": "Rocky Mountain Athletic Conference",
       "alumni": [
         "Linden Ashby (actor)",
         "Nicco Montaño (mixed martial artist)",
@@ -1909,7 +1909,7 @@
       "alumni": [
         "Charles Hard Townes (physicist)",
         "Alexander Stubb (politician and the President of Finland)",
-        "John B. Watson (psychologist (1878)",
+        "John B. Watson (psychologist)",
         "Clint Dempsey (soccer player)",
         "Amy Grant (singer-songwriter, musician)"
       ]
@@ -2020,7 +2020,7 @@
       "mascot": "Spike the Bulldog",
       "nickname": "Bulldogs",
       "division": "NCAA Division I",
-      "conference": "Pac-12",
+      "conference": "Pac-12 Conference",
       "ranking": {
         "list": "National Universities",
         "rank": 90
@@ -2167,7 +2167,7 @@
         "rank": 14
       },
       "alumni": [
-        "Desmond Tutu (South African churchman, politician)",
+        "Desmond Tutu (churchman, politician)",
         "Ezra Pound (poet and critic)",
         "B.F. Skinner (behaviorist)",
         "Peter Falk (actor)",
@@ -2205,13 +2205,13 @@
       "mascot": "Panther",
       "nickname": "Panthers",
       "division": "NCAA Division III",
-      "conference": "Heartland Collegiate Athletic",
+      "conference": "Heartland Collegiate Athletic Conference",
       "alumni": [
         "Mike Pence (Vice President of the United States)",
         "Woody Harrelson (actor)",
         "Ginnifer Goodwin (actress)",
         "Thomas A. Hendricks (politician)",
-        "Carol Shields (/Canadian author)"
+        "Carol Shields (author)"
       ]
     },
     {
@@ -2260,7 +2260,7 @@
       "alumni": [
         "Barack Obama (President of the United States)",
         "Noam Chomsky (linguist and activist)",
-        "John Adams (Founding Father, U.S. president)",
+        "John Adams (Founding Father, president)",
         "Helen Keller (deafblind author, political activist)",
         "Mark Zuckerberg (Internet entrepreneur)"
       ]
@@ -2275,14 +2275,14 @@
       "mascot": "Black Squirrel",
       "nickname": "Fords",
       "division": "NCAA Division III",
-      "conference": "CC",
+      "conference": "Centennial Conference",
       "ranking": {
         "list": "National Liberal Arts Colleges",
         "rank": 24
       },
       "alumni": [
         "Joseph Hooton Taylor (astronomer)",
-        "Theodore William Richards (chemist)",
+        "Theodore William Richards (United States chemist)",
         "Philip Noel-Baker, Baron Noel-Baker (athlete, politician)",
         "Chevy Chase (actor, comedian and writer)",
         "Fredric Jameson (academic and literary critic)"
@@ -2352,7 +2352,7 @@
         "Richard Smalley (chemist)",
         "Pete Hoekstra (politician and diplomat)",
         "A. J. Muste (pacifist and civil rights activist)",
-        "Dave Brat (economist)",
+        "Dave Brat",
         "Robert H. Schuller (television evangelist)"
       ]
     },
@@ -2492,11 +2492,11 @@
       "division": "NCAA Division II",
       "conference": "PSAC",
       "alumni": [
-        "Johnny Sins (adult film performer)",
-        "John Murtha (politician from the U.S. state)",
+        "John Murtha (politician)",
         "Patricia Robertson (astronaut)",
         "Jim Renacci (politician)",
-        "Hubert Work (administrator and physician)"
+        "Hubert Work (administrator and physician)",
+        "Matthias Zimmer (politician)"
       ]
     },
     {
@@ -2520,7 +2520,7 @@
       "alumni": [
         "Henry A. Wallace (politician)",
         "George Washington Carver (botanist and inventor)",
-        "Lee Teng-hui (7-President of Republic of China(Taiwan))",
+        "Lee Teng-hui",
         "John Vincent Atanasoff (computer pioneer)",
         "Nawal El Moutawakel (hurdler and IOC member)"
       ]
@@ -2562,8 +2562,6 @@
       "students": 9955,
       "enrollmentAsOf": "fall 2024",
       "nickname": "Gamecocks",
-      "division": "NCAA Division I FBS",
-      "conference": "CUSA",
       "alumni": [
         "Mike D. Rogers (lawyer and politician)",
         "Tomoko Akane (jurist and judge)",
@@ -2691,15 +2689,15 @@
       "founded": 1886,
       "students": 2020,
       "enrollmentAsOf": "fall 2024",
-      "nickname": "Thorobreds & Thorobrettes",
+      "nickname": "Thorobreds",
       "division": "NCAA Division II",
       "conference": "SIAC",
       "alumni": [
         "Yingluck Shinawatra (Prime Minister of Thailand)",
-        "Lho Shin-yong (South Korean politician)",
+        "Lho Shin-yong (politician)",
         "Whitney Young (civil rights leader)",
         "Billy Ray Bates (basketball player)",
-        "Alice Allison Dunnigan (journalist)"
+        "Alice Allison Dunnigan (journalist, civil rights activist and author)"
       ]
     },
     {
@@ -2793,7 +2791,7 @@
       "students": 1873,
       "nickname": "Lions",
       "division": "NAIA",
-      "conference": "Sooner",
+      "conference": "Sooner Athletic Conference",
       "alumni": [
         "Jennifer Hudson (singer, actress)",
         "Bessie Coleman (aviator)",
@@ -2816,7 +2814,7 @@
       "alumni": [
         "Kaja Kallas (politician)",
         "Thomas A. Steitz (biochemist)",
-        "Edna Ferber (novelist)",
+        "Edna Ferber (novelist, short story writer and playwright)",
         "Campbell Scott (actor and film director)",
         "Jeffrey Jones (character actor)"
       ]
@@ -2864,10 +2862,10 @@
         "rank": 395
       },
       "alumni": [
-        "Sean Hannity (television host)",
+        "Sean Hannity (television host and political commentator)",
         "Seth Curry (basketball player)",
         "Michael Andrew (swimmer)",
-        "Tim LaHaye (evangelical Christian minister)",
+        "Tim LaHaye (evangelical Christian minister and author)",
         "TobyMac (rapper and singer)"
       ]
     },
@@ -2956,7 +2954,7 @@
         "Shaquille O'Neal (basketball player)",
         "Hubert Humphrey (vice president of the United States)",
         "Joanne Woodward (actress)",
-        "Mike Johnson (Speaker of the United States House)",
+        "Mike Johnson",
         "Armand Duplantis (pole vaulter)"
       ]
     },
@@ -3049,7 +3047,7 @@
       },
       "alumni": [
         "Nathan Deal (governor of Georgia)",
-        "Ed Roberts (engineer)",
+        "Ed Roberts (engineer, entrepreneur and medical doctor)",
         "William Heard Kilpatrick (pedagogue)",
         "Nancy Grace (legal commentator, television host)",
         "Griffin Bell (judge)"
@@ -3074,8 +3072,8 @@
         "rank": 133
       },
       "alumni": [
-        "Benjamin Harrison (President of the United States)",
-        "Paul Ryan (Speaker of the United States House)",
+        "Benjamin Harrison",
+        "Paul Ryan",
         "The Miz (professional wrestler)",
         "Art Clokey (animator)",
         "Maria Cantwell (politician and businesswoman)"
@@ -3258,7 +3256,7 @@
       "students": 2196,
       "enrollmentAsOf": "fall 2023",
       "mascot": "Delta Devil",
-      "nickname": "Delta Devils & Devilettes",
+      "nickname": "Delta Devils",
       "division": "NCAA Division I FCS",
       "conference": "SWAC",
       "alumni": [
@@ -3278,7 +3276,7 @@
       "mascot": "Boomer Bear",
       "nickname": "Bears",
       "division": "NCAA Division I",
-      "conference": "Conference",
+      "conference": "Conference USA",
       "alumni": [
         "John Goodman (actor)",
         "Kathleen Turner (actress)",
@@ -3334,7 +3332,7 @@
       "alumni": [
         "Maurice Hilleman (vaccinologist)",
         "Steve Daines (politician and businessman)",
-        "Lincoln Chafee (politician)",
+        "Lincoln Chafee (politician and former United States Senator)",
         "Greg Gianforte (politician and businessman)",
         "Loren Acton (astronaut)"
       ]
@@ -3342,7 +3340,7 @@
     {
       "school": "Morehead State University",
       "wikipedia": "Morehead State University",
-      "funFact": "Morehead State builds and operates small satellites, and its 21-meter antenna in the Kentucky hills became an official NASA Deep Space Network station (DSS-17) in 2021.",
+      "funFact": "Morehead State builds and operates small satellites, and its 21-meter antenna in the Kentucky hills is an official station of NASA's Deep Space Network (DSS-17).",
       "type": "Public",
       "founded": 1887,
       "undergrad": 7941,
@@ -3362,7 +3360,7 @@
         "Phil Simms (football player and sportscaster)",
         "Chuck Woolery (game show host, talk show host)",
         "Demonte Harper (basketball player)",
-        "Jon Rauch (baseball pitcher from the United States)"
+        "Jon Rauch (baseball pitcher)"
       ]
     },
     {
@@ -3382,7 +3380,7 @@
       "alumni": [
         "Francisco I. Madero (revolutionary leader and president)",
         "Edward Douglass White Jr. (chief justice of the United States)",
-        "Peter Rono (Athletics competitor from Kenya)",
+        "Peter Rono (Athletics competitor)",
         "John La Farge (artist)",
         "John Lawrence LeConte (entomologist)"
       ]
@@ -3519,7 +3517,7 @@
       },
       "alumni": [
         "Ilhan Omar (politician)",
-        "Doug Burgum (Secretary of the Interior)",
+        "Doug Burgum (United States Secretary of the Interior)",
         "Bob Backlund (professional wrestler)"
       ]
     },
@@ -3579,8 +3577,8 @@
       "students": 16078,
       "enrollmentAsOf": "fall 2025",
       "nickname": "Huskies",
-      "division": "NCAA Division I",
-      "conference": "FBS Mountain West",
+      "division": "NCAA Division I FBS",
+      "conference": "MAC",
       "ranking": {
         "list": "National Universities",
         "rank": 301
@@ -3628,7 +3626,7 @@
         "Kim Reynolds (Governor of Iowa)",
         "Jean Bartik (ENIAC computer programmer)",
         "Steve King (Representative for Iowa)",
-        "Gary Gaetti (professional baseball player)"
+        "Gary Gaetti (professional baseball player, third baseman)"
       ]
     },
     {
@@ -3644,7 +3642,7 @@
       "mascot": "Vic the Demon",
       "nickname": "Demons / Lady Demons",
       "division": "NCAA Division I FCS",
-      "conference": "Southland",
+      "conference": "Southland Conference",
       "alumni": [
         "D'or Fischer (basketball player)",
         "Elle Evans (model)",
@@ -3691,10 +3689,10 @@
       "enrollmentAsOf": "fall 2023",
       "mascot": "Alden Partridge",
       "division": "NCAA Division III",
-      "conference": "Great Northeast Athletic",
+      "conference": "Great Northeast Athletic Conference",
       "alumni": [
         "Laurentino Cortizo (politician)",
-        "George Dewey (Navy admiral)",
+        "George Dewey (United States Navy admiral)",
         "Bill W.",
         "Horatio Seymour (politician)",
         "Gideon Welles (government official)"
@@ -3742,7 +3740,7 @@
         "Mike DeWine (Governor of Ohio)",
         "Bob Peterson (actor, writer)",
         "Joseph Banks Rhine (parapsychologist)",
-        "Mike Turner (Representative from Ohio)",
+        "Mike Turner (Representative)",
         "Frank B. Willis (politician)"
       ]
     },
@@ -3791,7 +3789,7 @@
       },
       "alumni": [
         "Paul Newman (actor)",
-        "Venkatraman Ramakrishnan (Nobel prize winning American)",
+        "Venkatraman Ramakrishnan (structural biologist)",
         "Ed O'Neill (actor)",
         "Roy Lichtenstein (pop artist)",
         "Richard Dean Anderson (actor)"
@@ -3831,7 +3829,7 @@
       "students": 27241,
       "enrollmentAsOf": "fall 2024",
       "mascot": "Pistol Pete",
-      "nickname": "Cowboys & Cowgirls",
+      "nickname": "Cowboys",
       "division": "NCAA Division I FBS",
       "conference": "Big 12",
       "ranking": {
@@ -3884,7 +3882,7 @@
       "mascot": "Benny Beaver",
       "nickname": "Beavers",
       "division": "NCAA Division I FBS",
-      "conference": "Pac-12",
+      "conference": "Pac-12 Conference",
       "ranking": {
         "list": "National Universities",
         "rank": 142
@@ -3962,10 +3960,10 @@
       "conference": "The MIAA",
       "alumni": [
         "Gary Busey (actor)",
-        "Harry Reems (pornographic actor)",
         "James Tate (poet)",
         "Lee Scott (businessman)",
-        "Jake LaTurner (politician)"
+        "Jake LaTurner (politician)",
+        "Eka Tjipta Widjaja (businessman)"
       ]
     },
     {
@@ -3984,10 +3982,10 @@
       "conference": "Little East",
       "alumni": [
         "Paul Reubens (actor and comedian)",
-        "Anok Yai (South Sudanese-American fashion model)",
+        "Anok Yai (fashion model)",
         "Sanna Ejaz (rights activist)",
         "Chris Romano (actor)",
-        "Chuck Morse (politician from New Hampshire)"
+        "Chuck Morse (politician)"
       ]
     },
     {
@@ -4048,7 +4046,7 @@
       "division": "NCAA Division I",
       "conference": "Big South",
       "alumni": [
-        "Tim Scott (Senator from South Carolina)",
+        "Tim Scott (United States Senator)",
         "Ralph Norman (politician)",
         "Emelia Brobbey (actress, TV hostess)",
         "Adam Flagler (basketball player)"
@@ -4126,7 +4124,7 @@
       },
       "alumni": [
         "Jayma Mays (actress)",
-        "Kiera Cass (writer of young-adult speculative)",
+        "Kiera Cass (writer of young-adult speculative fiction)",
         "Regan Burns (actor)",
         "Artsiom Parakhouski (basketball player)",
         "Javonte Green (basketball player)"
@@ -4225,6 +4223,7 @@
       "school": "Rutgers University",
       "wikipedia": "Rutgers University",
       "funFact": "Rutgers and Princeton played the first college football game in 1869; Rutgers won 6–4. Chartered in 1766, it is the eighth-oldest college in the U.S.",
+      "type": "Public",
       "founded": 1766,
       "undergrad": 49359,
       "postgrad": 19583,
@@ -4266,7 +4265,7 @@
         "Chelsea Noble (actress)",
         "Joseph Morelle (politician)",
         "Jenna Wolfe (reporter)",
-        "Casey Donovan (pornographic actor)"
+        "Glenn Gordon Caron (television director, producer and writer)"
       ]
     },
     {
@@ -4334,7 +4333,7 @@
         "Scott Krinsky (actor)",
         "Steve Bisciotti (football executive)",
         "Kristen Visbal (sculptor)",
-        "Reid Klopp (Virgin Islands soccer player)"
+        "Reid Klopp (United States Virgin Islands soccer player)"
       ]
     },
     {
@@ -4353,7 +4352,7 @@
         "rank": 231
       },
       "alumni": [
-        "Thaksin Shinawatra (Prime Minister of Thailand form 2001)",
+        "Thaksin Shinawatra (Prime Minister of Thailand)",
         "Richard Linklater (director and screenwriter)",
         "Dana Andrews (actor)",
         "Dan Rather (broadcast journalist)",
@@ -4412,8 +4411,8 @@
       "conference": "PSAC",
       "alumni": [
         "Dean Koontz (writer and screenwriter)",
-        "Jeanne Shaheen (Senator from New Hampshire)",
-        "Jay Garner (Army general and United States Marine)",
+        "Jeanne Shaheen (United States Senator)",
+        "Jay Garner (United States Army general)",
         "John Kline (politician)",
         "Chris Raab (television personality)"
       ]
@@ -4478,7 +4477,7 @@
       "alumni": [
         "Jim Clyburn (politician)",
         "Darline Graham (politician)",
-        "Kára McCullough (Winner of Miss USA 2017)",
+        "Kára McCullough",
         "Houston Person (jazz saxophonist)",
         "Alma Levant Hayden (chemist)"
       ]
@@ -4506,7 +4505,7 @@
         "Kristi Noem (politician)",
         "Gene Amdahl (physicist)",
         "Tom Daschle (politician)",
-        "Mike Rounds (Senator from South Dakota)"
+        "Mike Rounds (United States Senator)"
       ]
     },
     {
@@ -4543,13 +4542,13 @@
       "mascot": "Roomie the Lion",
       "nickname": "Lions",
       "division": "NCAA Division I FCS",
-      "conference": "Southland",
+      "conference": "Southland Conference",
       "alumni": [
         "Bill Evans (jazz pianist)",
         "Christine Amertil (athletics competitor)",
         "Robin Roberts (television broadcaster)",
-        "Lynne Spears (mother of Britney Spears)",
-        "Jeff Williams (baseball player from Australia)"
+        "Jeff Williams (baseball player)",
+        "Curtis Moss (track and field athlete)"
       ]
     },
     {
@@ -4591,7 +4590,7 @@
       "mascot": "Red-tailed hawk",
       "nickname": "Raiders",
       "division": "NAIA",
-      "conference": "Cascade",
+      "conference": "Cascade Collegiate Conference",
       "alumni": [
         "Ty Burrell (actor and comedian)",
         "Joel David Moore (actor)",
@@ -4639,7 +4638,7 @@
         "Ana Alicia (actress)",
         "Bill Engvall (comedian and actor)",
         "Jerry Hardin (actor)",
-        "John Tower (senator from Texas)",
+        "John Tower (senator)",
         "Stanley Hauerwas (theologian)"
       ]
     },
@@ -4679,8 +4678,6 @@
       "enrollmentAsOf": "fall 2023",
       "mascot": "Stanford Tree",
       "nickname": "Cardinal",
-      "division": "NCAA Division I FBS",
-      "conference": "ACC",
       "ranking": {
         "list": "National Universities",
         "rank": 5
@@ -4690,7 +4687,7 @@
         "Herbert Hoover (president of the United States)",
         "John Steinbeck (writer)",
         "Sigourney Weaver (actress)",
-        "Larry Page (computer scientist)"
+        "Larry Page (computer scientist and Internet entrepreneur)"
       ]
     },
     {
@@ -4704,7 +4701,7 @@
       "students": 10472,
       "enrollmentAsOf": "fall 2024",
       "mascot": "Lumberjack",
-      "nickname": "Lumberjacks and Ladyjacks",
+      "nickname": "Lumberjacks",
       "division": "NCAA Division I FCS",
       "conference": "SLC",
       "ranking": {
@@ -4716,7 +4713,7 @@
         "Joseph W. Kennedy (chemist)",
         "Will Jennings (songwriter)",
         "Shane Carruth (film producer, actor)",
-        "Thomas Walkup (-Greek basketball player)"
+        "Thomas Walkup (basketball player)"
       ]
     },
     {
@@ -4731,7 +4728,7 @@
       "mascot": "John B.",
       "nickname": "Hatters",
       "division": "NCAA Division I FCS",
-      "conference": "ASUN",
+      "conference": "ASUN Conference",
       "ranking": {
         "list": "Regional",
         "rank": 7
@@ -4928,7 +4925,7 @@
         "Eva Longoria (actress and producer)",
         "Raquel Rodriguez (professional wrestler)",
         "Rubén Hinojosa (politician)",
-        "Darrell Green (player of American football)",
+        "Darrell Green (player of football)",
         "James Crumley (writer)"
       ]
     },
@@ -4979,9 +4976,9 @@
       "alumni": [
         "Lyndon B. Johnson (president of the United States)",
         "Shawn Michaels (professional wrestler)",
-        "Alexis Texas (pornographic actress)",
         "George Strait (country music singer)",
-        "Powers Boothe (actor)"
+        "Powers Boothe (actor)",
+        "G. W. Bailey (actor)"
       ]
     },
     {
@@ -5018,7 +5015,7 @@
       "founded": 1842,
       "postgrad": 1026,
       "students": 3721,
-      "mascot": "Spike, Live Mascots: General 3",
+      "mascot": "Spike, General 3",
       "nickname": "Bulldogs",
       "division": "NCAA Division I",
       "conference": "SoCon",
@@ -5030,7 +5027,7 @@
         "Robert Jordan (fantasy writer)",
         "Randolph Bresnik (astronaut, Fighter pilot)",
         "Pat Conroy (novelist)",
-        "Fritz Hollings (politician from the United States)",
+        "Fritz Hollings (politician)",
         "Nancy Mace (politician)"
       ]
     },
@@ -5076,8 +5073,8 @@
         "Anson Mount (actor)",
         "Howard Baker (politician and diplomat)",
         "Edmund Kirby Smith (Confederate States Army general)",
-        "William Crawford Gorgas (Surgeon General of the United States)",
-        "Gene Robinson (Bishop of the Episcopal Diocese of New)"
+        "William Crawford Gorgas (Surgeon General of the United States Army)",
+        "Gene Robinson"
       ]
     },
     {
@@ -5096,8 +5093,8 @@
         "rank": 45
       },
       "alumni": [
-        "Hugh Thompson Jr. (Army officer)",
-        "John Kirby (Navy rear admiral)",
+        "Hugh Thompson Jr. (United States Army officer)",
+        "John Kirby (United States Navy rear admiral)",
         "Rebecca Yarros (writer)",
         "Bobby Dixon (basketball player)",
         "Lori Robinson (Corporate board member)"
@@ -5121,7 +5118,7 @@
         "rank": 5
       },
       "alumni": [
-        "John J. Pershing (Army general in World War I)",
+        "John J. Pershing (United States Army general in World War I)",
         "Kane (professional wrestler, actor)",
         "Jenna Fischer (actress)",
         "Ken Norton (boxer)",
@@ -5184,6 +5181,8 @@
       "undergrad": 2065,
       "enrollmentAsOf": "2024",
       "nickname": "Garnet Chargers",
+      "division": "NCAA Division I",
+      "conference": "ECAC Hockey",
       "ranking": {
         "list": "National Liberal Arts Colleges",
         "rank": 40
@@ -5191,7 +5190,7 @@
       "alumni": [
         "Jimmy Carter (president of the United States)",
         "Chester A. Arthur (president of the United States)",
-        "Baruch Samuel Blumberg (physician)",
+        "Baruch Samuel Blumberg (physician, geneticist and Nobel prize winner)",
         "William H. Seward (lawyer and politician)",
         "George Westinghouse (inventor and businessman)"
       ]
@@ -5207,10 +5206,10 @@
       "mascot": "Air Force Falcons",
       "nickname": "Falcons",
       "division": "NCAA Division I FBS",
-      "conference": "MW",
+      "conference": "Mountain West Conference",
       "alumni": [
         "Rumen Radev (Prime Minister of Bulgaria)",
-        "Susan J. Helms (Lieutenant General in the United States)",
+        "Susan J. Helms",
         "Chesley Sullenberger (commercial airline pilot)",
         "Gregg Popovich (basketball coach)",
         "Martha McSally (politician and military pilot)"
@@ -5264,13 +5263,13 @@
       "mascot": "Mule",
       "nickname": "Black Knights",
       "division": "NCAA Division I",
-      "conference": "PL",
+      "conference": "Patriot League",
       "alumni": [
         "Edgar Allan Poe (writer and literary critic)",
         "Dwight D. Eisenhower (president of the United States)",
         "Ulysses S. Grant (president of the United States)",
         "Buzz Aldrin (astronaut)",
-        "Douglas MacArthur (Army general in WWI, WWII and Korea)"
+        "Douglas MacArthur (United States Army general in WWI)"
       ]
     },
     {
@@ -5312,7 +5311,7 @@
       },
       "alumni": [
         "Herbert A. Hauptman (mathematician)",
-        "Mohamed Abdullahi Mohamed (president of the Federal Republic)",
+        "Mohamed Abdullahi Mohamed (president of the Federal Republic of Somalia)",
         "Silvia Federici (scholar, teacher)",
         "Gregory Jarvis (astronaut)",
         "Donald Barthelme (writer, editor)"
@@ -5414,10 +5413,10 @@
       },
       "alumni": [
         "Garry Shandling (comedian)",
-        "Brian Schmidt (-born Australian astrophysicist)",
+        "Brian Schmidt (astrophysicist)",
         "Bob Dole (politician)",
         "Kristen Wiig (actress and comedian)",
-        "Kourtney Kardashian (media personality)"
+        "Kourtney Kardashian (media personality, model and businesswoman)"
       ]
     },
     {
@@ -5455,7 +5454,8 @@
       "students": 2100,
       "enrollmentAsOf": "2023",
       "mascot": "Golden Lions",
-      "division": "NCAA Division I",
+      "division": "NCAA Division I FCS",
+      "conference": "Southwestern Athletic Conference",
       "alumni": [
         "Danny K. Davis (politician)",
         "Gloria Long Anderson (chemist and school administrator)",
@@ -5474,8 +5474,6 @@
       "enrollmentAsOf": "fall 2024",
       "mascot": "Oski the Bear",
       "nickname": "Golden Bears",
-      "division": "NCAA Division I FBS",
-      "conference": "ACC",
       "ranking": {
         "list": "National Universities",
         "rank": 15
@@ -5562,8 +5560,8 @@
         "Gwyneth Paltrow (actress, entrepreneur)",
         "Michael Douglas (actor, producer and activist)",
         "Carol Greider (molecular biologist)",
-        "Tera Patrick (pornographic actress)",
-        "Benjamin Bratt (actor)"
+        "Benjamin Bratt (actor)",
+        "Jack Johnson (singer-songwriter)"
       ]
     },
     {
@@ -5603,7 +5601,7 @@
       "students": 9962,
       "enrollmentAsOf": "fall 2025",
       "mascot": "Bruce D. Bear",
-      "nickname": "Bears & Sugar Bears",
+      "nickname": "Bears",
       "division": "NCAA Division I",
       "conference": "ASUN",
       "ranking": {
@@ -5627,13 +5625,13 @@
       "students": 13734,
       "enrollmentAsOf": "spring 2024",
       "mascot": "Mo the Mule",
-      "nickname": "Mules and Jennies",
+      "nickname": "Mules",
       "division": "NCAA Division II",
       "conference": "The MIAA",
       "alumni": [
         "David Cook (musician)",
         "Carry Nation (temperance advocate)",
-        "Vicky Hartzler (Representative from Missouri)",
+        "Vicky Hartzler (Representative)",
         "Chuck Palumbo (professional wrestler)",
         "Kiersten Warren (actress)"
       ]
@@ -5696,8 +5694,6 @@
       "enrollmentAsOf": "2024",
       "mascot": "Jonathan the Husky",
       "nickname": "Huskies",
-      "division": "NCAA Division I FBS",
-      "conference": "Big East",
       "ranking": {
         "list": "National Universities",
         "rank": 70
@@ -5729,7 +5725,7 @@
         "rank": 136
       },
       "alumni": [
-        "Charles J. Pedersen (ganic chemist)",
+        "Charles J. Pedersen (organic chemist)",
         "Katie Moon (pole vaulter)",
         "Erma Bombeck (humorist and writer)"
       ]
@@ -5754,7 +5750,7 @@
       },
       "alumni": [
         "Joe Biden (President of the United States)",
-        "Jill Biden (educator)",
+        "Jill Biden (educator and First Lady of the United States)",
         "Richard F. Heck (chemist)",
         "Daniel Nathans (microbiologist)",
         "Chris Christie (Governor of New Jersey)"
@@ -5779,10 +5775,10 @@
         "rank": 30
       },
       "alumni": [
-        "Marco Rubio (Secretary of State)",
+        "Marco Rubio (United States Secretary of State)",
         "Faye Dunaway (actress)",
         "Jonathan Demme (filmmaker)",
-        "Robert H. Grubbs (Nobel prize winning American chemist)",
+        "Robert H. Grubbs (chemist)",
         "Marshall Warren Nirenberg (biochemist and geneticist)"
       ]
     },
@@ -5856,7 +5852,7 @@
         "rank": 33
       },
       "alumni": [
-        "Rafael Correa (President of Ecuador y Prófugo de la)",
+        "Rafael Correa",
         "Roger Ebert (film critic and author)",
         "Rosalyn Sussman Yalow (medical physicist)",
         "Gene Hackman (actor and novelist)",
@@ -5934,10 +5930,10 @@
         "rank": 148
       },
       "alumni": [
-        "Thomas Hunt Morgan (biologist)",
+        "Thomas Hunt Morgan (biologist and professor)",
         "Mitch McConnell (politician and lawyer)",
         "Ashley Judd (actress)",
-        "William Lipscomb (Nobel Prize-winning American inorganic)",
+        "William Lipscomb (inorganic and organic chemist)",
         "Harry Dean Stanton (actor)"
       ]
     },
@@ -6006,7 +6002,6 @@
       "alumni": [
         "Judge Reinhold (actor)",
         "Maggie Stiefvater (novelist)",
-        "Elizabeth Edwards (deceased wife of John Edwards)",
         "Karen Olsen Beck (Minister and first lady of Costa Rica)"
       ]
     },
@@ -6052,7 +6047,7 @@
       "alumni": [
         "Clarence Clemons (saxophonist)",
         "Clifford Brown (jazz musician)",
-        "David Banner (rapper)"
+        "David Banner (rapper, record producer and actor)"
       ]
     },
     {
@@ -6066,7 +6061,7 @@
       "students": 31318,
       "enrollmentAsOf": "fall 2025",
       "mascot": "Sam the Minuteman",
-      "nickname": "Minutemen and Minutewomen",
+      "nickname": "Minutemen",
       "division": "NCAA Division I FBS",
       "conference": "MAC",
       "ranking": {
@@ -6090,7 +6085,7 @@
       "undergrad": 16703,
       "postgrad": 5209,
       "students": 20276,
-      "mascot": "TOM III (Formally Live Tiger - deceased September 18, 2020)",
+      "mascot": "TOM III, Pouncer",
       "nickname": "Tigers",
       "division": "NCAA Division I FBS",
       "conference": "The American",
@@ -6118,8 +6113,6 @@
       "enrollmentAsOf": "fall 2025",
       "mascot": "Sebastian the Ibis",
       "nickname": "Hurricanes",
-      "division": "NCAA Division I FBS",
-      "conference": "ACC",
       "ranking": {
         "list": "National Universities",
         "rank": 64
@@ -6153,7 +6146,7 @@
         "Gerald Ford (president of the United States)",
         "Arthur Miller (playwright and essayist)",
         "Michael Phelps (swimmer)",
-        "Larry Page (computer scientist)",
+        "Larry Page (computer scientist and Internet entrepreneur)",
         "Jonas Salk (inventor of polio vaccine)"
       ]
     },
@@ -6228,7 +6221,7 @@
         "John Grisham (writer)",
         "Mahesh Bhupathi (tennis player)",
         "Roosevelt Skerrit (Prime Minister of Dominica)",
-        "Jeanne Shaheen (Senator from New Hampshire)"
+        "Jeanne Shaheen (United States Senator)"
       ]
     },
     {
@@ -6301,7 +6294,7 @@
         "Kamaru Usman (mixed martial artist)",
         "Tyrus (cable broadcaster)",
         "Tervel Dlagnev (wrestler)",
-        "Stephen R. Lawhead (UK-based American writer)"
+        "Stephen R. Lawhead (UK-based writer)"
       ]
     },
     {
@@ -6326,14 +6319,14 @@
         "Warren Buffett (investor, entrepreneur and businessman)",
         "Willa Cather (writer)",
         "George Wells Beadle (geneticist)",
-        "John J. Pershing (Army general in World War I)",
+        "John J. Pershing (United States Army general in World War I)",
         "Alan J. Heeger (chemist, physicist)"
       ]
     },
     {
       "school": "University of Nevada, Reno",
       "wikipedia": "University of Nevada, Reno",
-      "funFact": "Nevada's quad was modeled on Jefferson's Lawn at UVA and is on the National Register of Historic Places. Colin Kaepernick set the FBS record for career rushing yards by a quarterback here.",
+      "funFact": "Nevada's quad was modeled on Jefferson's Lawn at UVA and is on the National Register of Historic Places. Colin Kaepernick once held the FBS record for career rushing yards by a quarterback here.",
       "type": "Public",
       "founded": 1874,
       "undergrad": 16973,
@@ -6575,7 +6568,7 @@
       "division": "NCAA Division I FCS",
       "conference": "MVC",
       "alumni": [
-        "Chuck Grassley (Senator from Iowa)",
+        "Chuck Grassley (United States Senator)",
         "Robert James Waller (writer)",
         "Phyllis Somerville (stage, film and television actress)",
         "Nick Nurse (basketball coach)",
@@ -6595,7 +6588,7 @@
       "mascot": "Leprechaun",
       "nickname": "Fighting Irish",
       "division": "NCAA Division I FBS",
-      "conference": "Independent",
+      "conference": "ACC",
       "ranking": {
         "list": "National Universities",
         "rank": 20
@@ -6701,11 +6694,11 @@
         "rank": 148
       },
       "alumni": [
-        "Christiane Amanpour (news anchor)",
+        "Christiane Amanpour (news anchor and international correspondent)",
         "Lamar Odom (basketball player)",
         "Michael Flynn (Army general)",
         "Candace Owens (political commentator)",
-        "Robert Ballard (Navy officer)"
+        "Robert Ballard (United States Navy officer)"
       ]
     },
     {
@@ -6905,7 +6898,7 @@
         "rank": 30
       },
       "alumni": [
-        "J. M. Coetzee (South African)",
+        "J. M. Coetzee (writer and scholar)",
         "Janis Joplin (singer)",
         "Laura Bush (First Lady of the United States)",
         "Renée Zellweger (actress)",
@@ -6958,7 +6951,7 @@
       "alumni": [
         "Philip Baker Hall (actor)",
         "Chris Zylka (actor and model)",
-        "John W. Snow (Secretary of the Treasury)"
+        "John W. Snow (United States Secretary of the Treasury)"
       ]
     },
     {
@@ -6983,7 +6976,7 @@
         "Jeanne Tripplehorn (actress)",
         "Rue McClanahan (actress and comedian)",
         "Wade Williams (actor)",
-        "Jim Inhofe (Senator from Oklahoma)"
+        "Jim Inhofe (United States Senator)"
       ]
     },
     {
@@ -7034,7 +7027,7 @@
         "John Dewey (philosopher, psychologist)",
         "Jody Williams (teacher and aid worker)",
         "William A. Wheeler (vice president of the United States)",
-        "Annie Proulx (novelist)",
+        "Annie Proulx (novelist, short story and non-fiction author)",
         "Grace Coolidge (First Lady of the United States)"
       ]
     },
@@ -7076,14 +7069,12 @@
       "enrollmentAsOf": "fall 2024",
       "mascot": "Harry the Husky, Dubs",
       "nickname": "Huskies",
-      "division": "NCAA Division I FBS",
-      "conference": "Big Ten",
       "ranking": {
         "list": "National Universities",
         "rank": 42
       },
       "alumni": [
-        "Bruce Lee (Hong Kong–American martial artist)",
+        "Bruce Lee (Hong Kong–martial artist and actor)",
         "Frank Herbert (writer)",
         "Linda B. Buck (biologist)",
         "Anna Faris (actress)",
@@ -7265,7 +7256,7 @@
       "conference": "WIAC",
       "alumni": [
         "John Belushi (actor)",
-        "Reince Priebus (of the Republican National Committee)",
+        "Reince Priebus",
         "Isabella Hofmann (actress)",
         "Corey Anderson (mixed martial arts fighter)",
         "Mark Neumann (politician)"
@@ -7282,7 +7273,7 @@
       "students": 10813,
       "enrollmentAsOf": "fall 2024",
       "mascot": "Cowboy Joe, Pistol Pete",
-      "nickname": "Cowboys and Cowgirls",
+      "nickname": "Cowboys",
       "division": "NCAA Division I FBS",
       "conference": "Mountain West",
       "ranking": {
@@ -7297,7 +7288,7 @@
     {
       "school": "Utah State University",
       "wikipedia": "Utah State University",
-      "funFact": "Aggie Ice Cream has been made on campus for more than a century, and a kiss on the 'A' atop Old Main under a full moon makes you a True Aggie.",
+      "funFact": "Aggie Ice Cream has been made on campus for more than a century, and a kiss on the Block A monument under a full moon makes you a True Aggie.",
       "type": "Public",
       "founded": 1888,
       "undergrad": 29046,
@@ -7307,7 +7298,7 @@
       "mascot": "Big Blue",
       "nickname": "Aggies",
       "division": "NCAA Division I FBS",
-      "conference": "Pac-12",
+      "conference": "Pac-12 Conference",
       "ranking": {
         "list": "National Universities",
         "rank": 288
@@ -7444,7 +7435,7 @@
       "alumni": [
         "Leo XIV (Pope of the Catholic Church)",
         "Bradley Cooper (actor and filmmaker)",
-        "Jill Biden (educator)",
+        "Jill Biden (educator and First Lady of the United States)",
         "Pierre Teilhard de Chardin (philosopher, Jesuit priest)",
         "Maria Bello (actress)"
       ]
@@ -7535,7 +7526,7 @@
         "Thomas R. Marshall (vice president of the United States)",
         "Dean Jagger (actor)",
         "Dan Simmons (novelist)",
-        "Max Wright (actor from the United States)",
+        "Max Wright (actor)",
         "Mike Braun (businessman and politician)"
       ]
     },
@@ -7561,7 +7552,7 @@
         "Tim Duncan (basketball player)",
         "Chris Paul (basketball player)",
         "Arnold Palmer (golfer)",
-        "Francis Arinze (catholic cardinal from Nigeria)",
+        "Francis Arinze (catholic cardinal)",
         "Muggsy Bogues (basketball player-coach)"
       ]
     },
@@ -7589,7 +7580,7 @@
       "undergrad": 933,
       "enrollmentAsOf": "fall 2025",
       "mascot": "Gus the Goose",
-      "nickname": "Shoremen & Shorewomen or Goose Nation",
+      "nickname": "Shoremen",
       "division": "NCAA Division III",
       "conference": "Centennial Conference",
       "alumni": [
@@ -7610,7 +7601,7 @@
       "mascot": "Butch T. Cougar",
       "nickname": "Cougars",
       "division": "NCAA Division I FBS",
-      "conference": "Pac-12",
+      "conference": "Pac-12 Conference",
       "ranking": {
         "list": "National Universities",
         "rank": 189
@@ -7636,7 +7627,7 @@
       "mascot": "Trident",
       "nickname": "Generals",
       "division": "NCAA Division III",
-      "conference": "Old Dominion",
+      "conference": "Old Dominion Athletic Conference",
       "ranking": {
         "list": "National Liberal Arts Colleges",
         "rank": 12
@@ -7671,7 +7662,7 @@
         "Heavy D (rapper and actor)",
         "Joel Bolomboy (basketball player)",
         "Moroni Olsen (actor)",
-        "Lynn Jenkins (Representative from Kansas)"
+        "Lynn Jenkins (Representative)"
       ]
     },
     {
@@ -7718,10 +7709,9 @@
         "rank": 50
       },
       "alumni": [
-        "Jill Biden (educator)",
+        "Jill Biden (educator and First Lady of the United States)",
         "Matthew McGrory (actor)",
-        "Jessica Barth (actress)",
-        "Victoria Zdrok (pornographic actress)"
+        "Jessica Barth (actress)"
       ]
     },
     {
@@ -7734,7 +7724,7 @@
       "postgrad": 2603,
       "students": 10051,
       "mascot": "Buffalo",
-      "nickname": "Buffaloes or Buffs",
+      "nickname": "Buffaloes",
       "division": "NCAA Division II",
       "conference": "Lone Star",
       "ranking": {
@@ -7833,7 +7823,7 @@
       "enrollmentAsOf": "fall 2024",
       "nickname": "Mountaineers",
       "division": "NCAA Division II",
-      "conference": "Rocky Mountain",
+      "conference": "Rocky Mountain Athletic Conference",
       "alumni": [
         "Shane Carwin (mixed martial artist)",
         "Theo Colborn (ecologist)",
@@ -7888,7 +7878,7 @@
       },
       "alumni": [
         "John Carpenter (filmmaker, composer and actor)",
-        "Sue Grafton (writer from Kentucky)",
+        "Sue Grafton (writer)",
         "Michael Rosenbaum (actor)",
         "Charles Napier (actor)",
         "Courtney Lee (basketball player)"
@@ -7956,7 +7946,6 @@
       "division": "NCAA Division II",
       "conference": "GNAC",
       "alumni": [
-        "Tori Black (pornographic actress)",
         "Laurence J. Peter (educator)",
         "Carrie Brownstein (musician and actress)",
         "Agnes Martin (painter)"
@@ -8016,16 +8005,16 @@
       "mascot": "Blitz",
       "nickname": "Bearcats",
       "division": "NCAA Division III",
-      "conference": "Northwest",
+      "conference": "Northwest Conference",
       "ranking": {
         "list": "National Liberal Arts Colleges",
         "rank": 72
       },
       "alumni": [
         "Dale T. Mortensen (economist)",
-        "Lisa Murkowski (Senator from Alaska)",
+        "Lisa Murkowski (United States Senator)",
         "Mark Hatfield (politician)",
-        "Nick Symmonds (Athletics competitor)",
+        "Nick Symmonds (Athletics competitor, middle distance runner)",
         "Charles L. McNary (politician)"
       ]
     },
@@ -8050,9 +8039,9 @@
       "alumni": [
         "James A. Garfield (president of the United States)",
         "Elia Kazan (director and actor)",
-        "Reza Pahlavi (Son of the last Shah of Iran)",
         "Goh Chok Tong (Prime Minister of Singapore)",
-        "Robert F. Engle (economist and Nobel laureate)"
+        "Robert F. Engle (economist and Nobel laureate)",
+        "Stephen Sondheim (composer and lyricist)"
       ]
     },
     {

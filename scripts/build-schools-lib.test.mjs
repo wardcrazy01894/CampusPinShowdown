@@ -129,7 +129,29 @@ describe('parseAthletics', () => {
       parseAthletics('[[NCAA Division I FBS]] – [[Big 12 Conference|Big 12]]'),
     ).toEqual({
       division: 'NCAA Division I FBS',
-      conference: 'Big 12',
+      conference: 'Big 12', // a multi-word link text stands on its own
+    })
+    expect(
+      parseAthletics(
+        '[[NCAA Division I FBS]] – [[Southeastern Conference|SEC]]',
+      ),
+    ).toEqual({
+      division: 'NCAA Division I FBS',
+      conference: 'SEC',
+    })
+    expect(
+      parseAthletics('[[NAIA]] – [[Sooner Athletic Conference|Sooner]]'),
+    ).toEqual({
+      division: 'NAIA',
+      conference: 'Sooner Athletic Conference',
+    })
+    expect(
+      parseAthletics(
+        '[[NCAA]] [[Division III (NCAA)|Division III]] – [[Centennial Conference|CC]]',
+      ),
+    ).toEqual({
+      division: 'NCAA Division III',
+      conference: 'Centennial Conference',
     })
     expect(
       parseAthletics(
@@ -156,7 +178,10 @@ describe('parseAthletics', () => {
       parseAthletics(
         '{{hlist|[[NCAA Division I FBS]] – [[Big Ten Conference|Big Ten]]|[[CWPA]]}}',
       ),
-    ).toEqual({ division: 'NCAA Division I FBS', conference: 'Big Ten' })
+    ).toEqual({
+      division: 'NCAA Division I FBS',
+      conference: 'Big Ten',
+    })
   })
   it('recognises the division instead of copying the line, whatever the separators', () => {
     const cases = [
@@ -186,10 +211,36 @@ describe('parseAthletics', () => {
         'Patriot League',
       ],
       ['[[NCAA Division III]][[WIAC]]', 'NCAA Division III', 'WIAC'],
+      ['[[NCAA Division I FBS]] independent', 'NCAA Division I FBS', undefined],
       [
-        '[[NCAA Division I FBS]] independent',
-        'NCAA Division I FBS',
-        'independent',
+        '[[NCAA Division I]] – [[Conference USA]]',
+        'NCAA Division I',
+        'Conference USA',
+      ],
+      [
+        '{{hlist|[[NCAA Division I]] - [[NCAA Division I Football Championship Subdivision|FCS]]|[[Atlantic Sun Conference|ASUN]]}}',
+        'NCAA Division I FCS',
+        'ASUN',
+      ],
+      [
+        '[[Southern Athletic Association]]<br />[[NCAA Division III]]',
+        'NCAA Division III',
+        'Southern Athletic Association',
+      ],
+      [
+        '[[NCAA]] [[NCAA Division III|Division III]], [[Heartland Collegiate Athletic Conference]]',
+        'NCAA Division III',
+        'Heartland Collegiate Athletic Conference',
+      ],
+      [
+        '[[NCAA]]<br />[[NCAA Division I|Div I]] – [[ECAC Hockey]]<br />[[NCAA Division III|Div III]] – [[Liberty League]]',
+        'NCAA Division I',
+        'ECAC Hockey',
+      ],
+      [
+        "[[NCAA Division II]] {{small|(primary)}}<br/>[[NCAA Division I]], men's hockey",
+        'NCAA Division II',
+        undefined,
       ],
     ]
     for (const [raw, division, conference] of cases)
@@ -403,7 +454,7 @@ describe('alumni hygiene', () => {
     ).toBe('X (Governor of New Jersey)')
     expect(
       r('educator and First Lady of the United States from 2021 to 2025'),
-    ).toBe('X (educator)')
+    ).toBe('X (educator and First Lady of the United States)')
     expect(r('Mexican writer, poet and diplomat (1914–1998)')).toBe(
       'X (writer, poet and diplomat)',
     )
@@ -421,9 +472,30 @@ describe('alumni hygiene', () => {
       'X (member of the United States Senate)',
     )
     expect(r('the')).toBe('X')
+    // Never truncated mid-phrase: too long or broken → no role at all.
+    expect(
+      r('Lieutenant General in the United States Air Force and astronaut'),
+    ).toBe('X')
+    expect(r('Speaker of the United States House of Representatives')).toBe('X')
+    expect(r('Norwegian-American organic chemist')).toBe('X (organic chemist)')
+    expect(r('Nobel Prize-winning American inorganic chemist')).toBe(
+      'X (inorganic chemist)',
+    )
+    expect(
+      r('Nobel prize winning American and British structural biologist'),
+    ).toBe('X (structural biologist)')
+    expect(r('Canadian-born American physician')).toBe('X (physician)')
+    expect(r('Czech-Greek basketball player')).toBe('X (basketball player)')
+    expect(r('South African writer')).toBe('X (writer)')
+    expect(r('psychologist (1878-1958)')).toBe('X (psychologist)')
+    expect(r('president of the United States from 1974 to 1977')).toBe(
+      'X (president of the United States)',
+    )
+    expect(r('deceased wife of John Edwards')).toBeUndefined()
+    expect(r('American pornographic actress')).toBeUndefined()
     expect(
       r('the 10th and current president of the Federal Republic of Somalia'),
-    ).toBe('X (president of the Federal Republic)')
+    ).toBe('X (president of the Federal Republic of Somalia)')
   })
 })
 
@@ -433,6 +505,12 @@ describe('cleanNickname / cleanMascot', () => {
       cleanNickname('Penn State: Nittany Lions, Lady Lions, Behrend Lions'),
     ).toBe('Nittany Lions')
     expect(cleanNickname('Bulldogs and Lady Bulldogs')).toBe('Bulldogs')
+    expect(cleanNickname('Shoremen & Shorewomen or Goose Nation')).toBe(
+      'Shoremen',
+    )
+    expect(
+      cleanNickname("Bears and Lady Bears (women's basketball only)"),
+    ).toBe('Bears')
     expect(cleanNickname('Red Raiders')).toBe('Red Raiders')
     expect(cleanNickname('')).toBe('')
     expect(
@@ -444,6 +522,16 @@ describe('cleanNickname / cleanMascot', () => {
       'Antioch Free Radicals',
     )
     expect(cleanMascot('None')).toBe('')
+    expect(
+      cleanMascot(
+        'Spike, Live Mascots: General 3 (affectionately known as G3)',
+      ),
+    ).toBe('Spike, General 3')
+    expect(
+      cleanMascot(
+        'TOM III (Formally Live Tiger - deceased September 18, 2020), Pouncer (costume)',
+      ),
+    ).toBe('TOM III, Pouncer')
   })
 })
 
