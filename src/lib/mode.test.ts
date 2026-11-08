@@ -86,3 +86,12 @@ describe('resolveSessionMode — midnight rollover freeze', () => {
     expect(resolveSessionMode(before, shuffle, () => game())).toBe(shuffle)
   })
 })
+
+describe('resolveMode — cooldown flag', () => {
+  it('is on for the official daily and a ?date= override, off for ?shuffle', () => {
+    const now = new Date('2026-11-12T12:00:00Z')
+    expect(resolveMode('', now, 'x', 'UTC').cooldown).toBe(true)
+    expect(resolveMode('?date=2026-11-01', now, 'x', 'UTC').cooldown).toBe(true)
+    expect(resolveMode('?shuffle', now, 'x', 'UTC').cooldown).toBe(false)
+  })
+})

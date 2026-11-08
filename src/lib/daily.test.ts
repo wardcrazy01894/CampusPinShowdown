@@ -9,6 +9,11 @@ import {
   dayRank,
   puzzleNumber,
   selectDailyTowns,
+  addDays,
+  dateSeed,
+  dailyLineup,
+  COOLDOWN_DAYS,
+  COOLDOWN_FROM_DATE_KEY,
 } from './daily'
 import type { Difficulty, Town } from '../types'
 
@@ -269,5 +274,108 @@ describe('selectDailyTowns', () => {
     expect(() => selectDailyTowns(towns.slice(0, 4), 'usa:2026-10-29')).toThrow(
       /at least 5/,
     )
+  })
+})
+
+describe('recency cooldown (dailyLineup)', () => {
+  // A pool big enough for the rule to be satisfiable (2 easy + 2 medium + 1
+  // hard a day × 14 days < each tier), with 50 fake states.
+  const mk = (i: number, difficulty: Difficulty): Town => ({
+    id: `${difficulty}-${i}`,
+    name: `${difficulty} ${i}`,
+    state: `State ${i}`,
+    stateCode: `S${(i * 7 + difficulty.length) % 50}`,
+    schools: ['U'],
+    lat: 40,
+    lng: -90,
+    difficulty,
+    source: 'manual',
+    attribution: 't',
+  })
+  const range = (n: number) => Array.from({ length: n }, (_, i) => i + 1)
+  const pool: Town[] = [
+    ...range(40).map((i) => mk(i, 'easy')),
+    ...range(40).map((i) => mk(i, 'medium')),
+    ...range(20).map((i) => mk(i, 'hard')),
+  ]
+  const tiny: Town[] = (['easy', 'medium', 'hard'] as Difficulty[]).flatMap(
+    (d) => range(3).map((i) => mk(i, d)),
+  )
+  const ids = (ts: Town[]) => ts.map((t) => t.id)
+  const daysBetween = (a: string, b: string) =>
+    (Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 86_400_000
+
+  it('addDays / dateSeed are plain UTC date arithmetic and the seed format mode.ts uses', () => {
+    expect(addDays('2026-11-10', -14)).toBe('2026-10-27')
+    expect(addDays('2026-12-31', 1)).toBe('2027-01-01')
+    expect(addDays('2027-03-14', 0)).toBe('2027-03-14')
+    expect(dateSeed('usa', '2026-11-10')).toBe('usa:2026-11-10')
+  })
+
+  it('selectDailyTowns honours an exclusion set, falling back to excluded towns only as a last resort', () => {
+    const plain = selectDailyTowns(pool, 'usa:2026-12-01')
+    const excluded = new Set(ids(plain))
+    const next = selectDailyTowns(
+      pool,
+      'usa:2026-12-01',
+      ROUNDS_PER_DAY,
+      excluded,
+    )
+    expect(next).toHaveLength(ROUNDS_PER_DAY)
+    expect(ids(next).some((id) => excluded.has(id))).toBe(false)
+    // Exclude everything: the day must still fill (tiny datasets, dev modes).
+    expect(
+      selectDailyTowns(
+        pool,
+        'usa:2026-12-01',
+        ROUNDS_PER_DAY,
+        new Set(ids(pool)),
+      ),
+    ).toHaveLength(ROUNDS_PER_DAY)
+  })
+
+  it('before COOLDOWN_FROM_DATE_KEY the lineup is the legacy selection, unchanged', () => {
+    const d = addDays(COOLDOWN_FROM_DATE_KEY, -1)
+    expect(ids(dailyLineup(pool, 'usa', d))).toEqual(
+      ids(selectDailyTowns(pool, dateSeed('usa', d))),
+    )
+    expect(ids(dailyLineup(pool, 'usa', EPOCH_DATE_KEY))).toEqual(
+      ids(selectDailyTowns(pool, dateSeed('usa', EPOCH_DATE_KEY))),
+    )
+  })
+
+  it('from COOLDOWN_FROM_DATE_KEY on, no town returns within COOLDOWN_DAYS — counting the legacy days just before', () => {
+    expect(COOLDOWN_DAYS).toBe(14)
+    const last = new Map<string, string>()
+    const start = addDays(COOLDOWN_FROM_DATE_KEY, -COOLDOWN_DAYS)
+    for (let i = 0; i < COOLDOWN_DAYS + 120; i++) {
+      const d = addDays(start, i)
+      const picks = dailyLineup(pool, 'usa', d)
+      expect(picks, d).toHaveLength(ROUNDS_PER_DAY)
+      expect(new Set(ids(picks)).size, d).toBe(ROUNDS_PER_DAY)
+      if (d >= COOLDOWN_FROM_DATE_KEY)
+        for (const t of picks) {
+          const l = last.get(t.id)
+          if (l)
+            expect(daysBetween(l, d), `${t.id} on ${d}`).toBeGreaterThan(
+              COOLDOWN_DAYS,
+            )
+        }
+      for (const t of picks) last.set(t.id, d)
+    }
+  })
+
+  it('still fills a day when the pool is too small for the window (last-resort fallback)', () => {
+    const d = addDays(COOLDOWN_FROM_DATE_KEY, 20)
+    expect(dailyLineup(tiny, 'usa', d)).toHaveLength(ROUNDS_PER_DAY)
+  })
+
+  it('is deterministic, independent of input order, and memoised per dataset array', () => {
+    const d = addDays(COOLDOWN_FROM_DATE_KEY, 30)
+    const a = ids(dailyLineup(pool, 'usa', d))
+    const b = ids(dailyLineup([...pool].reverse(), 'usa', d))
+    expect(a).toEqual(b)
+    expect(ids(dailyLineup(pool, 'usa', d))).toEqual(a) // cached walk, same answer
+    expect(ids(dailyLineup(pool, 'usa', addDays(d, 1)))).not.toEqual(a)
   })
 })

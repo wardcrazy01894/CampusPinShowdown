@@ -10,7 +10,7 @@
  * an in-progress daily.
  */
 
-import { getDateKey, isValidDateKey } from './daily'
+import { getDateKey, isValidDateKey, dateSeed } from './daily'
 import { shouldShuffle } from './devmode'
 import { shouldDeferReload } from './version'
 import { REGION } from './region'
@@ -24,6 +24,12 @@ export interface Mode {
   dateKey: string
   /** Seed for selectDailyTowns — region + date (or a per-load random for shuffle). */
   selectionSeed: string
+  /**
+   * True when the lineup is a calendar day's (official or ?date=) and so
+   * goes through the recency cooldown (daily.ts:dailyLineup, keyed by
+   * `dateKey`). False for ?shuffle, whose per-load seed has no history.
+   */
+  cooldown: boolean
   /** Short human label for the header ("2026-10-29", "shuffle", "… (override)"). */
   label: string
   /** True ONLY for the real daily challenge (today's date-seeded 5). */
@@ -49,6 +55,7 @@ export function resolveMode(
       selectionSeed: `${REGION.id}:shuffle-${shuffleSeed}`,
       label: 'shuffle — random 5 (refresh for a new set)',
       official: false,
+      cooldown: false,
       storageId: `${REGION.id}${SHUFFLE_SUFFIX}`,
     }
   }
@@ -56,17 +63,19 @@ export function resolveMode(
   if (param && isValidDateKey(param)) {
     return {
       dateKey: param,
-      selectionSeed: `${REGION.id}:${param}`,
+      selectionSeed: dateSeed(REGION.id, param),
       label: `${param} (override)`,
       official: false,
+      cooldown: true,
       storageId: `${REGION.id}__date`,
     }
   }
   return {
     dateKey: today,
-    selectionSeed: `${REGION.id}:${today}`,
+    selectionSeed: dateSeed(REGION.id, today),
     label: today,
     official: true,
+    cooldown: true,
     storageId: REGION.id,
   }
 }

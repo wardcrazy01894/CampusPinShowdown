@@ -15,7 +15,7 @@ import {
 } from './lib/version'
 import { loadState } from './lib/storage'
 import type { TownsFile, Town, GamePhase } from './types'
-import { getDateKey, selectDailyTowns } from './lib/daily'
+import { getDateKey, selectDailyTowns, dailyLineup } from './lib/daily'
 import { resolveMode, resolveSessionMode, type Mode } from './lib/mode'
 import { REGION, townsUrl } from './lib/region'
 import { isMuted, setMuted } from './lib/sound'
@@ -162,7 +162,11 @@ export function App() {
   }>(() => {
     if (!file) return { picks: null, error: null }
     try {
-      const picks = selectDailyTowns(file.towns, mode.selectionSeed)
+      // Calendar days go through the recency cooldown (no town twice in two
+      // weeks); ?shuffle has no history and takes the plain seeded pick.
+      const picks = mode.cooldown
+        ? dailyLineup(file.towns, REGION.id, mode.dateKey)
+        : selectDailyTowns(file.towns, mode.selectionSeed)
       log.info('App', 'picks', {
         seed: mode.selectionSeed,
         picks: picks.map((p) => p.id),
@@ -172,7 +176,7 @@ export function App() {
       log.error('App', 'failed to select towns', { error: String(e) })
       return { picks: null, error: String(e) }
     }
-  }, [file, mode.selectionSeed])
+  }, [file, mode.selectionSeed, mode.cooldown, mode.dateKey])
   const today = selection.picks
   const error = loadError ?? selection.error
 
