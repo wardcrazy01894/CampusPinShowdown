@@ -99,7 +99,9 @@ All of this is CSS in `src/index.css` over a DOM shape pinned by
   of (dataset, date) with no storage, and puzzles #1–#12 keep the lineups
   people played. Excluded towns return only as a last resort when a tier is
   exhausted (tiny datasets). The walk is memoised per dataset array; three
-  years cost ~150 ms. `?shuffle` has no history and skips it (`Mode.cooldown`).
+  years cost ~150 ms. `?shuffle` has no history and skips it (`Mode.cooldown`),
+  and a `?date=` more than a year ahead is ignored so a hand-typed 2099
+  cannot freeze the page walking 26k days (`DATE_OVERRIDE_HORIZON_DAYS`).
   **Trade-off, measured over 730 simulated days:** the stability property
   above weakens slightly — with the cooldown a dataset change can ripple into
   the following days' lineups. At 14 days, adding a town changed _today's_

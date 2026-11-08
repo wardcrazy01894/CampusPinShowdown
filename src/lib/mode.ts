@@ -10,7 +10,7 @@
  * an in-progress daily.
  */
 
-import { getDateKey, isValidDateKey, dateSeed } from './daily'
+import { getDateKey, isValidDateKey, dateSeed, addDays } from './daily'
 import { shouldShuffle } from './devmode'
 import { shouldDeferReload } from './version'
 import { REGION } from './region'
@@ -19,6 +19,9 @@ import type { GameState } from '../types'
 /** Namespace suffix for the ?shuffle scratch save — shared with storage.ts so
  *  the two can't drift. */
 export const SHUFFLE_SUFFIX = '__shuffle'
+
+/** How far ahead of today a `?date=` override may reach (see resolveMode). */
+export const DATE_OVERRIDE_HORIZON_DAYS = 365
 
 export interface Mode {
   dateKey: string
@@ -60,7 +63,14 @@ export function resolveMode(
     }
   }
   const param = new URLSearchParams(search).get('date')
-  if (param && isValidDateKey(param)) {
+  // A ?date= more than a year ahead is ignored: the cooldown walk
+  // (daily.ts:dailyLineup) is sequential, and 2099 would mean ~26k days of
+  // synchronous work on the render thread. The past is unbounded.
+  if (
+    param &&
+    isValidDateKey(param) &&
+    param <= addDays(today, DATE_OVERRIDE_HORIZON_DAYS)
+  ) {
     return {
       dateKey: param,
       selectionSeed: dateSeed(REGION.id, param),

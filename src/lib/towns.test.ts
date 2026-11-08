@@ -181,6 +181,14 @@ describe('public/towns.json', () => {
     expect(Date.now() - t0).toBeLessThan(5_000)
   })
 
+  it('COOLDOWN: every puzzle played before the switch-on date (#1–#12) keeps exactly its legacy lineup', () => {
+    for (let d = '2026-10-29'; d < COOLDOWN_FROM_DATE_KEY; d = addDays(d, 1))
+      expect(
+        dailyLineup(towns, REGION.id, d).map((t) => t.id),
+        d,
+      ).toEqual(selectDailyTowns(towns, `${REGION.id}:${d}`).map((t) => t.id))
+  })
+
   it('COOLDOWN: the first cooldown day excludes the legacy lineups of the 14 days before it', () => {
     const legacy = new Set<string>()
     for (let i = 1; i <= COOLDOWN_DAYS; i++)
