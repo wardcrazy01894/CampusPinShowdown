@@ -1,9 +1,16 @@
 // @vitest-environment jsdom
 import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest'
-import { render, cleanup, screen, fireEvent } from '@testing-library/react'
+import {
+  render,
+  cleanup,
+  screen,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react'
 import { Game } from './Game'
 import { REGION } from '../lib/region'
 import { saveState, loadState, STORAGE_VERSION } from '../lib/storage'
+import { resetSchoolFactsCache } from '../lib/schoolFacts'
 import type { Town } from '../types'
 
 const towns: Town[] = [
@@ -446,5 +453,90 @@ describe('Game — play layout (map fills the screen, chrome floats)', () => {
     expect(actions.textContent).toContain('25 mi')
     expect(actions.textContent).toContain('96')
     expect(actions.querySelector('button')?.textContent).toBe('Next round')
+  })
+})
+
+describe('Game — school card', () => {
+  const file = {
+    version: 1,
+    generated: '2026-11-08',
+    attribution: 'Wikipedia',
+    rankingEdition: 2026,
+    schools: [
+      {
+        school: 'University of Michigan',
+        wikipedia: 'University of Michigan',
+        funFact:
+          'The Big House is the largest stadium in the Western Hemisphere.',
+        nickname: 'Wolverines',
+        conference: 'Big Ten',
+        division: 'NCAA Division I FBS',
+      },
+    ],
+  }
+  const revealedSave = () =>
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history: [],
+      streak: { current: 0, best: 0, lastPlayedDateKey: null },
+      current: {
+        dateKey: '2026-10-29',
+        towns,
+        roundIndex: 0,
+        results: [
+          {
+            town: towns[0],
+            guess: { lat: 42, lng: -84 },
+            distanceMeters: 40_000,
+            score: 96,
+          },
+        ],
+        phase: 'revealed',
+      },
+    })
+  beforeEach(() => resetSchoolFactsCache())
+  afterEach(() => vi.unstubAllGlobals())
+
+  it('shows the prompt school’s card inside the prompt card after the reveal', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({ ok: true, json: async () => file })),
+    )
+    revealedSave()
+    render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+      />,
+    )
+    await waitFor(() =>
+      expect(
+        screen.getByText(/largest stadium in the Western Hemisphere/),
+      ).toBeTruthy(),
+    )
+    const card = screen.getByRole('complementary', {
+      name: 'About University of Michigan',
+    })
+    expect(card.closest('.play__prompt')).not.toBeNull()
+    expect(card.textContent).toContain('Wolverines · Big Ten · D-I FBS')
+  })
+
+  it('never shows or fetches the card while a round is open (it would name the town)', () => {
+    const f = vi.fn(async () => ({ ok: true, json: async () => file }))
+    vi.stubGlobal('fetch', f)
+    render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official
+      />,
+    )
+    expect(screen.queryByRole('complementary')).toBeNull()
+    expect(f).not.toHaveBeenCalled()
   })
 })

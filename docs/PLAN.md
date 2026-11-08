@@ -7,9 +7,9 @@ code is held to; CLAUDE.md's docs map says which section to update when.
 
 ## Game loop
 
-Five rounds a day. Each round asks for a **school** (`Where is Texas Tech
-University?`); the **town and state are the answer** and appear only after
-the guess (`Lubbock, Texas — Home of Texas Tech University`). Towns with
+Five rounds a day. Each round asks for a **school** (`Where is the University of
+Michigan?`); the **town and state are the answer** and appear only after
+the guess (`Ann Arbor, Michigan — Home of the University of Michigan`). Towns with
 several schools prompt with the first school whose name does not contain the
 town (Moorhead → Concordia College), else the first listed (Cambridge →
 Harvard), unless the seed pins a `prompt` (Memphis asks "University of
@@ -21,11 +21,22 @@ and submits. The round header carries
 the town's **tier badge** (🟢 Easy / 🟡 Medium / 🔴 Hard, `src/lib/tiers.ts`)
 up front — it sets expectations and says nothing about the town, so it is not
 a hint; the same badge sits on each results row. On submit the reveal shows the real
-pin, a dashed line, the distance in miles, and the round score. After round 5:
+pin, a dashed line, the distance in miles, and the round score — and, under
+the "Home of …" line, the **school card** (`SchoolCard`): a hand-written fun
+fact, then whichever of these the data has — public/private + founding year,
+undergrad/grad enrollment (with its term), team nickname · conference ·
+division (D-I FBS, D-III, NAIA…), mascot, U.S. News rank on its list — then
+up to five notable alumni and a Wikipedia credit link. The card is keyed by
+the round's prompt school and read from `public/schools.json`
+(`src/lib/schoolFacts.ts`; built by `scripts/build-schools.mjs`, see
+`docs/DATA.md` §School facts), fetched lazily on the first reveal and never
+before: the fact names the town. A missing row or a failed fetch renders
+nothing — the game never waits on it. After round 5:
 total /500, streak, a **day recap map** (`RecapMap`: all five real towns as
 numbered green markers, each guess as an amber pin with a dashed line; tap a
-results row to zoom to that round) and a Wordle-style share card
-(`📍 CampusPin Showdown #N`).
+results row to zoom to that round), an "ℹ️ About <school>" toggle under each
+row that opens the same school card (one open at a time; it never moves the
+map), and a Wordle-style share card (`📍 CampusPin Showdown #N`).
 **Hint mode:** the state is withheld by design, but a round offers
 "💡 Reveal the region (−25 pts)"; taking it shows the town's **region** — one
 of eleven groups of 3–6 neighbouring states (`src/lib/hintRegions.ts`: "the

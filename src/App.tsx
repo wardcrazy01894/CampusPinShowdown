@@ -55,7 +55,7 @@ export function App() {
   const [reporting, setReporting] = useState<string | null>(null)
   // Today's game phase, reported by <Game>. The town search is offered only
   // once the day is FINISHED: mid-round, typing the prompt's school into it
-  // would list "Lubbock, TX" — the whole answer. (Review finding on PR #5.)
+  // would list "Ann Arbor, MI" — the whole answer. (Review finding on PR #5.)
   const [phase, setPhase] = useState<GamePhase | null>(() => {
     // Seed from the saved game so a resumed finished day is 'finished' on the
     // very first render; Game reports every later transition.

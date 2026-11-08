@@ -1,0 +1,1407 @@
+[
+  {
+    "school": "Alabama A&M University",
+    "funFact": "Founded in 1875 by a formerly enslaved man, William Hooper Councill, with a state appropriation of just $1,000 a year. Its Marching Maroon and White band is a Magic City Classic fixture."
+  },
+  {
+    "school": "Alabama State University",
+    "funFact": "Faculty and students were at the heart of the 1955 Montgomery bus boycott: the leaflets announcing it were mimeographed on campus by professor Jo Ann Robinson."
+  },
+  {
+    "school": "Albion College",
+    "funFact": "Albion's campus sits on a bend of the Kalamazoo River; its Whitehouse Nature Center covers 144 acres of trails right next to the dorms."
+  },
+  {
+    "school": "Allegheny College",
+    "funFact": "Chartered in 1815, Allegheny is one of the oldest colleges west of the Allegheny Mountains, and its Bentley Hall, begun in 1820, is on the National Register of Historic Places."
+  },
+  {
+    "school": "Alma College",
+    "funFact": "Alma calls itself 'Scotland, USA': the college fields a championship Highland dance team and its Kiltie Marching Band performs in full tartan."
+  },
+  {
+    "school": "Antioch College",
+    "funFact": "Horace Mann was its first president, and his 1859 charge to graduates, 'Be ashamed to die until you have won some victory for humanity,' is still the college motto."
+  },
+  {
+    "school": "Appalachian State University",
+    "funFact": "In 2007 App State, then an FCS team, beat No. 5 Michigan 34–32 at the Big House, widely called the greatest upset in college football history."
+  },
+  {
+    "school": "Arizona State University",
+    "funFact": "ASU is one of the largest universities in the U.S. by enrollment, and its Tempe campus is home to Sparky the Sun Devil, designed by a former Disney illustrator."
+  },
+  {
+    "school": "Arkansas State University",
+    "funFact": "The Red Wolves were the Indians until 2008. A-State also runs a branch campus in Querétaro, Mexico, the first U.S.-style residential campus in the country."
+  },
+  {
+    "school": "Arkansas Tech University",
+    "funFact": "Founded in 1909 as an agricultural school. The teams are the Wonder Boys and Golden Suns, but the mascot is a live bulldog named Jerry, a campus tradition for generations."
+  },
+  {
+    "school": "Auburn University",
+    "funFact": "After a win, fans roll the oak trees at Toomer's Corner with toilet paper. 'War Eagle' is a battle cry, not the mascot: the mascot is Aubie the Tiger."
+  },
+  {
+    "school": "Augustana College",
+    "funFact": "Augustana sits on the Mississippi in Rock Island and runs the Fryxell Geology Museum, whose collection includes a nearly complete Cryolophosaurus dinosaur skeleton."
+  },
+  {
+    "school": "Austin College",
+    "funFact": "Austin College was chartered in 1849 and still operates under its original name and charter, one of the oldest colleges in Texas. It is in Sherman, not Austin."
+  },
+  {
+    "school": "Ball State University",
+    "funFact": "Named for the Ball brothers of Ball mason-jar fame, who bought and donated the campus in 1918. David Letterman is an alumnus and funded its communications building."
+  },
+  {
+    "school": "Bates College",
+    "funFact": "Founded by abolitionists in 1855, Bates was coeducational from day one, one of the first colleges in the Northeast to admit women."
+  },
+  {
+    "school": "Baylor University",
+    "funFact": "Chartered in 1845 by the Republic of Texas, Baylor is the state's oldest continuously operating university. Live black bears have lived on campus since 1917."
+  },
+  {
+    "school": "Beloit College",
+    "funFact": "The campus is built around more than 20 Native American effigy mounds, some over a thousand years old, which the college preserves as part of its grounds."
+  },
+  {
+    "school": "Berea College",
+    "funFact": "Berea charges no tuition: every student receives a full scholarship and works at least 10 hours a week on campus. It was the South's first interracial, coeducational college."
+  },
+  {
+    "school": "Berry College",
+    "funFact": "With roughly 27,000 acres, Berry has the largest contiguous college campus in the world, complete with deer herds, a mountain, and a working dairy."
+  },
+  {
+    "school": "Bethune-Cookman University",
+    "funFact": "Mary McLeod Bethune founded it in 1904 with $1.50, five girls, and a rented house. Its Marching Wildcats band has played Super Bowl halftime shows."
+  },
+  {
+    "school": "Binghamton University",
+    "funFact": "Binghamton was a Nobel-winning campus in 2019 when chemistry professor M. Stanley Whittingham shared the prize for inventing the lithium-ion battery."
+  },
+  {
+    "school": "Black Hills State University",
+    "funFact": "Spearfish sits at the mouth of Spearfish Canyon, and BHSU students study the Black Hills from a campus a short drive from Deadwood and Mount Rushmore."
+  },
+  {
+    "school": "Boise State University",
+    "funFact": "The famous blue turf at Albertsons Stadium was installed in 1986 and was the first non-green football field in the country."
+  },
+  {
+    "school": "Bowdoin College",
+    "funFact": "Alumni include Nathaniel Hawthorne, Henry Wadsworth Longfellow, and Arctic explorer Robert Peary. The polar bear mascot honors Peary's North Pole expedition."
+  },
+  {
+    "school": "Bowie State University",
+    "funFact": "Founded in 1865 in Baltimore, Bowie State is Maryland's oldest historically Black university and one of the ten oldest in the nation."
+  },
+  {
+    "school": "Bowling Green State University",
+    "funFact": "BGSU's hockey team won the 1984 national title in a four-overtime final, and the campus is a national hub for the study of popular culture."
+  },
+  {
+    "school": "Bradley University",
+    "funFact": "Founded in 1897 by Lydia Moss Bradley, one of the few universities started by a woman. The campus is home to the Bradley Braves and a top-ranked speech team."
+  },
+  {
+    "school": "Brigham Young University",
+    "funFact": "Owned by the Church of Jesus Christ of Latter-day Saints, BYU has one of the most multilingual student bodies in the country: about two-thirds of students speak a second language."
+  },
+  {
+    "school": "Brown University",
+    "funFact": "Brown's Open Curriculum, adopted in 1969, has no core requirements and lets students take any class pass/fail. It was the first Ivy to accept students of all religions."
+  },
+  {
+    "school": "Bucknell University",
+    "funFact": "Bucknell's campus overlooks the Susquehanna River, and the Bison once knocked top-seeded Kansas out of the 2005 NCAA tournament in a famous first-round upset."
+  },
+  {
+    "school": "Cal Poly Humboldt",
+    "funFact": "The campus sits among the redwoods on California's north coast, a few miles from Arcata's Community Forest and Humboldt Bay, and is a hub for forestry and marine science."
+  },
+  {
+    "school": "Cal Poly San Luis Obispo",
+    "funFact": "Cal Poly's 'Learn by Doing' motto is literal: students run a working farm, winery, and meat lab, and build the Rose Parade float with Cal Poly Pomona every year."
+  },
+  {
+    "school": "California State University, Chico",
+    "funFact": "Chico State's campus is bordered by Bidwell Park, one of the largest municipal parks in the country, and the Sierra Nevada Brewing Company got its start in town."
+  },
+  {
+    "school": "Carleton College",
+    "funFact": "Carleton's 880-acre Cowling Arboretum is bigger than the campus itself, and students keep a tradition of placing a bust of Schiller in unexpected places."
+  },
+  {
+    "school": "Carthage College",
+    "funFact": "Carthage sits right on the shore of Lake Michigan in Kenosha, and its physics students have flown experiments on NASA suborbital and microgravity flights."
+  },
+  {
+    "school": "Central Michigan University",
+    "funFact": "CMU's Chippewas name is used with the formal approval of the Saginaw Chippewa Indian Tribe, whose reservation neighbors the Mount Pleasant campus."
+  },
+  {
+    "school": "Central State University",
+    "funFact": "Ohio's only public historically Black university, Central State shares the village of Wilberforce with the National Afro-American Museum and Cultural Center."
+  },
+  {
+    "school": "Central Washington University",
+    "funFact": "CWU is home to the former Chimpanzee and Human Communication Institute, where Washoe, the first chimp to learn American Sign Language, lived for decades."
+  },
+  {
+    "school": "Centre College",
+    "funFact": "Centre hosted the vice presidential debates in 2000 and 2012, and its 1921 football team beat Harvard 6–0 in one of the sport's legendary upsets."
+  },
+  {
+    "school": "Chapman University",
+    "funFact": "Chapman's film school is one of the most selective in the country, and the campus in Orange sits beside the city's historic circular Plaza."
+  },
+  {
+    "school": "Clarkson University",
+    "funFact": "Clarkson has produced a disproportionate number of CEOs for its size, and its Golden Knights hockey program is a perennial ECAC power in tiny Potsdam."
+  },
+  {
+    "school": "Clemson University",
+    "funFact": "Players rub Howard's Rock and run down the hill into Memorial Stadium before every home game, an entrance Brent Musburger called 'the most exciting 25 seconds in college football.'"
+  },
+  {
+    "school": "Coastal Carolina University",
+    "funFact": "Home of the Chanticleers, a rooster from Chaucer, and a teal football field. The Chants won the 2016 College World Series in their last season before joining the Sun Belt."
+  },
+  {
+    "school": "Coe College",
+    "funFact": "Coe's Stewart Memorial Library holds a major collection of Marvin Cone and Grant Wood paintings; Wood taught art in Cedar Rapids and painted 'American Gothic' nearby."
+  },
+  {
+    "school": "Colby College",
+    "funFact": "Colby was the first previously all-male college in New England to admit women, in 1871, and its Mayflower Hill campus overlooks the Kennebec River valley."
+  },
+  {
+    "school": "Colgate University",
+    "funFact": "Thirteen men founded it with 13 dollars and 13 prayers, so 13 is Colgate's lucky number; the campus address is 13 Oak Drive and the ZIP code is 13346."
+  },
+  {
+    "school": "College of William & Mary",
+    "funFact": "Chartered in 1693, W&M is the second-oldest college in the U.S. and educated Thomas Jefferson, James Monroe, and John Tyler. Phi Beta Kappa was founded here in 1776.",
+    "type": "Public"
+  },
+  {
+    "school": "Colorado School of Mines",
+    "funFact": "Freshmen haul a ten-pound rock up Mount Zion and add it to the giant 'M' overlooking Golden; the letter was built in 1908 and has been lit since 1932."
+  },
+  {
+    "school": "Colorado State University",
+    "funFact": "CSU's live mascot is a Rambouillet ram named CAM. The university runs one of the top veterinary schools in the world from its Fort Collins campus."
+  },
+  {
+    "school": "Commonwealth University of Pennsylvania (Bloomsburg)",
+    "funFact": "Bloomsburg is Pennsylvania's only incorporated town, and in 2022 its university merged with Lock Haven and Mansfield to form Commonwealth University."
+  },
+  {
+    "school": "Concordia College",
+    "funFact": "Concordia's Christmas Concert has been staged since 1927 and is broadcast nationally on public television. The campus is across the Red River from Fargo."
+  },
+  {
+    "school": "Cornell College",
+    "funFact": "Cornell College uses a 'One Course At A Time' block plan: students take a single class for 18 days, then move on. It is often confused with Cornell University, which came later."
+  },
+  {
+    "school": "Cornell University",
+    "funFact": "Cornell was the first U.S. university to teach veterinary medicine and among the first to award a degree in electrical engineering. Its campus straddles two gorges above Cayuga Lake."
+  },
+  {
+    "school": "Creighton University",
+    "funFact": "A Jesuit university founded in 1878, Creighton regularly ranks among the top 20 in the country in basketball attendance despite having fewer than 5,000 undergraduates."
+  },
+  {
+    "school": "Dartmouth College",
+    "funFact": "Dartmouth's 1819 Supreme Court case protected private charters nationwide, and its Winter Carnival dates to 1911. The BASIC programming language was written here."
+  },
+  {
+    "school": "Davidson College",
+    "funFact": "Steph Curry led Davidson to the 2008 Elite Eight. The college has a strict Honor Code: exams are often unproctored and self-scheduled."
+  },
+  {
+    "school": "DePauw University",
+    "funFact": "DePauw's rivalry with Wabash for the Monon Bell, played since 1890, is one of the oldest in college football. The Society of Professional Journalists was founded here in 1909."
+  },
+  {
+    "school": "Delaware State University",
+    "funFact": "Founded in 1891, Del State is one of the few HBCUs with a flight school: its aviation program trains pilots at Delaware Airpark near Dover.",
+    "type": "Public"
+  },
+  {
+    "school": "Denison University",
+    "funFact": "Denison's campus is a 350-acre biological reserve on top of a hill in Granville, a village laid out in 1805 by settlers from Granville, Massachusetts."
+  },
+  {
+    "school": "Dickinson College",
+    "funFact": "Chartered in 1783, days after the Treaty of Paris, Dickinson was the first college founded in the newly independent United States. Benjamin Rush was its founder."
+  },
+  {
+    "school": "Duke University",
+    "funFact": "Cameron Indoor Stadium seats fewer than 10,000, and students camp for weeks in 'Krzyzewskiville' for tickets to the UNC game. The chapel tower is 210 feet tall."
+  },
+  {
+    "school": "Earlham College",
+    "funFact": "A Quaker college founded in 1847, Earlham governs itself by consensus and sends a larger share of its graduates to earn PhDs than almost any school its size."
+  },
+  {
+    "school": "East Carolina University",
+    "funFact": "ECU's Pirates play in Dowdy-Ficklen Stadium, and the school's purple-and-gold fan base is among the most loyal in the Group of Five."
+  },
+  {
+    "school": "East Central University",
+    "funFact": "Ada is the headquarters of the Chickasaw Nation, and ECU alumni include Robert S. Kerr, Oklahoma's governor and a long-serving U.S. senator."
+  },
+  {
+    "school": "East Tennessee State University",
+    "funFact": "ETSU is home to the Bluegrass, Old-Time and Roots Music program, the first of its kind in the country, with a campus in the Appalachian foothills."
+  },
+  {
+    "school": "East Texas A&M University",
+    "funFact": "Founded in 1889 as a one-man teaching college, the school in Commerce went by Texas A&M University–Commerce until 2024 and was East Texas State before that."
+  },
+  {
+    "school": "Eastern Illinois University",
+    "funFact": "Charleston hosted the fourth Lincoln–Douglas debate in 1858. EIU alumni include Tony Romo and Jimmy Garoppolo, both Panthers quarterbacks."
+  },
+  {
+    "school": "Eastern Kentucky University",
+    "funFact": "EKU has one of the oldest and best-known fire protection and safety engineering programs in the country and sits at the edge of the Bluegrass region."
+  },
+  {
+    "school": "Eastern Michigan University",
+    "funFact": "Founded in 1849 as Michigan State Normal School, one of the first teacher-training colleges in the Midwest. The Water Tower in Ypsilanti is a local landmark."
+  },
+  {
+    "school": "Eastern Washington University",
+    "funFact": "EWU's football field in Cheney is bright red, 'the Inferno,' installed in 2010, the same year the Eagles won the FCS national championship."
+  },
+  {
+    "school": "Eckerd College",
+    "funFact": "Eckerd's campus sits directly on Boca Ciega Bay, and students run a volunteer marine rescue team that answers distress calls in Tampa Bay."
+  },
+  {
+    "school": "Elizabeth City State University",
+    "funFact": "ECSU is one of the only HBCUs with an aviation science degree, and the campus is a short drive from the Great Dismal Swamp and the Outer Banks."
+  },
+  {
+    "school": "Elon University",
+    "funFact": "The campus is a designated botanical garden, and 'elon' is Hebrew for oak. Elon regularly tops rankings for study abroad participation."
+  },
+  {
+    "school": "Emporia State University",
+    "funFact": "The National Teachers Hall of Fame is on ESU's campus, fitting for a school that grew out of Kansas's first teachers' college, founded in 1863."
+  },
+  {
+    "school": "Fairmont State University",
+    "funFact": "Fairmont State grew from a private teaching school founded in 1865 and sits above the Monongahela River valley in north-central West Virginia."
+  },
+  {
+    "school": "Fayetteville State University",
+    "funFact": "Founded in 1867 by seven Black men who paid $136 for a lot to build a school, FSU is the second-oldest public university in North Carolina."
+  },
+  {
+    "school": "Ferris State University",
+    "funFact": "Founded by Woodbridge Ferris, later governor and U.S. senator. Ferris State's hockey team reached the 2012 national title game and fell to Boston College."
+  },
+  {
+    "school": "Florida Atlantic University",
+    "funFact": "FAU's Owls made a stunning run to the 2023 Final Four. The Boca Raton campus was built on a World War II Army airfield whose runways are still visible."
+  },
+  {
+    "school": "Florida Southern College",
+    "funFact": "Florida Southern has the largest single-site collection of Frank Lloyd Wright architecture in the world, 13 structures on its lakeside campus."
+  },
+  {
+    "school": "Florida State University",
+    "funFact": "Before every home game, Osceola rides Renegade to midfield and plants a flaming spear, a tradition approved by the Seminole Tribe of Florida."
+  },
+  {
+    "school": "Fort Hays State University",
+    "funFact": "FHSU enrolls more students online and in China than on its Hays campus, and its Sternberg Museum displays the famous 'fish within a fish' fossil."
+  },
+  {
+    "school": "Fort Lewis College",
+    "funFact": "By a 1911 agreement, Fort Lewis offers tuition-free education to Native American students; about a third of its students are Native. The campus sits on a mesa above Durango."
+  },
+  {
+    "school": "Fort Valley State University",
+    "funFact": "Fort Valley State is Georgia's only 1890 land-grant university, and the town's peach orchards made it the center of the state's peach industry."
+  },
+  {
+    "school": "Frostburg State University",
+    "funFact": "At about 2,000 feet, Frostburg's campus is the highest in Maryland, and winters really do live up to the name."
+  },
+  {
+    "school": "Furman University",
+    "funFact": "Furman's Bell Tower stands on a peninsula in the campus lake and is the symbol of the school. The Paladins won the 1988 Division I-AA football title."
+  },
+  {
+    "school": "Georgia College & State University",
+    "funFact": "Flannery O'Connor graduated here in 1945, and the campus sits in Milledgeville, which was Georgia's state capital from 1804 to 1868."
+  },
+  {
+    "school": "Georgia Institute of Technology",
+    "funFact": "Georgia Tech beat Cumberland 222–0 in 1916, still the most lopsided game in college football. The Ramblin' Wreck, a 1930 Ford Model A, leads the team onto the field."
+  },
+  {
+    "school": "Georgia Southern University",
+    "funFact": "Erk Russell revived Georgia Southern football in 1981 and won three I-AA titles. Players still carry 'Beautiful Eagle Creek' water to away games for luck."
+  },
+  {
+    "school": "Gettysburg College",
+    "funFact": "Students watched the Battle of Gettysburg from the cupola of Pennsylvania Hall, which served as a field hospital. Dwight Eisenhower wrote his memoirs on campus."
+  },
+  {
+    "school": "Gonzaga University",
+    "funFact": "Bing Crosby attended Gonzaga and his boyhood home is now on campus. The Zags have made more than 25 straight NCAA tournaments from a school of about 7,000 students."
+  },
+  {
+    "school": "Grambling State University",
+    "funFact": "Eddie Robinson coached Grambling football for more than 50 seasons and 408 wins. The World Famed Tiger Marching Band played the first Super Bowl halftime show in 1967."
+  },
+  {
+    "school": "Grand Valley State University",
+    "funFact": "Founded in 1960, GVSU's Lakers won four Division II football national titles between 2002 and 2006 and have an actual working carillon tower on campus."
+  },
+  {
+    "school": "Grinnell College",
+    "funFact": "Grinnell has one of the largest endowments per student of any college in the country, thanks in part to early advice from trustee Warren Buffett."
+  },
+  {
+    "school": "Grove City College",
+    "funFact": "Grove City refuses all federal funding, including student loans, and won a 1984 Supreme Court case over it. Its campus is almost entirely Collegiate Gothic."
+  },
+  {
+    "school": "Gustavus Adolphus College",
+    "funFact": "Named for a Swedish king, Gustavus hosts the Nobel Conference every fall, the only program outside Sweden authorized by the Nobel Foundation to use the name."
+  },
+  {
+    "school": "Hamilton College",
+    "funFact": "Named for Alexander Hamilton, who was a trustee of the original academy. Hamilton is known for its writing-intensive curriculum and open, no-core course plan."
+  },
+  {
+    "school": "Hampton University",
+    "funFact": "Booker T. Washington arrived at Hampton in 1872 with 50 cents and worked as a janitor to pay his way. The Emancipation Oak, where the Proclamation was read, is on campus."
+  },
+  {
+    "school": "Hanover College",
+    "funFact": "Hanover is Indiana's oldest private college (1827) and its campus overlooks a dramatic bend of the Ohio River from a 650-acre bluff."
+  },
+  {
+    "school": "Hartwick College",
+    "funFact": "Hartwick's Pine Lake campus is a 920-acre environmental preserve, and the college is a short walk from the National Soccer Hall of Fame's original home in Oneonta."
+  },
+  {
+    "school": "Harvard University",
+    "funFact": "Founded in 1636, Harvard is the oldest college in the United States and predates the country by 140 years. Its library system is the largest academic library in the world."
+  },
+  {
+    "school": "Haverford College",
+    "funFact": "Haverford's Honor Code lets students take unproctored, take-home exams, and the whole campus is a registered arboretum with a duck pond and nature trail."
+  },
+  {
+    "school": "Hillsdale College",
+    "funFact": "Hillsdale accepts no federal or state money at all, not even student aid, and was the second college in the nation to grant degrees to women, in 1844."
+  },
+  {
+    "school": "Hobart and William Smith Colleges",
+    "funFact": "Two colleges on one campus: Hobart (1822, men) and William Smith (1908, women) share classes and the lakeside campus on Seneca Lake in the Finger Lakes."
+  },
+  {
+    "school": "Hope College",
+    "funFact": "Hope was founded by Dutch immigrants in 1866, and Holland still holds the Tulip Time Festival each May. The Hope–Calvin basketball rivalry is one of Division III's fiercest."
+  },
+  {
+    "school": "Idaho State University",
+    "funFact": "ISU's Holt Arena, opened in 1970, was the first enclosed college football stadium in the country, essential in Pocatello's winters."
+  },
+  {
+    "school": "Illinois State University",
+    "funFact": "Founded in 1857 as the state's first public university, ISU is in Normal, a town named for the normal school itself. Its mascot is Reggie Redbird."
+  },
+  {
+    "school": "Illinois Wesleyan University",
+    "funFact": "Illinois Wesleyan shares Bloomington–Normal with Illinois State, and its Ames Library is one of the largest at a liberal arts college in the Midwest."
+  },
+  {
+    "school": "Indiana State University",
+    "funFact": "Larry Bird led the Sycamores to the 1979 national title game against Magic Johnson's Michigan State, still the most-watched college basketball game ever."
+  },
+  {
+    "school": "Indiana University",
+    "funFact": "The Little 500 bike race, made famous by 'Breaking Away,' is held each spring. IU's Jacobs School of Music is one of the largest in the world.",
+    "wikipedia": "Indiana University Bloomington"
+  },
+  {
+    "school": "Indiana University of Pennsylvania",
+    "funFact": "IUP is in Indiana, Pennsylvania, hometown of actor Jimmy Stewart, and the town's Jimmy Stewart Museum sits a few blocks from campus."
+  },
+  {
+    "school": "Iowa State University",
+    "funFact": "The first electronic digital computer, the Atanasoff–Berry Computer, was built at Iowa State between 1937 and 1942. The campus has one of the largest Grant Wood murals."
+  },
+  {
+    "school": "Jackson State University",
+    "funFact": "Jackson State's Sonic Boom of the South marching band is nationally renowned, and NFL legend Walter Payton played his college ball here."
+  },
+  {
+    "school": "Jacksonville State University",
+    "funFact": "JSU is known as 'the Friendliest Campus in the South' and shocked Ole Miss 49–48 in double overtime in 2010 as an FCS program."
+  },
+  {
+    "school": "James Madison University",
+    "funFact": "JMU's Quad is split by Interstate 81, with pedestrian bridges linking the two halves. The Dukes won the FCS title in 2004 and 2016 before moving up to FBS."
+  },
+  {
+    "school": "Juniata College",
+    "funFact": "Juniata has no traditional majors: students design a 'Program of Emphasis.' Its Mountain Day is a surprise holiday announced by the president each fall."
+  },
+  {
+    "school": "Kansas State University",
+    "funFact": "K-State was the nation's first operational land-grant college, in 1863. Its Wildcats' 'Wabash Cannonball' tradition began after a 1968 fire destroyed the band's sheet music."
+  },
+  {
+    "school": "Keene State College",
+    "funFact": "Keene State is the only public college in the U.S. with a Holocaust and Genocide Studies major, and Keene's Pumpkin Festival once held the world jack-o'-lantern record."
+  },
+  {
+    "school": "Kent State University",
+    "funFact": "Kent State's Fashion School is among the best in the country, and the May 4, 1970 shootings on campus inspired Neil Young's 'Ohio.' The site is a National Historic Landmark."
+  },
+  {
+    "school": "Kentucky State University",
+    "funFact": "Kentucky State is a land-grant HBCU with the nation's largest pawpaw research program, and its campus sits on a hill overlooking the state capital."
+  },
+  {
+    "school": "Kenyon College",
+    "funFact": "Kenyon's Middle Path is a ten-foot gravel walk running the length of campus. The Kenyon Review was founded here in 1939, and its swimmers won 31 straight national titles."
+  },
+  {
+    "school": "Knox College",
+    "funFact": "Abraham Lincoln and Stephen Douglas debated outside Knox's Old Main in 1858, the only Lincoln–Douglas debate site still standing. Knox was the first Illinois college to graduate a Black man."
+  },
+  {
+    "school": "Kutztown University",
+    "funFact": "Kutztown's campus is in the heart of Pennsylvania Dutch country, and the Kutztown Folk Festival, held nearby each summer, is the oldest folklife festival in the country."
+  },
+  {
+    "school": "Lafayette College",
+    "funFact": "Lafayette vs. Lehigh, 'The Rivalry,' has been played more than 160 times since 1884, the most-played rivalry in college football."
+  },
+  {
+    "school": "Langston University",
+    "funFact": "Langston is Oklahoma's only HBCU and sits in a town founded as an all-Black community in 1890. Its goat research institute is one of the world's best known."
+  },
+  {
+    "school": "Lawrence University",
+    "funFact": "Lawrence combines a liberal arts college with a conservatory of music, and its 425-acre Björklunden estate on Door County's Lake Michigan shore hosts weekend seminars."
+  },
+  {
+    "school": "Lehigh University",
+    "funFact": "Lehigh's hilly campus climbs South Mountain above the former Bethlehem Steel works. Asa Packer, the railroad magnate behind the Lehigh Valley Railroad, founded the university in 1865."
+  },
+  {
+    "school": "Liberty University",
+    "funFact": "Founded by Jerry Falwell in 1971, Liberty is one of the largest universities in the country by total enrollment and has a year-round artificial ski slope on campus."
+  },
+  {
+    "school": "Lincoln University of Missouri",
+    "funFact": "Lincoln was founded in 1866 by Black soldiers of the 62nd and 65th U.S. Colored Infantry, who pooled their pay to start a school in Jefferson City."
+  },
+  {
+    "school": "Linfield University",
+    "funFact": "Linfield's football team has posted a winning record every season since 1956, the longest streak in college football at any level."
+  },
+  {
+    "school": "Longwood University",
+    "funFact": "Founded in 1839, Longwood is the third-oldest public university in Virginia and hosted the 2016 vice presidential debate in Farmville."
+  },
+  {
+    "school": "Louisiana State University",
+    "funFact": "Death Valley is so loud that a 1988 touchdown against Auburn registered on a campus seismograph. Mike the Tiger, a live Bengal tiger, lives next to the stadium."
+  },
+  {
+    "school": "Louisiana Tech University",
+    "funFact": "Karl Malone and Terry Bradshaw both played at Louisiana Tech, and the Lady Techsters won three national basketball titles in the 1980s and '90s."
+  },
+  {
+    "school": "Luther College",
+    "funFact": "Luther's Nordic Choir is among the best-known college choirs in the country, and Decorah's Norwegian heritage shows in the Vesterheim museum downtown."
+  },
+  {
+    "school": "Marshall University",
+    "funFact": "A 1970 plane crash killed 75 players, coaches and fans; the program's rebuilding was told in 'We Are Marshall.' The Herd then won two I-AA titles in the 1990s."
+  },
+  {
+    "school": "Mercer University",
+    "funFact": "Mercer stunned Duke in the 2014 NCAA tournament, with the players' 'Nae Nae' celebration going viral. Macon is also the hometown of Little Richard and Otis Redding."
+  },
+  {
+    "school": "Miami University",
+    "funFact": "Founded in 1809, Miami predates the state of Florida. Its coaching alumni, including Woody Hayes, Bo Schembechler and Paul Brown, earned it the 'Cradle of Coaches' nickname."
+  },
+  {
+    "school": "Michigan State University",
+    "funFact": "Founded in 1855, MSU was the pioneer land-grant college and the model for the 1862 Morrill Act. Its campus arboretum has more than 20,000 trees along the Red Cedar River."
+  },
+  {
+    "school": "Michigan Technological University",
+    "funFact": "Houghton averages more than 200 inches of snow a year, so Michigan Tech's Winter Carnival features giant snow sculptures and its own ski hill, Mont Ripley."
+  },
+  {
+    "school": "Middle Tennessee State University",
+    "funFact": "MTSU's recording industry program is one of the largest in the world and has sent dozens of alumni to Grammy nominations from a campus 30 miles from Nashville."
+  },
+  {
+    "school": "Middlebury College",
+    "funFact": "Middlebury's summer Language Schools require a pledge to speak only the language studied. The Bread Loaf Writers' Conference, founded in 1926, is the oldest in the U.S."
+  },
+  {
+    "school": "Millersville University",
+    "funFact": "Founded in 1855 as Pennsylvania's first normal school, Millersville sits in Lancaster County farmland and keeps a campus pond famous for its ducks and swans."
+  },
+  {
+    "school": "Minnesota State University, Mankato",
+    "funFact": "The Minnesota Vikings held training camp at Mankato for 52 summers, and the campus sits on the bluffs above the Minnesota River valley."
+  },
+  {
+    "school": "Mississippi State University",
+    "funFact": "Fans ring cowbells at games, a tradition so old the SEC had to write special rules for it. The campus is in Starkville but the official mailing address is 'Mississippi State, MS.'"
+  },
+  {
+    "school": "Mississippi Valley State University",
+    "funFact": "Jerry Rice set NCAA receiving records here in the 1980s. Itta Bena, a Delta town of about 1,500, is one of the smallest to host a Division I university."
+  },
+  {
+    "school": "Missouri State University",
+    "funFact": "Missouri State requires every student to take a Public Affairs course under its statewide mission, and Bears basketball draws some of the Valley's biggest crowds."
+  },
+  {
+    "school": "Missouri University of Science and Technology",
+    "funFact": "Missouri S&T has a working nuclear reactor on campus and holds a huge St. Patrick's Day celebration each March, with students painting Rolla's streets green since 1908."
+  },
+  {
+    "school": "Montana State University",
+    "funFact": "Bozeman's campus is an hour from Yellowstone, and MSU researchers work in the park year-round. The 'Brawl of the Wild' with Montana dates to 1897."
+  },
+  {
+    "school": "Morehead State University",
+    "funFact": "Morehead State builds and operates small satellites, and its 21-meter antenna in the Kentucky hills is an official station of NASA's Deep Space Network (DSS-17)."
+  },
+  {
+    "school": "Mount St. Mary's University",
+    "funFact": "Founded in 1808, 'the Mount' is the second-oldest Catholic university in the U.S., and its National Shrine Grotto of Lourdes draws pilgrims to the hillside above campus."
+  },
+  {
+    "school": "Murray State University",
+    "funFact": "Murray State's Racers run a live thoroughbred, Racer One, around the track after every home touchdown, and the campus sits a few miles from Kentucky Lake."
+  },
+  {
+    "school": "New Mexico Institute of Mining and Technology",
+    "funFact": "New Mexico Tech's campus hosts the National Radio Astronomy Observatory's operations center for the Very Large Array, plus an explosives research range; antelope wander its golf course."
+  },
+  {
+    "school": "New Mexico State University",
+    "funFact": "NMSU's first graduating class in 1893 had one student, and he was murdered before commencement. Clyde Tombaugh, discoverer of Pluto, taught here for decades."
+  },
+  {
+    "school": "North Carolina A&T State University",
+    "funFact": "The Greensboro Four, who began the 1960 lunch-counter sit-ins, were A&T freshmen. It is the largest HBCU in the country by enrollment."
+  },
+  {
+    "school": "North Carolina State University",
+    "funFact": "NC State's Jim Valvano famously ran the court looking for someone to hug after the 1983 title. The campus is home to a bell tower that lights red after big wins."
+  },
+  {
+    "school": "North Dakota State University",
+    "funFact": "The Bison won nine FCS national titles in eleven seasons starting in 2011, and Fargo's Fargodome is one of the loudest venues in the subdivision."
+  },
+  {
+    "school": "Northeastern State University",
+    "funFact": "NSU grew out of the Cherokee National Female Seminary, founded in 1846, and Tahlequah is the capital of the Cherokee Nation. Street signs there are bilingual."
+  },
+  {
+    "school": "Northern Arizona University",
+    "funFact": "At 7,000 feet, Flagstaff's altitude makes NAU a magnet for elite distance runners; the Lumberjacks have won multiple NCAA cross-country titles."
+  },
+  {
+    "school": "Northern Illinois University",
+    "funFact": "NIU's Huskies crashed the Orange Bowl in 2013 and upset Notre Dame in 2024. DeKalb is where barbed wire was perfected and mass-produced in the 1870s.",
+    "conference": "MAC"
+  },
+  {
+    "school": "Northern Michigan University",
+    "funFact": "NMU is an official U.S. Olympic Training Site and hosts a program in Olympic weightlifting, Greco-Roman wrestling, and short-track speedskating on Lake Superior's shore."
+  },
+  {
+    "school": "Northwest Missouri State University",
+    "funFact": "Northwest's Bearcats have won six Division II football national championships, and the campus is the official Missouri State Arboretum."
+  },
+  {
+    "school": "Northwestern State University",
+    "funFact": "Natchitoches, the oldest permanent settlement in the Louisiana Purchase, hosted the filming of 'Steel Magnolias.' NSU, founded in 1884, is one of Louisiana's oldest public universities."
+  },
+  {
+    "school": "Northwestern University",
+    "funFact": "Northwestern was the Big Ten's only private school from 1946, when Chicago left, until USC joined in 2024. Its campus sits on Lake Michigan, partly on land the university filled in during the 1960s."
+  },
+  {
+    "school": "Norwich University",
+    "funFact": "Founded in 1819, Norwich is the oldest private military college in the U.S. and the birthplace of ROTC. It also fields a Division III team called the Cadets."
+  },
+  {
+    "school": "Oberlin College",
+    "funFact": "Oberlin was the first U.S. college to regularly admit Black students (1835) and women (1837), and its conservatory is the oldest continuously operating one in the country."
+  },
+  {
+    "school": "Ohio Northern University",
+    "funFact": "Ada is the hometown of Wilson footballs: every official NFL game ball since 1955 has been hand-made in a factory a few blocks from the ONU campus."
+  },
+  {
+    "school": "Ohio State University",
+    "funFact": "Ohio Stadium, 'the Horseshoe,' holds more than 100,000. The marching band's Script Ohio, with a sousaphone player dotting the i, dates to 1936."
+  },
+  {
+    "school": "Ohio University",
+    "funFact": "Chartered in 1804, Ohio University is the oldest university in the state and in the old Northwest Territory. Its Marching 110 is famous for dancing in formation."
+  },
+  {
+    "school": "Ohio Wesleyan University",
+    "funFact": "Ohio Wesleyan's Selby Stadium hosted the first NCAA-sanctioned soccer game, and Delaware, Ohio is the birthplace of President Rutherford B. Hayes."
+  },
+  {
+    "school": "Oklahoma State University",
+    "funFact": "Pistol Pete, the mascot, is modeled on a real lawman, Frank Eaton. OSU's wrestling program has won more NCAA team titles than any program in any sport."
+  },
+  {
+    "school": "Old Dominion University",
+    "funFact": "ODU's Lady Monarchs won national titles in 1979, 1980 and 1985 with Nancy Lieberman and Anne Donovan, and Norfolk's campus sits in the world's largest Navy town."
+  },
+  {
+    "school": "Oregon State University",
+    "funFact": "OSU is one of only a few universities with land, sea, space and sun grant designations. Linus Pauling, winner of two unshared Nobel Prizes, graduated here in 1922."
+  },
+  {
+    "school": "Pacific University",
+    "funFact": "Founded in 1849 as an orphanage school, Pacific is one of the oldest colleges in the West. Its Boxer mascot is named for a bronze Chinese statue students once stole for sport."
+  },
+  {
+    "school": "Penn State University",
+    "funFact": "Penn State's Berkey Creamery is the largest university creamery in the country and trained Ben and Jerry by correspondence course. Beaver Stadium holds more than 106,000."
+  },
+  {
+    "school": "Pittsburg State University",
+    "funFact": "Pittsburg State's Gorillas are the only college team in the nation with a gorilla mascot, and the campus hosts the Kansas Technology Center."
+  },
+  {
+    "school": "Plymouth State University",
+    "funFact": "Plymouth State sits at the gateway to the White Mountains, and poet Robert Frost taught at the school in 1911 before his first book was published."
+  },
+  {
+    "school": "Pomona College",
+    "funFact": "Pomona is the founding member of the Claremont Colleges consortium, five undergraduate colleges sharing one neighborhood, modeled on Oxford's system."
+  },
+  {
+    "school": "Prairie View A&M University",
+    "funFact": "Prairie View is Texas's second-oldest public university (1876). Its Marching Storm band has performed at Super Bowls and the Rose Parade."
+  },
+  {
+    "school": "Presbyterian College",
+    "funFact": "PC's Blue Hose nickname refers to blue stockings once worn by its athletes; the live mascot is a Scottish terrier, and the school is tiny Clinton's biggest employer."
+  },
+  {
+    "school": "Princeton University",
+    "funFact": "Chartered in 1746, Princeton was briefly the U.S. capital in 1783 when Congress met in Nassau Hall. Students have access to one of the largest per-student endowments on earth."
+  },
+  {
+    "school": "Purdue University",
+    "funFact": "Purdue has produced 27 astronauts, including Neil Armstrong and Gene Cernan, the first and last men on the Moon. The Boilermaker Special is a locomotive mascot."
+  },
+  {
+    "school": "Radford University",
+    "funFact": "Radford was a women's college until 1972 and sits on the New River, one of the oldest rivers in the world, in Virginia's New River Valley."
+  },
+  {
+    "school": "Rensselaer Polytechnic Institute",
+    "funFact": "Founded in 1824, RPI is the oldest technological university in the English-speaking world. George Ferris, inventor of the Ferris wheel, graduated in 1881."
+  },
+  {
+    "school": "Ripon College",
+    "funFact": "Ripon is where the Republican Party was founded at a schoolhouse meeting in 1854. Spencer Tracy and Harrison Ford both studied here before leaving for acting careers.",
+    "wikipedia": "Ripon College (Wisconsin)"
+  },
+  {
+    "school": "Rollins College",
+    "funFact": "Rollins is Florida's oldest college (1885), and Fred Rogers of 'Mister Rogers' Neighborhood' graduated here in music composition in 1951."
+  },
+  {
+    "school": "Rust College",
+    "funFact": "Founded in 1866, Rust is one of the oldest HBCUs in the country and the oldest in Mississippi. Journalist and anti-lynching crusader Ida B. Wells studied here."
+  },
+  {
+    "school": "Rutgers University",
+    "funFact": "Rutgers and Princeton played the first college football game in 1869; Rutgers won 6–4. Chartered in 1766, it is the eighth-oldest college in the U.S.",
+    "type": "Public"
+  },
+  {
+    "school": "SUNY Geneseo",
+    "funFact": "Geneseo's campus overlooks the Genesee Valley, and the college is consistently ranked among the top public liberal arts colleges in the country."
+  },
+  {
+    "school": "SUNY Plattsburgh",
+    "funFact": "Plattsburgh sits on Lake Champlain an hour south of Montreal, and the Cardinals' hockey teams have won multiple Division III national titles."
+  },
+  {
+    "school": "Saint Vincent College",
+    "funFact": "Saint Vincent is the first Benedictine college in the U.S. (1846), and the Pittsburgh Steelers have held training camp on its Latrobe campus every summer since 1966."
+  },
+  {
+    "school": "Salisbury University",
+    "funFact": "Salisbury's campus is a nationally accredited arboretum, and the Sea Gulls have won many Division III national titles in men's and women's lacrosse."
+  },
+  {
+    "school": "Sam Houston State University",
+    "funFact": "Sam Houston State is in Huntsville, Texas, where Sam Houston lived and is buried; a 67-foot statue of him stands beside I-45. The Bearkats won the 2020 FCS title."
+  },
+  {
+    "school": "Savannah State University",
+    "funFact": "Savannah State, founded in 1890, is Georgia's oldest public HBCU and sits on a 200-acre marsh-side campus with its own salt marsh research station."
+  },
+  {
+    "school": "Shepherd University",
+    "funFact": "Shepherdstown is often called West Virginia's oldest town, and the campus is a short walk from the Potomac River and Antietam battlefield."
+  },
+  {
+    "school": "Shippensburg University",
+    "funFact": "Founded in 1871, Shippensburg sits in the Cumberland Valley a few miles from the Appalachian Trail, and its Red Raiders compete in the PSAC, one of Division II's strongest leagues."
+  },
+  {
+    "school": "Skidmore College",
+    "funFact": "Skidmore began as a women's club for training in domestic arts in 1903; today its campus sits in Saratoga Springs, home of America's oldest thoroughbred track."
+  },
+  {
+    "school": "Slippery Rock University",
+    "funFact": "Slippery Rock's scores are read aloud at Michigan Stadium every Saturday, a tradition since 1959 that made 'The Rock' nationally famous for its name alone."
+  },
+  {
+    "school": "South Carolina State University",
+    "funFact": "SC State is the only public HBCU in South Carolina, and its ROTC program has commissioned more Black general officers than any school outside the service academies."
+  },
+  {
+    "school": "South Dakota State University",
+    "funFact": "The SDSU Dairy Bar has made its own ice cream since the 1920s, and the Jackrabbits won back-to-back FCS national championships in 2022 and 2023."
+  },
+  {
+    "school": "Southeast Missouri State University",
+    "funFact": "Cape Girardeau, on the Mississippi, is Rush Limbaugh's hometown; SEMO's campus includes a River Campus arts center in a former seminary overlooking the river."
+  },
+  {
+    "school": "Southeastern Louisiana University",
+    "funFact": "Hammond calls itself the Strawberry Capital of America, and Southeastern's Lions beat the odds with the 2013 Southland title in a town halfway between New Orleans and Baton Rouge."
+  },
+  {
+    "school": "Southern Illinois University",
+    "funFact": "SIU's mascot is the Saluki, an ancient Egyptian hunting dog, because southern Illinois is nicknamed 'Little Egypt.' Buckminster Fuller taught here and built a dome home in Carbondale.",
+    "wikipedia": "Southern Illinois University Carbondale"
+  },
+  {
+    "school": "Southern Oregon University",
+    "funFact": "Ashland hosts the Oregon Shakespeare Festival, one of the oldest and largest in the U.S., and SOU students fill many of its backstage and apprentice roles."
+  },
+  {
+    "school": "Southern Utah University",
+    "funFact": "SUU's campus in Cedar City hosts the Tony Award-winning Utah Shakespeare Festival and is a short drive from Zion and Bryce Canyon national parks."
+  },
+  {
+    "school": "Southwestern University",
+    "funFact": "Southwestern traces its roots to 1840, earlier than any other Texas university, and Georgetown's Red Poppy Festival fills the town square each spring."
+  },
+  {
+    "school": "St. Cloud State University",
+    "funFact": "St. Cloud State's hockey program has produced NHL players and a 2021 Frozen Four finalist. The campus runs along the banks of the Mississippi River."
+  },
+  {
+    "school": "Stanford University",
+    "funFact": "Stanford's 8,180-acre campus is one of the largest in the world. The Google, Yahoo, HP, and Nvidia founders all passed through it, giving Silicon Valley its start."
+  },
+  {
+    "school": "Stephen F. Austin State University",
+    "funFact": "Nacogdoches is the oldest town in Texas, and SFA's campus is home to the Lumberjacks and to a 42-acre azalea garden, the largest in the state."
+  },
+  {
+    "school": "Stetson University",
+    "funFact": "Stetson was Florida's first private university and is named for hat maker John B. Stetson. Its law school in Gulfport was Florida's first."
+  },
+  {
+    "school": "Susquehanna University",
+    "funFact": "Susquehanna requires every student to study away, across the country or abroad, and its campus sits in Selinsgrove along the river that gives it its name."
+  },
+  {
+    "school": "Swarthmore College",
+    "funFact": "Founded by Quakers in 1864, Swarthmore's campus is the Scott Arboretum, and its honors program, modeled on Oxford, ends with oral exams by outside scholars."
+  },
+  {
+    "school": "Syracuse University",
+    "funFact": "The JMA Wireless Dome is the largest domed stadium on any campus. Syracuse is the only major school whose sole official color is simply 'orange,' adopted in 1890."
+  },
+  {
+    "school": "Talladega College",
+    "funFact": "Alabama's oldest private HBCU (1867), Talladega houses the Amistad Murals by Hale Woodruff, which have toured major American museums."
+  },
+  {
+    "school": "Tarleton State University",
+    "funFact": "Tarleton's Texan Riders and its purple poo are campus traditions, and Stephenville calls itself the Cowboy Capital of the World for its rodeo champions."
+  },
+  {
+    "school": "Tennessee Tech University",
+    "funFact": "Tennessee Tech's baseball team won 53 games and reached an NCAA Super Regional in 2018. Cookeville sits halfway between Nashville and Knoxville on the Highland Rim."
+  },
+  {
+    "school": "Texas A&M University",
+    "funFact": "The 12th Man tradition dates to 1922, when student E. King Gill suited up in case he was needed. The Corps of Cadets is the largest uniformed student body outside the academies."
+  },
+  {
+    "school": "Texas A&M University–Kingsville",
+    "funFact": "Kingsville is headquarters of the King Ranch, one of the largest ranches in the world. The Javelinas won seven NAIA football titles and have an on-campus hog mascot, Porky."
+  },
+  {
+    "school": "Texas Christian University",
+    "funFact": "TCU's Horned Frog mascot is a Texas horned lizard, and the school's name is one of the few in big-time football with 'Christian' in it. Fort Worth's campus is just south of downtown."
+  },
+  {
+    "school": "Texas State University",
+    "funFact": "Lyndon B. Johnson graduated from Texas State in 1930, the only U.S. president to earn a degree from a Texas college. The San Marcos River runs through campus."
+  },
+  {
+    "school": "Texas Tech University",
+    "funFact": "The Masked Rider, a student on horseback, leads the team onto the field, a tradition since 1954. Lubbock is also the hometown of Buddy Holly."
+  },
+  {
+    "school": "The Citadel",
+    "funFact": "Cadets at The Citadel fired the first shots of the Civil War era, on the Star of the West in 1861. The all-cadet corps still parades on Fridays in Charleston."
+  },
+  {
+    "school": "The College of Wooster",
+    "funFact": "Every Wooster senior completes a yearlong Independent Study thesis, a requirement since 1947. The marching band wears kilts and the mascot is a Fighting Scot."
+  },
+  {
+    "school": "The University of the South",
+    "funFact": "Sewanee owns a 13,000-acre 'Domain' atop the Cumberland Plateau, and students wear academic gowns to class. Its 1899 team won five games in six days, all shutouts."
+  },
+  {
+    "school": "Troy University",
+    "funFact": "Troy runs campuses on military bases worldwide and has one of Alabama's largest international enrollments. The Trojans upset Mississippi State in 2001 and Oklahoma State in 2007."
+  },
+  {
+    "school": "Truman State University",
+    "funFact": "Truman State, in Kirksville, is Missouri's only highly selective public liberal arts university and was named Northeast Missouri State until 1996."
+  },
+  {
+    "school": "Tulane University",
+    "funFact": "Tulane was a private university converted from a public medical college in 1884. Its campus sits across from Audubon Park, and students get a Mardi Gras break."
+  },
+  {
+    "school": "Tuskegee University",
+    "funFact": "Booker T. Washington founded Tuskegee in 1881; George Washington Carver did his famous peanut research here. The campus is a National Historic Site, and the Tuskegee Airmen trained nearby."
+  },
+  {
+    "school": "Union College",
+    "funFact": "Union was the first college chartered by the New York Board of Regents (1795) and the first planned campus in America. The Nott Memorial is a 16-sided stone building at its center."
+  },
+  {
+    "school": "United States Air Force Academy",
+    "funFact": "The Cadet Chapel's 17 aluminum spires are a National Historic Landmark, and the campus sits at 7,258 feet at the foot of the Rampart Range."
+  },
+  {
+    "school": "United States Coast Guard Academy",
+    "funFact": "The smallest of the service academies, with about 1,000 cadets, and the only one with no congressional nominations: admission is purely competitive. Its tall ship is the barque Eagle."
+  },
+  {
+    "school": "United States Merchant Marine Academy",
+    "funFact": "Kings Point midshipmen spend about a year at sea aboard working merchant ships, and graduates leave as licensed merchant mariners as well as commissioned officers."
+  },
+  {
+    "school": "United States Military Academy",
+    "funFact": "West Point has been continuously occupied by the Army since 1778, making it the oldest U.S. military post in operation. Grant, Lee, Eisenhower, and Patton all graduated here."
+  },
+  {
+    "school": "United States Naval Academy",
+    "funFact": "Midshipmen climb the lard-covered Herndon Monument each spring to end their plebe year. John Paul Jones is buried in a crypt beneath the chapel."
+  },
+  {
+    "school": "University at Buffalo",
+    "funFact": "UB is the largest campus in the SUNY system, and Millard Fillmore was its first chancellor while serving as vice president and then president."
+  },
+  {
+    "school": "University of Akron",
+    "funFact": "Akron was the rubber capital of the world, and the university's polymer science college is one of the largest in the country. Its mascot is Zippy, a kangaroo."
+  },
+  {
+    "school": "University of Alabama",
+    "funFact": "Bear Bryant's six national titles and Nick Saban's six more make Alabama the most decorated program of the poll era. Denny Chimes rings across the Quad every quarter hour."
+  },
+  {
+    "school": "University of Alabama at Birmingham",
+    "funFact": "UAB is Alabama's largest single employer, and its hospital is one of the largest in the country. The Blazers' mascot is a dragon named Blaze."
+  },
+  {
+    "school": "University of Arizona",
+    "funFact": "Arizona led the NASA OSIRIS-REx mission that returned asteroid samples in 2023 and built the mirrors for the Giant Magellan Telescope under its football stadium."
+  },
+  {
+    "school": "University of Arkansas",
+    "funFact": "Every graduate's name is engraved in the campus sidewalks, 'Senior Walk,' more than five miles of names stretching back to 1876. Fans call the Hogs with 'Woo Pig Sooie.'"
+  },
+  {
+    "school": "University of Arkansas at Pine Bluff",
+    "funFact": "UAPB is Arkansas's only HBCU land-grant university (1873) and its Marching Musical Machine of the Mid-South, the M4, is a Delta institution."
+  },
+  {
+    "school": "University of California, Berkeley",
+    "funFact": "Berkeley discovered 16 chemical elements, including berkelium and californium, and the Free Speech Movement began on Sproul Plaza in 1964."
+  },
+  {
+    "school": "University of California, Davis",
+    "funFact": "Davis has more bicycles per capita than almost anywhere in the U.S., and campus traffic circles are built for bikes. Its vet school is often ranked the world's best."
+  },
+  {
+    "school": "University of California, Irvine",
+    "funFact": "UCI's circular campus was master-planned around Aldrich Park in 1965; its mascot is Peter the Anteater, chosen by students in a 1965 vote inspired by the comic strip 'B.C.'"
+  },
+  {
+    "school": "University of California, Santa Barbara",
+    "funFact": "UCSB has its own beach, a lagoon, and a campus point where students surf between classes. Six of its faculty have won Nobel Prizes since 1998."
+  },
+  {
+    "school": "University of California, Santa Cruz",
+    "funFact": "Santa Cruz's mascot is the Banana Slug, adopted after students rebelled against the sea lion. The campus is built into a redwood forest above Monterey Bay."
+  },
+  {
+    "school": "University of Central Arkansas",
+    "funFact": "UCA's Estes Stadium has purple-and-gray striped turf, one of the few two-tone fields in the country, and the Bears' mascot is Bruce D. Bear."
+  },
+  {
+    "school": "University of Central Missouri",
+    "funFact": "UCM's campus includes an airport, Skyhaven, where students earn pilot licenses, and Warrensburg is home to the 'Old Drum' statue honoring a dog called man's best friend in a court speech."
+  },
+  {
+    "school": "University of Central Oklahoma",
+    "funFact": "Founded in 1890 as a territorial normal school, UCO is the oldest public university in Oklahoma, older than the state itself."
+  },
+  {
+    "school": "University of Colorado Boulder",
+    "funFact": "Ralphie, a live buffalo, leads the team onto the field at full gallop. CU Boulder has produced more than 20 astronauts and holds Nobel Prizes for the first Bose–Einstein condensate."
+  },
+  {
+    "school": "University of Connecticut",
+    "funFact": "UConn's women's basketball team has won a record 12 national titles, and the campus dairy bar's ice cream comes from the university's own herd in rural Storrs."
+  },
+  {
+    "school": "University of Dayton",
+    "funFact": "Dayton has hosted the NCAA tournament's First Four every year since 2011, and most upperclassmen live in university-owned houses in a student neighborhood unlike any other."
+  },
+  {
+    "school": "University of Delaware",
+    "funFact": "UD invented study abroad: a professor took eight students to France in 1923 for the first American junior year abroad. Joe Biden graduated here in 1965.",
+    "type": "Public"
+  },
+  {
+    "school": "University of Florida",
+    "funFact": "Gatorade was invented here in 1965 for the football team. The Swamp is officially Ben Hill Griffin Stadium, and the campus is home to a bat house with 300,000 bats."
+  },
+  {
+    "school": "University of Georgia",
+    "funFact": "Chartered in 1785, Georgia is the oldest state-chartered public university. Uga, an English bulldog, sits in an air-conditioned doghouse on the sideline between the hedges."
+  },
+  {
+    "school": "University of Idaho",
+    "funFact": "Idaho's Kibbie Dome has a wooden barrel-arch roof that won engineering awards in 1975, and the campus arboretum sits in the rolling Palouse wheat country."
+  },
+  {
+    "school": "University of Illinois Urbana-Champaign",
+    "funFact": "Illinois students created Mosaic, the first popular web browser, and HAL 9000 of '2001' was 'born' in Urbana. The campus straddles the twin cities of Urbana and Champaign."
+  },
+  {
+    "school": "University of Iowa",
+    "funFact": "Iowa's Writers' Workshop was the first creative writing MFA in the country, and the visitors' locker room at Kinnick Stadium is painted pink."
+  },
+  {
+    "school": "University of Kansas",
+    "funFact": "James Naismith, who invented basketball, was KU's first coach and the only one with a losing record. Fans chant the 'Rock Chalk' cheer, which Teddy Roosevelt called the best he'd heard."
+  },
+  {
+    "school": "University of Kentucky",
+    "funFact": "Rupp Arena is one of the largest basketball-specific arenas in the world, and Kentucky has the most wins in men's college basketball history."
+  },
+  {
+    "school": "University of Louisiana at Lafayette",
+    "funFact": "UL Lafayette's campus has Cypress Lake, a real swamp with alligators, in its middle. The Ragin' Cajuns are the only college team with that nickname."
+  },
+  {
+    "school": "University of Maine",
+    "funFact": "Maine's mascot Bananas is a black bear, and Stephen King graduated in 1970. The campus sits on an island between the Penobscot and Stillwater rivers."
+  },
+  {
+    "school": "University of Mary Washington",
+    "funFact": "Named for George Washington's mother, who lived nearby. The school was the women's college of the University of Virginia from 1944 until 1972."
+  },
+  {
+    "school": "University of Maryland",
+    "funFact": "The Jim Henson statue on campus shows him with Kermit the Frog: Henson created the Muppets while a Maryland student. Testudo the terrapin's nose is rubbed for luck."
+  },
+  {
+    "school": "University of Maryland Eastern Shore",
+    "funFact": "UMES is an 1890 land-grant HBCU on the Delmarva Peninsula with the only PGA-accredited golf management program at an HBCU."
+  },
+  {
+    "school": "University of Massachusetts Amherst",
+    "funFact": "UMass has the tallest academic library in the world, the 28-story Du Bois Library, and its dining services have been ranked best in the nation for years."
+  },
+  {
+    "school": "University of Memphis",
+    "funFact": "Memphis's Tigers play in FedExForum, and for decades a live Bengal tiger named TOM served as mascot. The campus is a few miles from Graceland and Beale Street."
+  },
+  {
+    "school": "University of Miami",
+    "funFact": "The Hurricanes' 'U' hand sign and Sebastian the Ibis are campus icons. The ibis is said to be the last bird to leave before a hurricane and the first to return."
+  },
+  {
+    "school": "University of Michigan",
+    "funFact": "Michigan Stadium, 'the Big House,' is the largest stadium in the Western Hemisphere. JFK announced the Peace Corps on the steps of the Michigan Union in 1960."
+  },
+  {
+    "school": "University of Minnesota",
+    "funFact": "The pacemaker, the retractable seatbelt, and the black box flight recorder were all developed at Minnesota. The campus spans both banks of the Mississippi River."
+  },
+  {
+    "school": "University of Minnesota Duluth",
+    "funFact": "UMD's Bulldogs won back-to-back men's hockey national titles in 2018 and 2019, and the campus overlooks Lake Superior from a hillside in Duluth."
+  },
+  {
+    "school": "University of Mississippi (Ole Miss)",
+    "funFact": "The Grove, a ten-acre tailgating spot, is famous for its tents, chandeliers, and dress code. William Faulkner's home, Rowan Oak, is a short walk from campus."
+  },
+  {
+    "school": "University of Missouri",
+    "funFact": "Mizzou founded the world's first journalism school in 1908, and the Columns on the Quad are all that remains of Academic Hall, which burned in 1892."
+  },
+  {
+    "school": "University of Montana",
+    "funFact": "The Griz play in Washington–Grizzly Stadium at the foot of Mount Sentinel, whose giant whitewashed 'M' is a popular hike. Missoula's campus is on the Clark Fork River."
+  },
+  {
+    "school": "University of Nebraska at Kearney",
+    "funFact": "Kearney sits at the center of the sandhill crane migration: each March, half a million cranes stop along the Platte River within sight of the campus."
+  },
+  {
+    "school": "University of Nebraska–Lincoln",
+    "funFact": "Memorial Stadium has sold out every game since 1962, the longest streak in college football. On game days it becomes the third-largest 'city' in Nebraska."
+  },
+  {
+    "school": "University of Nevada, Reno",
+    "funFact": "Nevada's quad was modeled on Jefferson's Lawn at UVA and is on the National Register of Historic Places. Colin Kaepernick once held the FBS record for career rushing yards by a quarterback here."
+  },
+  {
+    "school": "University of New Hampshire",
+    "funFact": "UNH's campus runs its own working dairy farm, and the Wildcats' hockey team plays in a rink dubbed the 'Whitt.' Durham is a stop on the Amtrak Downeaster."
+  },
+  {
+    "school": "University of New Mexico",
+    "funFact": "UNM's campus is built in the Pueblo Revival style, with Zimmerman Library as its centerpiece. The Pit, its basketball arena, is sunk 37 feet into the ground."
+  },
+  {
+    "school": "University of North Carolina Wilmington",
+    "funFact": "UNCW's Seahawks share a campus with a marine science center on the Intracoastal Waterway, and the school was once a two-year college for returning WWII veterans."
+  },
+  {
+    "school": "University of North Carolina at Chapel Hill",
+    "funFact": "UNC opened its doors in 1795, the first public university in the U.S. to admit students. Students drink from the Old Well on the first day of class for a 4.0."
+  },
+  {
+    "school": "University of North Carolina at Charlotte",
+    "funFact": "UNC Charlotte started in 1946 as a night school for veterans and is now one of the state's largest universities. Its gold-and-green mascot is Norm the Niner."
+  },
+  {
+    "school": "University of North Dakota",
+    "funFact": "UND's hockey program has won eight national titles and plays in Ralph Engelstad Arena, a $104 million rink with granite floors and leather seats."
+  },
+  {
+    "school": "University of North Texas",
+    "funFact": "UNT's College of Music was the first in the world to offer a jazz degree, in 1947, and its One O'Clock Lab Band has been nominated for multiple Grammys."
+  },
+  {
+    "school": "University of Northern Colorado",
+    "funFact": "UNC's mascot is Klawz the bear, and James Michener wrote his first books while teaching at the Greeley campus in the 1930s."
+  },
+  {
+    "school": "University of Northern Iowa",
+    "funFact": "UNI's Panthers play in the UNI-Dome, and the campanile at the center of campus is a landmark seniors traditionally kiss beneath at midnight."
+  },
+  {
+    "school": "University of Notre Dame",
+    "funFact": "'Touchdown Jesus' is a mural on the library facing the stadium. Players tap a 'Play Like a Champion Today' sign, and the Golden Dome is gilded with real gold leaf."
+  },
+  {
+    "school": "University of Oklahoma",
+    "funFact": "The Sooner Schooner, a covered wagon pulled by ponies, circles the field after every score. OU holds the record for the longest winning streak in major college football, 47 games."
+  },
+  {
+    "school": "University of Oregon",
+    "funFact": "Nike co-founder Phil Knight ran track at Oregon under Bill Bowerman, who invented the waffle sole on a kitchen waffle iron. Hayward Field is track and field's cathedral."
+  },
+  {
+    "school": "University of Redlands",
+    "funFact": "Redlands students carved the giant 'R' into the San Bernardino Mountains in 1913, and the Johnston Center lets students design their own degree with no grades."
+  },
+  {
+    "school": "University of Rhode Island",
+    "funFact": "URI's Graduate School of Oceanography sits on Narragansett Bay, where Robert Ballard, who found the Titanic, runs the Center for Ocean Exploration."
+  },
+  {
+    "school": "University of South Alabama",
+    "funFact": "South Alabama's mascot is a jaguar, and its first football game was played in 2009. The campus is minutes from Mobile Bay and the original Mardi Gras in America."
+  },
+  {
+    "school": "University of South Carolina",
+    "funFact": "Gamecocks football enters to '2001: A Space Odyssey,' and the Horseshoe, the original campus, dates to 1801. The school had the first freestanding college library building in the U.S."
+  },
+  {
+    "school": "University of South Dakota",
+    "funFact": "USD's National Music Museum in Vermillion holds one of the world's great instrument collections, including some of the oldest surviving Stradivari guitars."
+  },
+  {
+    "school": "University of South Florida",
+    "funFact": "USF opened in 1960 and is now one of Florida's largest universities. The Bulls' Tampa campus is home to a Botanical Garden and the Moffitt Cancer Center."
+  },
+  {
+    "school": "University of Southern Mississippi",
+    "funFact": "Brett Favre played quarterback for the Golden Eagles, and Southern Miss's Pride of Mississippi marching band is one of the largest in the South."
+  },
+  {
+    "school": "University of Tennessee",
+    "funFact": "Neyland Stadium holds more than 100,000, and the Vol Navy tailgates on the Tennessee River beside it. Smokey, a bluetick coonhound, leads the team through the T."
+  },
+  {
+    "school": "University of Tennessee at Martin",
+    "funFact": "UT Martin's Skyhawks sit in rural northwest Tennessee, and the school's rodeo team competes nationally. Pat Summitt played basketball here before coaching Tennessee."
+  },
+  {
+    "school": "University of Texas at Austin",
+    "funFact": "The UT Tower glows burnt orange after big wins, and Bevo, a longhorn steer, watches from the sideline. The 'Hook 'em Horns' sign dates to a 1955 pep rally."
+  },
+  {
+    "school": "University of Texas at San Antonio",
+    "funFact": "UTSA opened in 1969 and started football only in 2011, drawing 56,743 fans to its first game, a record for a program debut. The Roadrunners' mascot is Rowdy."
+  },
+  {
+    "school": "University of Toledo",
+    "funFact": "Toledo's Glass Bowl stadium honors the city's glassmaking history, and the Rockets' campus is modeled on Collegiate Gothic with a 205-foot University Hall tower."
+  },
+  {
+    "school": "University of Tulsa",
+    "funFact": "Tulsa is one of the smallest schools in FBS football and holds Bob Dylan's archive at its Helmerich Center. The Golden Hurricane nickname came from a 1922 winning streak."
+  },
+  {
+    "school": "University of Utah",
+    "funFact": "Utah was the fourth node of ARPANET, the Internet's ancestor, in 1969, and its computer graphics lab produced the founders of Pixar, Adobe, and Silicon Graphics."
+  },
+  {
+    "school": "University of Vermont",
+    "funFact": "UVM's initials come from its Latin name, Universitas Viridis Montis. Ben & Jerry's started a few blocks away in a renovated gas station in 1978."
+  },
+  {
+    "school": "University of Virginia",
+    "funFact": "Thomas Jefferson designed the Academical Village, a UNESCO World Heritage Site, and students who move into the Lawn rooms still carry firewood for their fireplaces."
+  },
+  {
+    "school": "University of Washington",
+    "funFact": "Huskies fans 'sailgate' by boat on Lake Washington next to the stadium, the only such setup in college football. Cherry blossoms on the Quad draw crowds each spring."
+  },
+  {
+    "school": "University of West Georgia",
+    "funFact": "West Georgia's Wolves won the Gulf South Conference and reached the 2014 Division II semifinals. Carrollton is on the Little Tallapoosa River, an hour west of Atlanta."
+  },
+  {
+    "school": "University of Wisconsin–Eau Claire",
+    "funFact": "UW–Eau Claire's campus is split by a footbridge over the Chippewa River, and the campus hill is so steep students call it 'the Hill' with a mix of dread and pride.",
+    "wikipedia": "University of Wisconsin–Eau Claire"
+  },
+  {
+    "school": "University of Wisconsin–La Crosse",
+    "funFact": "La Crosse's campus sits beneath Grandad Bluff, 600 feet above the Mississippi, and UWL's Eagles have won more than 20 Division III track and field national titles."
+  },
+  {
+    "school": "University of Wisconsin–Madison",
+    "funFact": "Students 'Jump Around' between the third and fourth quarters at Camp Randall. Babcock Hall ice cream, made on campus, has been served since 1951."
+  },
+  {
+    "school": "University of Wisconsin–Oshkosh",
+    "funFact": "Oshkosh's campus hugs the Fox River near Lake Winnebago, and the city hosts EAA AirVenture each July, the world's largest aviation gathering."
+  },
+  {
+    "school": "University of Wisconsin–Platteville",
+    "funFact": "Platteville's hillside 'M,' built from whitewashed rocks in 1936 by mining students, is the world's largest 'M' and is lit for homecoming each fall."
+  },
+  {
+    "school": "University of Wisconsin–Stevens Point",
+    "funFact": "UWSP's College of Natural Resources is one of the largest undergraduate natural resources programs in the country, and the campus includes a 280-acre nature reserve."
+  },
+  {
+    "school": "University of Wisconsin–Whitewater",
+    "funFact": "The Warhawks won six Division III football national championships between 2007 and 2014, and the school is a national leader in accessibility for students with disabilities."
+  },
+  {
+    "school": "University of Wyoming",
+    "funFact": "Wyoming is the state's only four-year university, and War Memorial Stadium at 7,220 feet is the highest in Division I. Cowboy Joe, a live pony, is the mascot."
+  },
+  {
+    "school": "Utah State University",
+    "funFact": "Aggie Ice Cream has been made on campus for more than a century, and a kiss on the Block A monument under a full moon makes you a True Aggie."
+  },
+  {
+    "school": "Valdosta State University",
+    "funFact": "Valdosta State's Blazers won four Division II football national titles, and the city has one of the most storied high school football programs in the country."
+  },
+  {
+    "school": "Valparaiso University",
+    "funFact": "Valpo's Chapel of the Resurrection is one of the largest college chapels in the world, and Bryce Drew's 1998 buzzer-beater against Ole Miss is an NCAA tournament classic."
+  },
+  {
+    "school": "Vanderbilt University",
+    "funFact": "Cornelius Vanderbilt gave $1 million in 1873 to found a school he never visited. The campus is a national arboretum with more than 6,000 trees in the middle of Nashville."
+  },
+  {
+    "school": "Vassar College",
+    "funFact": "Vassar was founded in 1861 as a women's college by brewer Matthew Vassar and went coed in 1969 after turning down a merger with Yale."
+  },
+  {
+    "school": "Vermont State University",
+    "funFact": "The Castleton campus, founded in 1787, is Vermont's oldest college and merged with Northern Vermont University and Vermont Tech in 2023 to form Vermont State."
+  },
+  {
+    "school": "Villanova University",
+    "funFact": "Villanova's 1985 title as an 8 seed is the lowest-seeded championship ever, and Kris Jenkins's buzzer-beater won the 2016 crown. The campus is on Philadelphia's Main Line."
+  },
+  {
+    "school": "Virginia Commonwealth University",
+    "funFact": "VCU's Rams made a Final Four run from the First Four in 2011. Its arts school is among the top-ranked public art schools in the country, right in downtown Richmond."
+  },
+  {
+    "school": "Virginia State University",
+    "funFact": "Founded in 1882, Virginia State was the first fully state-supported four-year college for Black Americans in the U.S. The campus overlooks the Appomattox River."
+  },
+  {
+    "school": "Virginia Tech",
+    "funFact": "Fans jump to 'Enter Sandman' as the team enters Lane Stadium. The campus is built of 'Hokie Stone,' a limestone quarried by the university itself."
+  },
+  {
+    "school": "Wabash College",
+    "funFact": "One of only three all-male liberal arts colleges left in the U.S., Wabash has a one-sentence Gentleman's Rule in place of a student code and plays DePauw for the Monon Bell."
+  },
+  {
+    "school": "Wake Forest University",
+    "funFact": "Wake Forest moved from the town of Wake Forest to Winston-Salem in 1956 with help from the R.J. Reynolds family. Students 'roll the Quad' with toilet paper after big wins."
+  },
+  {
+    "school": "Wartburg College",
+    "funFact": "Wartburg's wrestlers have won more than a dozen Division III national titles, and the campus is named for the castle where Martin Luther translated the New Testament."
+  },
+  {
+    "school": "Washington College",
+    "funFact": "George Washington gave his name and 50 guineas to found the college in 1782, served on its board, and received an honorary degree. It is the tenth-oldest college in the U.S."
+  },
+  {
+    "school": "Washington State University",
+    "funFact": "WSU's Ferdinand's Ice Cream Shoppe sells Cougar Gold cheese in cans, made on campus since the 1940s. The Pullman campus sits in the rolling Palouse hills."
+  },
+  {
+    "school": "Washington and Lee University",
+    "funFact": "George Washington's 1796 gift saved the school, and Robert E. Lee was its president after the Civil War. Students have a single-sanction Honor System dating to Lee's era."
+  },
+  {
+    "school": "Weber State University",
+    "funFact": "Weber State's Damian Lillard became an NBA MVP candidate out of the Big Sky, and the Ogden campus sits against the Wasatch Front below Snowbasin ski resort."
+  },
+  {
+    "school": "Wesleyan University",
+    "funFact": "Wesleyan, Amherst, and Williams form the 'Little Three.' Wesleyan's alumni dominate Hollywood writing rooms, from Joss Whedon to Lin-Manuel Miranda."
+  },
+  {
+    "school": "West Chester University",
+    "funFact": "West Chester is the largest school in Pennsylvania's state system, and its 'Incomparable' Golden Rams marching band has played NFL halftime shows."
+  },
+  {
+    "school": "West Texas A&M University",
+    "funFact": "Canyon is the gateway to Palo Duro Canyon, the second-largest canyon in the U.S., and WT's campus hosts the Panhandle-Plains Historical Museum, the largest history museum in Texas."
+  },
+  {
+    "school": "West Virginia University",
+    "funFact": "Mountaineers fans sing 'Take Me Home, Country Roads' after every home win. WVU's PRT, a 1970s driverless people-mover, still carries students between campuses."
+  },
+  {
+    "school": "West Virginia Wesleyan College",
+    "funFact": "Wesleyan's Buckhannon campus is known for Wesley Chapel, the largest church in West Virginia, and the town hosts the annual West Virginia Strawberry Festival."
+  },
+  {
+    "school": "Western Carolina University",
+    "funFact": "Cullowhee is Cherokee for 'place of the lilies,' and WCU's Pride of the Mountains marching band played the 2014 Macy's Thanksgiving Day Parade with 500 members."
+  },
+  {
+    "school": "Western Colorado University",
+    "funFact": "At 7,700 feet, Western's Gunnison campus is one of the highest in the country, and the town is one of the coldest in the lower 48. Crested Butte ski resort is 30 minutes away."
+  },
+  {
+    "school": "Western Illinois University",
+    "funFact": "WIU's Leathernecks are the only non-military school allowed to use the Marine Corps nickname, granted in 1927, and the campus is in the heart of west-central Illinois."
+  },
+  {
+    "school": "Western Kentucky University",
+    "funFact": "Big Red, a shapeless red blob, is one of the most recognizable mascots in college sports. WKU's campus sits on 'the Hill' with a view across Bowling Green."
+  },
+  {
+    "school": "Western Michigan University",
+    "funFact": "Western Michigan's aviation college is one of the largest in the nation, and Kalamazoo's Promise program pays college tuition for the city's public school graduates."
+  },
+  {
+    "school": "Western Oregon University",
+    "funFact": "Founded in 1856, Western Oregon is the state's oldest public university; Monmouth was a dry town until 2002, one of the last in the state."
+  },
+  {
+    "school": "Western Washington University",
+    "funFact": "WWU's campus overlooks Bellingham Bay and holds an outdoor sculpture collection with works by Richard Serra and Mark di Suvero scattered among its buildings."
+  },
+  {
+    "school": "Whitman College",
+    "funFact": "Whitman's campus in Walla Walla features Lakum Duckum, a duck pond fed by a spring, and the town's wine industry has grown to more than 120 wineries."
+  },
+  {
+    "school": "Wiley University",
+    "funFact": "Wiley's 1935 debate team, led by Melvin Tolson, beat the national champions from USC, a story told in 'The Great Debaters.' It is Texas's oldest HBCU, founded in 1873."
+  },
+  {
+    "school": "Willamette University",
+    "funFact": "Founded in 1842, Willamette is the oldest university in the West and sits across the street from the Oregon State Capitol in Salem."
+  },
+  {
+    "school": "Williams College",
+    "funFact": "Williams students play 'Mountain Day,' a surprise fall holiday announced by bells, and the college has topped U.S. News's liberal arts list for most of the past two decades."
+  },
+  {
+    "school": "Winthrop University",
+    "funFact": "Winthrop began in 1886 as a women's teacher training school in a Columbia carriage house and moved to Rock Hill in 1895. The Eagles are a Big South basketball power."
+  },
+  {
+    "school": "Wofford College",
+    "funFact": "Wofford's campus in Spartanburg hosted the Carolina Panthers' training camp for 24 summers, and the Terriers made the 2019 NCAA tournament's second round."
+  },
+  {
+    "school": "Yale University",
+    "funFact": "Yale's Beinecke Library has translucent marble walls and a Gutenberg Bible. The Yale–Harvard game, 'The Game,' has been played since 1875."
+  }
+]
