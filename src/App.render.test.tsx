@@ -127,10 +127,13 @@ describe('App — seed change never shows the previous seed’s towns', () => {
   })
 
   it('offers the town search only once the day is finished, as an overlay over the results', async () => {
-    const { selectDailyTowns, getDateKey } = await import('./lib/daily')
+    const { dailyLineup, getDateKey } = await import('./lib/daily')
     const { saveState, STORAGE_VERSION } = await import('./lib/storage')
     const today = getDateKey(new Date())
-    const towns = selectDailyTowns(FILE.towns, `usa:${today}`)
+    // The app's own lineup for a calendar day (WITH the recency cooldown) —
+    // a saved game whose towns differ from it is discarded as stale, so the
+    // bare selectDailyTowns pick stopped resuming on 2026-11-10.
+    const towns = dailyLineup(FILE.towns, 'usa', today)
     saveState('usa', {
       version: STORAGE_VERSION,
       history: [],
@@ -212,7 +215,7 @@ describe('App — seed change never shows the previous seed’s towns', () => {
 
 describe('App — flags play mode on <main> so phones can slim the header', () => {
   it('marks main `is-playing` while a round is open, and not once finished', async () => {
-    const { selectDailyTowns, getDateKey } = await import('./lib/daily')
+    const { dailyLineup, getDateKey } = await import('./lib/daily')
     const { saveState, STORAGE_VERSION } = await import('./lib/storage')
     const { unmount } = render(<App />)
     await screen.findByText(/Round 1 of 5/)
@@ -220,7 +223,8 @@ describe('App — flags play mode on <main> so phones can slim the header', () =
     unmount()
     cleanup()
     const today = getDateKey(new Date())
-    const towns = selectDailyTowns(FILE.towns, `usa:${today}`)
+    // Must be the cooldown-aware lineup the app computes, or the save is stale.
+    const towns = dailyLineup(FILE.towns, 'usa', today)
     saveState('usa', {
       version: STORAGE_VERSION,
       history: [],
