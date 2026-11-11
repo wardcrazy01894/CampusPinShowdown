@@ -339,6 +339,7 @@ export function App() {
           ). State outlines: US Census Bureau.
         </div>
         <div>Idea courtesy of good friend Garret B.</div>
+        <div>A Spicy Al Software Solution</div>
       </footer>
     </main>
   )

@@ -76,6 +76,9 @@ describe('App', () => {
     expect(
       screen.getByText('Idea courtesy of good friend Garret B.'),
     ).toBeTruthy()
+    // The studio credit is the last line of the footer, below the idea credit.
+    const credit = screen.getByText('A Spicy Al Software Solution')
+    expect(credit.closest('footer')?.lastElementChild).toBe(credit)
     // Mid-round the town search is hidden — it would answer the round.
     expect(
       screen.queryByRole('button', { name: /is my town in the game/ }),
