@@ -62,7 +62,11 @@ describe('resetStatements', () => {
 
     const temp = tempPassword()
     // Typed with capitals and spaces: usernames are case-insensitive.
-    const statements = await resetStatements('  Spicy_Al ', temp)
+    const { statements, hash } = await resetStatements('  Spicy_Al ', temp)
+    // Sessions go FIRST: if the run dies halfway, no old session outlives a
+    // changed password (rerunning the command finishes the job).
+    expect(statements[0]).toMatch(/^DELETE FROM sessions/)
+    expect(statements[1]).toMatch(/^UPDATE accounts/)
     for (const sql of statements) {
       expect(sql).not.toContain(temp) // the password itself is never stored
       await db.prepare(sql).run()
@@ -73,9 +77,14 @@ describe('resetStatements', () => {
     expect((await verifyLogin(db, 'spicy_al', old)).ok).toBe(false)
     expect(await accountForToken(db, token)).toBeNull()
     const kept = await db
-      .prepare(`SELECT name FROM accounts WHERE username = 'spicy_al'`)
+      .prepare(
+        `SELECT name, pass_hash FROM accounts WHERE username = 'spicy_al'`,
+      )
       .first()
     expect(kept.name).toBe('Spicy Al')
+    // What the script reads back to confirm the write really landed.
+    expect(kept.pass_hash).toBe(hash)
+    expect(hash).toMatch(/^[0-9a-f]{64}$/)
     const streak = await db.prepare(`SELECT current FROM streaks`).first()
     expect(streak.current).toBe(12)
   }, 30_000)

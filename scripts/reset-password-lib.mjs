@@ -64,8 +64,10 @@ export function tempPassword() {
 }
 
 /**
- * The SQL that gives `username` the password `password` and signs the
- * account out on every device. Streak, scores and display name are not
+ * The SQL that signs `username` out on every device and gives the account
+ * the password `password` — in that order, so a run that dies halfway never
+ * leaves an old session alive behind a changed password — plus the `hash`
+ * the script reads back to confirm the write landed. Streak, scores and display name are not
  * touched. Throws on an invalid username — the name is validated to
  * `[a-z0-9_]` and the other values are hex, so the statements are safe to
  * build as text (wrangler's `d1 execute --command` takes no parameters).
@@ -76,15 +78,18 @@ export async function resetStatements(rawUsername, password) {
   const username = u.value
   const salt = randomHex(16)
   const hash = await hashPass(await clientKey(username, password), salt)
-  return [
-    `UPDATE accounts SET pass_salt = '${salt}', pass_hash = '${hash}' WHERE username = '${username}'`,
-    `DELETE FROM sessions WHERE account_id IN (SELECT id FROM accounts WHERE username = '${username}')`,
-  ]
+  return {
+    statements: [
+      `DELETE FROM sessions WHERE account_id IN (SELECT id FROM accounts WHERE username = '${username}')`,
+      `UPDATE accounts SET pass_salt = '${salt}', pass_hash = '${hash}' WHERE username = '${username}'`,
+    ],
+    hash,
+  }
 }
 
 /** The lookup the script runs first, so a typo is caught before any write. */
 export function findAccountSql(rawUsername) {
   const u = validateUsername(rawUsername)
   if (!u.ok) throw new Error(`not a valid username: ${u.error}`)
-  return `SELECT id, username, name FROM accounts WHERE username = '${u.value}'`
+  return `SELECT id, username, name, pass_hash FROM accounts WHERE username = '${u.value}'`
 }

@@ -65,8 +65,7 @@ import {
   openSession,
   closeSession,
   renameAccount,
-  setPassword,
-  closeOtherSessions,
+  changeAccountPassword,
   foldIntoAccount,
   readProgress,
 } from './accounts-lib.mjs'
@@ -195,9 +194,8 @@ async function accountRoute(route, body, env, ip, now) {
       ? await verifyLogin(db, account.username, body.pass)
       : { ok: false }
     if (!current.ok) return [{ error: 'wrong password' }, 401]
-    await setPassword(db, account.id, body.newPass)
     // Whoever else was signed in with the old password is signed out.
-    await closeOtherSessions(db, account.id, body.token)
+    await changeAccountPassword(db, account.id, body.newPass, body.token)
     return [signedIn(account), 200]
   }
 

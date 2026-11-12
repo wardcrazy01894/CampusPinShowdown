@@ -55,7 +55,16 @@ try {
     process.exit(1)
   }
   const password = tempPassword()
-  d1((await resetStatements(found.username, password)).join('; '))
+  const { statements, hash } = await resetStatements(found.username, password)
+  d1(statements.join('; '))
+  // Never print a password that was not actually stored.
+  const after = d1(findAccountSql(found.username))[0]?.results?.[0]
+  if (after?.pass_hash !== hash) {
+    console.error(
+      'The new password was NOT saved (the account changed or the write failed). Nothing to send — run the command again.',
+    )
+    process.exit(1)
+  }
   console.log(
     [
       '',
