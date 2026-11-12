@@ -54,6 +54,11 @@ Request/response shape:
     to merge in; the answer is the account's streak and its results inside the
     submission window (`{ date, lineup, score, rounds }`). `401` = signed out.
   - `/name { token, name }` → `{ ok, username, name }`
+  - `/password { token, pass, newPass }` → `{ ok, username, name }` — `pass`
+    is the current password's key (`401 wrong password` otherwise); every
+    other session of the account is ended. A _forgotten_ password is reset by
+    the owner with `npm run account:reset-password` (`docs/OPERATIONS.md`),
+    never through the worker.
 
   `pass` is the 64-hex key the browser derives (PBKDF2), never the password.
   `clientId` hands the device's anonymous scores and streak to the account.

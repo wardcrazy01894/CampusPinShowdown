@@ -12,6 +12,7 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import {
   type Account,
+  changePassword,
   friendlyError,
   login,
   passwordProblem,
@@ -43,6 +44,10 @@ export function AccountDialog({
   onSignOut,
   onClose,
 }: AccountDialogProps) {
+  // The change-password form (signed in): open?, and its two fields.
+  const [pwOpen, setPwOpen] = useState(false)
+  const [currentPw, setCurrentPw] = useState('')
+  const [newPw, setNewPw] = useState('')
   // True after a sign-out was held back because progress could not be saved.
   const [unsaved, setUnsaved] = useState(false)
   const [form, setForm] = useState<Form>('none')
@@ -114,6 +119,19 @@ export function AccountDialog({
       onChange({ ...account, name: r.name })
     }, 'Saved.')
 
+  const savePassword = () =>
+    run(async () => {
+      if (!account) return
+      if (!currentPw) return 'Enter your current password.'
+      const problem = passwordProblem(newPw)
+      if (problem) return problem
+      const r = await changePassword(account, currentPw, newPw)
+      if (!r.ok) return friendlyError(r)
+      setCurrentPw('')
+      setNewPw('')
+      setPwOpen(false)
+    }, 'Password changed. Your other devices have been signed out.')
+
   const signOut = () =>
     run(async () => {
       if (!account || !onSignOut) return
@@ -169,6 +187,74 @@ export function AccountDialog({
               </span>
             </label>
           </form>
+          {pwOpen ? (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                void savePassword()
+              }}
+            >
+              <label style={field}>
+                <span>Current password</span>
+                <input
+                  type="password"
+                  value={currentPw}
+                  autoComplete="current-password"
+                  onChange={(e) => setCurrentPw(e.target.value)}
+                  style={input}
+                />
+                <span style={hint}>
+                  If you were sent a temporary password, that’s this one.
+                </span>
+              </label>
+              <label style={field}>
+                <span>New password</span>
+                <input
+                  type="password"
+                  value={newPw}
+                  autoComplete="new-password"
+                  onChange={(e) => setNewPw(e.target.value)}
+                  style={input}
+                />
+                <span style={hint}>At least 8 characters.</span>
+              </label>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: 8,
+                  flexWrap: 'wrap',
+                  marginBottom: 12,
+                }}
+              >
+                <button type="submit" disabled={busy} style={primary}>
+                  Save new password
+                </button>
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => {
+                    setPwOpen(false)
+                    setCurrentPw('')
+                    setNewPw('')
+                    setError('')
+                  }}
+                  style={secondary}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          ) : (
+            <p style={{ margin: '0 0 12px' }}>
+              <button
+                type="button"
+                onClick={() => setPwOpen(true)}
+                style={linkButton}
+              >
+                Change password
+              </button>
+            </p>
+          )}
           <button
             type="button"
             disabled={busy}
@@ -191,8 +277,8 @@ export function AccountDialog({
             device and the longest one carries on.
           </p>
           <p style={{ opacity: 0.8 }}>
-            Just a username and a password. <strong>No email</strong> — which
-            also means a forgotten password can’t be reset.
+            Just a username and a password. <strong>No email</strong> needed.
+            Forgot your password? The game’s owner can give you a new one.
           </p>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <button
@@ -272,10 +358,7 @@ export function AccountDialog({
               style={input}
             />
             {form === 'register' && (
-              <span style={hint}>
-                At least 8 characters. There is no reset, so keep it somewhere
-                safe.
-              </span>
+              <span style={hint}>At least 8 characters.</span>
             )}
           </label>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>

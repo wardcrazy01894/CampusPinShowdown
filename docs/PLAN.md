@@ -250,8 +250,8 @@ offline or a non-official game → the line and button are simply absent.
 ## Accounts + cross-device sync (`worker/accounts-lib.mjs`, `src/lib/account.ts`, `src/lib/sync.ts`, `AccountDialog`)
 
 Optional, and ported from WhereHePlay. An account is a **username, a password
-and a display name — no email** (so a forgotten password cannot be reset; the
-dialog says so). It lives in the leaderboard worker, so it is offered only
+and a display name — no email** (so there is no reset link; the owner resets
+a forgotten password by hand, below, and the dialog says so). It lives in the leaderboard worker, so it is offered only
 when `VITE_LEADERBOARD_ENDPOINT` is set: a "👤 sign in / create account" link
 in the header (a 👤 icon on the slim phone header during play), and a "keep
 it on all your devices" link next to the streak on the results screen. The
@@ -319,6 +319,17 @@ an `@`.
   unknown username, and sits with register behind a 5/min limiter
   (`LOGIN_LIMITER`: per IP + username for login, per IP for register) that
   **fails closed** when unbound.
+- **Changing and resetting a password.** Signed in, 👤 → **Change password**
+  takes the current password and a new one (`POST /password`; same limiter
+  as login) and signs every other device out. A **forgotten** password has no
+  self-service reset — there is no email to prove ownership with — so the
+  owner, who knows every player, sets a temporary one from their own machine:
+  `npm run account:reset-password -- <username>`
+  (`scripts/reset-password.mjs`; `docs/OPERATIONS.md`). It reproduces both
+  halves of the split KDF (`clientKey` mirrors the browser's `derivePass`; a
+  test pins them together), writes the new hash straight to D1 with the
+  owner's Cloudflare login, and deletes the account's sessions. Streak, scores
+  and name are untouched. Nothing in the worker exposes it.
 - **Worker and site ship separately.** The site deploys on merge, the worker
   by hand, so each tolerates the other's older version: an old worker answers
   account routes with `unknown board` (the dialog says accounts aren't on
@@ -328,9 +339,9 @@ an `@`.
   anti-cheat stays a non-goal. The controls stop accidents, drive-by abuse
   and account takeover. Known, accepted: two accounts cannot be merged;
   display names are not unique (two players can both be "Alex" — usernames
-  are, and the board never shows them); sessions do not expire (with no
-  password reset, an expiry would lock out anyone who forgot theirs — remove
-  a session by signing out, or all of them by hand, `docs/OPERATIONS.md`).
+  are, and the board never shows them); sessions do not expire (an expiry
+  would force a password that people forget — a session ends by signing out,
+  by changing the password elsewhere, or by an owner reset).
 
 ## Bug reports (`worker/bug-report.mjs`, `src/components/BugReport.tsx`)
 

@@ -310,6 +310,28 @@ export async function accountForToken(db, token) {
   return row ?? null
 }
 
+/**
+ * Replace an account's password (a fresh salt each time) and sign it out
+ * everywhere except the session behind `keepToken` — one atomic batch, so a
+ * changed password never leaves the old sessions alive.
+ */
+export async function changeAccountPassword(db, accountId, pass, keepToken) {
+  const salt = randomHex(16)
+  const hash = await hashPass(pass, salt)
+  await db.batch([
+    db
+      .prepare(
+        `DELETE FROM sessions WHERE account_id = ?1 AND token_hash != ?2`,
+      )
+      .bind(accountId, await sha256Hex(keepToken)),
+    db
+      .prepare(
+        `UPDATE accounts SET pass_salt = ?1, pass_hash = ?2 WHERE id = ?3`,
+      )
+      .bind(salt, hash, accountId),
+  ])
+}
+
 export async function renameAccount(db, accountId, name) {
   await db
     .prepare(`UPDATE accounts SET name = ?1 WHERE id = ?2`)

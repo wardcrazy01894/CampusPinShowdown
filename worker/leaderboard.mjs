@@ -19,6 +19,7 @@
  *   POST /logout   { token }                            → {}
  *   POST /me       { token, streak? }  → { username, name, streak, days[] }
  *   POST /name     { token, name }                      → { username, name }
+ *   POST /password { token, pass, newPass }             → { username, name }
  * A token never travels in a URL.
  *
  * SECURITY: a public, unauthenticated endpoint whose abuse surface is
@@ -64,6 +65,7 @@ import {
   openSession,
   closeSession,
   renameAccount,
+  changeAccountPassword,
   foldIntoAccount,
   readProgress,
 } from './accounts-lib.mjs'
@@ -80,7 +82,14 @@ function json(obj, status, headers) {
   })
 }
 
-const ACCOUNT_ROUTES = new Set(['register', 'login', 'logout', 'me', 'name'])
+const ACCOUNT_ROUTES = new Set([
+  'register',
+  'login',
+  'logout',
+  'me',
+  'name',
+  'password',
+])
 const DEFAULT_BOARD = 'usa'
 
 /**
@@ -168,6 +177,26 @@ async function accountRoute(route, body, env, ip, now) {
     if (!n.ok) return [{ error: n.error }, n.status]
     await renameAccount(db, account.id, n.value)
     return [signedIn({ ...account, name: n.value }), 200]
+  }
+
+  if (route === 'password') {
+    // Change the password from a signed-in device. The CURRENT password is
+    // still required (a borrowed, unlocked phone must not be enough to take
+    // the account), behind the same tight limiter as login.
+    if (!isValidPass(body.newPass)) return [{ error: 'invalid password' }, 400]
+    if (!env.LOGIN_LIMITER) return [{ error: 'accounts disabled' }, 503]
+    const gate = await env.LOGIN_LIMITER.limit({
+      key: `${ip}|${account.username}`,
+    })
+    if (!gate.success)
+      return [{ error: 'too many attempts, try again in a minute' }, 429]
+    const current = isValidPass(body.pass)
+      ? await verifyLogin(db, account.username, body.pass)
+      : { ok: false }
+    if (!current.ok) return [{ error: 'wrong password' }, 401]
+    // Whoever else was signed in with the old password is signed out.
+    await changeAccountPassword(db, account.id, body.newPass, body.token)
+    return [signedIn(account), 200]
   }
 
   // route === 'me': fold the device's local streak in, then say what the

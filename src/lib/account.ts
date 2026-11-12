@@ -204,6 +204,22 @@ export const setDisplayName = (token: string, name: string) =>
   post<Identity>('name', { token, name })
 
 /**
+ * Change the password from a signed-in device. The current password is
+ * required; every OTHER device is signed out. Both travel as derived keys.
+ */
+export async function changePassword(
+  account: Account,
+  currentPassword: string,
+  newPassword: string,
+) {
+  return post<Identity>('password', {
+    token: account.token,
+    pass: await derivePass(account.username, currentPassword),
+    newPass: await derivePass(account.username, newPassword),
+  })
+}
+
+/**
  * Who this token is and what the account has. `streak` is this device's own
  * local streak, which the server folds into the account's before answering —
  * that is how an account inherits a streak built before it existed.
