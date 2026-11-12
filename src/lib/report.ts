@@ -17,8 +17,8 @@ export interface ReportContext {
 }
 
 /**
- * Prefill text for a request to ADD a town (from the "is my town in the game?"
- * search). Names the town when we have it so the request is actionable.
+ * Prefill text for a request to ADD a school's town (from the "is my school
+ * in the game?" search). Names what was typed so the request is actionable.
  */
 export function addTownRequestMessage(name: string): string {
   // Strip embedded double-quotes so they can't nest inside the wrapping quotes.
