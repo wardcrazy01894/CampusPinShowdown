@@ -164,11 +164,20 @@ body,
   .is-playing .header-links {
     display: none;
   }
-  .is-playing .icon-button.icon-button--bug {
+  .is-playing .icon-button.icon-button--compact {
     display: inline-flex;
   }
-  /* Title + logo beside the 🐛 + 🔊 buttons: tighter so it fits at 360px,
-     and clipped with an ellipsis rather than overlapping on anything narrower. */
+  /* Title + logo beside the icon buttons (🔎 🐛 🔊): everything a little
+     tighter, and the title clipped with an ellipsis rather than overlapping
+     when it does not fit (it does not at 360px). */
+  .is-playing .header-buttons {
+    gap: 6px;
+  }
+  .is-playing .icon-button {
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+  }
   .brand {
     gap: 8px;
   }
@@ -283,7 +292,7 @@ body,
   font-weight: 800;
   letter-spacing: -0.01em;
   line-height: 1.15;
-  white-space: nowrap; /* one line next to two icon buttons on a phone */
+  white-space: nowrap; /* one line next to the icon buttons on a phone */
 }
 .tagline {
   margin-top: 4px;
@@ -332,10 +341,10 @@ body,
   display: flex;
   gap: 8px;
 }
-/* The 🐛 icon exists for phones during play, where the worded link is hidden
-   (see `.is-playing` below); everywhere else the link in `.header-links`
-   serves, so the icon stays out of the way. */
-.icon-button.icon-button--bug {
+/* The 🔎 and 🐛 icons exist for phones during play, where the worded links
+   are hidden (see `.is-playing` below); everywhere else the links in
+   `.header-links` serve, so the icons stay out of the way. */
+.icon-button.icon-button--compact {
   display: none; /* two classes: beats .icon-button's display below */
 }
 .icon-button {
