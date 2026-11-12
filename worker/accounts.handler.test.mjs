@@ -162,6 +162,62 @@ describe('login / logout / name', () => {
   })
 })
 
+describe('change password (signed in)', () => {
+  const NEW = 'c'.repeat(64)
+  let token
+  beforeEach(async () => {
+    token = (await call('/register', { username: 'spicy_al', pass: PASS }))
+      .token
+  })
+
+  it('needs the current password, then only the new one signs in', async () => {
+    const wrong = await call('/password', {
+      token,
+      pass: 'b'.repeat(64),
+      newPass: NEW,
+    })
+    expect(wrong).toMatchObject({ status: 401, error: 'wrong password' })
+    const ok = await call('/password', { token, pass: PASS, newPass: NEW })
+    expect(ok).toMatchObject({ status: 200, ok: true, username: 'spicy_al' })
+    expect(
+      (await call('/login', { username: 'spicy_al', pass: PASS })).status,
+    ).toBe(401)
+    expect(
+      (await call('/login', { username: 'spicy_al', pass: NEW })).status,
+    ).toBe(200)
+  })
+
+  it('keeps this device signed in and signs every other device out', async () => {
+    const other = await call('/login', { username: 'spicy_al', pass: PASS })
+    await call('/password', { token, pass: PASS, newPass: NEW })
+    expect((await call('/me', { token })).status).toBe(200)
+    expect((await call('/me', { token: other.token })).status).toBe(401)
+  })
+
+  it('rejects a malformed new password, a dead session, and is rate limited like login', async () => {
+    expect(
+      (await call('/password', { token, pass: PASS, newPass: 'hunter2' }))
+        .status,
+    ).toBe(400)
+    expect(
+      (
+        await call('/password', {
+          token: 'f'.repeat(48),
+          pass: PASS,
+          newPass: NEW,
+        })
+      ).status,
+    ).toBe(401)
+    env.LOGIN_LIMITER = { limit: vi.fn(async () => ({ success: false })) }
+    expect(
+      (await call('/password', { token, pass: PASS, newPass: NEW })).status,
+    ).toBe(429)
+    expect(env.LOGIN_LIMITER.limit).toHaveBeenLastCalledWith({
+      key: '203.0.113.7|spicy_al',
+    })
+  })
+})
+
 describe('one account, two devices', () => {
   it('a signed-in score is one board row however many devices post it', async () => {
     const { token } = await call('/register', {

@@ -310,6 +310,24 @@ export async function accountForToken(db, token) {
   return row ?? null
 }
 
+/** Replace an account's password (a fresh salt each time). */
+export async function setPassword(db, accountId, pass) {
+  const salt = randomHex(16)
+  const hash = await hashPass(pass, salt)
+  await db
+    .prepare(`UPDATE accounts SET pass_salt = ?1, pass_hash = ?2 WHERE id = ?3`)
+    .bind(salt, hash, accountId)
+    .run()
+}
+
+/** Sign an account out everywhere except the session behind `keepToken`. */
+export async function closeOtherSessions(db, accountId, keepToken) {
+  await db
+    .prepare(`DELETE FROM sessions WHERE account_id = ?1 AND token_hash != ?2`)
+    .bind(accountId, await sha256Hex(keepToken))
+    .run()
+}
+
 export async function renameAccount(db, accountId, name) {
   await db
     .prepare(`UPDATE accounts SET name = ?1 WHERE id = ?2`)

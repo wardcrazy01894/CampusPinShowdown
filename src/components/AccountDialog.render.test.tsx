@@ -13,6 +13,7 @@ const api = vi.hoisted(() => ({
   login: vi.fn(),
   logout: vi.fn(),
   setDisplayName: vi.fn(),
+  changePassword: vi.fn(),
 }))
 vi.mock('../lib/account', async (importActual) => ({
   ...(await importActual<typeof import('../lib/account')>()),
@@ -201,6 +202,40 @@ describe('AccountDialog — signed in', () => {
     expect((await screen.findByRole('alert')).textContent).toBe(
       'That username is taken. If it’s yours, use Sign in instead.',
     )
+  })
+
+  it('changes the password: current one, a new one of 8+, then a confirmation', async () => {
+    api.changePassword.mockResolvedValueOnce({
+      ok: false,
+      error: 'wrong password',
+      status: 401,
+    })
+    render(<AccountDialog account={AL} onChange={vi.fn()} onClose={vi.fn()} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Change password' }))
+    type(/^Current password/, 'temp-pass-word')
+    type(/^New password/, 'short')
+    fireEvent.click(screen.getByRole('button', { name: 'Save new password' }))
+    expect((await screen.findByRole('alert')).textContent).toMatch(/at least 8/)
+    expect(api.changePassword).not.toHaveBeenCalled()
+
+    type(/^New password/, 'a much better one')
+    fireEvent.click(screen.getByRole('button', { name: 'Save new password' }))
+    expect((await screen.findByRole('alert')).textContent).toBe(
+      'Wrong password.',
+    )
+
+    api.changePassword.mockResolvedValueOnce({ ok: true, ...AL })
+    fireEvent.click(screen.getByRole('button', { name: 'Save new password' }))
+    expect((await screen.findByRole('status')).textContent).toMatch(
+      /Password changed/,
+    )
+    expect(api.changePassword).toHaveBeenLastCalledWith(
+      AL,
+      'temp-pass-word',
+      'a much better one',
+    )
+    // The form closes and the fields are not left holding passwords.
+    expect(screen.queryByLabelText(/^New password/)).toBeNull()
   })
 
   it('closes on back and on Escape', () => {

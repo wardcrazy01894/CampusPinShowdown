@@ -115,6 +115,7 @@ protected. See [`CLAUDE.md`](CLAUDE.md) for the working agreement (PR-only
 | `npm run og-image`                                        | Re-render `public/og-image.png` (the share-unfurl image) after a branding change                         |
 | `npm run worker:dev` / `worker:migrate` / `worker:deploy` | Leaderboard worker + its D1 database ([`worker/README.md`](worker/README.md))                            |
 | `npm run bug:dev` / `bug:deploy`                          | Bug-report worker (needs a `GH_TOKEN` secret in Cloudflare)                                              |
+| `npm run account:reset-password -- <username>`            | Give a player who forgot their password a temporary one ([`docs/OPERATIONS.md`](docs/OPERATIONS.md))     |
 
 ### 🗂️ Repo map
 

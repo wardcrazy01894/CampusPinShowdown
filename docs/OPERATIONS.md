@@ -142,9 +142,22 @@ wrangler d1 execute cps-leaderboard --remote -c worker/wrangler.toml --command "
 wrangler d1 execute cps-leaderboard --remote -c worker/wrangler.toml --command "DELETE FROM sessions WHERE account_id = 12; DELETE FROM scores WHERE client_id = 'acct:12'; DELETE FROM streaks WHERE client_id = 'acct:12'; DELETE FROM accounts WHERE id = 12"
 ```
 
-**Forgotten password:** there is no reset (no email). Remove the account with
-the last command above; the player registers the username again, and the
-device they sign up on vouches for its local streak, so the streak comes back.
+**Forgotten password.** There is no self-service reset (accounts have no
+email), but you know every player, so you reset it for them:
+
+```bash
+npm run account:reset-password -- their_username          # production
+npm run account:reset-password -- their_username --local  # local dev D1
+```
+
+It checks the account exists, sets a random temporary password (printed
+once, like `k7mq-x2hd-9pwe`), and signs the account out on every device.
+Streak, scores and display name are untouched. Send the password to the
+player privately; they sign in with it and choose their own under 👤 →
+**Change password**. It runs `wrangler d1 execute` with your Cloudflare login
+(`wrangler login`), so only you can do it — nothing in the game or the worker
+exposes a reset. Do **not** delete the account to "reset" it: that removes
+its streak and scores on the server.
 
 **Cron limit:** the account's Workers Free plan allows **5 cron triggers per
 account** and they were all taken, so this worker has no `[triggers]` block

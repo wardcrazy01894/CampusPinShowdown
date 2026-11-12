@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import {
   accountUrl,
   accountsEnabled,
+  changePassword,
   derivePass,
   fetchMe,
   friendlyError,
@@ -156,6 +157,26 @@ describe('API calls', () => {
       streak: { current: 5, best: 9, last: '2026-11-12' },
     })
   })
+
+  it('changePassword sends both derived keys, never either password', async () => {
+    const f = vi.fn(async () =>
+      okJson({ ok: true, username: 'spicy_al', name: 'Al' }),
+    )
+    vi.stubGlobal('fetch', f)
+    const r = await changePassword(
+      { token: TOKEN, username: 'spicy_al', name: 'Al' },
+      'old horse 1',
+      'new horse 2',
+    )
+    expect(r.ok).toBe(true)
+    const [url, init] = f.mock.calls[0] as unknown as [string, RequestInit]
+    expect(url).toBe('https://lb.example/password')
+    const body = JSON.parse(String(init.body))
+    expect(body.token).toBe(TOKEN)
+    expect(body.pass).toBe(await derivePass('spicy_al', 'old horse 1'))
+    expect(body.newPass).toBe(await derivePass('spicy_al', 'new horse 2'))
+    expect(String(init.body)).not.toMatch(/horse/)
+  }, 30_000)
 
   it('surfaces the server’s error and status; never throws', async () => {
     vi.stubGlobal(
