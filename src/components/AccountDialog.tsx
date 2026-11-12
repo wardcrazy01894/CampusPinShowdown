@@ -277,9 +277,8 @@ export function AccountDialog({
             device and the longest one carries on.
           </p>
           <p style={{ opacity: 0.8 }}>
-            Just a username and a password. <strong>No email</strong> — so
-            there’s no reset link; if you forget your password, the game’s owner
-            can give you a new one.
+            Just a username and a password. <strong>No email</strong> needed.
+            Forgot your password? The game’s owner can give you a new one.
           </p>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <button
@@ -359,10 +358,7 @@ export function AccountDialog({
               style={input}
             />
             {form === 'register' && (
-              <span style={hint}>
-                At least 8 characters. Keep it somewhere safe — there’s no email
-                to send a reset link to.
-              </span>
+              <span style={hint}>At least 8 characters.</span>
             )}
           </label>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>

@@ -40,6 +40,8 @@ describe('AccountDialog — signed out', () => {
     )
     expect(screen.getByRole('dialog', { name: 'Your account' })).toBeTruthy()
     expect(screen.getByText(/no email/i)).toBeTruthy()
+    // A forgotten password can be reset by the owner now: no scare copy.
+    expect(document.body.textContent).not.toMatch(/can’t be reset|no reset/i)
     expect(screen.getByText(/streak/i)).toBeTruthy()
     expect(screen.getByRole('button', { name: 'Create account' })).toBeTruthy()
     expect(screen.getByRole('button', { name: 'Sign in' })).toBeTruthy()
