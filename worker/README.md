@@ -1,14 +1,21 @@
-# Leaderboard worker (`cps-leaderboard`)
+# Leaderboard + accounts worker (`cps-leaderboard`)
 
 A tiny [Cloudflare Worker](https://workers.cloudflare.com/) + [D1](https://developers.cloudflare.com/d1/)
-(serverless SQLite) behind the **anonymous daily leaderboard**: store a keep-max
-score per `(board, date, device, lineup)` and answer "you placed **Xth of Y**
-today". Its own worker, database and rate-limit namespace — nothing is shared
+(serverless SQLite) behind the **daily leaderboard** and the optional
+**accounts**: store a keep-max score per `(board, date, player, lineup)` and
+answer "you placed **Xth of Y** today". Its own worker, database and rate-limit namespace — nothing is shared
 with KnowYourCity's `kyc-leaderboard` (the code is a port of it).
 
-- **Anonymous.** Identity is a random UUID in the browser's `localStorage`
-  (`cps:clientId`) — no accounts, no names, no PII. `scores.user_id` is
-  reserved (NULL) so a login can be linked later.
+- **Anonymous by default.** Identity is a random UUID in the browser's
+  `localStorage` (`cps:clientId`) — no PII.
+- **Optional accounts** (`accounts-lib.mjs`, migration `0004`): username +
+  password + display name, **no email**. A signed-in player's rows are keyed
+  `acct:<id>` in the same `client_id` column (a device id cannot contain `:`),
+  so they are one competitor across devices and the board shows their display
+  name. Passwords arrive already stretched by the browser and are stretched
+  again with a per-account salt; session tokens are stored as SHA-256 only.
+  Design: `docs/PLAN.md` §Accounts. (`user_id`, reserved in 0001/0002, stays
+  unused.)
 - **Official games only.** The client submits only the real daily; `?shuffle`
   and `?date=` never submit. The worker independently rejects unknown boards
   and any date outside `[UTC today − 2, UTC today + 1]` (the puzzle day is the
@@ -29,10 +36,29 @@ with KnowYourCity's `kyc-leaderboard` (the code is a port of it).
 
 Request/response shape:
 
-- **Submit:** `POST { board: "usa", date, score, clientId, lineup, turnstileToken? }`
-  → `{ ok, rank, total, streak? }` (`streak` = `{ current, best }`).
-- **View:** `GET ?board=usa&date=` → `{ ok, total, scores[] }` — the day's top
-  100 best-per-device scores (desc), anonymous.
+- **Submit:** `POST { board: "usa", date, score, clientId, lineup, rounds?, token?, turnstileToken? }`
+  → `{ ok, rank, total, streak? }` (`streak` = `{ current, best }`). `rounds`
+  is `[[lat, lng, score, hinted], …]` (five, adding up to `score`); with a
+  valid session `token` the score is the account's.
+- **View:** `GET ?board=usa&date=` → `{ ok, total, scores[], names[] }` — the
+  day's top 100 best-per-player scores (desc); `names[i]` is the display name
+  of a signed-in player, `''` otherwise.
+- **Accounts** (all `POST`, JSON; the last path segment is the route; a token
+  never travels in a URL):
+  - `/register { username, pass, name?, clientId? }` → `{ ok, token, username, name }`
+  - `/login { username, pass, clientId? }` → `{ ok, token, username, name }`
+    (one `401 wrong username or password` for every failure)
+  - `/logout { token }` → `{ ok }`
+  - `/me { token, streak? }` → `{ ok, username, name, streak, days[] }` —
+    `streak` in the body is the device's local streak `{ current, best, last }`
+    to merge in; the answer is the account's streak and its results inside the
+    submission window (`{ date, lineup, score, rounds }`). `401` = signed out.
+  - `/name { token, name }` → `{ ok, username, name }`
+
+  `pass` is the 64-hex key the browser derives (PBKDF2), never the password.
+  `clientId` hands the device's anonymous scores and streak to the account.
+  `/register` and `/login` need the `LOGIN_LIMITER` binding (5/min) and fail
+  closed without it.
 
 ## Try it locally first (no production resources)
 
@@ -67,7 +93,10 @@ merge** (see `docs/OPERATIONS.md`).
 
 `worker/leaderboard.test.mjs` (pure validation), `leaderboard-db.test.mjs`
 (the SQL against a real `node:sqlite` with the real migrations),
-`leaderboard.handler.test.mjs` (the request path with a fake D1/KV). All run
+`leaderboard.handler.test.mjs` (the request path with a fake D1/KV),
+`accounts.test.mjs` (validation, the streak merge, the account SQL) and
+`accounts.handler.test.mjs` (the account routes end to end on real SQLite;
+`d1-test-helper.mjs` is the shared adapter). All run
 under `npm test`; `npm run typecheck` includes `tsconfig.worker.json`.
 
 ---

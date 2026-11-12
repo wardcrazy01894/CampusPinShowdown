@@ -36,6 +36,8 @@ import {
   type Standing,
 } from '../lib/leaderboard'
 import { Leaderboard } from './Leaderboard'
+import { accountsEnabled, loadAccount } from '../lib/account'
+import { roundsOf } from '../lib/sync'
 import { tierStats, formatTierStats } from '../lib/stats'
 
 /** Whether the leaderboard endpoint is configured at build time. */
@@ -58,6 +60,11 @@ export interface ResultsProps {
   basemap?: Basemap
   /** When given, the worded basemap toggle is drawn on the recap map. */
   onBasemapChange?: (next: Basemap) => void
+  /** True when signed in to an account (lib/account.ts). */
+  signedIn?: boolean
+  /** Opens the account dialog. When given and signed out, the streak line
+   *  offers to keep the streak across devices. */
+  onOpenAccount?: () => void
 }
 
 /**
@@ -79,6 +86,8 @@ export function Results({
   official,
   basemap = DEFAULT_BASEMAP,
   onBasemapChange,
+  signedIn = false,
+  onOpenAccount,
 }: ResultsProps) {
   const [copied, setCopied] = useState(false)
   // Leaderboard standing: seed from any cached value (instant on reload), then
@@ -119,6 +128,10 @@ export function Results({
         score: totalScore,
         lineup,
         official,
+        // Signed in → the score is the account's; the rounds let its other
+        // devices show this finished day (lib/sync.ts).
+        token: loadAccount()?.token,
+        rounds: roundsOf(results),
       })
       if (!live || !s) return
       setStanding(s)
@@ -247,6 +260,14 @@ export function Results({
       </p>
       <p style={{ opacity: 0.8, marginTop: 0 }}>
         🔥 Streak {shownStreak.current} (best {shownStreak.best})
+        {official && !signedIn && onOpenAccount && accountsEnabled() && (
+          <>
+            {' · '}
+            <button type="button" onClick={onOpenAccount} style={standingLink}>
+              keep it on all your devices
+            </button>
+          </>
+        )}
       </p>
       {standing && (
         <p style={{ marginTop: 0 }}>

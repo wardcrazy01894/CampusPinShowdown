@@ -1,7 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { readFileSync, readdirSync } from 'node:fs'
-// node:sqlite needs Node >= 22.5 (package.json `engines` enforces this).
-import { DatabaseSync } from 'node:sqlite'
+import { freshDb } from './d1-test-helper.mjs'
 import {
   upsertAndRank,
   topScores,
@@ -15,36 +13,6 @@ import {
  * SEMANTICS (what counts as a competitor, what `total` means) are pinned —
  * the handler tests stub D1 entirely.
  */
-
-/** Minimal D1-shaped adapter over node:sqlite for the lib's query helpers. */
-function d1(db) {
-  const wrap = (sql, args) => ({
-    all: () => db.prepare(sql).all(...args),
-    run: () => {
-      const info = db.prepare(sql).run(...args)
-      return { meta: { changes: Number(info.changes) } }
-    },
-    first: () => db.prepare(sql).all(...args)[0] ?? null,
-  })
-  return {
-    // Like real D1, an unbound statement can run directly (pruneIfDue's
-    // marker read has no params) or be bound first.
-    prepare: (sql) => ({
-      ...wrap(sql, []),
-      bind: (...args) => wrap(sql, args),
-    }),
-    batch: async (stmts) => stmts.map((s) => ({ results: s.all() })),
-  }
-}
-
-function freshDb() {
-  const raw = new DatabaseSync(':memory:')
-  const dir = new URL('./migrations/', import.meta.url)
-  for (const f of readdirSync(dir).sort()) {
-    raw.exec(readFileSync(new URL(f, dir), 'utf8'))
-  }
-  return d1(raw)
-}
 
 let db
 beforeEach(() => {
@@ -101,6 +69,7 @@ describe('topScores board (deduped to per-device best)', () => {
     await submit('device-B', 300, 'aaaa')
     expect(await topScores(db, 'usa', DAY)).toEqual({
       scores: [400, 300],
+      names: ['', ''],
       total: 2,
     })
   })
@@ -109,6 +78,7 @@ describe('topScores board (deduped to per-device best)', () => {
     for (let i = 0; i < 5; i++) await submit(`device-${i}`, 100 + i, 'aaaa')
     expect(await topScores(db, 'usa', DAY, 3)).toEqual({
       scores: [104, 103, 102],
+      names: ['', '', ''],
       total: 5,
     })
   })

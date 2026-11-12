@@ -43,28 +43,29 @@ tests (`*.render.test.tsx`, jsdom). Never mock the unit under test.
 If a change affects documented behavior, update the docs in the **same PR** —
 never in a follow-up. The PR template has the checklist.
 
-| Change touches…                                                               | Update / verify                                                         |
-| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `src/lib/daily.ts`                                                            | PLAN §Daily selection                                                   |
-| `src/lib/scoring.ts`                                                          | PLAN §Scoring (constants, curve)                                        |
-| `src/lib/hintRegions.ts`, hint UI in Game.tsx                                 | PLAN §Game loop (hint mode)                                             |
-| `src/components/MapGuess.tsx`, `src/lib/tiles.ts`                             | PLAN §Map                                                               |
-| `src/components/RecapMap.tsx`, Results rows                                   | PLAN §Game loop (day recap)                                             |
-| `src/components/SchoolCard.tsx`, `src/lib/schoolFacts.ts`                     | PLAN §Game loop (school card)                                           |
-| `scripts/build-schools*.mjs`, `data/schools-seed.json`, `public/schools.json` | `docs/DATA.md` §School facts (schema, sources, how to add)              |
-| `src/lib/stats.ts`, `DayRecord` shape                                         | PLAN §Modes, storage (lifetime stats)                                   |
-| `src/lib/version.ts`, `src/lib/mode.ts`, App                                  | PLAN §Rollover + auto-reload                                            |
-| `worker/*`, `src/lib/leaderboard.ts`, Leaderboard                             | PLAN §Leaderboard + `worker/README.md` + OPERATIONS §Leaderboard worker |
-| `worker/bug-report*`, `src/lib/report.ts`, BugReport                          | PLAN §Bug reports + `worker/README.md` + OPERATIONS §Bug worker         |
-| `scripts/build-towns.mjs`, `data/towns-seed.json`                             | `docs/DATA.md` (schema, tiers, how to add a town)                       |
-| `src/lib/schools.ts` (prompt rule), seed `prompt`                             | PLAN §Game loop + DATA §Which school gets asked                         |
-| `public/towns.json`                                                           | Counts in README + DATA                                                 |
-| `.github/workflows/*`, `scripts/protect-main.sh`                              | `docs/OPERATIONS.md` + this file's CI-checks list                       |
-| `vite.config.ts` (`base`), `index.html` URLs                                  | `docs/OPERATIONS.md` §Live site / §Custom domain                        |
-| `scripts/og-image/*`, `public/og-image.png`                                   | `docs/OPERATIONS.md` §Share image                                       |
-| `.github/dependabot.yml`                                                      | `docs/OPERATIONS.md` §Dependency updates                                |
-| `eslint.config.js`                                                            | A comment in the config saying why a rule was changed                   |
-| `package.json` scripts / engines                                              | README + this file's command list                                       |
+| Change touches…                                                                   | Update / verify                                                         |
+| --------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `src/lib/daily.ts`                                                                | PLAN §Daily selection                                                   |
+| `src/lib/scoring.ts`                                                              | PLAN §Scoring (constants, curve)                                        |
+| `src/lib/hintRegions.ts`, hint UI in Game.tsx                                     | PLAN §Game loop (hint mode)                                             |
+| `src/components/MapGuess.tsx`, `src/lib/tiles.ts`                                 | PLAN §Map                                                               |
+| `src/components/RecapMap.tsx`, Results rows                                       | PLAN §Game loop (day recap)                                             |
+| `src/components/SchoolCard.tsx`, `src/lib/schoolFacts.ts`                         | PLAN §Game loop (school card)                                           |
+| `scripts/build-schools*.mjs`, `data/schools-seed.json`, `public/schools.json`     | `docs/DATA.md` §School facts (schema, sources, how to add)              |
+| `src/lib/stats.ts`, `DayRecord` shape                                             | PLAN §Modes, storage (lifetime stats)                                   |
+| `src/lib/version.ts`, `src/lib/mode.ts`, App                                      | PLAN §Rollover + auto-reload                                            |
+| `worker/*`, `src/lib/leaderboard.ts`, Leaderboard                                 | PLAN §Leaderboard + `worker/README.md` + OPERATIONS §Leaderboard worker |
+| `worker/accounts-lib.mjs`, `src/lib/account.ts`, `src/lib/sync.ts`, AccountDialog | PLAN §Accounts + `worker/README.md` + OPERATIONS §Leaderboard worker    |
+| `worker/bug-report*`, `src/lib/report.ts`, BugReport                              | PLAN §Bug reports + `worker/README.md` + OPERATIONS §Bug worker         |
+| `scripts/build-towns.mjs`, `data/towns-seed.json`                                 | `docs/DATA.md` (schema, tiers, how to add a town)                       |
+| `src/lib/schools.ts` (prompt rule), seed `prompt`                                 | PLAN §Game loop + DATA §Which school gets asked                         |
+| `public/towns.json`                                                               | Counts in README + DATA                                                 |
+| `.github/workflows/*`, `scripts/protect-main.sh`                                  | `docs/OPERATIONS.md` + this file's CI-checks list                       |
+| `vite.config.ts` (`base`), `index.html` URLs                                      | `docs/OPERATIONS.md` §Live site / §Custom domain                        |
+| `scripts/og-image/*`, `public/og-image.png`                                       | `docs/OPERATIONS.md` §Share image                                       |
+| `.github/dependabot.yml`                                                          | `docs/OPERATIONS.md` §Dependency updates                                |
+| `eslint.config.js`                                                                | A comment in the config saying why a rule was changed                   |
+| `package.json` scripts / engines                                                  | README + this file's command list                                       |
 
 ## Lint rule policy
 

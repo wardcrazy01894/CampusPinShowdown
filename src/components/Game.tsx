@@ -55,6 +55,14 @@ export interface GameProps {
   basemap?: Basemap
   /** When given, a worded toggle is drawn on each map (App owns the state). */
   onBasemapChange?: (next: Basemap) => void
+  /** Bumped by App when account sync (lib/sync.ts) changed the save under
+   *  this mounted game — the streak is re-read from storage. (A REPLACED game
+   *  remounts instead: App changes the key.) */
+  syncEpoch?: number
+  /** True when signed in to an account. */
+  signedIn?: boolean
+  /** Opens the account dialog; Results offers it to a signed-out player. */
+  onOpenAccount?: () => void
 }
 
 export function Game({
@@ -66,6 +74,9 @@ export function Game({
   onPhaseChange,
   basemap = DEFAULT_BASEMAP,
   onBasemapChange,
+  syncEpoch = 0,
+  signedIn = false,
+  onOpenAccount,
 }: GameProps) {
   // One read of saved state at mount, shared by both the game + streak init.
   const [initial] = useState(() => loadState(storageId))
@@ -80,6 +91,13 @@ export function Game({
       : null,
   )
   const [streak, setStreak] = useState(initial.streak)
+  // Account sync wrote a new streak to storage while this game is mounted:
+  // adopt it (state adjusted during render — no effect, no extra paint).
+  const [seenEpoch, setSeenEpoch] = useState(syncEpoch)
+  if (seenEpoch !== syncEpoch) {
+    setSeenEpoch(syncEpoch)
+    setStreak(loadState(storageId).streak)
+  }
 
   useEffect(() => {
     onPhaseChange?.(game.phase)
@@ -236,6 +254,8 @@ export function Game({
         basemap={basemap}
         onBasemapChange={onBasemapChange}
         official={official}
+        signedIn={signedIn}
+        onOpenAccount={onOpenAccount}
       />
     )
   }

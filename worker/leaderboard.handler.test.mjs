@@ -139,6 +139,8 @@ describe('leaderboard worker handler', () => {
       ok: true,
       total: 12,
       scores: [480, 455, 420],
+      // Anonymous devices have no name ('' → the board shows none).
+      names: ['', '', ''],
     })
   })
 

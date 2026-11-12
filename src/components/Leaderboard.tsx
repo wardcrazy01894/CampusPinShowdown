@@ -1,6 +1,7 @@
 /**
- * Leaderboard — the day's top scores. Anonymous: the server returns scores
- * only (no names, no ids). We rank them (ties share a rank) and highlight the
+ * Leaderboard — the day's top scores. A signed-in player's row carries their
+ * display name; an anonymous one shows the rank and score only (the server
+ * never returns ids). We rank them (ties share a rank) and highlight the
  * viewer's own score; if they placed outside the shown top-N their standing is
  * shown as a separate line. Read-only and best-effort: a load failure shows a
  * friendly empty state, never an error that blocks the results screen.
@@ -17,6 +18,7 @@ import {
   type LeaderboardRow,
   type Standing,
 } from '../lib/leaderboard'
+import { loadAccount } from '../lib/account'
 
 export interface LeaderboardProps {
   dateKey: string
@@ -65,6 +67,9 @@ export function Leaderboard({
         rows: buildLeaderboardRows(
           data.scores,
           yourStanding && yourScore !== undefined ? [yourScore] : [],
+          data.names,
+          // Signed in: among tied scores, the row with our own name is ours.
+          loadAccount()?.name,
         ),
         total: data.total,
         you,
@@ -144,6 +149,7 @@ export function Leaderboard({
               >
                 <span style={{ opacity: 0.85 }}>
                   {medal(r.rank)} {ordinal(r.rank)}
+                  {r.name && <span> · {r.name}</span>}
                   {r.you && <span style={{ color: '#7fb2ff' }}> · you</span>}
                 </span>
                 <span>

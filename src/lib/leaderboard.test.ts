@@ -209,12 +209,72 @@ describe('fetchLeaderboard', () => {
         }
       }),
     )
+    // A worker from before accounts sends no names: every row is anonymous.
     expect(await fetchLeaderboard('2026-10-29')).toEqual({
       total: 9,
       scores: [500, 480],
+      names: ['', ''],
     })
     expect(calledUrl).toContain(`board=${BOARD}`)
     expect(calledUrl).toContain('date=2026-10-29')
+  })
+})
+
+describe('fetchLeaderboard names', () => {
+  it('keeps each display name paired with its score', async () => {
+    vi.stubEnv('VITE_LEADERBOARD_ENDPOINT', 'https://lb.example/')
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({
+        ok: true,
+        json: async () => ({
+          total: 3,
+          scores: [500, 'junk', 480],
+          names: ['Spicy Al', 'Dropped', 7],
+        }),
+      })),
+    )
+    expect(await fetchLeaderboard('2026-10-29')).toEqual({
+      total: 3,
+      scores: [500, 480],
+      names: ['Spicy Al', ''],
+    })
+  })
+})
+
+describe('signed-in submissions', () => {
+  it('the payload carries the session token and the rounds', () => {
+    const rounds: [number, number, number, number][] = [[42, -83, 100, 0]]
+    const p = buildSubmitPayload({
+      dateKey: '2026-10-29',
+      score: 100,
+      lineup: 'abc123',
+      official: true,
+      token: 'f'.repeat(48),
+      rounds,
+    })
+    expect(p.token).toBe('f'.repeat(48))
+    expect(p.rounds).toEqual(rounds)
+  })
+
+  it('`force` re-posts past a cached standing (handing a day to the account)', async () => {
+    vi.stubEnv('VITE_LEADERBOARD_ENDPOINT', 'https://lb.example')
+    const f = vi.fn(async () => ({
+      ok: true,
+      json: async () => ({ rank: 1, total: 1 }),
+    }))
+    vi.stubGlobal('fetch', f)
+    const args = {
+      dateKey: '2026-10-29',
+      score: 420,
+      lineup: 'abc123',
+      official: true,
+    }
+    await submitDailyScore(args)
+    await submitDailyScore(args) // cached: no second POST
+    expect(f).toHaveBeenCalledTimes(1)
+    await submitDailyScore({ ...args, force: true })
+    expect(f).toHaveBeenCalledTimes(2)
   })
 })
 
@@ -242,10 +302,10 @@ describe('mergeStreak', () => {
 describe('buildLeaderboardRows', () => {
   it('ranks highest-first with ties sharing a rank and flags the viewer once', () => {
     expect(buildLeaderboardRows([420, 480, 480, 300])).toEqual([
-      { rank: 1, score: 480, you: false },
-      { rank: 1, score: 480, you: false },
-      { rank: 3, score: 420, you: false },
-      { rank: 4, score: 300, you: false },
+      { rank: 1, score: 480, name: '', you: false },
+      { rank: 1, score: 480, name: '', you: false },
+      { rank: 3, score: 420, name: '', you: false },
+      { rank: 4, score: 300, name: '', you: false },
     ])
     const rows = buildLeaderboardRows([480, 420, 420], [420])
     expect(rows.filter((r) => r.you)).toHaveLength(1)
@@ -253,6 +313,30 @@ describe('buildLeaderboardRows', () => {
     expect(buildLeaderboardRows([480, 420], [333]).some((r) => r.you)).toBe(
       false,
     )
+  })
+})
+
+describe('buildLeaderboardRows with names', () => {
+  it('carries each name on its row, in rank order', () => {
+    expect(
+      buildLeaderboardRows([420, 480], [], ['Late Larry', 'Spicy Al']),
+    ).toEqual([
+      { rank: 1, score: 480, name: 'Spicy Al', you: false },
+      { rank: 2, score: 420, name: 'Late Larry', you: false },
+    ])
+  })
+  it('among tied scores, highlights the row with the viewer’s own name', () => {
+    const rows = buildLeaderboardRows(
+      [480, 480, 480],
+      [480],
+      ['', 'Stranger', 'Spicy Al'],
+      'Spicy Al',
+    )
+    expect(rows.map((r) => r.you)).toEqual([false, false, true])
+  })
+  it('falls back to the first equal score when the name is not on the list', () => {
+    const rows = buildLeaderboardRows([480, 480], [480], ['', ''], 'Spicy Al')
+    expect(rows.map((r) => r.you)).toEqual([true, false])
   })
 })
 

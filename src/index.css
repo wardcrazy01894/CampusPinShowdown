@@ -164,7 +164,7 @@ body,
   .is-playing .header-links {
     display: none;
   }
-  .is-playing .icon-button.icon-button--bug {
+  .is-playing .icon-button.icon-button--compact {
     display: inline-flex;
   }
   /* Title + logo beside the 🐛 + 🔊 buttons: tighter so it fits at 360px,
@@ -332,10 +332,10 @@ body,
   display: flex;
   gap: 8px;
 }
-/* The 🐛 icon exists for phones during play, where the worded link is hidden
-   (see `.is-playing` below); everywhere else the link in `.header-links`
-   serves, so the icon stays out of the way. */
-.icon-button.icon-button--bug {
+/* The 🐛 and 👤 icons exist for phones during play, where the worded links
+   are hidden (see `.is-playing` below); everywhere else the links in
+   `.header-links` serve, so the icons stay out of the way. */
+.icon-button.icon-button--compact {
   display: none; /* two classes: beats .icon-button's display below */
 }
 .icon-button {

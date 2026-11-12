@@ -266,7 +266,7 @@ describe('App — the bug report stays reachable while the phone header is slim'
     await screen.findByText(/Round 1 of 5/)
     const icon = screen.getByRole('button', { name: 'Report a bug' })
     expect(icon.closest('.site-header__inner')).toBeTruthy()
-    expect(icon.classList.contains('icon-button--bug')).toBe(true)
+    expect(icon.classList.contains('icon-button--compact')).toBe(true)
     fireEvent.click(icon)
     expect(
       screen.getByRole('heading', { level: 2, name: '🐛 Report a bug' }),

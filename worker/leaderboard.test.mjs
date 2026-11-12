@@ -225,6 +225,7 @@ describe('validateSubmission', () => {
         score: 420,
         clientId: CLIENT,
         lineup: '',
+        rounds: null,
       },
     })
   })

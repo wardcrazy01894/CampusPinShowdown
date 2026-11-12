@@ -13,7 +13,16 @@ import {
   versionCheckAction,
   shouldDeferReload,
 } from './lib/version'
-import { loadState } from './lib/storage'
+import { loadState, resetForSignOut } from './lib/storage'
+import {
+  accountsEnabled,
+  loadAccount,
+  saveAccount,
+  type Account,
+} from './lib/account'
+import { syncProgress } from './lib/sync'
+import { shouldStartFresh } from './lib/devmode'
+import { AccountDialog } from './components/AccountDialog'
 import type { TownsFile, Town, GamePhase } from './types'
 import { getDateKey, selectDailyTowns, dailyLineup } from './lib/daily'
 import { resolveMode, resolveSessionMode, type Mode } from './lib/mode'
@@ -53,6 +62,16 @@ export function App() {
   // The in-app bug/request form (an overlay, like the search). `null` =
   // closed; a string = open, prefilled with that text ('' for a blank form).
   const [reporting, setReporting] = useState<string | null>(null)
+  // Optional account (lib/account.ts): this device's sign-in, the dialog
+  // (an overlay, like the two above), and two counters the sync bumps —
+  // `gameEpoch` remounts the Game when today's game was replaced by the one
+  // finished on another device; `syncEpoch` tells a mounted Game to re-read
+  // the streak.
+  const [account, setAccount] = useState<Account | null>(loadAccount)
+  const [accountOpen, setAccountOpen] = useState(false)
+  const [gameEpoch, setGameEpoch] = useState(0)
+  const [syncEpoch, setSyncEpoch] = useState(0)
+  const [syncAsk, setSyncAsk] = useState(0)
   // Today's game phase, reported by <Game>. The town search is offered only
   // once the day is FINISHED: mid-round, typing the prompt's school into it
   // would list "Ann Arbor, MI" — the whole answer. (Review finding on PR #5.)
@@ -134,7 +153,31 @@ export function App() {
     }
   }, [])
 
-  // Load the dataset once.
+  function changeAccount(next: Account | null) {
+    const signedOut = account !== null && next === null
+    saveAccount(next)
+    setAccount(next)
+    if (signedOut) {
+      // The streak and today's game were the account's: this device goes back
+      // to a fresh anonymous player (storage.ts:resetForSignOut says why).
+      resetForSignOut(REGION.id)
+      setGameEpoch((n) => n + 1)
+      log.info('App', 'signed out')
+    }
+  }
+
+  // Cross-device sync (lib/sync.ts), signed in only: on load, on signing in,
+  // and whenever the tab comes back. Official daily only — a ?shuffle/?date
+  // session has nothing of the account's, and ?reset is asking to replay.
+  const token = account?.token
+  useEffect(() => {
+    const onVisible = () => {
+      if (!document.hidden) setSyncAsk((n) => n + 1)
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => document.removeEventListener('visibilitychange', onVisible)
+  }, [])
+
   useEffect(() => {
     let live = true
     loadTowns()
@@ -180,6 +223,40 @@ export function App() {
   const today = selection.picks
   const error = loadError ?? selection.error
 
+  const syncable =
+    accountsEnabled() && mode.official && !shouldStartFresh(search)
+  useEffect(() => {
+    if (!syncable || !token || !today) return
+    // No "is this effect still live?" guard on purpose: the save is written
+    // either way, so the remount/re-read below must follow it.
+    void syncProgress({
+      token,
+      storageId: mode.storageId,
+      dateKey: mode.dateKey,
+      towns: today,
+    }).then((r) => {
+      if (r.status === 'signed-out') {
+        // The server no longer knows this session (signed out elsewhere, or
+        // it aged out). Not the player's choice, so the save is left alone.
+        log.info('App', 'session ended by the server')
+        saveAccount(null)
+        setAccount((a) => (a?.token === token ? null : a))
+        return
+      }
+      if (r.status !== 'ok') return
+      setAccount((a) => {
+        if (!a || a.token !== token || !r.username) return a
+        if (a.name === r.name && a.username === r.username) return a
+        // Renamed on another device.
+        const next = { ...a, username: r.username, name: r.name ?? a.name }
+        saveAccount(next)
+        return next
+      })
+      if (r.gameReplaced) setGameEpoch((n) => n + 1)
+      if (r.changed) setSyncEpoch((n) => n + 1)
+    })
+  }, [syncable, token, today, mode.storageId, mode.dateKey, syncAsk])
+
   function toggleMute() {
     const next = !muted
     setMuted(next)
@@ -210,7 +287,16 @@ export function App() {
           />
         </div>
       )}
-      {searching && finished && reporting === null && (
+      {accountOpen && reporting === null && (
+        <div style={overlay}>
+          <AccountDialog
+            account={account}
+            onChange={changeAccount}
+            onClose={() => setAccountOpen(false)}
+          />
+        </div>
+      )}
+      {searching && finished && reporting === null && !accountOpen && (
         <div style={overlay}>
           <TownSearch
             towns={file.towns}
@@ -261,20 +347,39 @@ export function App() {
                 >
                   🐛 report a bug
                 </button>
+                {accountsEnabled() && (
+                  <button
+                    onClick={() => setAccountOpen(true)}
+                    className="link-button"
+                  >
+                    👤 {account ? account.name : 'sign in / create account'}
+                  </button>
+                )}
               </div>
             </div>
           </div>
           <div className="header-buttons">
             {/* Phones hide the header links during play (index.css), so the
-                bug report keeps a seat here; CSS shows this only then. */}
+                bug report and the account keep a seat here; CSS shows these
+                two only then. */}
             <button
               onClick={() => setReporting('')}
               aria-label="Report a bug"
               title="Report a bug"
-              className="icon-button icon-button--bug"
+              className="icon-button icon-button--compact"
             >
               🐛
             </button>
+            {accountsEnabled() && (
+              <button
+                onClick={() => setAccountOpen(true)}
+                aria-label={account ? 'Your account' : 'Sign in'}
+                title={account ? `Signed in as ${account.username}` : 'Sign in'}
+                className="icon-button icon-button--compact"
+              >
+                👤
+              </button>
+            )}
             <button
               onClick={toggleMute}
               aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
@@ -288,7 +393,13 @@ export function App() {
       </header>
       <Game
         // Remount on a seed change so a ?shuffle / rollover never carries state.
-        key={mode.selectionSeed}
+        // …and when account sync replaced today's game (gameEpoch).
+        key={`${mode.selectionSeed}:${gameEpoch}`}
+        syncEpoch={syncEpoch}
+        signedIn={account !== null}
+        onOpenAccount={
+          accountsEnabled() ? () => setAccountOpen(true) : undefined
+        }
         storageId={mode.storageId}
         dateKey={mode.dateKey}
         bounds={REGION.bounds}

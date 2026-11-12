@@ -5,6 +5,7 @@ import {
   saveState,
   clearState,
   applyStartupReset,
+  resetForSignOut,
   STORAGE_VERSION,
   type PersistedState,
 } from './storage'
@@ -241,5 +242,25 @@ describe('applyStartupReset', () => {
     saveState('usa', sample())
     expect(applyStartupReset(null)).toBe(false)
     expect(loadState('usa')).not.toEqual(defaultState())
+  })
+})
+
+describe('resetForSignOut', () => {
+  it('drops the streak and today’s game (the account’s), keeps the history', () => {
+    const history = [{ dateKey: '2026-11-11', totalScore: 400, results: [] }]
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history,
+      streak: { current: 12, best: 14, lastPlayedDateKey: '2026-11-12' },
+      current: {
+        dateKey: '2026-11-12',
+        towns: [],
+        roundIndex: 0,
+        results: [],
+        phase: 'finished',
+      },
+    })
+    resetForSignOut('usa')
+    expect(loadState('usa')).toEqual({ ...defaultState(), history })
   })
 })

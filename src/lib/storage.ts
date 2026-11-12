@@ -114,6 +114,19 @@ export function clearCurrent(storageId: string): void {
 }
 
 /**
+ * Signing out hands the device back to a fresh anonymous player: the streak
+ * and today's game belong to the ACCOUNT (they are safe on the server and
+ * return on the next sign-in), so they are dropped here — otherwise the next
+ * person to sign in on this device would inherit them (sync.ts sends the
+ * local streak to the account as a claim). The history stays: it only feeds
+ * this device's lifetime per-tier averages and never leaves it.
+ */
+export function resetForSignOut(storageId: string): void {
+  const state = loadState(storageId)
+  saveState(storageId, { ...defaultState(), history: state.history })
+}
+
+/**
  * Clears the in-progress/finished game on load when the URL asks for it
  * (`?reset`/`?fresh`/`?shuffle`) — see src/lib/devmode.ts. For the official
  * daily, history and streak are preserved; the `?shuffle` scratch namespace is
