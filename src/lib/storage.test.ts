@@ -263,4 +263,25 @@ describe('resetForSignOut', () => {
     resetForSignOut('usa')
     expect(loadState('usa')).toEqual({ ...defaultState(), history })
   })
+
+  it('forgets the dropped day in the history too, and whose save it was', () => {
+    // Otherwise replaying that day anonymously would count as "already
+    // recorded": no history row, and a streak stuck at 0 after a finished day.
+    const older = { dateKey: '2026-11-11', totalScore: 400, results: [] }
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      owner: 'spicy_al',
+      history: [older, { dateKey: '2026-11-12', totalScore: 300, results: [] }],
+      streak: { current: 12, best: 14, lastPlayedDateKey: '2026-11-12' },
+      current: {
+        dateKey: '2026-11-12',
+        towns: [],
+        roundIndex: 0,
+        results: [],
+        phase: 'finished',
+      },
+    })
+    resetForSignOut('usa')
+    expect(loadState('usa')).toEqual({ ...defaultState(), history: [older] })
+  })
 })

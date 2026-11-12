@@ -143,6 +143,8 @@ export function Game({
       setStreak(st)
     }
     saveState(storageId, {
+      // Keep whatever else the save carries (e.g. `owner`, lib/sync.ts).
+      ...p,
       version: STORAGE_VERSION,
       current: next,
       history,

@@ -14,7 +14,6 @@ import {
   type Account,
   friendlyError,
   login,
-  logout,
   passwordProblem,
   register,
   setDisplayName,
@@ -24,8 +23,15 @@ import {
 export interface AccountDialogProps {
   /** This device's sign-in, or null when signed out. */
   account: Account | null
-  /** Signed in / renamed (an Account) or signed out (null). App persists it. */
-  onChange: (next: Account | null) => void
+  /** Signed in or renamed. App persists it. */
+  onChange: (next: Account) => void
+  /**
+   * Sign this device out (App: save progress to the account, end the
+   * session, reset the device). Resolves 'unsaved' — and does NOT sign out —
+   * when the server could not be reached to save progress first and `force`
+   * is false; the dialog then asks once more.
+   */
+  onSignOut?: (force: boolean) => Promise<'done' | 'unsaved'>
   onClose: () => void
 }
 
@@ -34,8 +40,11 @@ type Form = 'none' | 'register' | 'login'
 export function AccountDialog({
   account,
   onChange,
+  onSignOut,
   onClose,
 }: AccountDialogProps) {
+  // True after a sign-out was held back because progress could not be saved.
+  const [unsaved, setUnsaved] = useState(false)
   const [form, setForm] = useState<Form>('none')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -81,7 +90,11 @@ export function AccountDialog({
           form === 'register'
             ? await register(username, password, name)
             : await login(username, password)
-        if (!r.ok) return friendlyError(r)
+        if (!r.ok)
+          return form === 'register' && r.status === 409
+            ? // Also what a retry sees if the first try did create it.
+              `${friendlyError(r)} If it’s yours, use Sign in instead.`
+            : friendlyError(r)
         setPassword('')
         setName(r.name)
         setForm('none')
@@ -103,12 +116,13 @@ export function AccountDialog({
 
   const signOut = () =>
     run(async () => {
-      if (!account) return
-      // Best effort: with no connection the session lingers on the server
-      // (it ages out), but this device is signed out either way.
-      await logout(account.token)
+      if (!account || !onSignOut) return
+      if ((await onSignOut(unsaved)) === 'unsaved') {
+        setUnsaved(true)
+        return 'Couldn’t reach the server, so this device’s latest progress hasn’t been saved to your account. Try again when you’re online — or sign out anyway and lose it.'
+      }
+      setUnsaved(false)
       setName('')
-      onChange(null)
     }, 'Signed out.')
 
   return (
@@ -161,7 +175,7 @@ export function AccountDialog({
             onClick={signOut}
             style={secondary}
           >
-            Sign out
+            {unsaved ? 'Sign out anyway' : 'Sign out'}
           </button>
           <p style={hint}>
             Signing out returns this device to a fresh anonymous player. Your

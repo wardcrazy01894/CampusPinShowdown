@@ -291,11 +291,20 @@ an `@`.
   (`gameEpoch`) and has it re-read the streak otherwise (`syncEpoch`), so a
   pin being placed is never disturbed by a streak-only update. Not synced: a
   game in progress, the lifetime per-tier history, display preferences.
-- **Signing out** (`resetForSignOut`) returns the device to a fresh anonymous
-  player: the streak and today's game are dropped locally (they are the
-  account's and return on the next sign-in — otherwise the next person to sign
-  in on a shared device would inherit them through the claim); the history
-  stays. A session the **server** ended (`/me` → 401) only clears the token.
+- **Signing out** first syncs once more, so the account gets whatever only
+  this device has (a day finished offline, a streak the server missed); if
+  the server can't be reached the dialog says the progress isn't saved and
+  signs out only on a second, explicit "Sign out anyway". It then returns the
+  device to a fresh anonymous player (`resetForSignOut`): the streak and
+  today's game are dropped locally (they are the account's and return on the
+  next sign-in), along with that day's history row so an anonymous replay is
+  recorded normally; the rest of the history stays.
+- **Whose save it is.** A synced save is stamped with its account
+  (`PersistedState.owner`). A session the **server** ended (`/me` → 401: the
+  account signed in on more than ten devices) only clears the token and keeps
+  the save, so the same player signing back in loses nothing — and if a
+  _different_ account signs in on that device, `syncProgress` sees the stamp,
+  resets the save first, and claims nothing of the previous player's.
 - **Passwords** use a split KDF: the browser stretches the password
   (PBKDF2-SHA256, 150k iterations, salted with the username) and sends only
   that key; the worker stretches it again (1,000 iterations, random
@@ -311,9 +320,11 @@ an `@`.
   the board (`scores` kept its shape).
 - **Trust model:** unchanged — scores and streaks are client-computed, so
   anti-cheat stays a non-goal. The controls stop accidents, drive-by abuse
-  and account takeover. Known, accepted: two accounts cannot be merged; a
-  device whose session the server ended keeps its local streak, so whoever
-  signs in next on it inherits it.
+  and account takeover. Known, accepted: two accounts cannot be merged;
+  display names are not unique (two players can both be "Alex" — usernames
+  are, and the board never shows them); sessions do not expire (with no
+  password reset, an expiry would lock out anyone who forgot theirs — remove
+  a session by signing out, or all of them by hand, `docs/OPERATIONS.md`).
 
 ## Bug reports (`worker/bug-report.mjs`, `src/components/BugReport.tsx`)
 

@@ -226,8 +226,26 @@ describe('App — cross-device sync', () => {
   })
 })
 
+describe('App — whose save', () => {
+  it('stamps the save with the account, and playing on keeps the stamp', async () => {
+    saveAccount(AL)
+    render(<App />)
+    await screen.findByText(/Round 1 of 5/)
+    await waitFor(() => expect(loadState('usa').owner).toBe('spicy_al'))
+    // Any game transition rewrites the save; the stamp must survive it.
+    fireEvent.click(screen.getByRole('button', { name: /Reveal the region/ }))
+    expect(loadState('usa').current?.hintUsed).toBe(true)
+    expect(loadState('usa').owner).toBe('spicy_al')
+  })
+})
+
 describe('App — signing out', () => {
-  it('returns the device to a fresh anonymous player', async () => {
+  const signOut = async (label = 'Sign out') => {
+    fireEvent.click(screen.getByRole('button', { name: /👤 Spicy Al/ }))
+    fireEvent.click(await screen.findByRole('button', { name: label }))
+  }
+
+  it('saves progress to the account, then returns the device to a fresh anonymous player', async () => {
     saveAccount(AL)
     saveState('usa', {
       ...defaultState(),
@@ -235,10 +253,39 @@ describe('App — signing out', () => {
     })
     render(<App />)
     await screen.findByText(/Round 1 of 5/)
-    fireEvent.click(screen.getByRole('button', { name: /👤 Spicy Al/ }))
-    fireEvent.click(screen.getByRole('button', { name: 'Sign out' }))
+    await waitFor(() => expect(posts.length).toBeGreaterThan(0))
+    posts.length = 0
+    await signOut()
     await waitFor(() => expect(loadAccount()).toBeNull())
     expect(loadState('usa').streak.current).toBe(0)
-    expect(posts.some((p) => p.url.endsWith('/logout'))).toBe(true)
+    // The last word to the server before /logout is the device's streak.
+    const routes = posts.map((p) => p.url.split('/').pop())
+    expect(routes.indexOf('me')).toBeGreaterThanOrEqual(0)
+    expect(routes.indexOf('me')).toBeLessThan(routes.indexOf('logout'))
+    expect(posts.find((p) => p.url.endsWith('/me'))?.body.streak).toEqual({
+      current: 12,
+      best: 12,
+      last: TODAY,
+    })
+  })
+
+  it('does not wipe unsaved progress when the server cannot be reached — unless asked twice', async () => {
+    saveAccount(AL)
+    saveState('usa', {
+      ...defaultState(),
+      streak: { current: 12, best: 12, lastPlayedDateKey: TODAY },
+    })
+    me = { status: 503, body: { error: 'accounts unavailable' } }
+    render(<App />)
+    await screen.findByText(/Round 1 of 5/)
+    await signOut()
+    expect((await screen.findByRole('alert')).textContent).toMatch(
+      /hasn’t been saved/,
+    )
+    expect(loadAccount()).not.toBeNull()
+    expect(loadState('usa').streak.current).toBe(12)
+    fireEvent.click(screen.getByRole('button', { name: 'Sign out anyway' }))
+    await waitFor(() => expect(loadAccount()).toBeNull())
+    expect(loadState('usa').streak.current).toBe(0)
   })
 })

@@ -32,6 +32,13 @@ export interface PersistedState {
   /** Completed days, newest last. */
   history: DayRecord[]
   streak: Streak
+  /**
+   * Username of the account this save was last synced to (lib/sync.ts).
+   * Absent for a device that has never signed in. It stops one player's
+   * streak and finished day being offered to a DIFFERENT account that signs
+   * in on the same device later.
+   */
+  owner?: string
 }
 
 /** Returns persisted state for a namespace, or a fresh default on miss/corruption. */
@@ -118,12 +125,19 @@ export function clearCurrent(storageId: string): void {
  * and today's game belong to the ACCOUNT (they are safe on the server and
  * return on the next sign-in), so they are dropped here — otherwise the next
  * person to sign in on this device would inherit them (sync.ts sends the
- * local streak to the account as a claim). The history stays: it only feeds
- * this device's lifetime per-tier averages and never leaves it.
+ * local streak to the account as a claim). The history stays — it only feeds
+ * this device's lifetime per-tier averages and never leaves it — except the
+ * dropped game's own day: left in, a replay of that day would count as
+ * "already recorded" (progress.ts:recordCompletion) and finish with no
+ * history row and a streak of 0.
  */
 export function resetForSignOut(storageId: string): void {
   const state = loadState(storageId)
-  saveState(storageId, { ...defaultState(), history: state.history })
+  const dropped = state.current?.dateKey
+  saveState(storageId, {
+    ...defaultState(),
+    history: state.history.filter((h) => h.dateKey !== dropped),
+  })
 }
 
 /**

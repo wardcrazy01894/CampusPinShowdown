@@ -129,14 +129,24 @@ async function accountRoute(route, body, env, ip, now) {
           )
         : await verifyLogin(db, u.value, body.pass)
     if (!r.ok) return [{ error: r.error }, r.status]
-    // What this device did before signing in becomes the account's.
-    await foldIntoAccount(
-      db,
-      board,
-      r.value.id,
-      { clientId: body.clientId },
-      now.getTime(),
-    )
+    // What this device did before signing in becomes the account's. Best
+    // effort: a failure here must not leave a freshly created account
+    // without a session (a retry would then say "username taken"), and the
+    // fold is idempotent — the next sign-in from this device redoes it.
+    try {
+      await foldIntoAccount(
+        db,
+        board,
+        r.value.id,
+        { clientId: body.clientId },
+        now.getTime(),
+      )
+    } catch (e) {
+      console.warn('leaderboard account fold failed', {
+        route,
+        error: String(e),
+      })
+    }
     const token = await openSession(db, r.value.id, now.getTime())
     return [signedIn(r.value, token), 200]
   }
@@ -147,8 +157,10 @@ async function accountRoute(route, body, env, ip, now) {
   }
 
   const account = await accountForToken(db, body.token)
-  // 401 = "this device is no longer signed in" (signed out elsewhere, or its
-  // session aged out); the client drops the token and carries on anonymously.
+  // 401 = "this device is no longer signed in" (signed out, or its session
+  // pushed out by the account's ten newest); the client drops the token and
+  // carries on anonymously. Sessions do not otherwise expire: with no
+  // password reset, an expiry would lock out anyone who forgot theirs.
   if (!account) return [{ error: 'signed out' }, 401]
 
   if (route === 'name') {

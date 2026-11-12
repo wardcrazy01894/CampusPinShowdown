@@ -60,6 +60,12 @@ Request/response shape:
   `/register` and `/login` need the `LOGIN_LIMITER` binding (5/min) and fail
   closed without it.
 
+> ⚠️ **Shipping accounts: migrate FIRST, then deploy.** The worker code reads
+> `scores.rounds` and joins `accounts` on every submit and every board read,
+> so deployed ahead of migration `0004_accounts.sql` it answers 503 to
+> everyone until the migration runs. `npm run worker:migrate`, then
+> `npm run worker:deploy` — the migration is additive and safe to apply first.
+
 ## Try it locally first (no production resources)
 
 ```bash

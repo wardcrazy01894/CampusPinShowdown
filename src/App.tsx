@@ -17,6 +17,7 @@ import { loadState, resetForSignOut } from './lib/storage'
 import {
   accountsEnabled,
   loadAccount,
+  logout,
   saveAccount,
   type Account,
 } from './lib/account'
@@ -153,23 +154,51 @@ export function App() {
     }
   }, [])
 
-  function changeAccount(next: Account | null) {
-    const signedOut = account !== null && next === null
+  function changeAccount(next: Account) {
     saveAccount(next)
     setAccount(next)
-    if (signedOut) {
-      // The streak and today's game were the account's: this device goes back
-      // to a fresh anonymous player (storage.ts:resetForSignOut says why).
-      resetForSignOut(REGION.id)
-      setGameEpoch((n) => n + 1)
-      log.info('App', 'signed out')
+  }
+
+  /**
+   * Sign out. The streak and today's game are the account's, so the device
+   * goes back to a fresh anonymous player (storage.ts:resetForSignOut says
+   * why) — but first the account gets whatever only this device has (a day
+   * finished offline, a streak the server missed). If the server can't be
+   * reached for that, nothing is wiped unless the player insists (`force`).
+   */
+  async function signOut(force: boolean): Promise<'done' | 'unsaved'> {
+    if (!account) return 'done'
+    if (file) {
+      // The official day, whatever mode this tab is in.
+      const dateKey = mode.official ? mode.dateKey : getDateKey(new Date())
+      const r = await syncProgress({
+        token: account.token,
+        username: account.username,
+        storageId: REGION.id,
+        dateKey,
+        towns:
+          mode.official && today
+            ? today
+            : dailyLineup(file.towns, REGION.id, dateKey),
+      })
+      if (r.status === 'offline' && !force) return 'unsaved'
     }
+    // Best effort: with no connection the session lingers on the server, but
+    // this device is signed out either way.
+    await logout(account.token)
+    saveAccount(null)
+    setAccount(null)
+    resetForSignOut(REGION.id)
+    setGameEpoch((n) => n + 1)
+    log.info('App', 'signed out')
+    return 'done'
   }
 
   // Cross-device sync (lib/sync.ts), signed in only: on load, on signing in,
   // and whenever the tab comes back. Official daily only — a ?shuffle/?date
   // session has nothing of the account's, and ?reset is asking to replay.
   const token = account?.token
+  const username = account?.username
   useEffect(() => {
     const onVisible = () => {
       if (!document.hidden) setSyncAsk((n) => n + 1)
@@ -226,18 +255,21 @@ export function App() {
   const syncable =
     accountsEnabled() && mode.official && !shouldStartFresh(search)
   useEffect(() => {
-    if (!syncable || !token || !today) return
+    if (!syncable || !token || !username || !today) return
     // No "is this effect still live?" guard on purpose: the save is written
     // either way, so the remount/re-read below must follow it.
     void syncProgress({
       token,
+      username,
       storageId: mode.storageId,
       dateKey: mode.dateKey,
       towns: today,
     }).then((r) => {
       if (r.status === 'signed-out') {
-        // The server no longer knows this session (signed out elsewhere, or
-        // it aged out). Not the player's choice, so the save is left alone.
+        // The server no longer knows this session (signed out there, or pushed
+        // out by newer sign-ins). Not the player's choice, so the save is left
+        // alone — it stays stamped with its owner, so it is never offered to
+        // a different account (sync.ts).
         log.info('App', 'session ended by the server')
         saveAccount(null)
         setAccount((a) => (a?.token === token ? null : a))
@@ -255,7 +287,7 @@ export function App() {
       if (r.gameReplaced) setGameEpoch((n) => n + 1)
       if (r.changed) setSyncEpoch((n) => n + 1)
     })
-  }, [syncable, token, today, mode.storageId, mode.dateKey, syncAsk])
+  }, [syncable, token, username, today, mode.storageId, mode.dateKey, syncAsk])
 
   function toggleMute() {
     const next = !muted
@@ -292,6 +324,7 @@ export function App() {
           <AccountDialog
             account={account}
             onChange={changeAccount}
+            onSignOut={signOut}
             onClose={() => setAccountOpen(false)}
           />
         </div>

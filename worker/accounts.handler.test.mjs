@@ -254,6 +254,30 @@ describe('one account, two devices', () => {
   })
 })
 
+describe('register is not left half-done', () => {
+  it('still signs in when folding the device’s rows fails (the next sign-in folds them)', async () => {
+    const real = env.DB
+    env.DB = {
+      ...real,
+      prepare: (sql) => {
+        if (/DELETE FROM scores WHERE client_id/.test(sql))
+          throw new Error('FOLD_D1_ERROR')
+        return real.prepare(sql)
+      },
+    }
+    const spy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const r = await call('/register', {
+      username: 'spicy_al',
+      pass: PASS,
+      clientId: COMPUTER,
+    })
+    expect(r).toMatchObject({ status: 200, username: 'spicy_al' })
+    expect(r.token).toMatch(/^[0-9a-f]{48}$/)
+    expect(JSON.stringify(spy.mock.calls)).toMatch(/FOLD_D1_ERROR/)
+    spy.mockRestore()
+  })
+})
+
 describe('routing', () => {
   it('account routes are POST-only JSON and share the abuse controls', async () => {
     env.RATE_LIMITER = { limit: vi.fn(async () => ({ success: false })) }

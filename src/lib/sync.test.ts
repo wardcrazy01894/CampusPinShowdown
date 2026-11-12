@@ -1,6 +1,11 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import type { GameState, Town } from '../types'
-import { defaultState, type PersistedState } from './storage'
+import {
+  defaultState,
+  loadState,
+  saveState,
+  type PersistedState,
+} from './storage'
 import { lineupHash } from './progress'
 import { haversineMeters } from './scoring'
 import {
@@ -9,6 +14,7 @@ import {
   gameFromDay,
   planSync,
   streakClaim,
+  syncProgress,
   type ServerDay,
 } from './sync'
 
@@ -327,5 +333,79 @@ describe('planSync', () => {
       towns: TOWNS,
     })
     expect(plan.state.streak).toEqual(streak(5, TODAY))
+  })
+})
+
+describe('syncProgress — whose save is this?', () => {
+  const TOKEN = 'f'.repeat(48)
+  let bodies: Record<string, unknown>[]
+  beforeEach(() => {
+    const map = new Map<string, string>()
+    vi.stubGlobal('localStorage', {
+      getItem: (k: string) => map.get(k) ?? null,
+      setItem: (k: string, v: string) => void map.set(k, v),
+      removeItem: (k: string) => void map.delete(k),
+    })
+    vi.stubEnv('VITE_LEADERBOARD_ENDPOINT', 'https://lb.example')
+    bodies = []
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (_url: string, init: RequestInit) => {
+        bodies.push(JSON.parse(String(init.body)))
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            ok: true,
+            username: 'spicy_al',
+            name: 'Al',
+            streak: null,
+            days: [],
+          }),
+        }
+      }),
+    )
+  })
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    vi.unstubAllEnvs()
+  })
+  const run = () =>
+    syncProgress({
+      token: TOKEN,
+      username: 'spicy_al',
+      storageId: 'usa',
+      dateKey: TODAY,
+      towns: TOWNS,
+    })
+
+  it('stamps an unowned save with the account it synced to', async () => {
+    saveState('usa', state({ streak: streak(7, TODAY) }))
+    await run()
+    expect(bodies[0].streak).toEqual({ current: 7, best: 7, last: TODAY })
+    expect(loadState('usa').owner).toBe('spicy_al')
+    expect(loadState('usa').streak).toEqual(streak(7, TODAY))
+  })
+
+  it('never offers ANOTHER account’s streak or finished day as this one’s', async () => {
+    // A shared device: the previous player's session was ended by the server
+    // (so nothing was wiped), then someone else signed in.
+    saveState(
+      'usa',
+      state({
+        owner: 'someone_else',
+        streak: streak(12, TODAY),
+        current: finishedGame(),
+      }),
+    )
+    const r = await run()
+    expect(bodies).toHaveLength(1) // /me only: no day handed over
+    expect(bodies[0].streak).toBeUndefined()
+    const saved = loadState('usa')
+    expect(saved.streak.current).toBe(0)
+    expect(saved.current).toBeUndefined()
+    expect(saved.owner).toBe('spicy_al')
+    // The mounted game must be replaced: it was the other player's.
+    expect(r.gameReplaced).toBe(true)
   })
 })

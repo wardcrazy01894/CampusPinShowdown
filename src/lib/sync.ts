@@ -37,7 +37,12 @@ import {
 } from './progress'
 import { sameLineup } from './resume'
 import { MAX_ROUND_SCORE, haversineMeters, totalScore } from './scoring'
-import { loadState, saveState, type PersistedState } from './storage'
+import {
+  loadState,
+  resetForSignOut,
+  saveState,
+  type PersistedState,
+} from './storage'
 
 export type { ServerDay, ServerStreak }
 
@@ -264,15 +269,29 @@ const attempted = new Set<string>()
  * Ask the server what the account has and apply it to this device's save.
  * `storageId` must be the OFFICIAL daily's namespace, `dateKey`/`towns` the
  * session's day and lineup.
+ *
+ * The save remembers which account it was last synced to (`owner`). If that
+ * is a DIFFERENT account — a shared device whose previous session the server
+ * ended, so nothing was wiped — the save is reset first: its streak and
+ * finished day are someone else's and must not be claimed for this account.
  */
 export async function syncProgress(input: {
   token: string
+  /** The signed-in account's username. */
+  username: string
   storageId: string
   dateKey: string
   towns: Town[]
 }): Promise<SyncResult> {
-  const { token, storageId, dateKey, towns } = input
-  const none = { changed: false, gameReplaced: false }
+  const { token, username, storageId, dateKey, towns } = input
+  const before = loadState(storageId)
+  const foreign = before.owner !== undefined && before.owner !== username
+  if (foreign) {
+    log.info('sync', 'save belonged to another account — reset')
+    resetForSignOut(storageId)
+  }
+  // A reset save drops the game on screen, whatever the server then says.
+  const none = { changed: foreign, gameReplaced: foreign }
   const me = await fetchMe(token, streakClaim(loadState(storageId).streak))
   if (!me.ok)
     return { status: me.status === 401 ? 'signed-out' : 'offline', ...none }
@@ -281,9 +300,9 @@ export async function syncProgress(input: {
   // the day) while the request was in flight.
   const state = loadState(storageId)
   const plan = planSync({ state, me, dateKey, towns })
-  let changed = plan.state !== state
-  if (changed) {
-    saveState(storageId, plan.state)
+  let changed = foreign || plan.state !== state
+  if (plan.state !== state || state.owner !== username) {
+    saveState(storageId, { ...plan.state, owner: username })
     log.info('sync', 'applied account progress', {
       gameReplaced: plan.gameReplaced,
       streak: plan.state.streak.current,
@@ -319,7 +338,7 @@ export async function syncProgress(input: {
   return {
     status: 'ok',
     changed,
-    gameReplaced: plan.gameReplaced,
+    gameReplaced: foreign || plan.gameReplaced,
     username: me.username,
     name: me.name,
   }

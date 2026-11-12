@@ -150,13 +150,57 @@ describe('AccountDialog — signed in', () => {
     expect(api.setDisplayName).toHaveBeenCalledWith(TOKEN, 'Big Al')
   })
 
-  it('signs out — even when the server cannot be reached', async () => {
-    api.logout.mockResolvedValue({ ok: false, error: 'network error' })
-    const onChange = vi.fn()
-    render(<AccountDialog account={AL} onChange={onChange} onClose={vi.fn()} />)
+  it('signs out through the app, which saves progress to the account first', async () => {
+    const onSignOut = vi.fn(async () => 'done' as const)
+    render(
+      <AccountDialog
+        account={AL}
+        onChange={vi.fn()}
+        onSignOut={onSignOut}
+        onClose={vi.fn()}
+      />,
+    )
     fireEvent.click(screen.getByRole('button', { name: 'Sign out' }))
-    await waitFor(() => expect(onChange).toHaveBeenCalledWith(null))
-    expect(api.logout).toHaveBeenCalledWith(TOKEN)
+    await waitFor(() => expect(onSignOut).toHaveBeenCalledWith(false))
+  })
+
+  it('warns before discarding progress the account does not have yet, then signs out anyway on request', async () => {
+    const onSignOut = vi
+      .fn<(force: boolean) => Promise<'done' | 'unsaved'>>()
+      .mockResolvedValueOnce('unsaved')
+      .mockResolvedValueOnce('done')
+    render(
+      <AccountDialog
+        account={AL}
+        onChange={vi.fn()}
+        onSignOut={onSignOut}
+        onClose={vi.fn()}
+      />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Sign out' }))
+    expect((await screen.findByRole('alert')).textContent).toMatch(
+      /hasn’t been saved to your account/,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Sign out anyway' }))
+    await waitFor(() => expect(onSignOut).toHaveBeenLastCalledWith(true))
+  })
+
+  it('points a "username is taken" at Sign in (a retry after a hiccup)', async () => {
+    api.register.mockResolvedValue({
+      ok: false,
+      error: 'that username is taken',
+      status: 409,
+    })
+    render(
+      <AccountDialog account={null} onChange={vi.fn()} onClose={vi.fn()} />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Create account' }))
+    type(/^Username/, 'spicy_al')
+    type(/^Password/, 'correct horse')
+    fireEvent.click(screen.getByRole('button', { name: 'Create account' }))
+    expect((await screen.findByRole('alert')).textContent).toBe(
+      'That username is taken. If it’s yours, use Sign in instead.',
+    )
   })
 
   it('closes on back and on Escape', () => {
