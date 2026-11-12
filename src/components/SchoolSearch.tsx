@@ -97,6 +97,10 @@ export function SchoolSearch({
             <p style={{ color: '#e67e22', fontWeight: 600, marginBottom: 6 }}>
               Not in the game (yet).
             </p>
+            <p style={{ marginTop: 0, opacity: 0.7, fontSize: 13 }}>
+              This looks up the school’s name, not its town — try the school if
+              you typed a town.
+            </p>
             {onRequest ? (
               <button
                 type="button"

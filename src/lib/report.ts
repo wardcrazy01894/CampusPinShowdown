@@ -25,7 +25,7 @@ export function addTownRequestMessage(name: string): string {
   const town = name.replace(/"/g, '').trim()
   return town
     ? `Please add "${town}" to the game.`
-    : `I'd like to request a college town be added to the game: `
+    : `I'd like to request a school be added to the game: `
 }
 
 /** Prefilled GitHub new-issue URL (fallback path / no backend). */

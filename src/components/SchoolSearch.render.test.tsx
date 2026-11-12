@@ -45,7 +45,7 @@ describe('SchoolSearch', () => {
     expect(screen.getByText('Purdue University')).toBeTruthy()
     // The town is the answer to a round: it must not be anywhere on screen.
     const text = container.textContent ?? ''
-    for (const spoiler of ['West Lafayette', 'Indiana', 'IN', 'Ann Arbor'])
+    for (const spoiler of ['Lafayette', 'Indiana', ', IN', 'Ann Arbor'])
       expect(text).not.toContain(spoiler)
   })
 
@@ -54,6 +54,8 @@ describe('SchoolSearch', () => {
     search('Ann Arbor')
     expect(screen.queryByText(/In the game/)).toBeNull()
     expect(screen.getByText(/Not in the game \(yet\)/)).toBeTruthy()
+    // …and says why, so a town typed by habit isn't taken for a missing one.
+    expect(screen.getByText(/school’s name, not its town/)).toBeTruthy()
   })
 
   it('offers a request link for a missing school', () => {
