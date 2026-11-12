@@ -13,6 +13,10 @@
 /** Perfect day = 5 rounds × 100. Kept in step with the client's
  *  ROUNDS_PER_DAY × MAX_ROUND_SCORE (src/lib/daily.ts, src/lib/scoring.ts). */
 export const MAX_TOTAL = 500
+/** Rounds in a day and the most one is worth (client: ROUNDS_PER_DAY,
+ *  MAX_ROUND_SCORE). */
+export const ROUNDS_PER_DAY = 5
+export const MAX_ROUND_SCORE = 100
 
 /** The boards that exist. One nationwide board today; the column is in the
  *  primary key so a second region later is independent by construction. */
@@ -139,6 +143,35 @@ export function isValidLineup(v) {
 }
 
 /**
+ * The per-round detail behind a score: `[[lat, lng, score, hinted], …]`, one
+ * entry per round — the guess pin, the round's points, and 1 when the region
+ * hint was used. It is what lets an account's OTHER device show the finished
+ * day (src/lib/sync.ts). Optional (clients from before accounts send none →
+ * `null`); when present it must be well-formed and add up to `score`.
+ * Returns the normalised JSON text to store.
+ */
+export function validateRounds(raw, score) {
+  if (raw == null) return { ok: true, value: null }
+  const bad = { ok: false, status: 400, error: 'invalid rounds' }
+  if (!Array.isArray(raw) || raw.length !== ROUNDS_PER_DAY) return bad
+  const out = []
+  let sum = 0
+  for (const r of raw) {
+    if (!Array.isArray(r) || r.length < 3 || r.length > 4) return bad
+    const [lat, lng, pts, hinted = 0] = r
+    if (typeof lat !== 'number' || !(lat >= -90 && lat <= 90)) return bad
+    if (typeof lng !== 'number' || !(lng >= -180 && lng <= 180)) return bad
+    if (!Number.isInteger(pts) || pts < 0 || pts > MAX_ROUND_SCORE) return bad
+    if (hinted !== 0 && hinted !== 1) return bad
+    // ~1 m is plenty for a pin on a map of the USA.
+    out.push([+lat.toFixed(5), +lng.toFixed(5), pts, hinted])
+    sum += pts
+  }
+  if (sum !== score) return bad
+  return { ok: true, value: JSON.stringify(out) }
+}
+
+/**
  * Validate a leaderboard VIEW query (read-only). Any real date is allowed
  * (read-only, capped), but the board must be known. Pure.
  */
@@ -177,33 +210,48 @@ export function validateSubmission(body, now = new Date()) {
   if (!isValidLineup(lineup))
     return { ok: false, status: 400, error: 'invalid lineup' }
 
-  return { ok: true, value: { board, date, score, clientId, lineup } }
+  const rounds = validateRounds(body?.rounds, score)
+  if (!rounds.ok) return rounds
+
+  return {
+    ok: true,
+    value: { board, date, score, clientId, lineup, rounds: rounds.value },
+  }
 }
 
 // ---- Queries ----------------------------------------------------------------
 
 /**
- * UPSERT the device's score for (board, date, client_id, lineup) and read back
- * the standing in one atomic D1 batch. Keep-max per lineup (a reload of the
- * same completion can't lower or duplicate it); a changed-lineup replay gets
- * its own row. The STANDING counts one human once: rank and `total` are over
- * each device's BEST score for the day. Ties share a rank (strictly-greater
- * counting), rank = better + 1.
+ * UPSERT the player's score for (board, date, client_id, lineup) and read back
+ * the standing in one atomic D1 batch. `clientId` is the PLAYER KEY: an
+ * anonymous device id, or `acct:<id>` for a signed-in player
+ * (accounts-lib.mjs: accountKey) — so an account on several devices is one
+ * competitor. Keep-max per lineup (a reload of the same completion can't
+ * lower or duplicate it); a changed-lineup replay gets its own row. `rounds`
+ * always describes the stored score: it is replaced when the score rises,
+ * and filled in when an equal score arrives for a row that had none. The
+ * STANDING counts one human once: rank and `total` are over each player's
+ * BEST score for the day. Ties share a rank (strictly-greater counting),
+ * rank = better + 1.
  */
 export async function upsertAndRank(
   db,
-  { board, date, clientId, score, lineup = '' },
+  { board, date, clientId, score, lineup = '', rounds = null },
   now,
 ) {
   const upsert = db
     .prepare(
-      `INSERT INTO scores (board, date, client_id, lineup, score, created_at, updated_at)
-       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?6)
+      `INSERT INTO scores (board, date, client_id, lineup, score, rounds, created_at, updated_at)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?7, ?6, ?6)
        ON CONFLICT(board, date, client_id, lineup) DO UPDATE SET
+         rounds = CASE
+           WHEN excluded.score > score THEN excluded.rounds
+           WHEN rounds IS NULL AND excluded.score = score THEN excluded.rounds
+           ELSE rounds END,
          score = MAX(score, excluded.score),
          updated_at = excluded.updated_at`,
     )
-    .bind(board, date, clientId, lineup, score, now)
+    .bind(board, date, clientId, lineup, score, now, rounds)
   const standing = db
     .prepare(
       `WITH best AS (
@@ -229,15 +277,19 @@ export const TOP_LIMIT = 100
 
 /**
  * The day's top scores (desc, capped at TOP_LIMIT) plus the total entry count.
- * Anonymous: scores only — no ids, no names. One row per DEVICE (its best).
+ * One row per PLAYER (their best). `names` runs parallel to `scores`: the
+ * display name of a signed-in player, '' for an anonymous device. Never ids,
+ * usernames or tokens. (`scores` keeps its shape so a page cached from before
+ * accounts still reads the board.)
  */
 export async function topScores(db, board, date, limit = TOP_LIMIT) {
   const list = db
     .prepare(
-      `SELECT MAX(score) AS score FROM scores
-       WHERE board = ?1 AND date = ?2
-       GROUP BY client_id
-       ORDER BY score DESC LIMIT ?3`,
+      `SELECT MAX(s.score) AS score, COALESCE(a.name, '') AS name
+       FROM scores s LEFT JOIN accounts a ON s.client_id = 'acct:' || a.id
+       WHERE s.board = ?1 AND s.date = ?2
+       GROUP BY s.client_id
+       ORDER BY score DESC, MIN(s.created_at), s.client_id LIMIT ?3`,
     )
     .bind(board, date, limit)
   const count = db
@@ -250,6 +302,9 @@ export async function topScores(db, board, date, limit = TOP_LIMIT) {
   return {
     total: Number(countRes.results[0].total) || 0,
     scores: listRes.results.map((r) => Number(r.score)),
+    names: listRes.results.map((r) =>
+      typeof r.name === 'string' ? r.name : '',
+    ),
   }
 }
 

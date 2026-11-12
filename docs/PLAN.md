@@ -2,7 +2,8 @@
 
 The engine is a port of [KnowYourCity](https://github.com/wardcrazy01894/KnowYourCity)'s
 (same author) with the per-city machinery removed: one region (the lower 48),
-one dataset (`public/towns.json`), no backend. This document is the spec the
+one dataset (`public/towns.json`), and an optional backend (leaderboard +
+accounts) the game never depends on. This document is the spec the
 code is held to; CLAUDE.md's docs map says which section to update when.
 
 ## Game loop
@@ -191,6 +192,9 @@ was the interim basemap.)
 - **New deploys:** `version.json` (emitted next to the bundle, fetched relative
   to the Vite base) is polled on focus + every 5 min; the tab auto-reloads only
   when that wouldn't disturb a game (`shouldDeferReload`).
+- A signed-in account can rewrite the official save from the server (streak,
+  and today's game when it was finished on another device) — see §Accounts.
+  The sign-in itself is `cps:account` (token, username, display name).
 - `localStorage` keys are `cps:v1:<storageId>`; bump `STORAGE_VERSION` on any
   shape change — `loadState` treats mismatches and malformed values as empty.
   Additive optional fields don't need a bump: `DayRecord.results[]` gained
@@ -198,7 +202,7 @@ was the interim basemap.)
   averages** ("Lifetime by tier: 🟢 82 · 🟡 61 · 🔴 34 avg · 12 days",
   `src/lib/stats.ts`); records from before that are skipped, not migrated.
 
-## Anonymous daily leaderboard (`worker/`, `src/lib/leaderboard.ts`)
+## Daily leaderboard (`worker/`, `src/lib/leaderboard.ts`)
 
 The game's only backend, and it is optional: a Cloudflare Worker
 (`worker/leaderboard.mjs`, config `worker/wrangler.toml`) in front of a D1
@@ -208,16 +212,20 @@ screen shows "🏆 You placed 3rd of 47 today" (+ "top X%" once the field is ≥
 your row highlighted). Everything is behind `VITE_LEADERBOARD_ENDPOINT`; unset,
 offline or a non-official game → the line and button are simply absent.
 
-- **Anonymous:** identity is a random UUID in `localStorage` (`cps:clientId`);
-  the schema reserves a NULL `user_id` for a future login (a lossy migration —
-  cleared storage has no id to link).
+- **Anonymous by default:** identity is a random UUID in `localStorage`
+  (`cps:clientId`). A signed-in player (§Accounts below) is identified by
+  their account instead, and their row on the board carries their **display
+  name**; anonymous rows show rank and score only. The read returns
+  `{ total, scores[], names[] }` (`names` parallel to `scores`, `''` for an
+  anonymous row) — never ids, usernames or tokens.
 - **One board** (`usa`), in the primary key so a second region later is
   independent by construction. **Date** is the player's local puzzle day
   (everyone who played "2026-10-29" played the same five towns); the worker
   accepts `[UTC today − 2, UTC today + 1]` and rejects anything else.
 - **Lineup-aware:** rows are keyed by `(board, date, client_id, lineup)` so a
-  changed-set replay keeps its own row; rank/total/board count each device's
-  BEST score once. Keep-max UPSERT makes a reload idempotent; the client caches
+  changed-set replay keeps its own row; rank/total/board count each player's
+  BEST score once (`client_id` is the player key: a device id, or `acct:<id>`
+  for an account). Keep-max UPSERT makes a reload idempotent; the client caches
   the standing per (date, lineup) so it never re-POSTs, then refreshes rank and
   total from a fresh read (`refreshStanding`) so the line doesn't freeze at
   finish time.
@@ -238,6 +246,91 @@ offline or a non-official game → the line and button are simply absent.
   allowlist, body size, and per-IP rate limit (fails closed without one).
   Scores are client-computed, so a determined actor can still POST a fake
   total — accepted for a friends game; Turnstile is the documented next step.
+
+## Accounts + cross-device sync (`worker/accounts-lib.mjs`, `src/lib/account.ts`, `src/lib/sync.ts`, `AccountDialog`)
+
+Optional, and ported from WhereHePlay. An account is a **username, a password
+and a display name — no email** (so a forgotten password cannot be reset; the
+dialog says so). It lives in the leaderboard worker, so it is offered only
+when `VITE_LEADERBOARD_ENDPOINT` is set: a "👤 sign in / create account" link
+in the header (a 👤 icon on the slim phone header during play), and a "keep
+it on all your devices" link next to the streak on the results screen. The
+sign-up form states that the username is **not an email**, and both the form
+(`usernameProblem`) and the worker (`validateUsername`) refuse anything with
+an `@`.
+
+- **What signing in changes.** The device keeps a session token
+  (`cps:account` in `localStorage`); its daily score is submitted with it and
+  becomes the **account's** — one row on the board across all its devices,
+  under the display name (2–20 Latin letters, digits, space, `_ . - '`; a
+  short blocklist; changeable any time).
+- **Storage model.** No new score tables: an account's rows are ordinary
+  `scores`/`streaks` rows whose `client_id` is `acct:<id>`. A device id cannot
+  contain `:`, so the key cannot be forged and every leaderboard query treats
+  an account as one competitor unchanged. `accounts` holds username, name and
+  the password hash; `sessions` holds the SHA-256 of each token (newest 10 per
+  account). `scores.rounds` holds each round's `[lat, lng, score, hinted]`
+  for the stored score — the detail another device needs to show the day.
+- **Inheriting a streak (the owner's rule).** People had streaks before
+  accounts existed, and the server's own streak table missed part of them
+  (every day before the leaderboard was on, every failed submit). So on
+  register/sign-in the server folds in the device's anonymous rows
+  (`foldIntoAccount`: scores move to the account, better score wins a clash,
+  the anonymous twin disappears from the board), and on every sync the device
+  **vouches for its local streak** (`streakClaim` → `/me`), which the server
+  merges into the account's (`mergeStreaks`): the later last-played day
+  decides, **the same day → the longer streak**, consecutive days → the run
+  continues (earlier count + 1 at least), and a streak that had already
+  lapsed does not come back (its `best` does). A computer on 12 and a phone on
+  5 become 12 on both. The claim is unverifiable, like the scores — it is
+  only bounded (`validateStreakClaim`: a real day inside the submission
+  window, not before puzzle #1, not longer than the game has existed).
+- **Sync (`syncProgress`, signed in, official daily only).** On load, on
+  sign-in and whenever the tab becomes visible, the app POSTs `/me` and
+  applies `planSync` to the save: the streak becomes the merged one; a daily
+  **finished on another device replaces today's game here** — also one only
+  in progress — and the results screen shows it (score, recap map, rows)
+  rebuilt from `rounds` (`gameFromDay`; the row must be for this day and this
+  lineup and add up, else it is ignored); a day finished **here** that the
+  account lacks is handed over once per page load. A day this device finished
+  is never swapped out. App remounts the Game when the game was replaced
+  (`gameEpoch`) and has it re-read the streak otherwise (`syncEpoch`), so a
+  pin being placed is never disturbed by a streak-only update. Not synced: a
+  game in progress, the lifetime per-tier history, display preferences.
+- **Signing out** first syncs once more, so the account gets whatever only
+  this device has (a day finished offline, a streak the server missed); if
+  the server can't be reached the dialog says the progress isn't saved and
+  signs out only on a second, explicit "Sign out anyway". It then returns the
+  device to a fresh anonymous player (`resetForSignOut`): the streak and
+  today's game are dropped locally (they are the account's and return on the
+  next sign-in), along with that day's history row so an anonymous replay is
+  recorded normally; the rest of the history stays.
+- **Whose save it is.** A synced save is stamped with its account
+  (`PersistedState.owner`). A session the **server** ended (`/me` → 401: the
+  account signed in on more than ten devices) only clears the token and keeps
+  the save, so the same player signing back in loses nothing — and if a
+  _different_ account signs in on that device, `syncProgress` sees the stamp,
+  resets the save first, and claims nothing of the previous player's.
+- **Passwords** use a split KDF: the browser stretches the password
+  (PBKDF2-SHA256, 150k iterations, salted with the username) and sends only
+  that key; the worker stretches it again (1,000 iterations, random
+  per-account salt) and stores that. The plaintext never leaves the device.
+  Login answers one error for every failure, burns the same hashing for an
+  unknown username, and sits with register behind a 5/min limiter
+  (`LOGIN_LIMITER`: per IP + username for login, per IP for register) that
+  **fails closed** when unbound.
+- **Worker and site ship separately.** The site deploys on merge, the worker
+  by hand, so each tolerates the other's older version: an old worker answers
+  account routes with `unknown board` (the dialog says accounts aren't on
+  yet; sync does nothing), and a page cached from before accounts still reads
+  the board (`scores` kept its shape).
+- **Trust model:** unchanged — scores and streaks are client-computed, so
+  anti-cheat stays a non-goal. The controls stop accidents, drive-by abuse
+  and account takeover. Known, accepted: two accounts cannot be merged;
+  display names are not unique (two players can both be "Alex" — usernames
+  are, and the board never shows them); sessions do not expire (with no
+  password reset, an expiry would lock out anyone who forgot theirs — remove
+  a session by signing out, or all of them by hand, `docs/OPERATIONS.md`).
 
 ## Bug reports (`worker/bug-report.mjs`, `src/components/BugReport.tsx`)
 

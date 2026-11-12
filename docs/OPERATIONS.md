@@ -81,12 +81,12 @@ The site is a static bundle, so all its config is **public** (ships in the JS)
 and is injected at build time from repo **Variables** (Settings → Secrets and
 variables → Actions → **Variables**), never Secrets:
 
-| Variable                    | Current value                    | Purpose                                                                                       |
-| --------------------------- | -------------------------------- | --------------------------------------------------------------------------------------------- |
-| `VITE_CF_BEACON_TOKEN`      | _(unset)_                        | Cloudflare Web Analytics beacon — cookieless page views                                       |
-| `VITE_LEADERBOARD_ENDPOINT` | the `cps-leaderboard` worker URL | anonymous daily leaderboard + server streak; **unset → the leaderboard UI is hidden**         |
-| `VITE_BUG_ENDPOINT`         | the `cps-bug` worker URL         | in-app bug reports → GitHub issues; **unset → the form opens a prefilled issue page instead** |
-| `VITE_TURNSTILE_SITEKEY`    | _(unset)_                        | optional Turnstile bot check on the bug form; pair with the worker secret `TURNSTILE_SECRET`  |
+| Variable                    | Current value                    | Purpose                                                                                              |
+| --------------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `VITE_CF_BEACON_TOKEN`      | _(unset)_                        | Cloudflare Web Analytics beacon — cookieless page views                                              |
+| `VITE_LEADERBOARD_ENDPOINT` | the `cps-leaderboard` worker URL | daily leaderboard, server streak and accounts; **unset → the leaderboard and account UI are hidden** |
+| `VITE_BUG_ENDPOINT`         | the `cps-bug` worker URL         | in-app bug reports → GitHub issues; **unset → the form opens a prefilled issue page instead**        |
+| `VITE_TURNSTILE_SITEKEY`    | _(unset)_                        | optional Turnstile bot check on the bug form; pair with the worker secret `TURNSTILE_SECRET`         |
 
 Nothing else. Map tiles (NASA GIBS) and geocoding (Nominatim, build-time only)
 need no key.
@@ -95,8 +95,9 @@ need no key.
 
 The game's only backend, and it is optional. A Cloudflare Worker
 (`worker/leaderboard.mjs`, config `worker/wrangler.toml`) with its own D1
-database (`cps-leaderboard`) stores anonymous keep-max daily scores and
-per-player streaks; the full design is in `docs/PLAN.md` §Leaderboard and the
+database (`cps-leaderboard`) stores keep-max daily scores, per-player streaks
+and the optional accounts (username, display name, password hash, sessions);
+the full design is in `docs/PLAN.md` §Leaderboard and §Accounts, and the
 request shapes in `worker/README.md`. Its own worker, database and rate-limit
 namespace — nothing is shared with KnowYourCity's `kyc-leaderboard`.
 
@@ -121,6 +122,29 @@ First-time setup (`wrangler d1 create cps-leaderboard` → paste the
 `database_id` into the toml → migrate → deploy → set the Variable above → re-run
 the deploy workflow) is in `worker/README.md`. `TURNSTILE_SECRET` is optional and
 should stay unset until the client has an invisible Turnstile execute.
+
+**Accounts (migration `0004_accounts.sql`, `LOGIN_LIMITER`).** Shipping
+accounts is the same two commands, in that order: the migration adds the
+`accounts` and `sessions` tables and `scores.rounds`, and the new worker code
+reads `rounds` on every submit — deploy the code first and every submit 503s
+until you migrate. The migration is additive, so applying it before the code
+is safe. The site may be merged before or after: against an older worker the
+account dialog says "Accounts aren't switched on yet" and everything else
+works. `LOGIN_LIMITER` is a second `[[ratelimits]]` block in the toml (5/min;
+no account resource needed); `/register` and `/login` answer 503 `accounts
+disabled` without it. Admin by hand, e.g. rename an offensive display name or
+remove an account (its board rows are keyed `acct:<id>`):
+
+```bash
+wrangler d1 execute cps-leaderboard --remote -c worker/wrangler.toml --command "SELECT id, username, name, created_at FROM accounts ORDER BY id DESC LIMIT 20"
+wrangler d1 execute cps-leaderboard --remote -c worker/wrangler.toml --command "UPDATE accounts SET name = 'Player' WHERE id = 12"
+# Remove account 12 entirely:
+wrangler d1 execute cps-leaderboard --remote -c worker/wrangler.toml --command "DELETE FROM sessions WHERE account_id = 12; DELETE FROM scores WHERE client_id = 'acct:12'; DELETE FROM streaks WHERE client_id = 'acct:12'; DELETE FROM accounts WHERE id = 12"
+```
+
+**Forgotten password:** there is no reset (no email). Remove the account with
+the last command above; the player registers the username again, and the
+device they sign up on vouches for its local streak, so the streak comes back.
 
 **Cron limit:** the account's Workers Free plan allows **5 cron triggers per
 account** and they were all taken, so this worker has no `[triggers]` block

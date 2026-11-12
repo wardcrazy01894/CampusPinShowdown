@@ -1,11 +1,13 @@
 /**
- * Anonymous daily leaderboard — client side (ported from KnowYourCity; one
- * nationwide board).
+ * Daily leaderboard — client side (ported from KnowYourCity; one nationwide
+ * board).
  *
  * On finishing the OFFICIAL daily, the app submits the day's total to the
  * leaderboard Worker (worker/leaderboard.mjs) and shows "you placed Xth of Y
- * today". No accounts, no names: identity is an anonymous random UUID kept in
- * localStorage (`cps:clientId`) — the seam a future login would link to.
+ * today". Identity is an anonymous random UUID kept in localStorage
+ * (`cps:clientId`) — or, when signed in (src/lib/account.ts), the account:
+ * the submission then carries the session token and the score is the
+ * account's, one row across all its devices, shown under its display name.
  *
  * INTEGRITY: only the official daily counts. Shuffle (?shuffle) and date
  * overrides (?date=) are never submitted — the `official` flag from
@@ -17,6 +19,8 @@
  */
 
 import { log } from './log'
+// Type-only (erased at build), so no import cycle with account.ts.
+import type { RoundTuple } from './account'
 
 /** The one board today. Column is in the worker's primary key so a second
  *  region later is independent by construction. */
@@ -155,6 +159,15 @@ interface SubmitArgs {
   official: boolean
   /** Cloudflare Turnstile token, when the widget is enabled (not wired yet). */
   turnstileToken?: string
+  /** Session token when signed in (account.ts) — the score is then the
+   *  account's rather than this device's. */
+  token?: string
+  /** Each round's pin and points (sync.ts:roundsOf), so the account's other
+   *  devices can show this finished day. */
+  rounds?: RoundTuple[]
+  /** Submit even when a standing is cached for this day + lineup (sync.ts
+   *  handing a day played before signing in to the account). */
+  force?: boolean
 }
 
 /** The JSON body POSTed to the leaderboard endpoint. Pure + testable. */
@@ -165,6 +178,8 @@ export function buildSubmitPayload(args: SubmitArgs) {
     score: args.score,
     clientId: getClientId(),
     lineup: args.lineup,
+    rounds: args.rounds,
+    token: args.token,
     turnstileToken: args.turnstileToken,
   }
 }
@@ -182,7 +197,7 @@ export async function submitDailyScore(
   const endpoint = import.meta.env.VITE_LEADERBOARD_ENDPOINT
   if (!endpoint) return null
 
-  const cached = readStanding(args.dateKey, args.lineup)
+  const cached = args.force ? null : readStanding(args.dateKey, args.lineup)
   if (cached) return cached
 
   try {
@@ -231,11 +246,15 @@ export interface LeaderboardData {
   total: number
   /** The day's scores, highest first, capped at the server's TOP_LIMIT. */
   scores: number[]
+  /** Parallel to `scores`: a signed-in player's display name, '' for an
+   *  anonymous one. Absent from a worker that predates accounts. */
+  names?: string[]
 }
 
 /**
- * Fetch the day's board (top scores + total). Read-only and anonymous — the
- * server returns scores only, never ids or names. Resolves `null` when the
+ * Fetch the day's board (top scores + total, with the display names of
+ * signed-in players). Read-only — the server never returns ids, usernames or
+ * tokens. Resolves `null` when the
  * leaderboard is off/unavailable so the caller shows a friendly empty state.
  */
 export async function fetchLeaderboard(
@@ -261,9 +280,15 @@ export async function fetchLeaderboard(
       log.warn('leaderboard', 'read: unexpected response shape', { data })
       return null
     }
+    // Keep score and name paired: drop a malformed score WITH its name.
+    const names = Array.isArray(data.names) ? data.names : []
+    const rows = data.scores
+      .map((score, i) => ({ score, name: names[i] }))
+      .filter((r) => typeof r.score === 'number')
     return {
       total: data.total,
-      scores: data.scores.filter((s) => typeof s === 'number'),
+      scores: rows.map((r) => r.score),
+      names: rows.map((r) => (typeof r.name === 'string' ? r.name : '')),
     }
   } catch (e) {
     log.warn('leaderboard', 'read failed (network)', { error: String(e) })
@@ -300,31 +325,42 @@ export interface LeaderboardRow {
   /** 1-based competition rank (ties share a rank). */
   rank: number
   score: number
-  /** True for (the first occurrence of) the viewer's own score. */
+  /** Display name of a signed-in player; '' for an anonymous one. */
+  name: string
+  /** True for the viewer's own row. */
   you: boolean
 }
 
 /**
- * Turn a desc-sorted score list into ranked rows. Ties share a rank (480, 480,
+ * Turn the board's score list into ranked rows. Ties share a rank (480, 480,
  * 420 → 1, 1, 3). `yourScores` are the viewer's own totals (at most one with
- * the one-row-per-device board); each flags ONE matching row. Pure.
+ * the one-row-per-player board); each flags ONE matching row — the one that
+ * also carries `yourName` when the viewer is signed in and it is there (so a
+ * stranger tied with you is not highlighted in your place), else the first
+ * with that score. Pure.
  */
 export function buildLeaderboardRows(
   scores: number[],
   yourScores: number[] = [],
+  names: string[] = [],
+  yourName = '',
 ): LeaderboardRow[] {
-  const sorted = [...scores].sort((a, b) => b - a)
-  const mine = new Map<number, number>()
-  for (const s of yourScores) mine.set(s, (mine.get(s) ?? 0) + 1)
+  // Stable sort: equal scores keep the server's order (earlier finisher first).
+  const sorted = scores
+    .map((score, i) => ({ score, name: names[i] ?? '' }))
+    .sort((a, b) => b.score - a.score)
   let prevScore: number | null = null
   let prevRank = 0
-  return sorted.map((score, i) => {
+  const rows: LeaderboardRow[] = sorted.map(({ score, name }, i) => {
     const rank = prevScore !== null && score === prevScore ? prevRank : i + 1
     prevScore = score
     prevRank = rank
-    const left = mine.get(score) ?? 0
-    const you = left > 0
-    if (you) mine.set(score, left - 1)
-    return { rank, score, you }
+    return { rank, score, name, you: false }
   })
+  for (const mine of yourScores) {
+    const free = rows.filter((r) => !r.you && r.score === mine)
+    const row = (yourName && free.find((r) => r.name === yourName)) || free[0]
+    if (row) row.you = true
+  }
+  return rows
 }

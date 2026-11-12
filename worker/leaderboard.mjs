@@ -1,12 +1,25 @@
 /**
- * Cloudflare Worker: anonymous daily leaderboard for CampusPin Showdown
- * (ported from KnowYourCity's kyc-leaderboard; one nationwide board).
+ * Cloudflare Worker: daily leaderboard + optional accounts for CampusPin
+ * Showdown (ported from KnowYourCity's kyc-leaderboard; one nationwide board;
+ * accounts ported from WhereHePlay).
  *
- * Stores one keep-max score per (board, date, device, lineup) in D1 and
- * answers "you placed Xth of Y today". No accounts, no names, no PII — just an
- * anonymous device UUID. Pure helpers live in leaderboard-lib.mjs so this entry
- * exports only `default` (the Workers runtime rejects non-function named
- * exports on the entry module).
+ * Stores one keep-max score per (board, date, player, lineup) in D1 and
+ * answers "you placed Xth of Y today". A player is an anonymous device UUID
+ * or, when signed in, an account (username + password + display name — no
+ * email, no other PII). Pure helpers live in leaderboard-lib.mjs and
+ * accounts-lib.mjs so this entry exports only `default` (the Workers runtime
+ * rejects non-function named exports on the entry module).
+ *
+ * Routes (the LAST path segment decides, so a route prefix is fine):
+ *   GET  ?board=&date=                        → { total, scores[], names[] }
+ *   POST (any other path) { board, date, score, clientId, lineup, rounds?,
+ *                           token? }          → { rank, total, streak? }
+ *   POST /register { username, pass, name?, clientId? } → { token, username, name }
+ *   POST /login    { username, pass, clientId? }        → { token, username, name }
+ *   POST /logout   { token }                            → {}
+ *   POST /me       { token, streak? }  → { username, name, streak, days[] }
+ *   POST /name     { token, name }                      → { username, name }
+ * A token never travels in a URL.
  *
  * SECURITY: a public, unauthenticated endpoint whose abuse surface is
  * *leaderboard inflation*. Mitigations: fail CLOSED unless a rate limiter OR
@@ -19,6 +32,9 @@
  *   DB               (D1) scores + streaks
  *   ALLOWED_ORIGIN   comma-separated origin allowlist; "*" disables (dev only)
  *   RATE_LIMITER     (native rate-limit binding) per-IP limiter
+ *   LOGIN_LIMITER    (native rate-limit binding) the tight limiter on
+ *                    /register (per IP) and /login (per IP + username);
+ *                    those two routes fail closed without it
  *   RL               (optional KV namespace) per-IP limiter fallback
  *   TURNSTILE_SECRET (optional secret) when set, a valid token is required
  */
@@ -34,7 +50,23 @@ import {
   pruneOldScores,
   pruneIfDue,
   updateStreak,
+  BOARDS,
 } from './leaderboard-lib.mjs'
+import {
+  accountKey,
+  accountForToken,
+  isValidPass,
+  validateName,
+  validateUsername,
+  validateStreakClaim,
+  createAccount,
+  verifyLogin,
+  openSession,
+  closeSession,
+  renameAccount,
+  foldIntoAccount,
+  readProgress,
+} from './accounts-lib.mjs'
 
 const MAX_BODY_BYTES = 4_000
 // KV-fallback rate limit, kept in step with the native [[ratelimits]] binding.
@@ -46,6 +78,105 @@ function json(obj, status, headers) {
     status,
     headers: { ...headers, 'Content-Type': 'application/json' },
   })
+}
+
+const ACCOUNT_ROUTES = new Set(['register', 'login', 'logout', 'me', 'name'])
+const DEFAULT_BOARD = 'usa'
+
+/**
+ * The account routes. Returns `[body, status]`. Throws on a D1 error (the
+ * caller answers 503).
+ */
+async function accountRoute(route, body, env, ip, now) {
+  const db = env.DB
+  const board = BOARDS.has(body.board) ? body.board : DEFAULT_BOARD
+  const signedIn = (account, token) => ({
+    ok: true,
+    ...(token ? { token } : {}),
+    username: account.username,
+    name: account.name,
+  })
+
+  if (route === 'register' || route === 'login') {
+    const u = validateUsername(body.username)
+    const passOk = isValidPass(body.pass)
+    if (route === 'login' && (!u.ok || !passOk))
+      return [{ error: 'wrong username or password' }, 401]
+    if (!u.ok) return [{ error: u.error }, u.status]
+    if (!passOk) return [{ error: 'invalid password' }, 400]
+    let name = ''
+    if (route === 'register' && body.name != null && body.name !== '') {
+      const n = validateName(body.name)
+      if (!n.ok) return [{ error: n.error }, n.status]
+      name = n.value
+    }
+    // Password guessing is the one attack here with a real payoff, and every
+    // registration is a row someone has to look at: both sit behind a much
+    // tighter limiter than the rest, and fail closed without it.
+    if (!env.LOGIN_LIMITER) return [{ error: 'accounts disabled' }, 503]
+    const gate = await env.LOGIN_LIMITER.limit({
+      key: route === 'login' ? `${ip}|${u.value}` : `${ip}|register`,
+    })
+    if (!gate.success)
+      return [{ error: 'too many attempts, try again in a minute' }, 429]
+
+    const r =
+      route === 'register'
+        ? await createAccount(
+            db,
+            { username: u.value, name, pass: body.pass },
+            now.getTime(),
+          )
+        : await verifyLogin(db, u.value, body.pass)
+    if (!r.ok) return [{ error: r.error }, r.status]
+    // What this device did before signing in becomes the account's. Best
+    // effort: a failure here must not leave a freshly created account
+    // without a session (a retry would then say "username taken"), and the
+    // fold is idempotent — the next sign-in from this device redoes it.
+    try {
+      await foldIntoAccount(
+        db,
+        board,
+        r.value.id,
+        { clientId: body.clientId },
+        now.getTime(),
+      )
+    } catch (e) {
+      console.warn('leaderboard account fold failed', {
+        route,
+        error: String(e),
+      })
+    }
+    const token = await openSession(db, r.value.id, now.getTime())
+    return [signedIn(r.value, token), 200]
+  }
+
+  if (route === 'logout') {
+    await closeSession(db, body.token)
+    return [{ ok: true }, 200]
+  }
+
+  const account = await accountForToken(db, body.token)
+  // 401 = "this device is no longer signed in" (signed out, or its session
+  // pushed out by the account's ten newest); the client drops the token and
+  // carries on anonymously. Sessions do not otherwise expire: with no
+  // password reset, an expiry would lock out anyone who forgot theirs.
+  if (!account) return [{ error: 'signed out' }, 401]
+
+  if (route === 'name') {
+    const n = validateName(body.name)
+    if (!n.ok) return [{ error: n.error }, n.status]
+    await renameAccount(db, account.id, n.value)
+    return [signedIn({ ...account, name: n.value }), 200]
+  }
+
+  // route === 'me': fold the device's local streak in, then say what the
+  // account has (src/lib/sync.ts applies it).
+  const claim = validateStreakClaim(body.streak, now)
+  if (claim)
+    await foldIntoAccount(db, board, account.id, { claim }, now.getTime())
+  const progress = await readProgress(db, board, account.id, now)
+  return [{ ...signedIn(account), ...progress }, 200]
 }
 
 async function verifyTurnstile(token, secret, ip) {
@@ -148,11 +279,43 @@ export default {
       if (!ok) return json({ error: 'verification failed' }, 403, headers)
     }
 
+    const route = new URL(request.url).pathname
+      .replace(/\/+$/, '')
+      .split('/')
+      .pop()
+    if (ACCOUNT_ROUTES.has(route)) {
+      if (!body || typeof body !== 'object')
+        return json({ error: 'invalid json' }, 400, headers)
+      try {
+        const [out, status] = await accountRoute(
+          route,
+          body,
+          env,
+          ip,
+          new Date(),
+        )
+        return json(out, status, headers)
+      } catch (e) {
+        console.error('leaderboard account request failed', {
+          route,
+          error: String(e),
+        })
+        return json({ error: 'accounts unavailable' }, 503, headers)
+      }
+    }
+
     const v = validateSubmission(body, new Date())
     if (!v.ok) return json({ error: v.error }, v.status, headers)
 
     try {
       const now = Date.now()
+      // Signed in → the score is the ACCOUNT's (one row across its devices).
+      // A token that no longer resolves is not an error: the day still counts
+      // for the anonymous device, and the next sign-in folds it in.
+      const account = body?.token
+        ? await accountForToken(env.DB, body.token)
+        : null
+      if (account) v.value.clientId = accountKey(account.id)
       const standing = await upsertAndRank(env.DB, v.value, now)
       // Advance the per-player streak. Best-effort: a streak failure must not
       // fail the score submission, so it's caught independently.
