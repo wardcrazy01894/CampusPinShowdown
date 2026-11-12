@@ -46,8 +46,14 @@ judged too strong. It deducts `HINT_PENALTY` (25) from that round on submit
 (a hinted perfect pin is 75 — good, never green), persists in
 `GameState.hintUsed` so a reload keeps both the hint and the penalty, marks
 the round (`RoundResult.hinted`) on the reveal and the results row, and the
-share card gains a "💡 N hints" line. The "is my town in the game?" search is offered
-only after the day is finished — mid-round it would answer the round.
+share card gains a "💡 N hints" line. The **"🔎 is my school in the game?"** search
+(`SchoolSearch`, `src/lib/search.ts`) is offered on every screen — a header
+link, and a 🔎 icon on the slim phone header during play. It matches on
+**school names only** and lists school names only: the town and state are the
+answer to a round, so they are never matched on (typing "Ann Arbor" finds
+nothing) and never shown. (It used to list "Ann Arbor, MI · University of
+Michigan" and was therefore hidden until the day was finished.) A miss offers
+"+ Request to add it".
 
 **The map is the screen (every width).** Player feedback (2026-11-04) was
 that the map was too small and hard to move around: on a phone it was the
@@ -328,13 +334,13 @@ an `@`.
 
 ## Bug reports (`worker/bug-report.mjs`, `src/components/BugReport.tsx`)
 
-"🐛 report a bug" opens an **in-app form** (an overlay, like the town search):
+"🐛 report a bug" opens an **in-app form** (an overlay, like the school search):
 type what happened, optionally attach the session log buffer, send, stay on
 the site. With `VITE_BUG_ENDPOINT` set the form POSTs
 `{ message, context: { date, url, userAgent }, logs, turnstileToken? }` to the
 `cps-bug` Worker, which files a GitHub issue (`bug`, `from-app`) with a
 fine-grained PAT kept server-side and returns its URL; without the endpoint
-the form opens a prefilled GitHub issue page instead. The "is my town in the
+the form opens a prefilled GitHub issue page instead. The "is my school in the
 game?" miss opens the same form prefilled with "Please add "X" to the game."
 Hardening (ported from KnowYourCity): fails closed without a rate limit or
 Turnstile; per-IP rate limit (5/min); server-side origin allowlist; body and

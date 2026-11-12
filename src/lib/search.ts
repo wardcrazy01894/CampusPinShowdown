@@ -1,9 +1,13 @@
 /**
- * Dataset search helpers — used by the "is my college town in the game?"
- * lookup. Pure and unit-tested; the React component is a thin shell over these.
- * A query matches a town by its name, its "Name, ST" form, its state, or any of
- * its schools, so "Michigan" finds Ann Arbor and "Wolverines"-style nicknames
- * don't (they aren't in the data).
+ * Dataset search helpers — used by the "is my school in the game?" lookup.
+ * Pure and unit-tested; the React component is a thin shell over these.
+ *
+ * The search is over SCHOOL NAMES only, and returns school names only. The
+ * town and state are the answer to a round, so they are neither matched on
+ * nor returned: that is what lets the lookup be offered on every screen,
+ * mid-round included (owner: "type a school and see if it's in the game,
+ * shouldn't be a spoiler"). Nicknames ("Wolverines") aren't in the data and
+ * don't match.
  */
 
 import type { Town } from '../types'
@@ -15,52 +19,35 @@ const normalize = (s: string) =>
     .replace(/[^a-z0-9]+/g, ' ')
     .trim()
 
-/** Every string a town can be found by, normalized. */
-function keys(t: Town): string[] {
-  return [t.name, `${t.name} ${t.stateCode}`, t.state, ...t.schools].map(
-    normalize,
-  )
+/** Every distinct school in the dataset (first spelling wins). */
+function allSchools(towns: Town[]): Map<string, string> {
+  const byKey = new Map<string, string>()
+  for (const t of towns)
+    for (const school of t.schools) {
+      const key = normalize(school)
+      if (key && !byKey.has(key)) byKey.set(key, school)
+    }
+  return byKey
+}
+
+/** How many distinct schools the dataset has. */
+export function schoolCount(towns: Town[]): number {
+  return allSchools(towns).size
 }
 
 /**
- * Substring search over towns, ranked: name-prefix matches first, then any
- * prefix match (state/school), then by how early the match occurs, then
- * alphabetically. Returns [] for <2-char queries.
+ * Every school whose name contains the query, ranked: names that START with
+ * it first, then by how early the match occurs, then alphabetically. Returns
+ * [] for <2-char queries. Not capped — the caller decides how many to show.
  */
-export function searchTowns(towns: Town[], query: string, limit = 12): Town[] {
+export function searchSchools(towns: Town[], query: string): string[] {
   const q = normalize(query)
   if (q.length < 2) return []
-  const scored: Array<{ town: Town; rank: number; idx: number }> = []
-  for (const town of towns) {
-    const ks = keys(town)
-    let best: { rank: number; idx: number } | null = null
-    ks.forEach((k, i) => {
-      const idx = k.indexOf(q)
-      if (idx === -1) return
-      // rank 0: the town name itself starts with the query; 1: another key
-      // starts with it; 2: substring anywhere.
-      const rank = idx === 0 ? (i === 0 ? 0 : 1) : 2
-      if (!best || rank < best.rank || (rank === best.rank && idx < best.idx))
-        best = { rank, idx }
-    })
-    if (best) scored.push({ town, ...(best as { rank: number; idx: number }) })
+  const hits: Array<{ school: string; idx: number }> = []
+  for (const [key, school] of allSchools(towns)) {
+    const idx = key.indexOf(q)
+    if (idx !== -1) hits.push({ school, idx })
   }
-  scored.sort(
-    (a, b) =>
-      a.rank - b.rank ||
-      a.idx - b.idx ||
-      a.town.name.localeCompare(b.town.name),
-  )
-  return scored.slice(0, limit).map((s) => s.town)
-}
-
-/** True if a town with this (normalized) name — or a school by this name — is in the dataset. */
-export function isIncluded(towns: Town[], query: string): boolean {
-  const q = normalize(query)
-  if (!q) return false
-  return towns.some((t) =>
-    [t.name, `${t.name} ${t.stateCode}`, ...t.schools].some(
-      (k) => normalize(k) === q,
-    ),
-  )
+  hits.sort((a, b) => a.idx - b.idx || a.school.localeCompare(b.school))
+  return hits.map((h) => h.school)
 }

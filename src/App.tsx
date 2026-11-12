@@ -34,7 +34,7 @@ import { SATELLITE_YEAR } from './lib/tiles'
 import { BugReport } from './components/BugReport'
 import { log } from './lib/log'
 import { Game } from './components/Game'
-import { TownSearch } from './components/TownSearch'
+import { SchoolSearch } from './components/SchoolSearch'
 
 // Generated once per page load; in ?shuffle mode this seeds a fresh random set.
 const SHUFFLE_SEED = Math.random().toString(36).slice(2)
@@ -73,9 +73,10 @@ export function App() {
   const [gameEpoch, setGameEpoch] = useState(0)
   const [syncEpoch, setSyncEpoch] = useState(0)
   const [syncAsk, setSyncAsk] = useState(0)
-  // Today's game phase, reported by <Game>. The town search is offered only
-  // once the day is FINISHED: mid-round, typing the prompt's school into it
-  // would list "Ann Arbor, MI" — the whole answer. (Review finding on PR #5.)
+  // Today's game phase, reported by <Game> — drives the play/results layout
+  // (`is-playing`). (It used to gate the school search too, back when that
+  // listed towns; the search now shows school names only — lib/search.ts —
+  // so it is offered on every screen.)
   const [phase, setPhase] = useState<GamePhase | null>(() => {
     // Seed from the saved game so a resumed finished day is 'finished' on the
     // very first render; Game reports every later transition.
@@ -329,9 +330,9 @@ export function App() {
           />
         </div>
       )}
-      {searching && finished && reporting === null && !accountOpen && (
+      {searching && reporting === null && !accountOpen && (
         <div style={overlay}>
-          <TownSearch
+          <SchoolSearch
             towns={file.towns}
             onClose={() => setSearching(false)}
             onRequest={(message) => {
@@ -366,14 +367,12 @@ export function App() {
                 )}
               </div>
               <div className="header-links">
-                {finished && (
-                  <button
-                    onClick={() => setSearching(true)}
-                    className="link-button"
-                  >
-                    🔎 is my town in the game?
-                  </button>
-                )}
+                <button
+                  onClick={() => setSearching(true)}
+                  className="link-button"
+                >
+                  🔎 is my school in the game?
+                </button>
                 <button
                   onClick={() => setReporting('')}
                   className="link-button"
@@ -393,8 +392,16 @@ export function App() {
           </div>
           <div className="header-buttons">
             {/* Phones hide the header links during play (index.css), so the
-                bug report and the account keep a seat here; CSS shows these
-                two only then. */}
+                school search, the bug report and the account keep a seat
+                here; CSS shows these three only then. */}
+            <button
+              onClick={() => setSearching(true)}
+              aria-label="Is my school in the game?"
+              title="Is my school in the game?"
+              className="icon-button icon-button--compact"
+            >
+              🔎
+            </button>
             <button
               onClick={() => setReporting('')}
               aria-label="Report a bug"

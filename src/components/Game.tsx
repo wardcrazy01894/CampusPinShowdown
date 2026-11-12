@@ -48,8 +48,8 @@ export interface GameProps {
   towns: Town[]
   /** True only for the official daily challenge. */
   official: boolean
-  /** Called with the phase on mount and every transition (App hides the town
-   *  search until the day is finished — mid-round it would answer the round). */
+  /** Called with the phase on mount and every transition (App switches
+   *  between the play layout and the results layout on it). */
   onPhaseChange?: (phase: GameState['phase']) => void
   /** Imagery for the maps; defaults to DEFAULT_BASEMAP (satellite). */
   basemap?: Basemap

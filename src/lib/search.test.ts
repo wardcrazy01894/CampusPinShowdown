@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { searchTowns, isIncluded } from './search'
+import { searchSchools, schoolCount } from './search'
 import type { Town } from '../types'
 
 const town = (
@@ -25,58 +25,64 @@ const data = [
   town('East Lansing', 'MI', 'Michigan', ['Michigan State University']),
   town('Athens', 'GA', 'Georgia', ['University of Georgia']),
   town('Athens', 'OH', 'Ohio', ['Ohio University']),
-  town('Boulder', 'CO', 'Colorado', ['University of Colorado Boulder']),
-  town('Chapel Hill', 'NC', 'North Carolina', ['University of North Carolina']),
+  town('Moorhead', 'MN', 'Minnesota', [
+    'Minnesota State University Moorhead',
+    'Concordia College',
+  ]),
   town('Stanford', 'CA', 'California', ['Stanford University']),
+  town('Tuscaloosa', 'AL', 'Alabama', ['University of Alabama']),
 ]
 
-describe('searchTowns', () => {
+describe('searchSchools', () => {
   it('returns [] for queries under 2 chars', () => {
-    expect(searchTowns(data, '')).toEqual([])
-    expect(searchTowns(data, 'a')).toEqual([])
+    expect(searchSchools(data, '')).toEqual([])
+    expect(searchSchools(data, 'a')).toEqual([])
   })
 
-  it('matches town names case-insensitively on substring', () => {
-    expect(searchTowns(data, 'arbor').map((t) => t.id)).toEqual([
-      'ann-arbor-mi',
+  it('finds a school by any part of its name, ignoring case and punctuation', () => {
+    expect(searchSchools(data, 'STANFORD')).toEqual(['Stanford University'])
+    expect(searchSchools(data, 'univ. of georgia')).toEqual([])
+    expect(searchSchools(data, 'university-of georgia')).toEqual([
+      'University of Georgia',
     ])
   })
 
-  it('matches by school name', () => {
-    expect(searchTowns(data, 'michigan state').map((t) => t.id)).toEqual([
-      'east-lansing-mi',
+  it('finds every school of a town, not just the first', () => {
+    expect(searchSchools(data, 'concordia')).toEqual(['Concordia College'])
+  })
+
+  it('puts a name that STARTS with the query first, then earlier matches, then A–Z', () => {
+    expect(searchSchools(data, 'michigan')).toEqual([
+      'Michigan State University',
+      'University of Michigan',
+    ])
+    expect(searchSchools(data, 'university of')).toEqual([
+      'University of Alabama',
+      'University of Georgia',
+      'University of Michigan',
     ])
   })
 
-  it('matches by state and by "Name, ST"', () => {
-    expect(searchTowns(data, 'georgia').map((t) => t.id)).toEqual(['athens-ga'])
-    expect(searchTowns(data, 'athens, oh').map((t) => t.id)).toEqual([
-      'athens-oh',
-    ])
+  it('never matches on the TOWN or the STATE — that would be a spoiler', () => {
+    // "Ann Arbor" and "Tuscaloosa" are answers; no school is named for them.
+    expect(searchSchools(data, 'ann arbor')).toEqual([])
+    expect(searchSchools(data, 'tuscaloosa')).toEqual([])
+    // "Ohio" finds Ohio University by its NAME, not Athens by its state.
+    expect(searchSchools(data, 'ohio')).toEqual(['Ohio University'])
+    expect(searchSchools(data, 'california')).toEqual([])
   })
 
-  it('ranks a town-name prefix match above a school/state match', () => {
-    // "col" is a prefix of Colorado (state) and of nothing else by name except…
-    // "Chapel Hill"? no. Boulder matches via "Colorado". Add a name-prefix case:
-    const names = searchTowns(data, 'st').map((t) => t.name)
-    // "Stanford" (name prefix) must come before East Lansing (Michigan STate — substring).
-    expect(names[0]).toBe('Stanford')
-  })
-
-  it('respects the limit', () => {
-    expect(searchTowns(data, 'university', 3)).toHaveLength(3)
+  it('lists a school once even if two towns carry it', () => {
+    const twice = [
+      ...data,
+      town('Elsewhere', 'TX', 'Texas', ['Ohio University']),
+    ]
+    expect(searchSchools(twice, 'ohio')).toEqual(['Ohio University'])
   })
 })
 
-describe('isIncluded', () => {
-  it('is true for an exact (normalized) town name, "Name, ST", or school', () => {
-    expect(isIncluded(data, 'ann arbor')).toBe(true)
-    expect(isIncluded(data, 'Ann Arbor, MI')).toBe(true)
-    expect(isIncluded(data, 'university of michigan')).toBe(true)
-  })
-
-  it('is false for a state name alone or an absent town', () => {
-    expect(isIncluded(data, 'Michigan')).toBe(false)
-    expect(isIncluded(data, 'Tuscaloosa')).toBe(false)
+describe('schoolCount', () => {
+  it('counts distinct schools across all towns', () => {
+    expect(schoolCount(data)).toBe(8)
   })
 })

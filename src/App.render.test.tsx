@@ -79,10 +79,6 @@ describe('App', () => {
     // The studio credit is the last line of the footer, below the idea credit.
     const credit = screen.getByText('A Spicy Al Software Solution')
     expect(credit.closest('footer')?.lastElementChild).toBe(credit)
-    // Mid-round the town search is hidden — it would answer the round.
-    expect(
-      screen.queryByRole('button', { name: /is my town in the game/ }),
-    ).toBeNull()
     expect(screen.getByText(/Town coordinates © test/)).toBeTruthy()
     // (Leaflet's own attribution control renders a second NASA GIBS link.)
     expect(
@@ -129,7 +125,45 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     window.history.replaceState({}, '', '/')
   })
 
-  it('offers the town search only once the day is finished, as an overlay over the results', async () => {
+  it('offers the school search mid-round too — it names schools, never the town being asked', async () => {
+    render(<App />)
+    await screen.findByText(/Round 1 of 5/)
+    const asked = screen
+      .getByRole('heading', { level: 2 })
+      .textContent!.replace(/^Where is (.+)\?$/, '$1')
+    fireEvent.click(
+      screen.getByRole('button', { name: /is my school in the game/ }),
+    )
+    // Type the very school the round is asking about.
+    fireEvent.change(screen.getByLabelText('Search schools'), {
+      target: { value: asked },
+    })
+    const overlayEl = screen
+      .getByLabelText('Search schools')
+      .closest('div[style]') as HTMLElement
+    expect(overlayEl.textContent).toContain('In the game')
+    // Its town and state — the answer — are nowhere in the search.
+    const town = FILE.towns.find((t) => t.schools.includes(asked))!
+    expect(overlayEl.textContent).not.toContain(`${town.name},`)
+    expect(overlayEl.textContent).not.toContain(town.state)
+    expect(overlayEl.textContent).not.toContain(town.stateCode)
+    // The round underneath is untouched.
+    fireEvent.keyDown(window, { key: 'Escape' })
+    expect(screen.getByText(/Round 1 of 5/)).toBeTruthy()
+  })
+
+  it('keeps a seat for the school search on the slim phone header', async () => {
+    render(<App />)
+    await screen.findByText(/Round 1 of 5/)
+    const icon = screen.getByRole('button', {
+      name: 'Is my school in the game?',
+    })
+    expect(icon.classList.contains('icon-button--compact')).toBe(true)
+    fireEvent.click(icon)
+    expect(screen.getByLabelText('Search schools')).toBeTruthy()
+  })
+
+  it('opens the school search as an overlay over the results', async () => {
     const { dailyLineup, getDateKey } = await import('./lib/daily')
     const { saveState, STORAGE_VERSION } = await import('./lib/storage')
     const today = getDateKey(new Date())
@@ -159,27 +193,27 @@ describe('App — seed change never shows the previous seed’s towns', () => {
     render(<App />)
     await screen.findByText(/Done for today!/)
     fireEvent.click(
-      await screen.findByRole('button', { name: /is my town in the game/ }),
+      await screen.findByRole('button', { name: /is my school in the game/ }),
     )
-    expect(screen.getByLabelText('Search towns')).toBeTruthy()
+    expect(screen.getByLabelText('Search schools')).toBeTruthy()
     // The results are still in the DOM underneath the overlay.
     expect(screen.getByText(/Done for today!/)).toBeTruthy()
     // Leaflet's zoom control / attribution sit at z-index 1000; the overlay
     // must be above them or the hidden map's "+" takes the tap.
     expect(OVERLAY_Z_INDEX).toBeGreaterThan(1000)
     const overlayEl = screen
-      .getByLabelText('Search towns')
+      .getByLabelText('Search schools')
       .closest('div[style]')!
     expect(Number((overlayEl as HTMLElement).style.zIndex)).toBe(
       OVERLAY_Z_INDEX,
     )
     fireEvent.keyDown(window, { key: 'Escape' })
-    expect(screen.queryByLabelText('Search towns')).toBeNull()
+    expect(screen.queryByLabelText('Search schools')).toBeNull()
     fireEvent.click(
-      screen.getByRole('button', { name: /is my town in the game/ }),
+      screen.getByRole('button', { name: /is my school in the game/ }),
     )
     fireEvent.click(screen.getByRole('button', { name: '← back' }))
-    expect(screen.queryByLabelText('Search towns')).toBeNull()
+    expect(screen.queryByLabelText('Search schools')).toBeNull()
   })
 
   it('starts on satellite, offers a labelled "night lights" button on the map, and remembers the choice', async () => {
