@@ -110,6 +110,13 @@ body,
   opacity: 0.7;
   font-size: 13px;
 }
+/* The run the player is on, shown before the first guess (Game.tsx). */
+.play__streak {
+  margin: 4px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffcb05;
+}
 .play__question {
   margin: 4px 0 2px;
   font-size: 17px;

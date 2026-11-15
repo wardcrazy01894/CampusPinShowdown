@@ -47,6 +47,19 @@ export function bumpStreak(prev: Streak, dateKey: string): Streak {
 }
 
 /**
+ * The run the player is on going into `dateKey`: the stored count while it can
+ * still be extended (yesterday was played) or already includes today, else 0.
+ * The stored `current` is only rewritten on a completion, so after a missed
+ * day it is stale — showing it as a live streak would be a lie.
+ */
+export function liveStreak(streak: Streak, dateKey: string): number {
+  const last = streak.lastPlayedDateKey
+  return last === dateKey || last === previousDateKey(dateKey)
+    ? streak.current
+    : 0
+}
+
+/**
  * Stable identity for a day's lineup: a short hash of its town ids in play
  * order. Distinguishes the normal official set from a changed set, so a genuine
  * replay is a distinct completion while a reload of the same game is not.

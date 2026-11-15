@@ -21,7 +21,12 @@ pin on the satellite map of the USA (or the night-lights map, one tap away)
 and submits. The round header carries
 the town's **tier badge** (🟢 Easy / 🟡 Medium / 🔴 Hard, `src/lib/tiers.ts`)
 up front — it sets expectations and says nothing about the town, so it is not
-a hint; the same badge sits on each results row. On submit the reveal shows the real
+a hint; the same badge sits on each results row. On the official daily a
+player with a **live streak** (`liveStreak` in `src/lib/progress.ts`: yesterday
+was played, or today already counts) sees it before the first guess —
+"🔥 3-day streak — finish today to make it 4" — and as a compact "🔥 3" in the
+round header for the rest of the day; a run a missed day already ended, a
+first-time player and the dev modes show nothing. On submit the reveal shows the real
 pin, a dashed line, the distance in miles, and the round score — and, under
 the "Home of …" line, the **school card** (`SchoolCard`): a hand-written fun
 fact, then whichever of these the data has — public/private + founding year,
