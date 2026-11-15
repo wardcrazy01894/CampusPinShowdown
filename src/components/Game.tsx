@@ -30,7 +30,7 @@ import { playScoreSound } from '../lib/sound'
 import { log } from '../lib/log'
 import { loadState, saveState, STORAGE_VERSION } from '../lib/storage'
 import { resolveInitialGame } from '../lib/resume'
-import { lineupHash, recordCompletion } from '../lib/progress'
+import { lineupHash, liveStreak, recordCompletion } from '../lib/progress'
 import { schoolsLine, promptSchool } from '../lib/schools'
 import { revealTag } from '../lib/easterEgg'
 import { hintRegion, hintText } from '../lib/hintRegions'
@@ -119,6 +119,14 @@ export function Game({
     game.results[game.results.length - 1]
   const total = totalScore(game.results)
   const isLastRound = game.roundIndex === game.towns.length - 1
+  // The run the player walks in with — the reason to finish today. Official
+  // daily only (dev modes keep their own, meaningless, streak), and only a
+  // run that is still alive (progress.ts:liveStreak).
+  const run = official ? liveStreak(streak, game.dateKey) : 0
+  const countedToday = streak.lastPlayedDateKey === game.dateKey
+  // Spelled out before the first guess; a compact 🔥 N in the round row after
+  // that, so the prompt card stays short over the map.
+  const atStart = game.roundIndex === 0 && game.phase === 'guessing'
 
   /** Persist the game; on finalize, also record the day + bump the streak. */
   function persist(next: GameState, finalize = false) {
@@ -274,8 +282,25 @@ export function Game({
             {/* Tier up front sets expectations; it says nothing about the town. */}
             <span style={tierBadge}>{tierLabel(currentTown.difficulty)}</span>
           </span>
+          {run > 0 && !atStart && (
+            <span
+              // role="img": a bare span may not carry an accessible name.
+              role="img"
+              title={`${run}-day streak`}
+              aria-label={`${run}-day streak`}
+            >
+              🔥 {run}
+            </span>
+          )}
           <span>Score {total.toLocaleString('en-US')}</span>
         </div>
+        {run > 0 && atStart && (
+          <p className="play__streak">
+            {countedToday
+              ? `🔥 ${run}-day streak`
+              : `🔥 ${run}-day streak — finish today to make it ${run + 1}`}
+          </p>
+        )}
 
         {/* The prompt is the SCHOOL; the town is the answer and is withheld until
           the guess is in (owner rule: "ask where Michigan is, then tell me

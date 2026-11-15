@@ -162,6 +162,83 @@ describe('Game', () => {
   })
 })
 
+describe('Game — streak shown from the start', () => {
+  const withStreak = (current: number, lastPlayedDateKey: string | null) =>
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history: [],
+      streak: { current, best: Math.max(current, 5), lastPlayedDateKey },
+    })
+  const play = (official = true) =>
+    render(
+      <Game
+        storageId="usa"
+        dateKey="2026-10-29"
+        bounds={REGION.bounds}
+        towns={towns}
+        official={official}
+      />,
+    )
+
+  it('shows the run the player is on, and what finishing today makes it', () => {
+    withStreak(3, '2026-10-28')
+    play()
+    expect(
+      screen.getByText('🔥 3-day streak — finish today to make it 4'),
+    ).toBeTruthy()
+  })
+
+  it('shows nothing for a run that a missed day already ended', () => {
+    withStreak(3, '2026-10-26')
+    play()
+    expect(screen.queryByText(/streak/i)).toBeNull()
+  })
+
+  it('shows nothing for a first-time player', () => {
+    play()
+    expect(screen.queryByText(/streak/i)).toBeNull()
+  })
+
+  it('shows nothing outside the official daily', () => {
+    withStreak(3, '2026-10-28')
+    play(false)
+    expect(screen.queryByText(/streak/i)).toBeNull()
+  })
+
+  it('shrinks to a 🔥 N in the round row once the first guess is in', () => {
+    saveState('usa', {
+      version: STORAGE_VERSION,
+      history: [],
+      streak: { current: 3, best: 5, lastPlayedDateKey: '2026-10-28' },
+      current: {
+        dateKey: '2026-10-29',
+        towns,
+        roundIndex: 0,
+        results: [
+          {
+            town: towns[0],
+            guess: { lat: 42, lng: -84 },
+            distanceMeters: 40_000,
+            score: 96,
+          },
+        ],
+        phase: 'revealed',
+      },
+    })
+    play()
+    expect(screen.getByRole('img', { name: '3-day streak' }).textContent).toBe(
+      '🔥 3',
+    )
+    expect(screen.queryByText(/finish today/)).toBeNull()
+  })
+
+  it('drops the "make it N" once today is already counted (a replayed lineup)', () => {
+    withStreak(4, '2026-10-29')
+    play()
+    expect(screen.getByText('🔥 4-day streak')).toBeTruthy()
+  })
+})
+
 describe('Game — hint mode', () => {
   it('offers the REGION for a penalty before the guess, never shows it unasked', () => {
     render(

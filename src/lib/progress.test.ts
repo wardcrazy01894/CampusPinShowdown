@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   lineupHash,
   bumpStreak,
+  liveStreak,
   previousDateKey,
   recordCompletion,
   type Streak,
@@ -84,6 +85,31 @@ describe('bumpStreak', () => {
 
   it('resets to 1 after a gap', () => {
     expect(bumpStreak(base, '2026-06-18').current).toBe(1)
+  })
+})
+
+describe('liveStreak', () => {
+  const base: Streak = { current: 3, best: 5, lastPlayedDateKey: '2026-06-15' }
+
+  it('is the current run when yesterday was played (today extends it)', () => {
+    expect(liveStreak(base, '2026-06-16')).toBe(3)
+  })
+
+  it('is the current run when today is already counted', () => {
+    expect(liveStreak(base, '2026-06-15')).toBe(3)
+  })
+
+  it('is 0 once a day was missed — the stored count is stale, not alive', () => {
+    expect(liveStreak(base, '2026-06-17')).toBe(0)
+  })
+
+  it('is 0 for a player who never finished a day', () => {
+    expect(
+      liveStreak(
+        { current: 0, best: 0, lastPlayedDateKey: null },
+        '2026-06-16',
+      ),
+    ).toBe(0)
   })
 })
 
