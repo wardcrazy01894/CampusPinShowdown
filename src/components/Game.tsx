@@ -283,7 +283,12 @@ export function Game({
             <span style={tierBadge}>{tierLabel(currentTown.difficulty)}</span>
           </span>
           {run > 0 && !atStart && (
-            <span title={`${run}-day streak`} aria-label={`${run}-day streak`}>
+            <span
+              // role="img": a bare span may not carry an accessible name.
+              role="img"
+              title={`${run}-day streak`}
+              aria-label={`${run}-day streak`}
+            >
               🔥 {run}
             </span>
           )}

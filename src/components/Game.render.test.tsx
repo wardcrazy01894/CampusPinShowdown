@@ -226,7 +226,9 @@ describe('Game — streak shown from the start', () => {
       },
     })
     play()
-    expect(screen.getByLabelText('3-day streak').textContent).toBe('🔥 3')
+    expect(screen.getByRole('img', { name: '3-day streak' }).textContent).toBe(
+      '🔥 3',
+    )
     expect(screen.queryByText(/finish today/)).toBeNull()
   })
 
