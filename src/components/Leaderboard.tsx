@@ -85,34 +85,18 @@ export function Leaderboard({
   const youShown = state.phase === 'ready' && state.rows.some((r) => r.you)
 
   return (
-    <section style={{ padding: 16, maxWidth: 560, margin: '0 auto' }}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'baseline',
-        }}
-      >
-        <h2 style={{ marginBottom: 4 }}>
+    // Styled in index.css (`.board*`, `.page`).
+    <section className="page board">
+      <div className="board__head">
+        <h2 className="results__title">
           🏆 Leaderboard{' '}
-          <span style={{ opacity: 0.5, fontWeight: 400, fontSize: 16 }}>
-            #{puzzleNumber(dateKey)}
-          </span>
+          <span className="results__num">#{puzzleNumber(dateKey)}</span>
         </h2>
-        <button
-          onClick={onClose}
-          style={{
-            background: 'transparent',
-            border: 'none',
-            color: '#7fb2ff',
-            cursor: 'pointer',
-            font: 'inherit',
-          }}
-        >
+        <button onClick={onClose} className="btn btn--ghost btn--small">
           ← back
         </button>
       </div>
-      <p style={{ marginTop: 0, opacity: 0.7, fontSize: 14 }}>
+      <p className="board__sub">
         {dateKey}
         {state.phase === 'ready' && (
           <>
@@ -123,38 +107,30 @@ export function Leaderboard({
         )}
       </p>
 
-      {state.phase === 'loading' && <p style={{ opacity: 0.7 }}>Loading…</p>}
+      {state.phase === 'loading' && <p className="board__note">Loading…</p>}
 
       {state.phase === 'empty' && (
-        <p style={{ opacity: 0.7 }}>
+        <p className="board__note">
           No scores yet today — be the first to finish!
         </p>
       )}
 
       {state.phase === 'ready' && (
         <>
-          <ol style={{ listStyle: 'none', padding: 0, margin: '8px 0 0' }}>
+          <ol className="board__rows">
             {state.rows.map((r, i) => (
               <li
                 key={i}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  padding: '6px 10px',
-                  borderRadius: 6,
-                  marginBottom: 2,
-                  background: r.you ? 'rgba(127,178,255,0.18)' : 'transparent',
-                  fontWeight: r.you ? 700 : 400,
-                }}
+                className={r.you ? 'board__row board__row--you' : 'board__row'}
               >
-                <span style={{ opacity: 0.85 }}>
+                <span className="board__who">
                   {medal(r.rank)} {ordinal(r.rank)}
                   {r.name && <span> · {r.name}</span>}
-                  {r.you && <span style={{ color: '#7fb2ff' }}> · you</span>}
+                  {r.you && <span className="board__you"> · you</span>}
                 </span>
-                <span>
+                <span className="board__score">
                   {r.score.toLocaleString('en-US')}{' '}
-                  <span style={{ opacity: 0.5 }}>
+                  <span className="board__max">
                     / {maxTotal.toLocaleString('en-US')}
                   </span>
                 </span>
@@ -162,13 +138,13 @@ export function Leaderboard({
             ))}
           </ol>
           {state.total > state.rows.length && (
-            <p style={{ opacity: 0.55, fontSize: 12, marginTop: 8 }}>
+            <p className="board__more">
               Showing the top {state.rows.length} of{' '}
               {state.total.toLocaleString('en-US')}.
             </p>
           )}
           {!youShown && state.you && (
-            <p style={{ marginTop: 8, fontWeight: 600, color: '#7fb2ff' }}>
+            <p className="board__placed">
               You placed {ordinal(state.you.rank)} of{' '}
               {state.you.total.toLocaleString('en-US')}
               {yourScore !== undefined &&

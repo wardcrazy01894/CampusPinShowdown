@@ -8,7 +8,7 @@
  * player's click, never automatic; see mode.ts:resolveSessionMode).
  */
 
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { RoundResult } from '../types'
 import { MAX_ROUND_SCORE, formatDistance, scoreEmoji } from '../lib/scoring'
 import { buildShareString } from '../lib/share'
@@ -60,6 +60,9 @@ export interface ResultsProps {
   basemap?: Basemap
   /** When given, the worded basemap toggle is drawn on the recap map. */
   onBasemapChange?: (next: Basemap) => void
+  /** Bumped by App when the player clicks the brand to go "home": the
+   *  leaderboard closes and the recap map goes back to the whole day. */
+  homeEpoch?: number
   /** True when signed in to an account (lib/account.ts). */
   signedIn?: boolean
   /** Opens the account dialog. When given and signed out, the streak line
@@ -86,6 +89,7 @@ export function Results({
   official,
   basemap = DEFAULT_BASEMAP,
   onBasemapChange,
+  homeEpoch = 0,
   signedIn = false,
   onOpenAccount,
 }: ResultsProps) {
@@ -155,6 +159,15 @@ export function Results({
   // "About …" toggles it). Separate from `focus` so reading about a school
   // never moves the map.
   const [about, setAbout] = useState<number | null>(null)
+  // "Home" (the brand link in App) is this screen's summary: leave the
+  // leaderboard and frame the whole day again. State adjusted during render,
+  // like Game's syncEpoch — no effect, no extra paint.
+  const [seenHome, setSeenHome] = useState(homeEpoch)
+  if (seenHome !== homeEpoch) {
+    setSeenHome(homeEpoch)
+    setShowBoard(false)
+    setFocus(null)
+  }
   const mapWrapRef = useRef<HTMLDivElement | null>(null)
   function focusRound(i: number) {
     const next = focus === i ? null : i
@@ -237,62 +250,75 @@ export function Results({
   }
 
   return (
-    <section style={{ padding: 16, maxWidth: 560, margin: '0 auto' }}>
-      <h2 style={{ marginBottom: 4 }}>
-        {rolled ? `Done for ${dateKey}!` : 'Done for today!'}{' '}
-        <span style={{ opacity: 0.5, fontWeight: 400, fontSize: 16 }}>
-          #{puzzleNumber(dateKey)}
-        </span>
-      </h2>
-      {rolled && (
-        <button
-          onClick={() => window.location.reload()}
-          style={playTodayButton}
-        >
-          ▶ Play today’s puzzle
-        </button>
-      )}
-      <p style={{ fontSize: 28, fontWeight: 700, margin: '4px 0' }}>
-        {totalScore.toLocaleString('en-US')}{' '}
-        <span style={{ fontSize: 16, opacity: 0.6 }}>
-          / {maxTotal.toLocaleString('en-US')}
-        </span>
-      </p>
-      <p style={{ opacity: 0.8, marginTop: 0 }}>
-        🔥 Streak {shownStreak.current} (best {shownStreak.best})
-        {official && !signedIn && onOpenAccount && accountsEnabled() && (
-          <>
-            {' · '}
-            <button type="button" onClick={onOpenAccount} style={standingLink}>
-              keep it on all your devices
-            </button>
-          </>
-        )}
-      </p>
-      {standing && (
-        <p style={{ marginTop: 0 }}>
-          {/* The standing is a link to the board (owner: "that should be a
-              link"); the button below stays for players with no standing. */}
+    // Styled in index.css (`.results*`, `.btn*`, `.page`).
+    <section className="page results">
+      <div className="results__hero">
+        <h2 className="results__title">
+          {rolled ? `Done for ${dateKey}!` : 'Done for today!'}{' '}
+          <span className="results__num">#{puzzleNumber(dateKey)}</span>
+        </h2>
+        {rolled && (
           <button
-            type="button"
-            onClick={() => setShowBoard(true)}
-            style={standingLink}
+            onClick={() => window.location.reload()}
+            className="btn btn--go"
           >
-            <span aria-hidden="true">🏆 </span>
-            {formatStanding(standing)}
-            <span aria-hidden="true"> ›</span>
+            ▶ Play today’s puzzle
           </button>
+        )}
+        <p className="results__score">
+          <span className="results__score-num">
+            {totalScore.toLocaleString('en-US')}
+          </span>{' '}
+          <span className="results__score-max">
+            / {maxTotal.toLocaleString('en-US')}
+          </span>
         </p>
-      )}
-      {lifetime && (
-        <p style={{ marginTop: 0, fontSize: 14, opacity: 0.7 }}>
-          Lifetime by tier: {lifetime}
+        {/* Decorative: the same number as a bar. */}
+        <div className="results__meter" aria-hidden="true">
+          <span
+            style={{
+              width: `${Math.min(100, Math.max(0, (totalScore / maxTotal) * 100))}%`,
+            }}
+          />
+        </div>
+        <p className="results__line">
+          🔥 Streak {shownStreak.current} (best {shownStreak.best})
+          {official && !signedIn && onOpenAccount && accountsEnabled() && (
+            <>
+              {' · '}
+              <button
+                type="button"
+                onClick={onOpenAccount}
+                className="text-link"
+              >
+                keep it on all your devices
+              </button>
+            </>
+          )}
         </p>
-      )}
+        {standing && (
+          <p className="results__line">
+            {/* The standing is a link to the board (owner: "that should be a
+              link"); the button below stays for players with no standing. */}
+            <button
+              type="button"
+              onClick={() => setShowBoard(true)}
+              className="text-link"
+            >
+              <span aria-hidden="true">🏆 </span>
+              {formatStanding(standing)}
+              <span aria-hidden="true"> ›</span>
+            </button>
+          </p>
+        )}
+        {lifetime && (
+          <p className="results__lifetime">Lifetime by tier: {lifetime}</p>
+        )}
+      </div>
 
       {/* Day recap: every round on one map. Never shown mid-day (it would
           answer the remaining rounds) — Results only mounts once finished. */}
-      <p style={{ margin: '8px 0 6px', opacity: 0.7, fontSize: 14 }}>
+      <p className="results__legend">
         <span style={{ color: '#2ecc71' }}>●</span> real town ·{' '}
         <span style={{ color: '#f4b400' }}>●</span> your guess · tap a row to
         zoom in
@@ -311,40 +337,32 @@ export function Results({
         </div>
       </div>
 
-      <ol style={{ listStyle: 'none', padding: 0, margin: '12px 0 0' }}>
+      <ol className="results__rows">
         {results.map((r, i) => {
           const focused = focus === i
           return (
-            <li key={`${i}-${r.town.id}`} style={{ marginBottom: 6 }}>
+            <li key={`${i}-${r.town.id}`}>
               <button
                 type="button"
                 onClick={() => focusRound(i)}
                 aria-pressed={focused}
-                style={{
-                  ...rowButton,
-                  borderColor: focused ? '#2ecc71' : 'rgba(255,255,255,0.12)',
-                  background: focused
-                    ? 'rgba(46,204,113,0.10)'
-                    : 'rgba(255,255,255,0.04)',
-                }}
+                className="results__row"
               >
-                <span style={rowBadge}>{i + 1}</span>
-                <span style={{ flex: 1, minWidth: 0 }}>
-                  <span style={{ display: 'block' }}>
+                <span className="results__badge">{i + 1}</span>
+                <span className="results__row-text">
+                  <span>
                     {scoreEmoji(r.score, dateKey)}{' '}
                     <strong>
                       {r.town.name}, {r.town.stateCode}
                     </strong>{' '}
                     — {formatDistance(r.distanceMeters)} ·{' '}
                     {r.score.toLocaleString('en-US')} pts{' '}
-                    <span style={{ fontSize: 13, opacity: 0.6 }}>
+                    <span className="results__row-tier">
                       {tierLabel(r.town.difficulty)}
                       {r.hinted && ' · 💡 hint'}
                     </span>
                   </span>
-                  <span
-                    style={{ display: 'block', fontSize: 13, opacity: 0.7 }}
-                  >
+                  <span className="results__row-schools">
                     {schoolsLine(r.town.schools)}
                   </span>
                 </span>
@@ -366,97 +384,18 @@ export function Results({
         })}
       </ol>
 
-      <div style={{ marginTop: 12, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-        <button onClick={copy} style={copyButton}>
+      <div className="results__actions">
+        <button onClick={copy} className="btn btn--primary">
           {copied ? 'Copied!' : 'Copy result'}
         </button>
         {LEADERBOARD_ENABLED && (
-          <button onClick={() => setShowBoard(true)} style={boardButton}>
+          <button onClick={() => setShowBoard(true)} className="btn btn--ghost">
             🏆 View leaderboard
           </button>
         )}
       </div>
 
-      <pre
-        style={{
-          marginTop: 16,
-          padding: 12,
-          background: '#0b1118',
-          borderRadius: 8,
-          whiteSpace: 'pre-wrap',
-          fontSize: 14,
-        }}
-      >
-        {shareText}
-      </pre>
+      <pre className="results__share">{shareText}</pre>
     </section>
   )
-}
-
-const rowButton: CSSProperties = {
-  display: 'flex',
-  gap: 10,
-  alignItems: 'flex-start',
-  width: '100%',
-  textAlign: 'left',
-  padding: '8px 10px',
-  border: '1px solid',
-  borderRadius: 10,
-  color: 'inherit',
-  font: 'inherit',
-  lineHeight: 1.5,
-  cursor: 'pointer',
-  transition: 'background 120ms, border-color 120ms',
-}
-
-const rowBadge: CSSProperties = {
-  flex: '0 0 auto',
-  width: 24,
-  height: 24,
-  marginTop: 2,
-  borderRadius: '50%',
-  background: '#2ecc71',
-  color: '#0f1720',
-  fontWeight: 700,
-  fontSize: 13,
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}
-
-const copyButton: CSSProperties = {
-  padding: '10px 16px',
-  fontSize: 16,
-  fontWeight: 600,
-  borderRadius: 8,
-  border: 'none',
-  background: '#f4b400',
-  color: '#0f1720',
-  cursor: 'pointer',
-}
-
-const standingLink: CSSProperties = {
-  background: 'transparent',
-  border: 'none',
-  padding: 0,
-  font: 'inherit',
-  fontWeight: 600,
-  color: '#7fb2ff',
-  cursor: 'pointer',
-  textDecoration: 'underline',
-  textUnderlineOffset: 3,
-}
-
-const boardButton: CSSProperties = {
-  ...copyButton,
-  border: '1px solid #7fb2ff',
-  background: 'transparent',
-  color: '#7fb2ff',
-}
-
-const playTodayButton: CSSProperties = {
-  ...copyButton,
-  fontWeight: 700,
-  background: '#2ecc71',
-  marginBottom: 8,
 }

@@ -59,6 +59,9 @@ export interface GameProps {
    *  this mounted game — the streak is re-read from storage. (A REPLACED game
    *  remounts instead: App changes the key.) */
   syncEpoch?: number
+  /** Bumped by App when the player clicks the brand to go "home"; passed to
+   *  Results, which leaves the leaderboard for its summary. */
+  homeEpoch?: number
   /** True when signed in to an account. */
   signedIn?: boolean
   /** Opens the account dialog; Results offers it to a signed-out player. */
@@ -75,6 +78,7 @@ export function Game({
   basemap = DEFAULT_BASEMAP,
   onBasemapChange,
   syncEpoch = 0,
+  homeEpoch = 0,
   signedIn = false,
   onOpenAccount,
 }: GameProps) {
@@ -264,6 +268,7 @@ export function Game({
         basemap={basemap}
         onBasemapChange={onBasemapChange}
         official={official}
+        homeEpoch={homeEpoch}
         signedIn={signedIn}
         onOpenAccount={onOpenAccount}
       />
