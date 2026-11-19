@@ -68,7 +68,7 @@ screen is an overlay in `App` (search, bug report, account) or a sub-view of
 `Results` (the leaderboard). The header's logo mark and title are links to the
 site root (`import.meta.env.BASE_URL`); a plain click never navigates (a
 reload would reshuffle a `?shuffle` game) — `App.goHome` closes the overlays,
-scrolls to the top and bumps `homeEpoch`, which `Game` hands to `Results`,
+scrolls to the top (instantly under `prefers-reduced-motion`) and bumps `homeEpoch`, which `Game` hands to `Results`,
 which leaves the leaderboard and frames the whole day on the recap map again.
 The game itself is never touched. A modified click (new tab) is left to the
 browser. Pinned by `App.home.render.test.tsx`.

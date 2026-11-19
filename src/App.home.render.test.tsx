@@ -144,3 +144,41 @@ it('leaves a modified click alone so the game can open in a new tab', async () =
   expect(fireEvent.click(home(), { metaKey: true })).toBe(true)
   expect(scrollTo).not.toHaveBeenCalled()
 })
+
+it('closes an open overlay, from the logo mark as well as the title', async () => {
+  render(<App />)
+  await screen.findByText(/Round 1 of 5/)
+  fireEvent.click(
+    screen.getByRole('button', { name: /is my school in the game/ }),
+  )
+  expect(screen.getByLabelText('Search schools')).toBeTruthy()
+  fireEvent.click(home())
+  expect(screen.queryByLabelText('Search schools')).toBeNull()
+
+  fireEvent.click(screen.getByRole('button', { name: /report a bug/ }))
+  expect(screen.getByRole('heading', { name: '🐛 Report a bug' })).toBeTruthy()
+  fireEvent.click(document.querySelector('a.brand__mark')!)
+  expect(screen.queryByRole('heading', { name: '🐛 Report a bug' })).toBeNull()
+})
+
+it('going home frames the whole day on the recap map again', async () => {
+  finishToday()
+  render(<App />)
+  await screen.findByText(/Done for today!/)
+  const row = screen.getAllByRole('button', { pressed: false })[0]
+  fireEvent.click(row)
+  expect(row.getAttribute('aria-pressed')).toBe('true')
+  fireEvent.click(home())
+  expect(row.getAttribute('aria-pressed')).toBe('false')
+})
+
+it('jumps rather than glides to the top for players who asked for less motion', async () => {
+  vi.stubGlobal(
+    'matchMedia',
+    vi.fn((q: string) => ({ matches: q.includes('prefers-reduced-motion') })),
+  )
+  render(<App />)
+  await screen.findByText(/Round 1 of 5/)
+  fireEvent.click(home())
+  expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'auto' })
+})

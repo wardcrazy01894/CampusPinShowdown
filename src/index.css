@@ -331,9 +331,11 @@ body,
   text-decoration: none;
   border-radius: 4px;
 }
+/* Inset: on phones the h1 clips its overflow (ellipsis), which would cut an
+   outset ring off. */
 .brand__home:focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 3px;
+  outline-offset: -2px;
 }
 .brand__accent {
   background: linear-gradient(90deg, var(--accent-soft), var(--accent));
@@ -341,6 +343,13 @@ body,
   background-clip: text;
   color: var(--accent); /* fallback where background-clip: text is missing */
   -webkit-text-fill-color: transparent;
+}
+/* High-contrast modes drop backgrounds: without this the word would vanish. */
+@media (forced-colors: active) {
+  .brand__accent {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
 }
 .tagline {
   margin-top: 4px;

@@ -319,7 +319,11 @@ export function App() {
     setReporting(null)
     setAccountOpen(false)
     setHomeEpoch((n) => n + 1)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    // Glide, unless the player asked the system for less motion.
+    const still = window.matchMedia?.(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    window.scrollTo({ top: 0, behavior: still ? 'auto' : 'smooth' })
     log.info('App', 'home')
   }
 
