@@ -62,6 +62,23 @@ nothing) and never shown. (It used to list "Ann Arbor, MI · University of
 Michigan" and was therefore hidden until the day was finished.) A miss offers
 "+ Request to add it".
 
+**The brand is the way home.** There are no routes: "home" is today's game —
+the round in play, or the results once the day is done — and every other
+screen is an overlay in `App` (search, bug report, account) or a sub-view of
+`Results` (the leaderboard). The header's logo mark and title are links to the
+site root (`import.meta.env.BASE_URL`); a plain click never navigates (a
+reload would reshuffle a `?shuffle` game) — `App.goHome` closes the overlays,
+scrolls to the top (instantly under `prefers-reduced-motion`) and bumps `homeEpoch`, which `Game` hands to `Results`,
+which leaves the leaderboard and frames the whole day on the recap map again.
+The game itself is never touched. A modified click (new tab) is left to the
+browser. Pinned by `App.home.render.test.tsx`.
+
+**Look.** The results screen and the leaderboard share the header's 720px
+column and are styled from `src/index.css` (`.page`, `.results*`, `.board*`,
+`.btn*`) rather than inline styles: a score card (the total, a bar for its
+share of the 500, streak, standing, lifetime averages), the recap map, the
+round rows, then the share card. Colours come from the `:root` tokens there.
+
 **The map is the screen (every width).** Player feedback (2026-11-04) was
 that the map was too small and hard to move around: on a phone it was the
 viewport minus ~390px of header, prompt and button, ~270px for the lower 48.

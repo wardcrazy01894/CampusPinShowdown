@@ -7,7 +7,14 @@
  * refresh), ?date=YYYY-MM-DD (a specific day).
  */
 
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type MouseEvent,
+} from 'react'
 import {
   fetchRemoteHash,
   versionCheckAction,
@@ -41,6 +48,10 @@ const SHUFFLE_SEED = Math.random().toString(36).slice(2)
 
 const BUILD_HASH = import.meta.env.VITE_BUILD_HASH ?? 'dev'
 
+/** Where the brand link points: the site root (Vite `base`), so a new-tab
+ *  click lands on the official daily. A plain click never navigates (goHome). */
+const HOME_URL = import.meta.env.BASE_URL
+
 async function loadTowns(): Promise<TownsFile> {
   const url = townsUrl()
   const r = await fetch(url)
@@ -73,6 +84,8 @@ export function App() {
   const [gameEpoch, setGameEpoch] = useState(0)
   const [syncEpoch, setSyncEpoch] = useState(0)
   const [syncAsk, setSyncAsk] = useState(0)
+  // Bumped by the brand link (goHome); Results returns to its summary on it.
+  const [homeEpoch, setHomeEpoch] = useState(0)
   // Today's game phase, reported by <Game> — drives the play/results layout
   // (`is-playing`). (It used to gate the school search too, back when that
   // listed towns; the search now shows school names only — lib/search.ts —
@@ -290,6 +303,30 @@ export function App() {
     })
   }, [syncable, token, username, today, mode.storageId, mode.dateKey, syncAsk])
 
+  /**
+   * "Home" is today's game: the round in play, or the results once the day is
+   * done. There are no routes — every other screen is an overlay here or a
+   * sub-view of Results (the leaderboard) — so going home closes the overlays
+   * and bumps `homeEpoch`, which Results answers by returning to its summary.
+   * The game itself is never touched. A modified click (new tab/window) is
+   * left to the browser.
+   */
+  function goHome(e: MouseEvent<HTMLAnchorElement>) {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)
+      return
+    e.preventDefault()
+    setSearching(false)
+    setReporting(null)
+    setAccountOpen(false)
+    setHomeEpoch((n) => n + 1)
+    // Glide, unless the player asked the system for less motion.
+    const still = window.matchMedia?.(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    window.scrollTo({ top: 0, behavior: still ? 'auto' : 'smooth' })
+    log.info('App', 'home')
+  }
+
   function toggleMute() {
     const next = !muted
     setMuted(next)
@@ -303,7 +340,7 @@ export function App() {
   }
 
   if (error) return <main style={{ padding: 24 }}>Failed to load: {error}</main>
-  if (!file || !today) return <main style={{ padding: 24 }}>Loading…</main>
+  if (!file || !today) return <main className="app-loading">Loading…</main>
 
   return (
     // `is-playing`: the play map takes the screen below the header, the
@@ -345,8 +382,17 @@ export function App() {
       <header className="site-header">
         <div className="site-header__inner">
           <div className="brand">
-            <span className="brand__mark" aria-hidden="true">
-              <svg viewBox="0 0 64 64" width="34" height="34">
+            {/* The brand is the way home (goHome). Two links to one place:
+                the title is the named one; the mark is pointer-only so screen
+                readers and the tab order meet it once. */}
+            <a
+              className="brand__mark"
+              href={HOME_URL}
+              onClick={goHome}
+              aria-hidden="true"
+              tabIndex={-1}
+            >
+              <svg viewBox="0 0 64 64" width="38" height="38">
                 <rect width="64" height="64" rx="14" fill="var(--accent)" />
                 <path
                   d="M32 9c-9.7 0-17.5 7.7-17.5 17.2C14.5 39.4 32 55 32 55s17.5-15.6 17.5-28.8C49.5 16.7 41.7 9 32 9z"
@@ -354,9 +400,18 @@ export function App() {
                 />
                 <circle cx="32" cy="26" r="6.8" fill="var(--accent)" />
               </svg>
-            </span>
-            <div>
-              <h1 className="brand__title">CampusPin Showdown</h1>
+            </a>
+            <div className="brand__text">
+              <h1 className="brand__title">
+                <a
+                  className="brand__home"
+                  href={HOME_URL}
+                  onClick={goHome}
+                  aria-label="CampusPin Showdown — home"
+                >
+                  CampusPin <span className="brand__accent">Showdown</span>
+                </a>
+              </h1>
               <div className="tagline">
                 <span>Pin 5 college towns a day</span>
                 <span className="chip">{mode.label}</span>
@@ -436,6 +491,7 @@ export function App() {
         // …and when account sync replaced today's game (gameEpoch).
         key={`${mode.selectionSeed}:${gameEpoch}`}
         syncEpoch={syncEpoch}
+        homeEpoch={homeEpoch}
         signedIn={account !== null}
         onOpenAccount={
           accountsEnabled() ? () => setAccountOpen(true) : undefined
@@ -449,32 +505,18 @@ export function App() {
         basemap={basemap}
         onBasemapChange={changeBasemap}
       />
-      <footer
-        style={{
-          padding: '10px 16px 20px',
-          fontSize: 11,
-          opacity: 0.55,
-          textAlign: 'center',
-          lineHeight: 1.7,
-        }}
-      >
+      <footer className="site-footer">
         <div>
           {file.attribution} Night imagery:{' '}
           <a
             href="https://earthdata.nasa.gov/gibs"
             target="_blank"
             rel="noreferrer"
-            style={{ color: 'inherit' }}
           >
             NASA GIBS
           </a>{' '}
           (VIIRS Black Marble; public domain). Satellite imagery:{' '}
-          <a
-            href="https://cloudless.eox.at"
-            target="_blank"
-            rel="noreferrer"
-            style={{ color: 'inherit' }}
-          >
+          <a href="https://cloudless.eox.at" target="_blank" rel="noreferrer">
             EOxCloudless
           </a>{' '}
           by EOX IT Services GmbH (contains modified Copernicus Sentinel data{' '}
@@ -483,7 +525,6 @@ export function App() {
             href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
             target="_blank"
             rel="noreferrer"
-            style={{ color: 'inherit' }}
           >
             CC BY-NC-SA 4.0
           </a>

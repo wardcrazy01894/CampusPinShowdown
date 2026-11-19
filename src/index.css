@@ -2,6 +2,13 @@
   --bg: #0f1720;
   --fg: #f5f7fa;
   --accent: #f4b400;
+  --accent-soft: #ffd24a;
+  --good: #2ecc71;
+  --link: #7fb2ff;
+  --surface: rgba(255, 255, 255, 0.045);
+  --surface-strong: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.1);
+  --muted: rgba(245, 247, 250, 0.66);
   font-family:
     system-ui,
     -apple-system,
@@ -188,6 +195,10 @@ body,
   .brand {
     gap: 8px;
   }
+  .brand__mark svg {
+    width: 34px;
+    height: 34px;
+  }
   .brand__title {
     font-size: 18px;
     overflow: hidden;
@@ -265,11 +276,11 @@ body,
 .site-header {
   background:
     radial-gradient(
-      560px 200px at calc(50% - 300px) 0%,
-      rgba(244, 180, 0, 0.12),
+      620px 220px at calc(50% - 300px) 0%,
+      rgba(244, 180, 0, 0.16),
       transparent 70%
     ),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent);
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 .site-header__inner {
@@ -287,19 +298,58 @@ body,
   gap: 12px;
   min-width: 0;
 }
+.brand__text {
+  min-width: 0;
+}
+/* The brand is the link home (App.tsx:goHome): the mark and the title. */
 .brand__mark {
   flex: none;
   display: block;
   line-height: 0;
-  filter: drop-shadow(0 2px 6px rgba(244, 180, 0, 0.35));
+  border-radius: 9px;
+  filter: drop-shadow(0 2px 8px rgba(244, 180, 0, 0.4));
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease;
+}
+.brand__mark:hover,
+.brand:has(.brand__home:hover) .brand__mark,
+.brand:has(.brand__home:focus-visible) .brand__mark {
+  transform: translateY(-1px) rotate(-4deg);
+  filter: drop-shadow(0 4px 12px rgba(244, 180, 0, 0.55));
 }
 .brand__title {
   margin: 0;
-  font-size: 21px;
+  font-size: 23px;
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   line-height: 1.15;
   white-space: nowrap; /* one line next to the icon buttons on a phone */
+}
+.brand__home {
+  color: inherit;
+  text-decoration: none;
+  border-radius: 4px;
+}
+/* Inset: on phones the h1 clips its overflow (ellipsis), which would cut an
+   outset ring off. */
+.brand__home:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.brand__accent {
+  background: linear-gradient(90deg, var(--accent-soft), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: var(--accent); /* fallback where background-clip: text is missing */
+  -webkit-text-fill-color: transparent;
+}
+/* High-contrast modes drop backgrounds: without this the word would vanish. */
+@media (forced-colors: active) {
+  .brand__accent {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
 }
 .tagline {
   margin-top: 4px;
@@ -308,40 +358,47 @@ body,
   align-items: center;
   gap: 6px 8px;
   font-size: 13px;
-  opacity: 0.8;
+  color: var(--muted);
 }
 .chip {
   display: inline-block;
   padding: 1px 8px;
   border-radius: 999px;
   font-size: 12px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
 }
 .chip--dev {
   color: var(--accent);
   border-color: rgba(244, 180, 0, 0.4);
 }
 .header-links {
-  margin-top: 6px;
+  margin-top: 7px;
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 14px;
+  gap: 6px;
   font-size: 12px;
 }
+/* Header actions: quiet pills rather than bare blue text. */
 .link-button {
-  background: transparent;
-  border: none;
-  padding: 0;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
   font: inherit;
-  color: #7fb2ff;
-  cursor: pointer;
+  color: var(--fg);
   opacity: 0.85;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
 }
 .link-button:hover,
 .link-button:focus-visible {
   opacity: 1;
-  text-decoration: underline;
+  background: var(--surface-strong);
+  border-color: rgba(244, 180, 0, 0.55);
 }
 .header-buttons {
   flex: none;
@@ -362,17 +419,334 @@ body,
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  background: var(--surface);
   color: var(--fg);
   font-size: 18px;
   line-height: 1;
   cursor: pointer;
-  transition: background 0.15s ease;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
 .icon-button:hover,
 .icon-button:focus-visible {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-strong);
+  border-color: rgba(244, 180, 0, 0.55);
+}
+
+.app-loading {
+  padding: 24px;
+  color: var(--muted);
+}
+.site-footer {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 18px 16px 24px;
+  font-size: 11px;
+  opacity: 0.55;
+  text-align: center;
+  line-height: 1.7;
+}
+.site-footer a {
+  color: inherit;
+}
+
+/* ---- Shared page pieces (Results.tsx, Leaderboard.tsx) ----------------- */
+
+/* The same 720px column as the header, so the brand and the page line up. */
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 18px 16px 8px;
+}
+.btn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    filter 0.15s ease,
+    background 0.15s ease,
+    transform 0.05s ease;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn--primary {
+  background: linear-gradient(180deg, var(--accent-soft), var(--accent));
+  color: #0f1720;
+  box-shadow: 0 2px 10px rgba(244, 180, 0, 0.25);
+}
+.btn--go {
+  background: var(--good);
+  color: #0f1720;
+  font-weight: 700;
+  margin: 2px 0 10px;
+}
+.btn--primary:hover,
+.btn--primary:focus-visible,
+.btn--go:hover,
+.btn--go:focus-visible {
+  filter: brightness(1.08);
+}
+.btn--ghost {
+  background: transparent;
+  border-color: rgba(127, 178, 255, 0.6);
+  color: var(--link);
+}
+.btn--ghost:hover,
+.btn--ghost:focus-visible {
+  background: rgba(127, 178, 255, 0.12);
+}
+.btn--small {
+  padding: 5px 12px;
+  font-size: 14px;
+}
+.text-link {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: var(--link);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---- Results (Results.tsx): the finished day -------------------------- */
+
+/* The score card: the day's number, big, with a bar for how much of the 500
+   it is, then the streak and the standing. */
+.results__hero {
+  padding: 18px 20px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background:
+    radial-gradient(
+      420px 180px at 100% 0%,
+      rgba(244, 180, 0, 0.14),
+      transparent 70%
+    ),
+    var(--surface);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+.results__title {
+  margin: 0 0 2px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.results__num {
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+.results__score {
+  margin: 2px 0 8px;
+  line-height: 1;
+}
+.results__score-num {
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.results__score-max {
+  font-size: 18px;
+  color: var(--muted);
+}
+.results__meter {
+  height: 8px;
+  margin-bottom: 14px;
+  border-radius: 999px;
+  background: var(--surface-strong);
+  overflow: hidden;
+}
+.results__meter > span {
+  display: block;
+  height: 100%;
+  min-width: 8px; /* a zero still shows a nub */
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+}
+.results__line {
+  margin: 0 0 6px;
+}
+.results__lifetime {
+  margin: 8px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--muted);
+}
+.results__legend {
+  margin: 18px 0 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.results .map-container.recap-map {
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+.results__rows {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
+.results__rows > li {
+  margin-bottom: 6px;
+}
+/* A row is a toggle: tapping it frames that round on the recap map. */
+.results__row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: inherit;
+  font: inherit;
+  line-height: 1.5;
+  cursor: pointer;
+  transition:
+    background 120ms,
+    border-color 120ms;
+}
+.results__row:hover,
+.results__row:focus-visible {
+  background: var(--surface-strong);
+}
+.results__row[aria-pressed='true'] {
+  border-color: var(--good);
+  background: rgba(46, 204, 113, 0.1);
+}
+.results__badge {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: var(--good);
+  color: #0f1720;
+  font-weight: 700;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.results__row-text {
+  flex: 1;
+  min-width: 0;
+}
+.results__row-text > span {
+  display: block;
+}
+.results__row-tier {
+  font-size: 13px;
+  opacity: 0.6;
+}
+.results__row-schools {
+  font-size: 13px;
+  color: var(--muted);
+}
+.results__actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+/* The share card, exactly as "Copy result" copies it. */
+.results__share {
+  margin: 16px 0 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.28);
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ---- Leaderboard (Leaderboard.tsx) ------------------------------------ */
+
+.board__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.board__head .results__title {
+  margin: 0;
+  font-size: 18px;
+}
+.board__sub {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+.board__note {
+  color: var(--muted);
+}
+.board__rows {
+  list-style: none;
+  padding: 4px;
+  margin: 14px 0 0;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.board__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.board__row + .board__row {
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.05);
+}
+.board__row--you {
+  background: rgba(127, 178, 255, 0.18);
+  font-weight: 700;
+}
+.board__who {
+  opacity: 0.9;
+}
+.board__you,
+.board__placed {
+  color: var(--link);
+}
+.board__max {
+  opacity: 0.5;
+}
+.board__more {
+  margin-top: 8px;
+  font-size: 12px;
+  opacity: 0.55;
+}
+.board__placed {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .results__hero {
+    padding: 14px 16px;
+  }
+  .results__score-num {
+    font-size: 46px;
+  }
 }
 
 /* ── School card (SchoolCard.tsx) ──────────────────────────────────────────
@@ -439,7 +813,7 @@ body,
   padding: 2px 0;
   font: inherit;
   font-size: 13px;
-  color: #7fb2ff;
+  color: var(--link);
   cursor: pointer;
 }
 .results__about + .school-card {
