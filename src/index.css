@@ -444,12 +444,24 @@ body,
   margin: 0 auto;
   padding: 18px 16px 24px;
   font-size: 11px;
-  opacity: 0.55;
   text-align: center;
   line-height: 1.7;
 }
+/* The fade is per line, not on the footer, so the badge can opt out of it
+   (a child cannot undo a parent's opacity). */
+.site-footer > div {
+  opacity: 0.55;
+}
 .site-footer a {
   color: inherit;
+}
+.site-footer > .site-footer__badge {
+  opacity: 0.85;
+  margin: 8px 0 4px;
+  line-height: 0;
+}
+.site-footer__badge a {
+  display: inline-block;
 }
 
 /* ---- Shared page pieces (Results.tsx, Leaderboard.tsx) ----------------- */

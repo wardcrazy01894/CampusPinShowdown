@@ -531,6 +531,19 @@ export function App() {
           ). State outlines: US Census Bureau.
         </div>
         <div>Idea courtesy of good friend Garret B.</div>
+        {/* Directory listing badge (issue #39). The SVG is a self-hosted copy
+            of allthedles.com/badge/listed-dark.svg, so visiting this site
+            makes no request to their domain. */}
+        <div className="site-footer__badge">
+          <a href="https://allthedles.com/" target="_blank" rel="noreferrer">
+            <img
+              src={`${import.meta.env.BASE_URL}all-the-dles-badge.svg`}
+              alt="Listed on All the Dles"
+              width={150}
+              height={36}
+            />
+          </a>
+        </div>
         <div>A Spicy Al Software Solution</div>
       </footer>
     </main>
