@@ -86,6 +86,24 @@ describe('App', () => {
     ).toBeGreaterThan(0)
   })
 
+  it('shows the self-hosted "Listed on All the Dles" badge in the footer', async () => {
+    render(<App />)
+    await screen.findByText(/Round 1 of 5/)
+    const img = screen.getByAltText('Listed on All the Dles')
+    // Self-hosted on purpose: no per-visit request to a third-party domain.
+    expect(img.getAttribute('src')).toMatch(/^\/?all-the-dles-badge\.svg$/)
+    const link = img.closest('a')
+    expect(link?.getAttribute('href')).toBe('https://allthedles.com/')
+    expect(link?.getAttribute('target')).toBe('_blank')
+    expect(link?.getAttribute('rel')).toBe('noreferrer')
+    const footer = link?.closest('footer')
+    expect(footer).toBeTruthy()
+    // The studio credit stays the last line, below the badge.
+    expect(footer?.lastElementChild?.textContent).toBe(
+      'A Spicy Al Software Solution',
+    )
+  })
+
   it('shows a failure message when the dataset cannot be loaded', async () => {
     vi.stubGlobal(
       'fetch',
