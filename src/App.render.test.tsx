@@ -77,8 +77,13 @@ describe('App', () => {
       screen.getByText('Idea courtesy of good friend Garret B.'),
     ).toBeTruthy()
     // The studio credit is the last line of the footer, below the idea credit.
-    const credit = screen.getByText('A Spicy Al Software Solution')
-    expect(credit.closest('footer')?.lastElementChild).toBe(credit)
+    const credit = screen.getByRole('link', {
+      name: 'A Spicy Al Software Solution',
+    })
+    expect(credit.getAttribute('href')).toBe('https://spicyals.com')
+    expect(credit.closest('footer')?.lastElementChild).toBe(
+      credit.parentElement,
+    )
     expect(screen.getByText(/Town coordinates © test/)).toBeTruthy()
     // (Leaflet's own attribution control renders a second NASA GIBS link.)
     expect(
